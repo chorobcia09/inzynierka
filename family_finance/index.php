@@ -1,11 +1,11 @@
 <?php
-session_start();
+session_start(); // URUCHAMIAMY SESJĘ RAZ NA STRONIE
 
 require_once './controllers/AuthController.php';
 require_once './controllers/UserController.php';
 
 $action = $_GET['action'] ?? 'login';
-    
+
 switch ($action) {
     case 'login':
         $authController = new AuthController();

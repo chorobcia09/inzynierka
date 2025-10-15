@@ -1,29 +1,28 @@
-<!DOCTYPE html>
-<html lang="pl">
+<?php session_start(); ?>
+<?php include 'header.php'; ?>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logowanie</title>
-</head>
-
-<body>
-    <h1>Logowanie</h1>
+<div class="login-container shadow-sm">
+    <h2 class="text-center mb-4">Logowanie</h2>
 
     <?php if (!empty($error)): ?>
-        <p style="color:red;"><?= htmlspecialchars($error) ?></p>
-
+        <div class="alert alert-danger">
+            <?= htmlspecialchars($error) ?>
+        </div>
     <?php endif; ?>
 
     <form action="index.php?action=login" method="post">
-        <label for="email">Email:</label>
-        <input type="email" name="email" id="email" required><br><br>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email:</label>
+            <input type="email" name="email" id="email" class="form-control" required>
+        </div>
 
-        <label for="password">Hasło:</label>
-        <input type="password" name="password" id="password" required><br><br>
+        <div class="mb-3">
+            <label for="password" class="form-label">Hasło:</label>
+            <input type="password" name="password" id="password" class="form-control" required>
+        </div>
 
-        <button type="submit">Zaloguj się</button>
+        <button type="submit" class="btn btn-success w-100">Zaloguj się</button>
     </form>
-</body>
+</div>
 
-</html>
+<?php include 'footer.php'; ?>
