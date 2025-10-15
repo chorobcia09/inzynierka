@@ -1,46 +1,36 @@
 <?php
-require_once "./config/database.php";
-require_once "./models/User.php";
+session_start();
 
-// Tworzymy obiekt bazy danych
-$database = new Database();
+require_once './controllers/AuthController.php';
+require_once './controllers/UserController.php';
 
-// Tworzymy model użytkownika
-$userModel = new User($database);
+$action = $_GET['action'] ?? 'login';
+    
+switch ($action) {
+    case 'login':
+        $authController = new AuthController();
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $authController->login($_POST);
+        } else {
+            $authController->showLoginForm();
+        }
+        break;
 
-// Pobieramy wszystkich użytkowników
-$allUsers = $userModel->getAllUsers();
-$usersById = $userModel->getUsersById(2);
-$usersByFamilyId = $userModel->getUsersByFamily(2);
-?>
+    case 'logout':
+        $authController = new AuthController();
+        $authController->logout();
+        break;
 
+    case 'users':
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: index.php');
+            exit;
+        }
+        $userController = new UserController();
+        $userController->index();
+        break;
 
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zarządzanie finansami rodzinnymi</title>
-</head>
-<body>
-    <h1>Lista użytkowników</h1>
-
-    <?php if (!empty($usersById)): ?>
-        <ul>
-        <?php foreach ($usersById as $user): ?>
-            <li>
-                <?php 
-                    // Zakładam, że tabela users ma kolumny: id, name, email
-                    echo "ID: " . htmlspecialchars($user['id']) . " | ";
-                    echo "Imię: " . htmlspecialchars($user['username']) . " | ";
-                    echo "RodzinaID: " . htmlspecialchars($user['family_id']) . " | ";
-                    echo "Email: " . htmlspecialchars($user['email']); 
-                ?>
-            </li>
-        <?php endforeach; ?>
-        </ul>
-    <?php else: ?>
-        <p>Brak użytkowników w bazie danych.</p>
-    <?php endif; ?>
-</body>
-</html>
+    default:
+        header('Location: index.php');
+        exit;
+}

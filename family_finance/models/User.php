@@ -47,4 +47,14 @@ class User
 
         return $this->db->select($sql);
     }
+
+    /**
+     * Metoda zwracająca wszystkich użytkowników po adresie email z bazy danych.
+     */
+    public function getUserByEmail(string $email)
+    {
+        $sql = "SELECT * FROM users WHERE email = ?";
+        $result = $this->db->select($sql, [$email]);
+        return $result[0] ?? null;
+    }
 }
