@@ -1,7 +1,7 @@
 {include file="header.tpl"}
 
-<div class="login-container mx-auto shadow p-4 rounded" style="max-width:400px;">
-    <h2 class="text-center mb-4">Logowanie</h2>
+<div class="login-container mx-auto shadow p-4 rounded" style="max-width:400px; font-family: 'Inter', sans-serif; background-color: #ffffff;">
+    <h2 class="text-center mb-4 fw-bold text-primary">Logowanie</h2>
 
     {if $error}
         <div class="alert alert-danger text-center">{$error}</div>
@@ -9,17 +9,21 @@
 
     <form method="post" action="index.php?action=login">
         <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" name="email" id="email" required>
+            <label for="email" class="form-label fw-semibold">Email</label>
+            <input type="email" class="form-control rounded" name="email" id="email" placeholder="Wpisz email" required>
         </div>
 
         <div class="mb-3">
-            <label for="password" class="form-label">Hasło</label>
-            <input type="password" class="form-control" name="password" id="password" required>
+            <label for="password" class="form-label fw-semibold">Hasło</label>
+            <input type="password" class="form-control rounded" name="password" id="password" placeholder="Wpisz hasło" required>
         </div>
 
-        <button type="submit" class="btn btn-success w-100">Zaloguj się</button>
+        <button type="submit" class="btn btn-primary w-100 fw-semibold">Zaloguj się</button>
     </form>
+
+    <div class="text-center mt-3">
+        <small>Nie masz konta? <a href="index.php?action=register" class="text-primary fw-bold">Zarejestruj się</a></small>
+    </div>
 </div>
 
 {include file="footer.tpl"}

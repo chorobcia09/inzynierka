@@ -1,7 +1,7 @@
 {include file="header.tpl"}
 
-<div class="register-container mx-auto shadow p-4 rounded" style="max-width:400px;">
-    <h2 class="text-center mb-4">Rejestracja</h2>
+<div class="register-container mx-auto shadow p-4 rounded" style="max-width:400px; font-family: 'Inter', sans-serif; background-color: #ffffff;">
+    <h2 class="text-center mb-4 fw-bold text-primary">Rejestracja</h2>
 
     {if $error}
         <div class="alert alert-danger text-center">{$error}</div>
@@ -9,27 +9,31 @@
 
     <form method="post" action="index.php?action=register">
         <div class="mb-3">
-            <label for="username" class="form-label">Imię użytkownika</label>
-            <input type="text" class="form-control" name="username" id="username" required>
+            <label for="username" class="form-label fw-semibold">Imię użytkownika</label>
+            <input type="text" class="form-control rounded" name="username" id="username" placeholder="Wpisz imię" required>
         </div>
 
         <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" name="email" id="email" required>
+            <label for="email" class="form-label fw-semibold">Email</label>
+            <input type="email" class="form-control rounded" name="email" id="email" placeholder="Wpisz email" required>
         </div>
 
         <div class="mb-3">
-            <label for="password" class="form-label">Hasło</label>
-            <input type="password" class="form-control" name="password" id="password" required>
+            <label for="password" class="form-label fw-semibold">Hasło</label>
+            <input type="password" class="form-control rounded" name="password" id="password" placeholder="Wpisz hasło" required>
         </div>
 
         <div class="mb-3">
-            <label for="password_confirm" class="form-label">Powtórz hasło</label>
-            <input type="password" class="form-control" name="password_confirm" id="password_confirm" required>
+            <label for="password_confirm" class="form-label fw-semibold">Powtórz hasło</label>
+            <input type="password" class="form-control rounded" name="password_confirm" id="password_confirm" placeholder="Powtórz hasło" required>
         </div>
 
-        <button type="submit" class="btn btn-success w-100">Zarejestruj się</button>
+        <button type="submit" class="btn btn-primary w-100 fw-semibold">Zarejestruj się</button>
     </form>
+
+    <div class="text-center mt-3">
+        <small>Masz już konto? <a href="index.php?action=login" class="text-primary fw-bold">Zaloguj się</a></small>
+    </div>
 </div>
 
 {include file="footer.tpl"}

@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-16 22:01:10
+/* Smarty version 5.6.0, created on 2025-10-16 22:21:21
   from 'file:users.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68f14f0672f4a5_00120405',
+  'unifunc' => 'content_68f153c1a40882_86258023',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'eb4b948c230150206911e6e298893c862bfe2858' => 
     array (
       0 => 'users.tpl',
-      1 => 1760644869,
+      1 => 1760646076,
       2 => 'file',
     ),
   ),
@@ -22,48 +22,52 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_68f14f0672f4a5_00120405 (\Smarty\Template $_smarty_tpl) {
+function content_68f153c1a40882_86258023 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
 
-<h2 class="mb-4">Lista użytkowników</h2>
+<div class="users-container">
+    <h2 class="mb-4 fw-bold text-primary">Lista użytkowników</h2>
 
-<?php if ($_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('users')) > 0) {?>
-<table class="table table-striped table-bordered">
-    <thead class="table-success">
-        <tr>
-            <th>ID</th>
-            <th>Imię</th>
-            <th>Email</th>
-            <th>Rodzina</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php
+    <?php if ($_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('users')) > 0) {?>
+    <div class="table-responsive shadow rounded">
+        <table class="table table-striped table-bordered mb-0" style="font-family: 'Inter', sans-serif;">
+            <thead class="table-primary">
+                <tr>
+                    <th>ID</th>
+                    <th>Imię</th>
+                    <th>Email</th>
+                    <th>Rodzina</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
 $_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('users'), 'user');
 $foreach0DoElse = true;
 foreach ($_from ?? [] as $_smarty_tpl->getVariable('user')->value) {
 $foreach0DoElse = false;
 ?>
-        <tr>
-            <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('user')['id']), ENT_QUOTES, 'UTF-8');?>
+                <tr>
+                    <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('user')['id']), ENT_QUOTES, 'UTF-8');?>
 </td>
-            <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('user')['username']), ENT_QUOTES, 'UTF-8');?>
+                    <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('user')['username']), ENT_QUOTES, 'UTF-8');?>
 </td>
-            <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('user')['email']), ENT_QUOTES, 'UTF-8');?>
+                    <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('user')['email']), ENT_QUOTES, 'UTF-8');?>
 </td>
-            <td><?php echo htmlspecialchars((string) ((($tmp = $_smarty_tpl->getValue('user')['family_name'] ?? null)===null||$tmp==='' ? 'Brak przydzielonej rodziny' ?? null : $tmp)), ENT_QUOTES, 'UTF-8');?>
+                    <td><?php echo htmlspecialchars((string) ((($tmp = $_smarty_tpl->getValue('user')['family_name'] ?? null)===null||$tmp==='' ? 'Brak przydzielonej rodziny' ?? null : $tmp)), ENT_QUOTES, 'UTF-8');?>
 </td>
-        </tr>
-        <?php
+                </tr>
+                <?php
 }
 $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
-    </tbody>
-</table>
-<?php } else { ?>
-    <div class="alert alert-info">Brak użytkowników w bazie danych.</div>
-<?php }?>
+            </tbody>
+        </table>
+    </div>
+    <?php } else { ?>
+        <div class="alert alert-info text-center mt-3">Brak użytkowników w bazie danych.</div>
+    <?php }?>
+</div>
 
 <?php $_smarty_tpl->renderSubTemplate("file:footer.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 }
