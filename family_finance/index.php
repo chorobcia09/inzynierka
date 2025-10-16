@@ -17,6 +17,15 @@ switch ($action) {
         }
         break;
 
+    case 'register':
+        $controller = new AuthController($smarty);
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $controller->register($_POST);
+        } else {
+            $controller->showRegisterForm();
+        }
+        break;
+
     case 'logout':
         (new AuthController($smarty))->logout();
         break;

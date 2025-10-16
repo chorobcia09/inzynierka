@@ -58,7 +58,8 @@ class User
         return $result[0] ?? null;
     }
 
-    public function getUserById($id) {
+    public function getUserById($id)
+    {
         $sql = "
         SELECT *
         FROM users
@@ -66,5 +67,18 @@ class User
         ";
 
         return $this->db->select($sql);
+    }
+
+    public function createUser(string $username, string $email, string $password, int $family_id = 1)
+    {
+        $sql = "INSERT INTO users (username, email, password, family_id)
+            VALUES (:username, :email, :password, :family_id)";
+
+        return $this->db->execute($sql, [
+            ':username' => $username,
+            ':email' => $email,
+            ':password' => $password,
+            ':family_id' => $family_id
+        ]);
     }
 }

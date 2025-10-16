@@ -27,4 +27,22 @@ class Auth
 
         return false;
     }
+
+    /**
+     * Metoda do obsługi rejestracji.
+     */
+
+    public function register(string $username, string $email, string $password, int $family_id = 1)
+    {
+        // Sprawdź, czy użytkownik już istnieje
+        if ($this->userModel->getUserByEmail($email)) {
+            return false;
+        }
+
+        // Hasło hash
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+        // Zapisz do bazy
+        return $this->userModel->createUser($username, $email, $hashedPassword, $family_id);
+    }
 }

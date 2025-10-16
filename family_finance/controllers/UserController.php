@@ -7,7 +7,6 @@ class UserController
     private $userModel;
     private $smarty;
 
-    // Konstruktor przyjmuje obiekt Smarty jako parametr
     public function __construct($smarty)
     {
         $database = new Database();
@@ -15,7 +14,9 @@ class UserController
         $this->smarty = $smarty;
     }
 
-    // Wyświetla listę użytkowników
+    /**
+     * Metoda wyświetlająca użytkowników.
+     */
     public function index()
     {
         // Blokada dla niezalogowanych użytkowników

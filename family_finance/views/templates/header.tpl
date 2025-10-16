@@ -12,11 +12,17 @@
         <h1 class="h4 m-0">Zarządzanie finansami rodzinnymi</h1>
         <nav>
             {if isset($session.user_id)}
-                <span class="me-3">Witaj! {$session.user_name} ({$session.role}) Rodzaj konta: <strong>{$session.account_type}</strong></span>
+                <span class="me-3">
+                    Witaj! {$session.user_name} ({$session.role}) 
+                    {if isset($session.account_type)}
+                        Rodzaj konta: <strong>{$session.account_type}</strong>
+                    {/if}
+                </span>
                 <a href="index.php?action=users" class="text-white me-3 text-decoration-none">Użytkownicy</a>
                 <a href="index.php?action=logout" class="text-white text-decoration-none">Wyloguj</a>
             {else}
-                <a href="index.php?action=login" class="text-white text-decoration-none">Logowanie</a>
+                <a href="index.php?action=login" class="btn btn-outline-light me-2">Logowanie</a>
+                <a href="index.php?action=register" class="btn btn-light text-success">Rejestracja</a>
             {/if}
         </nav>
     </div>
