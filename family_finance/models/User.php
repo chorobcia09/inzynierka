@@ -37,16 +37,18 @@ class User
     /**
      * Metoda zwracająca wszystkich użytkowników po ID RODZINY z bazy danych.
      */
-    public function getUsersByFamily(int $family_id)
-    {
-        $sql = "
-        SELECT *
-        FROM users
-        WHERE family_id = " . $family_id . "
-        ";
-
+    public function getUsersByFamily(?int $family_id)
+{
+    if ($family_id === null) {
+        // Pobiera użytkowników bez przypisanej rodziny
+        $sql = "SELECT * FROM users WHERE family_id IS NULL";
         return $this->db->select($sql);
     }
+
+    $sql = "SELECT * FROM users WHERE family_id = :family_id";
+    return $this->db->select($sql, [':family_id' => $family_id]);
+}
+
 
     /**
      * Metoda zwracająca wszystkich użytkowników po adresie email z bazy danych.
@@ -69,7 +71,7 @@ class User
         return $this->db->select($sql);
     }
 
-    public function createUser(string $username, string $email, string $password, int $family_id = 1)
+    public function createUser(string $username, string $email, string $password, ?int $family_id = null)
     {
         $sql = "INSERT INTO users (username, email, password, family_id)
             VALUES (:username, :email, :password, :family_id)";
@@ -81,4 +83,5 @@ class User
             ':family_id' => $family_id
         ]);
     }
+
 }

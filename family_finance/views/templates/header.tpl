@@ -19,6 +19,7 @@
                     {/if}
                 </span>
                 <a href="index.php?action=users" class="text-white me-3 text-decoration-none">Użytkownicy</a>
+                <a href="index.php?action=userPanel" class="text-white me-3 text-decoration-none">Panel użytkownika</a>
                 <a href="index.php?action=logout" class="text-white text-decoration-none">Wyloguj</a>
             {else}
                 <a href="index.php?action=login" class="btn btn-outline-light me-2">Logowanie</a>

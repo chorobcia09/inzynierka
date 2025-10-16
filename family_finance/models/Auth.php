@@ -32,7 +32,7 @@ class Auth
      * Metoda do obsługi rejestracji.
      */
 
-    public function register(string $username, string $email, string $password, int $family_id = 1)
+    public function register(string $username, string $email, string $password)
     {
         // Sprawdź, czy użytkownik już istnieje
         if ($this->userModel->getUserByEmail($email)) {
@@ -43,6 +43,6 @@ class Auth
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
         // Zapisz do bazy
-        return $this->userModel->createUser($username, $email, $hashedPassword, $family_id);
+        return $this->userModel->createUser($username, $email, $hashedPassword);
     }
 }

@@ -25,16 +25,30 @@ class UserController
             exit;
         }
 
-        $users = $this->userModel->getAllUsers();
-        // $user = $this->userModel->getUserById();
-
-        // $this->smarty->assign('users', $users);
-        // $this->smarty->assign('session', $_SESSION);
+        if ($_SESSION['role'] == 'admin') {
+            $users = $this->userModel->getAllUsers();
+        } else {
+            $users = $this->userModel->getUsersByFamily($_SESSION['family_id'] ?? null);
+        }
 
         $this->smarty->assign([
             'users' => $users,
             'session' => $_SESSION
         ]);
         $this->smarty->display('users.tpl');
+    }
+
+    public function panel()
+    {
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: index.php?action=login');
+            exit;
+        }
+
+        $user = $this->userModel->getUsersById($_SESSION['user_id']);
+        // dump($user);
+        $this->smarty->assign('user', $user[0]); // zakładam, że getUsersById zwraca tablicę
+        $this->smarty->assign('session', $_SESSION);
+        $this->smarty->display('panel.tpl');
     }
 }

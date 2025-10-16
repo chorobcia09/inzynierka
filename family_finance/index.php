@@ -34,6 +34,10 @@ switch ($action) {
         (new UserController($smarty))->index();
         break;
 
+    case 'userPanel':
+        (new UserController($smarty))->panel();
+        break;
+
     default:
         (new AuthController($smarty))->showLoginForm();
         break;

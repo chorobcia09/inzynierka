@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-16 20:12:37
+/* Smarty version 5.6.0, created on 2025-10-16 20:37:09
   from 'file:header.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68f1359563bcb5_74373805',
+  'unifunc' => 'content_68f13b558c85f4_62496062',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '70761fd558b824e86e638862bb79aeef78d05c3b' => 
     array (
       0 => 'header.tpl',
-      1 => 1760638352,
+      1 => 1760639827,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_68f1359563bcb5_74373805 (\Smarty\Template $_smarty_tpl) {
+function content_68f13b558c85f4_62496062 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 ?><!DOCTYPE html>
 <html lang="pl">
@@ -47,6 +47,7 @@ $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\vi
                     <?php }?>
                 </span>
                 <a href="index.php?action=users" class="text-white me-3 text-decoration-none">Użytkownicy</a>
+                <a href="index.php?action=userPanel" class="text-white me-3 text-decoration-none">Panel użytkownika</a>
                 <a href="index.php?action=logout" class="text-white text-decoration-none">Wyloguj</a>
             <?php } else { ?>
                 <a href="index.php?action=login" class="btn btn-outline-light me-2">Logowanie</a>

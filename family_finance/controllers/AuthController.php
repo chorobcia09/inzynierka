@@ -107,6 +107,11 @@ class AuthController
             $this->showRegisterForm("Hasła nie są zgodne.");
             return;
         }
+        // WALIDACJA HASŁA TYMCZASOWO WYŁĄCZONA, WŁĄCZYĆ W PRZYSZŁOŚCI
+        // if (strlen($password) <= 8 || !preg_match("#[0-9]+#", $password) || !preg_match("#[A-Z]+#",$password) || !preg_match("#[a-z]+#",$password)) {
+        //     $this->showRegisterForm("Hasło powinno składać się z: minimum 8 znaków, 1 wielkiej litery, 1 małej litery, 1 liczby, 1 znaku specjalnego (! @ # $ % & *) ");
+        //     return;
+        // }
 
         $result = $this->authModel->register($username, $email, $password);
 
