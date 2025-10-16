@@ -28,8 +28,9 @@ class UserController
         if ($_SESSION['role'] == 'admin') {
             $users = $this->userModel->getAllUsersWithFamily();
         } else {
-            $users = $this->userModel->getUsersByFamily($_SESSION['family_id'] ?? null);
+            $users = $this->userModel->getUsersByFamilyId($_SESSION['family_id'] ?? null);
         }
+
         $this->smarty->assign([
             'users' => $users,
             'session' => $_SESSION
@@ -37,6 +38,9 @@ class UserController
         $this->smarty->display('users.tpl');
     }
 
+    /**
+     * Metoda wyświetlająca panel użytkownika
+     */
     public function panel()
     {
         if (!isset($_SESSION['user_id'])) {

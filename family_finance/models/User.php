@@ -60,6 +60,9 @@ class User
         return $result[0] ?? null;
     }
 
+    /**
+     * Metoda zwracająca użytkownika po ID.
+     */
     public function getUserById($id)
     {
         $sql = "
@@ -71,6 +74,9 @@ class User
         return $this->db->select($sql);
     }
 
+    /**
+     * Metoda dodająca użytkownika do bazy danych.
+     */
     public function createUser(string $username, string $email, string $password, ?int $family_id = null)
     {
         $sql = "INSERT INTO users (username, email, password, family_id)
@@ -84,6 +90,9 @@ class User
         ]);
     }
 
+    /**
+     * Zwrócenie wszystkich użytkowników wraz z informacją o rodzinie.
+     */
     public function getAllUsersWithFamily()
     {
         $sql = "
@@ -97,5 +106,25 @@ class User
         LEFT JOIN families f ON u.family_id = f.id
     ";
         return $this->db->select($sql);
+    }
+
+    /**
+     * Zwrócenie wszystkich użytkowników należących do rodziny po ID.
+     */
+    public function getUsersByFamilyId(?int $family_id)
+    {
+        $sql = "
+        SELECT u.*, f.family_name
+        FROM users u
+        LEFT JOIN families f ON u.family_id = f.id
+    ";
+
+        $params = [];
+        if ($family_id !== null) {
+            $sql .= " WHERE u.family_id = :family_id";
+            $params[':family_id'] = $family_id;
+        }
+
+        return $this->db->select($sql, $params);
     }
 }
