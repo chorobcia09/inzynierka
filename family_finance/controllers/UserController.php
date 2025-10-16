@@ -5,18 +5,20 @@ require_once __DIR__ . '/../models/User.php';
 class UserController
 {
     private $userModel;
+    private $smarty;
 
-    public function __construct()
+    // Konstruktor przyjmuje obiekt Smarty jako parametr
+    public function __construct($smarty)
     {
         $database = new Database();
         $this->userModel = new User($database);
+        $this->smarty = $smarty;
     }
 
-    /**
-     * Metoda służąca do wyświetlenia wszystkich użytkowników
-     */
+    // Wyświetla listę użytkowników
     public function index()
     {
+        // Blokada dla niezalogowanych użytkowników
         if (!isset($_SESSION['user_id'])) {
             header('Location: index.php?action=login');
             exit;
@@ -24,37 +26,13 @@ class UserController
 
         $users = $this->userModel->getAllUsers();
 
-        // Wyświetlamy widok z listą użytkowników
-        require __DIR__ . '/../views/users.php';
-    }
+        // $this->smarty->assign('users', $users);
+        // $this->smarty->assign('session', $_SESSION);
 
-    /**
-     * Metoda służąca do wyświetlenia wszystkich użytkowników po ID
-     */
-    public function show(int $id)
-    {
-        if (!isset($_SESSION['user_id'])) {
-            header('Location: index.php?action=login');
-            exit;
-        }
-
-        $user = $this->userModel->getUsersById($id);
-
-        require __DIR__ . '/../views/user_detail.php';
-    }
-
-    /**
-     * Metoda służąca do wyświetlenia wszystkich użytkowników po ID RODZINY
-     */
-    public function byFamily(int $family_id)
-    {
-        if (!isset($_SESSION['user_id'])) {
-            header('Location: index.php?action=login');
-            exit;
-        }
-
-        $users = $this->userModel->getUsersByFamily($family_id);
-
-        require __DIR__ . '/../views/users.php';
+        $this->smarty->assign([
+            'users' => $users,
+            'session' => $_SESSION
+        ]);
+        $this->smarty->display('users.tpl');
     }
 }

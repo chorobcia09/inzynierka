@@ -1,36 +1,31 @@
 <?php
-session_start(); // URUCHAMIAMY SESJĘ RAZ NA STRONIE
+session_start();
 
-require_once './controllers/AuthController.php';
-require_once './controllers/UserController.php';
+require_once __DIR__ . '/config/smarty.php';
+require_once __DIR__ . '/controllers/AuthController.php';
+require_once __DIR__ . '/controllers/UserController.php';
 
 $action = $_GET['action'] ?? 'login';
 
 switch ($action) {
     case 'login':
-        $authController = new AuthController();
+        $controller = new AuthController($smarty); // przekazujemy Smarty
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $authController->login($_POST);
+            $controller->login($_POST);
         } else {
-            $authController->showLoginForm();
+            $controller->showLoginForm();
         }
         break;
 
     case 'logout':
-        $authController = new AuthController();
-        $authController->logout();
+        (new AuthController($smarty))->logout();
         break;
 
     case 'users':
-        if (!isset($_SESSION['user_id'])) {
-            header('Location: index.php');
-            exit;
-        }
-        $userController = new UserController();
-        $userController->index();
+        (new UserController($smarty))->index();
         break;
 
     default:
-        header('Location: index.php');
-        exit;
+        (new AuthController($smarty))->showLoginForm();
+        break;
 }

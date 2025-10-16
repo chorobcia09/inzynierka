@@ -1,0 +1,17 @@
+{
+    "name": "mateusz/family_finance",
+    "autoload": {
+        "psr-4": {
+            "Mateusz\\FamilyFinance\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Mateusz Chorab",
+            "email": "chorobcia09@gmail.com"
+        }
+    ],
+    "require": {
+        "smarty/smarty": "^5.6"
+    }
+}

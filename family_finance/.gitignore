@@ -1,0 +1,23 @@
+# Zależności Composera
+/vendor/
+
+# Smarty cache i compiled templates
+/templates_c/
+/cache/
+
+# Pliki środowiskowe
+.env
+.env.local
+
+# Systemowe pliki
+.DS_Store
+Thumbs.db
+
+# Logi
+*.log
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo

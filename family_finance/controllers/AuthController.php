@@ -2,57 +2,55 @@
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/Auth.php';
 
-/**
- * Kontroller odpowiedzialny za obsługę logowania i wylogowania użytkowników.
- */
-
 class AuthController
 {
     private $authModel;
+    private $smarty;
 
-    public function __construct()
+    // Konstruktor przyjmuje obiekt Smarty jako parametr
+    public function __construct($smarty)
     {
         $database = new Database();
         $this->authModel = new Auth($database);
+        $this->smarty = $smarty;
     }
 
-    /**
-     * Metoda wyświetlająca formularz logowania.
-     */
+    // Wyświetla formularz logowania
     public function showLoginForm($error = '')
     {
-        require __DIR__ . '/../views/login.php';
+        $this->smarty->assign('error', $error);
+        $this->smarty->assign('session', $_SESSION ?? []);
+        $this->smarty->display('login.tpl');
     }
 
-    /**
-     * Metoda do obsługi logowania.
-     */
+    // Obsługa logowania
     public function login(array $postData)
     {
-        $email = $postData['email'] ?? '';
+        $email = trim($postData['email'] ?? '');
         $password = $postData['password'] ?? '';
+
+        if (empty($email) || empty($password)) {
+            $this->showLoginForm("Uzupełnij wszystkie pola.");
+            return;
+        }
 
         $user = $this->authModel->login($email, $password);
 
         if ($user) {
-            session_start();
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_name'] = $user['username'];
+            $_SESSION['role'] = $user['role'] ?? 'użytkownik';
 
             header('Location: index.php?action=users');
             exit;
         } else {
-            $error = "Nieprawidłowy email lub hasło.";
-            $this->showLoginForm($error);
+            $this->showLoginForm("Nieprawidłowy email lub hasło.");
         }
     }
 
-    /**
-     * Metoda do obsługi wylogowania.
-     */
+    // Wylogowanie użytkownika
     public function logout()
     {
-        session_start();
         session_destroy();
         header('Location: index.php');
         exit;
