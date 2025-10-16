@@ -38,8 +38,10 @@ class AuthController
 
         if ($user) {
             $_SESSION['user_id'] = $user['id'];
+            $_SESSION['family_id'] = $user['family_id'];
             $_SESSION['user_name'] = $user['username'];
-            $_SESSION['role'] = $user['role'] ?? 'użytkownik';
+            $_SESSION['role'] = $user['role'];
+            $_SESSION['account_type'] = $user['account_type'];
 
             header('Location: index.php?action=users');
             exit;

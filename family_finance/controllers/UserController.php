@@ -25,6 +25,7 @@ class UserController
         }
 
         $users = $this->userModel->getAllUsers();
+        // $user = $this->userModel->getUserById();
 
         // $this->smarty->assign('users', $users);
         // $this->smarty->assign('session', $_SESSION);

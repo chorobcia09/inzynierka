@@ -12,7 +12,7 @@
         <h1 class="h4 m-0">Zarządzanie finansami rodzinnymi</h1>
         <nav>
             {if isset($session.user_id)}
-                <span class="me-3">👤 {$session.user_name} ({$session.role})</span>
+                <span class="me-3">Witaj! {$session.user_name} ({$session.role}) Rodzaj konta: <strong>{$session.account_type}</strong></span>
                 <a href="index.php?action=users" class="text-white me-3 text-decoration-none">Użytkownicy</a>
                 <a href="index.php?action=logout" class="text-white text-decoration-none">Wyloguj</a>
             {else}
