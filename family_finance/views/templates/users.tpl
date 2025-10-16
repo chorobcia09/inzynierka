@@ -9,7 +9,7 @@
             <th>ID</th>
             <th>Imię</th>
             <th>Email</th>
-            <th>ID Rodziny</th>
+            <th>Rodzina</th>
         </tr>
     </thead>
     <tbody>
@@ -18,7 +18,7 @@
             <td>{$user.id}</td>
             <td>{$user.username}</td>
             <td>{$user.email}</td>
-            <td>{$user.family_id}</td>
+            <td>{$user.family_name|default:'Brak przydzielonej rodziny'}</td>
         </tr>
         {/foreach}
     </tbody>

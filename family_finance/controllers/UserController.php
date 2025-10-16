@@ -26,11 +26,10 @@ class UserController
         }
 
         if ($_SESSION['role'] == 'admin') {
-            $users = $this->userModel->getAllUsers();
+            $users = $this->userModel->getAllUsersWithFamily();
         } else {
             $users = $this->userModel->getUsersByFamily($_SESSION['family_id'] ?? null);
         }
-
         $this->smarty->assign([
             'users' => $users,
             'session' => $_SESSION

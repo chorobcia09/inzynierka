@@ -38,16 +38,16 @@ class User
      * Metoda zwracająca wszystkich użytkowników po ID RODZINY z bazy danych.
      */
     public function getUsersByFamily(?int $family_id)
-{
-    if ($family_id === null) {
-        // Pobiera użytkowników bez przypisanej rodziny
-        $sql = "SELECT * FROM users WHERE family_id IS NULL";
-        return $this->db->select($sql);
-    }
+    {
+        if ($family_id === null) {
+            // Pobiera użytkowników bez przypisanej rodziny
+            $sql = "SELECT * FROM users WHERE family_id IS NULL";
+            return $this->db->select($sql);
+        }
 
-    $sql = "SELECT * FROM users WHERE family_id = :family_id";
-    return $this->db->select($sql, [':family_id' => $family_id]);
-}
+        $sql = "SELECT * FROM users WHERE family_id = :family_id";
+        return $this->db->select($sql, [':family_id' => $family_id]);
+    }
 
 
     /**
@@ -84,4 +84,18 @@ class User
         ]);
     }
 
+    public function getAllUsersWithFamily()
+    {
+        $sql = "
+        SELECT 
+            u.id,
+            u.username,
+            u.email,
+            u.family_id,
+            f.family_name
+        FROM users u
+        LEFT JOIN families f ON u.family_id = f.id
+    ";
+        return $this->db->select($sql);
+    }
 }
