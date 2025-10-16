@@ -1,5 +1,6 @@
 </main>
-<footer class="bg-light text-center py-3 mt-5 border-top">
+
+<footer class="bg-light text-center py-3 border-top mt-auto">
     <p class="m-0">&copy; <?= date('Y') ?> Zarządzanie finansami rodzinnymi. Wszelkie prawa zastrzeżone.</p>
 </footer>
 

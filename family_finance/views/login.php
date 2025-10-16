@@ -1,5 +1,4 @@
-<?php session_start(); ?>
-<?php include 'header.php'; ?>
+<?php include 'header.php';?>
 
 <div class="login-container shadow-sm">
     <h2 class="text-center mb-4">Logowanie</h2>

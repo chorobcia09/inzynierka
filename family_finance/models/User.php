@@ -57,4 +57,14 @@ class User
         $result = $this->db->select($sql, [$email]);
         return $result[0] ?? null;
     }
+
+    public function getUserById($id) {
+        $sql = "
+        SELECT *
+        FROM users
+        WHERE id = " . $id . "
+        ";
+
+        return $this->db->select($sql);
+    }
 }

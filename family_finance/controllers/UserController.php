@@ -17,7 +17,6 @@ class UserController
      */
     public function index()
     {
-        session_start();
         if (!isset($_SESSION['user_id'])) {
             header('Location: index.php?action=login');
             exit;
@@ -34,7 +33,6 @@ class UserController
      */
     public function show(int $id)
     {
-        session_start();
         if (!isset($_SESSION['user_id'])) {
             header('Location: index.php?action=login');
             exit;
@@ -50,7 +48,6 @@ class UserController
      */
     public function byFamily(int $family_id)
     {
-        session_start();
         if (!isset($_SESSION['user_id'])) {
             header('Location: index.php?action=login');
             exit;

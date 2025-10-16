@@ -1,5 +1,7 @@
-<?php session_start(); ?>
-<?php include 'header.php'; ?>
+
+<?php include 'header.php'; 
+require_once __DIR__ . '/../config/auth_check.php';
+?>
 
 <h2 class="mb-4">Lista użytkowników</h2>
 
