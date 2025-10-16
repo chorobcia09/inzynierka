@@ -113,6 +113,9 @@ class User
      */
     public function getUsersByFamilyId(?int $family_id)
     {
+        if ($family_id === null) {
+            return [];
+        }
         $sql = "
         SELECT u.*, f.family_name
         FROM users u
