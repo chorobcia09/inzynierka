@@ -218,7 +218,8 @@ class User
             u.email,
             u.role,
             u.family_id,
-            f.family_name
+            f.family_name,
+            u.family_role
         FROM users u
         LEFT JOIN families f ON u.family_id = f.id
     ";
