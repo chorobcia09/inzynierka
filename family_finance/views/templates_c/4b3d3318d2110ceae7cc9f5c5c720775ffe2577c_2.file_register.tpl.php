@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-17 22:30:18
+/* Smarty version 5.6.0, created on 2025-10-17 22:31:36
   from 'file:register.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68f2a75a5a43a4_54875090',
+  'unifunc' => 'content_68f2a7a8d126e4_19069405',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '4b3d3318d2110ceae7cc9f5c5c720775ffe2577c' => 
     array (
       0 => 'register.tpl',
-      1 => 1760732924,
+      1 => 1760733025,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_68f2a75a5a43a4_54875090 (\Smarty\Template $_smarty_tpl) {
+function content_68f2a7a8d126e4_19069405 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -39,7 +39,7 @@ $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_sma
     <form method="post" action="index.php?action=register">
         <div class="mb-3">
             <label for="username" class="form-label fw-semibold">Imię użytkownika</label>
-            <input type="text" class="form-control rounded" name="username" id="username" placeholder="Wpisz imię"
+            <input type="text" class="form-control rounded" name="username" id="username" placeholder="Wpisz nazwę użytkownika"
                 required>
         </div>
 

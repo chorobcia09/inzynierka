@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-17 22:28:57
+/* Smarty version 5.6.0, created on 2025-10-17 22:39:04
   from 'file:admin_panel.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68f2a709250061_18968380',
+  'unifunc' => 'content_68f2a96863c336_04310837',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '3109ee7d5a8cde23b272d8861fff9b81f35827c2' => 
     array (
       0 => 'admin_panel.tpl',
-      1 => 1760732889,
+      1 => 1760733539,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_68f2a709250061_18968380 (\Smarty\Template $_smarty_tpl) {
+function content_68f2a96863c336_04310837 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -69,8 +69,12 @@ $foreach0DoElse = false;
                 <td><?php echo htmlspecialchars((string) ((($tmp = $_smarty_tpl->getValue('user')['family_name'] ?? null)===null||$tmp==='' ? 'Brak' ?? null : $tmp)), ENT_QUOTES, 'UTF-8');?>
 </td>
 
-                <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('user')['role']), ENT_QUOTES, 'UTF-8');?>
-</td>
+                <td><?php if ($_smarty_tpl->getValue('user')['role'] == 'admin') {?>
+                        <span class="badge bg-danger">Administrator</span>
+                        <?php } else { ?>
+                        <span class="badge bg-warning">Użytkownik</span>
+                    <?php }?>
+                        </td>
                 <td> <?php if ($_smarty_tpl->getValue('user')['family_role'] == 'family_admin') {?>
                         <span class="badge bg-success">Administrator rodziny</span>
                     <?php } elseif ($_smarty_tpl->getValue('user')['family_role'] == 'family_member') {?>

@@ -31,8 +31,13 @@
                 <td>{$user.account_type}</td>
                 <td>{$user.family_name|default:'Brak'}</td>
 
-                <td>{$user.role}</td>
-                <td> {if $user.family_role == 'family_admin'}
+                <td>{if $user.role == 'admin' }
+                        <span class="badge bg-danger">Administrator</span>
+                        {else}
+                        <span class="badge bg-warning">Użytkownik</span>
+                    {/if}
+                        </td>
+                <td> {if $user.family_role == 'family_admin' }
                         <span class="badge bg-success">Administrator rodziny</span>
                     {elseif $user.family_role == 'family_member'}
                         <span class="badge bg-primary">Członek rodziny</span>
