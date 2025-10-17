@@ -1,0 +1,1 @@
+dodawanie członków do rodziny można obsłużyć poprzez dodanie każdemu użytkownikowi uniklanego UID (np. 8 losowych znaków z liczbami itd.) i użytkownik który zaprasza automatycznie jest ustalany jako administratora rodziny
