@@ -244,6 +244,7 @@ class User
             u.email,
             u.role,
             u.account_type,
+            u.UID,
             u.family_id,
             f.family_name,
             u.family_role

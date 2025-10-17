@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-17 21:09:43
+/* Smarty version 5.6.0, created on 2025-10-17 22:02:51
   from 'file:users.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68f29477b69370_67817277',
+  'unifunc' => 'content_68f2a0eb6c9ed1_37124321',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'eb4b948c230150206911e6e298893c862bfe2858' => 
     array (
       0 => 'users.tpl',
-      1 => 1760728182,
+      1 => 1760731370,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_68f29477b69370_67817277 (\Smarty\Template $_smarty_tpl) {
+function content_68f2a0eb6c9ed1_37124321 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -35,8 +35,7 @@ $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_sma
             <table class="table table-striped table-bordered mb-0" style="font-family: 'Inter', sans-serif;">
                 <thead class="table-primary">
                     <tr>
-                        <th>ID</th>
-                        <th>Imię</th>
+                        <th>Nazwa użytkownika</th>
                         <th>Email</th>
                         <th>Rodzina</th>
                         <th>Rola w rodzinie</th>
@@ -50,8 +49,6 @@ foreach ($_from ?? [] as $_smarty_tpl->getVariable('user')->value) {
 $foreach0DoElse = false;
 ?>
                         <tr>
-                            <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('user')['id']), ENT_QUOTES, 'UTF-8');?>
-</td>
                             <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('user')['username']), ENT_QUOTES, 'UTF-8');?>
 </td>
                             <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('user')['email']), ENT_QUOTES, 'UTF-8');?>

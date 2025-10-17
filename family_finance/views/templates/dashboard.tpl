@@ -36,7 +36,7 @@
                 <div class="card shadow-sm p-3">
                     <h5 class="card-title">Twoje konto</h5>
                     <p class="card-text">
-                        Imię: <strong>{$session.user_name}</strong><br>
+                        Nazwa użytkownika: <strong>{$session.user_name}</strong><br>
                         Email: <strong>{$session.email}</strong><br>
                         {* { $session|@var_dump } *}
                         {if isset($session.family_id)}
@@ -62,7 +62,7 @@
                     <div class="card shadow-sm p-3">
                         <h5 class="card-title">Zarządzaj członkami rodziny</h5>
                         <p class="card-text">Dodawaj, edytuj lub usuwaj członków swojej rodziny.</p>
-                        <a href="index.php?action=manageFamilyMembers" class="btn btn-primary w-100">Członkowie rodziny</a>
+                        <a href="index.php?action=users" class="btn btn-primary w-100">Członkowie rodziny</a>
                     </div>
                 </div>
             {/if}

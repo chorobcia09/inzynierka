@@ -35,7 +35,6 @@ class DashboardController
                 $_SESSION['family_name'] = $family[0]['family_name'] ?? '';
             }
         }
-        dump($_SESSION);
         $this->smarty->assign('session', $_SESSION);
         $this->smarty->display('dashboard.tpl');
     }

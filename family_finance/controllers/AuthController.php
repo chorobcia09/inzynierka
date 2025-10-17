@@ -62,6 +62,7 @@ class AuthController
             $_SESSION['account_type'] = $user['account_type'];
             $_SESSION['family_role'] = $user['family_role'];
 
+
             header('Location: index.php?action=dashboard');
             exit;
         } else {

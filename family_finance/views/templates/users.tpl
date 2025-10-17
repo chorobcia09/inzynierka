@@ -8,8 +8,7 @@
             <table class="table table-striped table-bordered mb-0" style="font-family: 'Inter', sans-serif;">
                 <thead class="table-primary">
                     <tr>
-                        <th>ID</th>
-                        <th>Imię</th>
+                        <th>Nazwa użytkownika</th>
                         <th>Email</th>
                         <th>Rodzina</th>
                         <th>Rola w rodzinie</th>
@@ -18,7 +17,6 @@
                 <tbody>
                     {foreach from=$users item=user}
                         <tr>
-                            <td>{$user.id}</td>
                             <td>{$user.username}</td>
                             <td>{$user.email}</td>
                             <td>{$user.family_name|default:'Brak przydzielonej rodziny'}</td>

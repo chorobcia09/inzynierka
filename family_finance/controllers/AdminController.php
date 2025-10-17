@@ -21,7 +21,6 @@ class AdminController
     public function index()
     {
         $users = $this->userModel->getAllUsersWithFamily();
-        dump($users);
 
         $this->smarty->assign([
             'users' => $users,
@@ -42,15 +41,18 @@ class AdminController
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
+                $UID = !empty($_POST['UID']) ? $_POST['UID'] : $this->generateRandomCode(10);
+
                 $this->userModel->createUser(
                     $_POST['username'],
                     $_POST['email'],
                     $_POST['password'],
                     $_POST['role'],
                     $_POST['family_id'] ?? null,
+                    $UID
                 );
-                header('Location: index.php?action=adminPanel');
 
+                header('Location: index.php?action=adminPanel');
                 exit;
             } catch (Exception $e) {
                 $this->smarty->assign('error', $e->getMessage());
@@ -62,6 +64,23 @@ class AdminController
             $this->smarty->display('add_user.tpl');
         }
     }
+
+    /**
+     * Pomocnicza metoda do generowania losowego UID (możesz przenieść do traita lub helpera)
+     */
+    private function generateRandomCode($length = 10)
+    {
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*()-_=+';
+        $charactersLength = strlen($characters);
+        $randomCode = '';
+
+        for ($i = 0; $i < $length; $i++) {
+            $randomCode .= $characters[random_int(0, $charactersLength - 1)];
+        }
+
+        return $randomCode;
+    }
+
 
     public function deleteUser($id)
     {

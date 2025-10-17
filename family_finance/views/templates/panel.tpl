@@ -5,7 +5,7 @@
     <h2 class="text-center mb-4 fw-bold text-primary">Panel użytkownika</h2>
 
     <ul class="list-group list-group-flush">
-        <li class="list-group-item"><strong>Imię:</strong> {$user.username}</li>
+        <li class="list-group-item"><strong>Nazwa użytkownika:</strong> {$user.username}</li>
         <li class="list-group-item"><strong>Email:</strong> {$user.email}</li>
         <li class="list-group-item"><strong>Rodzina:</strong> {$user.family_name|default:'Brak przypisanej rodziny'}
         </li>
@@ -17,6 +17,7 @@
                             <span class="badge bg-secondary">Brak przypisania</span>
                         {/if}</li>
         <li class="list-group-item"><strong>Rodzaj konta:</strong> {$user.account_type|default:'Brak'}</li>
+        <li class="list-group-item"><strong>UID:</strong> {$user.UID}</li>
     </ul>
 
     <div class="text-center mt-4">
