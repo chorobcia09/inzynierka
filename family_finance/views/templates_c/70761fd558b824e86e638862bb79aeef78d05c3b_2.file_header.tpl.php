@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-17 18:54:47
+/* Smarty version 5.6.0, created on 2025-10-17 19:28:50
   from 'file:header.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68f274d7b79647_88675732',
+  'unifunc' => 'content_68f27cd260c667_08686752',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '70761fd558b824e86e638862bb79aeef78d05c3b' => 
     array (
       0 => 'header.tpl',
-      1 => 1760720083,
+      1 => 1760722127,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_68f274d7b79647_88675732 (\Smarty\Template $_smarty_tpl) {
+function content_68f27cd260c667_08686752 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 ?><!DOCTYPE html>
 <html lang="pl">
@@ -44,14 +44,18 @@ $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\vi
             <nav class="d-flex align-items-center">
                 <?php if ((true && (true && null !== ($_smarty_tpl->getValue('session')['user_id'] ?? null)))) {?>
                     <span class="me-3 text-dark">
-                        Witaj! <strong><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('session')['user_name']), ENT_QUOTES, 'UTF-8');?>
-</strong> (<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('session')['role']), ENT_QUOTES, 'UTF-8');?>
-)
-                        <?php if ((true && (true && null !== ($_smarty_tpl->getValue('session')['account_type'] ?? null)))) {?>
-                            • Rodzaj konta: <strong><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('session')['account_type']), ENT_QUOTES, 'UTF-8');?>
-</strong>
-                        <?php }?>
-                    </span>
+    Witaj! <strong><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('session')['user_name']), ENT_QUOTES, 'UTF-8');?>
+</strong> 
+    Jesteś: 
+    <?php if ($_smarty_tpl->getValue('session')['family_role'] == 'family_admin') {?>
+        <span class="text-success fw-semibold">Administratorem rodziny</span>
+    <?php } elseif ($_smarty_tpl->getValue('session')['family_role'] == 'family_member') {?>
+        <span class="text-primary fw-semibold">Członkiem rodziny</span>
+    <?php } else { ?>
+        <span class="text-muted">Bez przypisanej rodziny</span>
+    <?php }?>
+</span>
+
                     <?php if ((true && (true && null !== ($_smarty_tpl->getValue('session')['user_id'] ?? null))) && !$_smarty_tpl->getValue('session')['family_id']) {?>
     <a href="index.php?action=createFamily" class="btn btn-outline-primary btn-sm me-2">Załóż rodzinę</a>
 <?php }?>

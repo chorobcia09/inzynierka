@@ -248,13 +248,6 @@ class User
         return $this->db->select($sql, $params);
     }
 
-    public function updateUserFamily(int $userId, int $familyId)
-{
-    $sql = "UPDATE users SET family_id = :family_id WHERE id = :id";
-    return $this->db->execute($sql, [
-        ':family_id' => $familyId,
-        ':id' => $userId
-    ]);
-}
+    
 
 }

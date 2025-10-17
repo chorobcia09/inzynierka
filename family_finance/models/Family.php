@@ -40,4 +40,25 @@ class Family
         $sql = "SELECT * FROM families";
         return $this->db->select($sql);
     }
+
+    public function updateUserFamily(int $userId, int $familyId)
+{
+    $sql = "UPDATE users SET family_id = :family_id WHERE id = :id";
+    return $this->db->execute($sql, [
+        ':family_id' => $familyId,
+        ':id' => $userId
+    ]);
+}
+
+public function updateUserFamilyAndRole(int $userId, int $familyId, string $role)
+{
+    $sql = "UPDATE users SET family_id = :family_id, family_role = :role WHERE id = :id";
+    return $this->db->execute($sql, [
+        ':family_id' => $familyId,
+        ':role' => $role,
+        ':id' => $userId
+    ]);
+}
+
+
 }

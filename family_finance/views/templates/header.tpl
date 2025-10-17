@@ -19,11 +19,17 @@
             <nav class="d-flex align-items-center">
                 {if isset($session.user_id)}
                     <span class="me-3 text-dark">
-                        Witaj! <strong>{$session.user_name}</strong> ({$session.role})
-                        {if isset($session.account_type)}
-                            • Rodzaj konta: <strong>{$session.account_type}</strong>
-                        {/if}
-                    </span>
+    Witaj! <strong>{$session.user_name}</strong> 
+    Jesteś: 
+    {if $session.family_role == 'family_admin'}
+        <span class="text-success fw-semibold">Administratorem rodziny</span>
+    {elseif $session.family_role == 'family_member'}
+        <span class="text-primary fw-semibold">Członkiem rodziny</span>
+    {else}
+        <span class="text-muted">Bez przypisanej rodziny</span>
+    {/if}
+</span>
+
                     {if isset($session.user_id) && !$session.family_id}
     <a href="index.php?action=createFamily" class="btn btn-outline-primary btn-sm me-2">Załóż rodzinę</a>
 {/if}
