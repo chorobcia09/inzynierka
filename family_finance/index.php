@@ -4,6 +4,7 @@ session_start();
 require_once __DIR__ . '/config/smarty.php';
 require_once __DIR__ . '/controllers/AuthController.php';
 require_once __DIR__ . '/controllers/UserController.php';
+require_once __DIR__ . '/controllers/AdminController.php';
 
 $action = $_GET['action'] ?? 'login';
 
@@ -37,6 +38,14 @@ switch ($action) {
     case 'userPanel':
         (new UserController($smarty))->panel();
         break;
+    
+    case 'adminPanel':
+    (new AdminController($smarty))->index();
+    break;
+
+    case 'addUserForm':
+    (new AdminController($smarty))->addUser();
+    break;
 
     default:
         (new AuthController($smarty))->showLoginForm();

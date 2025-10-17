@@ -77,17 +77,47 @@ class User
     /**
      * Metoda dodająca użytkownika do bazy danych.
      */
-    public function createUser(string $username, string $email, string $password, ?int $family_id = null)
+    public function createUser(string $username, string $email, string $password, string $role, ?int $family_id = null)
     {
-        $sql = "INSERT INTO users (username, email, password, family_id)
-            VALUES (:username, :email, :password, :family_id)";
+        // sprawdzenie czy email jest w bazie 
+        if ($this->emailExists($email)) {
+            throw new Exception("Podany email już istnieje w systemie!");
+        }
+        // sprawdzenie czy username jest w bazie
+        if ($this->usernameExists($username)) {
+            throw new Exception("Podana nazwa użytkownika już istnieje w systemie!");
+        }
+
+        $sql = "INSERT INTO users (username, email, password, role, family_id) 
+            VALUES (:username, :email, :password, :role, :family_id)";
 
         return $this->db->execute($sql, [
             ':username' => $username,
             ':email' => $email,
-            ':password' => $password,
+            ':password' => password_hash($password, PASSWORD_DEFAULT),
+            ':role' => $role,
             ':family_id' => $family_id
         ]);
+    }
+
+    /**
+     * Metoda sprawdzająca czy email istnieje w bazie danych.
+     */
+    public function emailExists(string $email): bool
+    {
+        $sql = "SELECT COUNT(*) as count FROM users WHERE email = :email";
+        $result = $this->db->select($sql, [':email' => $email]);
+        return !empty($result) && $result[0]['count'] > 0;
+    }
+
+    /**
+     * Metoda sprawdzająca czy username istnieje w bazie danych.
+     */
+    public function usernameExists(string $username): bool
+    {
+        $sql = "SELECT id FROM users WHERE username = :username LIMIT 1";
+        $result = $this->db->select($sql, [':username' => $username]);
+        return !empty($result);
     }
 
     /**
@@ -100,6 +130,7 @@ class User
             u.id,
             u.username,
             u.email,
+            u.role,
             u.family_id,
             f.family_name
         FROM users u
