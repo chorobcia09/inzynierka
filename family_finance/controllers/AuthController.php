@@ -7,7 +7,6 @@ class AuthController
     private $authModel;
     private $smarty;
 
-    // Konstruktor przyjmuje obiekt Smarty jako parametr
     public function __construct($smarty)
     {
         $database = new Database();

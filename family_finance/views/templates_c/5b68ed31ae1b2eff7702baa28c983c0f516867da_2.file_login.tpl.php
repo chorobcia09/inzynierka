@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-16 22:19:39
+/* Smarty version 5.6.0, created on 2025-10-17 22:29:34
   from 'file:login.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68f1535bab30a3_21431566',
+  'unifunc' => 'content_68f2a72e77b616_04847931',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '5b68ed31ae1b2eff7702baa28c983c0f516867da' => 
     array (
       0 => 'login.tpl',
-      1 => 1760645974,
+      1 => 1760732919,
       2 => 'file',
     ),
   ),
@@ -22,12 +22,13 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_68f1535bab30a3_21431566 (\Smarty\Template $_smarty_tpl) {
+function content_68f2a72e77b616_04847931 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
 
-<div class="login-container mx-auto shadow p-4 rounded" style="max-width:400px; font-family: 'Inter', sans-serif; background-color: #ffffff;">
+<div class="login-container mx-auto shadow p-4 rounded"
+    style="max-width:400px; font-family: 'Inter', sans-serif; background-color: #ffffff;">
     <h2 class="text-center mb-4 fw-bold text-primary">Logowanie</h2>
 
     <?php if ($_smarty_tpl->getValue('error')) {?>
@@ -43,14 +44,16 @@ $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_sma
 
         <div class="mb-3">
             <label for="password" class="form-label fw-semibold">Hasło</label>
-            <input type="password" class="form-control rounded" name="password" id="password" placeholder="Wpisz hasło" required>
+            <input type="password" class="form-control rounded" name="password" id="password" placeholder="Wpisz hasło"
+                required>
         </div>
 
         <button type="submit" class="btn btn-primary w-100 fw-semibold">Zaloguj się</button>
     </form>
 
     <div class="text-center mt-3">
-        <small>Nie masz konta? <a href="index.php?action=register" class="text-primary fw-bold">Zarejestruj się</a></small>
+        <small>Nie masz konta? <a href="index.php?action=register" class="text-primary fw-bold">Zarejestruj
+                się</a></small>
     </div>
 </div>
 

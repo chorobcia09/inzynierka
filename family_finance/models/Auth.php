@@ -34,26 +34,27 @@ class Auth
 
     public function register(string $username, string $email, string $password, string $UID = null)
     {
-        // Sprawdź, czy użytkownik już istnieje
         if ($this->userModel->getUserByEmail($email)) {
             return false;
         }
 
-        // Jeśli UID nie został przekazany, wygeneruj losowy
         if (!$UID) {
             $UID = $this->generateRandomCode(10);
         }
 
-        // Zapisz do bazy
         return $this->userModel->createUser(
             $username,
             $email,
             $password,
-            'member',   // rola
-            null,       // family_id
+            'member',
+            null,
             $UID
         );
     }
+
+    /**
+     * Metoda generująca randomowy kod do UID.
+     */
 
     private function generateRandomCode($length = 10)
     {

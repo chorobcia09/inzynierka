@@ -1,6 +1,7 @@
 {include file="header.tpl"}
 
-<div class="login-container mx-auto shadow p-4 rounded" style="max-width:400px; font-family: 'Inter', sans-serif; background-color: #ffffff;">
+<div class="login-container mx-auto shadow p-4 rounded"
+    style="max-width:400px; font-family: 'Inter', sans-serif; background-color: #ffffff;">
     <h2 class="text-center mb-4 fw-bold text-primary">Logowanie</h2>
 
     {if $error}
@@ -15,14 +16,16 @@
 
         <div class="mb-3">
             <label for="password" class="form-label fw-semibold">Hasło</label>
-            <input type="password" class="form-control rounded" name="password" id="password" placeholder="Wpisz hasło" required>
+            <input type="password" class="form-control rounded" name="password" id="password" placeholder="Wpisz hasło"
+                required>
         </div>
 
         <button type="submit" class="btn btn-primary w-100 fw-semibold">Zaloguj się</button>
     </form>
 
     <div class="text-center mt-3">
-        <small>Nie masz konta? <a href="index.php?action=register" class="text-primary fw-bold">Zarejestruj się</a></small>
+        <small>Nie masz konta? <a href="index.php?action=register" class="text-primary fw-bold">Zarejestruj
+                się</a></small>
     </div>
 </div>
 

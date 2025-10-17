@@ -10,31 +10,6 @@ class User
     }
 
     /**
-     * Metoda zwracająca wszystkich użytkowników z bazy danych.
-     * 
-     */
-    public function getAllUsers()
-    {
-        $sql = "SELECT * from users";
-
-        return $this->db->select($sql);
-    }
-
-    /**
-     * Metoda zwracająca wszystkich użytkowników po ID z bazy danych.
-     */
-    public function getUsersById(int $id)
-    {
-        $sql = "
-        SELECT *
-        FROM users
-        WHERE id = " . $id . "
-        ";
-
-        return $this->db->select($sql);
-    }
-
-    /**
      * Metoda zwracająca wszystkich użytkowników po adresie email z bazy danych.
      */
     public function getUserByEmail(string $email)
@@ -87,23 +62,19 @@ class User
      */
     public function updateUser(int $id, string $username, string $email, string $role, $family_id = null, ?string $password = null)
     {
-        // Pobierz aktualne dane użytkownika
         $currentUser = $this->getUserById($id);
         if (!$currentUser) {
             throw new Exception("Użytkownik nie istnieje!");
         }
 
-        // Sprawdź czy email jest już używany przez innego użytkownika
         if ($email !== $currentUser['email'] && $this->emailExists($email)) {
             throw new Exception("Podany email już istnieje w systemie!");
         }
 
-        // Sprawdź czy username jest już używany przez innego użytkownika
         if ($username !== $currentUser['username'] && $this->usernameExists($username)) {
             throw new Exception("Podana nazwa użytkownika już istnieje w systemie!");
         }
 
-        // Konwersja family_id na int lub null
         $family_id = $this->parseFamilyId($family_id);
 
         // buduje sql w zaleznosci czy podano nowe haslo
@@ -235,6 +206,9 @@ class User
         return $this->db->select($sql, $params);
     }
 
+    /**
+     * Metoda zwracająca informacje dotyczące rodziny i użytkownika poprzez ID użytkownika
+     */
     public function getInfoAboutFamiliesWithUserByUserId(int $id)
     {
         $sql = "
@@ -256,7 +230,4 @@ class User
             ':id' => $id
         ]);
     }
-
-    
-
 }

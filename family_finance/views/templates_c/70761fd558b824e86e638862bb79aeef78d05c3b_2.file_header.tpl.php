@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-17 21:11:23
+/* Smarty version 5.6.0, created on 2025-10-17 22:28:54
   from 'file:header.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68f294db5022b3_15373886',
+  'unifunc' => 'content_68f2a706e37ee2_83337355',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '70761fd558b824e86e638862bb79aeef78d05c3b' => 
     array (
       0 => 'header.tpl',
-      1 => 1760728281,
+      1 => 1760732916,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_68f294db5022b3_15373886 (\Smarty\Template $_smarty_tpl) {
+function content_68f2a706e37ee2_83337355 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 ?><!DOCTYPE html>
 <html lang="pl">
@@ -37,7 +37,8 @@ $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\vi
 <body class="d-flex flex-column min-vh-100">
     <header class="shadow-sm py-3 mb-4" style="background-color: #f8f9fa; font-family: 'Inter', sans-serif;">
         <div class="container d-flex justify-content-between align-items-center">
-            <h1 class="h4 m-0 fw-bold text-primary"><a href="index.php?action=dashboard" style="text-decoration: none;">Zarządzanie finansami rodzinnymi</a></h1>
+            <h1 class="h4 m-0 fw-bold text-primary"><a href="index.php?action=dashboard"
+                    style="text-decoration: none;">Zarządzanie finansami rodzinnymi</a></h1>
             <nav class="d-flex align-items-center">
                 <?php if ((true && (true && null !== ($_smarty_tpl->getValue('session')['user_id'] ?? null)))) {?>
                     <?php if ($_smarty_tpl->getValue('session')['role'] == 'admin') {?>
@@ -58,7 +59,7 @@ $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\vi
 
                         <?php if ((true && (true && null !== ($_smarty_tpl->getValue('session')['family_id'] ?? null)))) {?>
                             <a href="index.php?action=users" class="btn btn-outline-primary btn-sm me-2">Członkowie rodziny</a>
-                            
+
                         <?php }?>
                         <a href="index.php?action=userPanel" class="btn btn-outline-primary btn-sm me-2">Panel użytkownika</a>
 

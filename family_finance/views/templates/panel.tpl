@@ -10,12 +10,13 @@
         <li class="list-group-item"><strong>Rodzina:</strong> {$user.family_name|default:'Brak przypisanej rodziny'}
         </li>
         <li class="list-group-item"><strong>Rola:</strong> {if $user.family_role == 'family_admin'}
-                            <span class="badge bg-success">Administrator rodziny</span>
-                        {elseif $user.family_role == 'family_member'}
-                            <span class="badge bg-primary">Członek rodziny</span>
-                        {else}
-                            <span class="badge bg-secondary">Brak przypisania</span>
-                        {/if}</li>
+                <span class="badge bg-success">Administrator rodziny</span>
+            {elseif $user.family_role == 'family_member'}
+                <span class="badge bg-primary">Członek rodziny</span>
+            {else}
+                <span class="badge bg-secondary">Brak przypisania</span>
+            {/if}
+        </li>
         <li class="list-group-item"><strong>Rodzaj konta:</strong> {$user.account_type|default:'Brak'}</li>
         <li class="list-group-item"><strong>UID:</strong> {$user.UID}</li>
     </ul>

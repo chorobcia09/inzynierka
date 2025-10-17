@@ -24,11 +24,11 @@ class DashboardController
             exit;
         }
 
+        // czyszczenie cache
         header("Cache-Control: no-cache, no-store, must-revalidate");
         header("Pragma: no-cache");
         header("Expires: 0");
 
-        // Pobierz dodatkowe informacje o rodzinie, jeśli użytkownik do niej należy
         if (!empty($_SESSION['family_id'])) {
             $family = $this->familyModel->getFamilyById($_SESSION['family_id']);
             if (!empty($family)) {

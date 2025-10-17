@@ -38,7 +38,6 @@
                     <p class="card-text">
                         Nazwa użytkownika: <strong>{$session.user_name}</strong><br>
                         Email: <strong>{$session.email}</strong><br>
-                        {* { $session|@var_dump } *}
                         {if isset($session.family_id)}
                             Rodzina: <strong>{$session.family_name|default:'Brak'}</strong><br>
                             Rola:

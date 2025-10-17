@@ -13,7 +13,8 @@
 <body class="d-flex flex-column min-vh-100">
     <header class="shadow-sm py-3 mb-4" style="background-color: #f8f9fa; font-family: 'Inter', sans-serif;">
         <div class="container d-flex justify-content-between align-items-center">
-            <h1 class="h4 m-0 fw-bold text-primary"><a href="index.php?action=dashboard" style="text-decoration: none;">Zarządzanie finansami rodzinnymi</a></h1>
+            <h1 class="h4 m-0 fw-bold text-primary"><a href="index.php?action=dashboard"
+                    style="text-decoration: none;">Zarządzanie finansami rodzinnymi</a></h1>
             <nav class="d-flex align-items-center">
                 {if isset($session.user_id)}
                     {if $session.role == 'admin'}
@@ -33,7 +34,7 @@
 
                         {if isset($session.family_id)}
                             <a href="index.php?action=users" class="btn btn-outline-primary btn-sm me-2">Członkowie rodziny</a>
-                            
+
                         {/if}
                         <a href="index.php?action=userPanel" class="btn btn-outline-primary btn-sm me-2">Panel użytkownika</a>
 

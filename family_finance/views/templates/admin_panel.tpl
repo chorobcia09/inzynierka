@@ -11,6 +11,7 @@
     <thead class="table-light">
         <tr>
             <th>ID</th>
+            <th>ID RODZINY</th>
             <th>Imię</th>
             <th>Email</th>
             <th>Rodzaj konta</th>
@@ -24,6 +25,7 @@
         {foreach from=$users item=user}
             <tr>
                 <td>{$user.id}</td>
+                <td>{$user.family_id}</td>
                 <td>{$user.username}</td>
                 <td>{$user.email}</td>
                 <td>{$user.account_type}</td>

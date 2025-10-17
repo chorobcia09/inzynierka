@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-17 21:43:27
+/* Smarty version 5.6.0, created on 2025-10-17 22:28:57
   from 'file:admin_panel.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68f29c5f9c7959_43093243',
+  'unifunc' => 'content_68f2a709250061_18968380',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '3109ee7d5a8cde23b272d8861fff9b81f35827c2' => 
     array (
       0 => 'admin_panel.tpl',
-      1 => 1760730206,
+      1 => 1760732889,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_68f29c5f9c7959_43093243 (\Smarty\Template $_smarty_tpl) {
+function content_68f2a709250061_18968380 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -38,6 +38,7 @@ $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_sma
     <thead class="table-light">
         <tr>
             <th>ID</th>
+            <th>ID RODZINY</th>
             <th>Imię</th>
             <th>Email</th>
             <th>Rodzaj konta</th>
@@ -56,6 +57,8 @@ $foreach0DoElse = false;
 ?>
             <tr>
                 <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('user')['id']), ENT_QUOTES, 'UTF-8');?>
+</td>
+                <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('user')['family_id']), ENT_QUOTES, 'UTF-8');?>
 </td>
                 <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('user')['username']), ENT_QUOTES, 'UTF-8');?>
 </td>

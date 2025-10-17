@@ -66,7 +66,7 @@ class AdminController
     }
 
     /**
-     * Pomocnicza metoda do generowania losowego UID (możesz przenieść do traita lub helpera)
+     * Metoda generująca randomowy kod do UID.
      */
     private function generateRandomCode($length = 10)
     {
@@ -119,7 +119,6 @@ class AdminController
                 header('Location: index.php?action=adminPanel');
                 exit;
             } catch (Exception $e) {
-                // Przekaż komunikat błędu i dane do widoku
                 $user = $this->userModel->getUserById($id);
                 $this->smarty->assign([
                     'error' => $e->getMessage(),

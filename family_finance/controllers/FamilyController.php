@@ -40,47 +40,46 @@ class FamilyController
      * Wyświetla formularz tworzenia rodziny
      */
     public function create()
-{
-    if (!isset($_SESSION['user_id'])) {
-        header('Location: index.php?action=login');
-        exit;
-    }
-
-    // Sprawdzenie czy użytkownik już ma rodzinę
-    if (!empty($_SESSION['family_id'])) {
-        header('Location: index.php?action=dashboard');
-        exit;
-    }
-
-    $this->smarty->assign('session', $_SESSION);
-    $this->smarty->assign('voivodeships', $this->voivodeships);
-
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $familyName = trim($_POST['family_name'] ?? '');
-        $region = trim($_POST['region'] ?? '');
-
-        if (!$familyName || !$region) {
-            $this->smarty->assign('error', 'Wypełnij wszystkie pola.');
-            $this->smarty->display('create_family.tpl');
-            return;
+    {
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: index.php?action=login');
+            exit;
         }
 
-        // Tworzenie rodziny
-        $familyId = $this->familyModel->createFamily($familyName, $region);
+        // Sprawdzenie czy użytkownik już ma rodzinę
+        if (!empty($_SESSION['family_id'])) {
+            header('Location: index.php?action=dashboard');
+            exit;
+        }
 
-        // Przypisanie użytkownika jako administratora rodziny
-        $this->familyModel->updateUserFamilyAndRole($_SESSION['user_id'], $familyId, 'family_admin');
+        $this->smarty->assign('session', $_SESSION);
+        $this->smarty->assign('voivodeships', $this->voivodeships);
 
-        // Aktualizacja sesji
-        $_SESSION['family_id'] = $familyId;
-        $_SESSION['family_role'] = 'family_admin';
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $familyName = trim($_POST['family_name'] ?? '');
+            $region = trim($_POST['region'] ?? '');
 
-        // Przeładowanie strony
-        header('Location: index.php?action=dashboard');
-        exit;
+            if (!$familyName || !$region) {
+                $this->smarty->assign('error', 'Wypełnij wszystkie pola.');
+                $this->smarty->display('create_family.tpl');
+                return;
+            }
+
+            // Tworzenie rodziny
+            $familyId = $this->familyModel->createFamily($familyName, $region);
+
+            // Przypisanie użytkownika jako administratora rodziny
+            $this->familyModel->updateUserFamilyAndRole($_SESSION['user_id'], $familyId, 'family_admin');
+
+            // Aktualizacja sesji
+            $_SESSION['family_id'] = $familyId;
+            $_SESSION['family_role'] = 'family_admin';
+
+            // Przeładowanie strony
+            header('Location: index.php?action=dashboard');
+            exit;
+        }
+
+        $this->smarty->display('create_family.tpl');
     }
-
-    $this->smarty->display('create_family.tpl');
-}
-
 }
