@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-16 22:21:21
+/* Smarty version 5.6.0, created on 2025-10-17 19:40:17
   from 'file:users.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68f153c1a40882_86258023',
+  'unifunc' => 'content_68f27f81776732_35324234',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'eb4b948c230150206911e6e298893c862bfe2858' => 
     array (
       0 => 'users.tpl',
-      1 => 1760646076,
+      1 => 1760722814,
       2 => 'file',
     ),
   ),
@@ -22,13 +22,13 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_68f153c1a40882_86258023 (\Smarty\Template $_smarty_tpl) {
+function content_68f27f81776732_35324234 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
 
 <div class="users-container">
-    <h2 class="mb-4 fw-bold text-primary">Lista użytkowników</h2>
+    <h2 class="mb-4 fw-bold text-primary">Lista członków rodziny</h2>
 
     <?php if ($_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('users')) > 0) {?>
     <div class="table-responsive shadow rounded">
@@ -39,6 +39,7 @@ $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_sma
                     <th>Imię</th>
                     <th>Email</th>
                     <th>Rodzina</th>
+                    <th>Rola w rodzinie</th>
                 </tr>
             </thead>
             <tbody>
@@ -57,6 +58,15 @@ $foreach0DoElse = false;
 </td>
                     <td><?php echo htmlspecialchars((string) ((($tmp = $_smarty_tpl->getValue('user')['family_name'] ?? null)===null||$tmp==='' ? 'Brak przydzielonej rodziny' ?? null : $tmp)), ENT_QUOTES, 'UTF-8');?>
 </td>
+                    <td>
+                        <?php if ($_smarty_tpl->getValue('user')['family_role'] == 'family_admin') {?>
+                            <span class="badge bg-success">Administrator rodziny</span>
+                        <?php } elseif ($_smarty_tpl->getValue('user')['family_role'] == 'family_member') {?>
+                            <span class="badge bg-primary">Członek rodziny</span>
+                        <?php } else { ?>
+                            <span class="badge bg-secondary">Brak przypisania</span>
+                        <?php }?>
+                    </td>
                 </tr>
                 <?php
 }

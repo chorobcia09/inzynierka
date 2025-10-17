@@ -13,43 +13,50 @@
 </head>
 
 <body class="d-flex flex-column min-vh-100">
-    <header class="shadow-sm py-3 mb-4" style="background-color: #f8f9fa; font-family: 'Inter', sans-serif;">
-        <div class="container d-flex justify-content-between align-items-center">
-            <h1 class="h4 m-0 fw-bold text-primary">Zarządzanie finansami rodzinnymi</h1>
-            <nav class="d-flex align-items-center">
-                {if isset($session.user_id)}
-                    <span class="me-3 text-dark">
-    Witaj! <strong>{$session.user_name}</strong> 
-    Jesteś: 
-    {if $session.family_role == 'family_admin'}
-        <span class="text-success fw-semibold">Administratorem rodziny</span>
-    {elseif $session.family_role == 'family_member'}
-        <span class="text-primary fw-semibold">Członkiem rodziny</span>
+<header class="shadow-sm py-3 mb-4" style="background-color: #f8f9fa; font-family: 'Inter', sans-serif;">
+    <div class="container d-flex justify-content-between align-items-center">
+        <h1 class="h4 m-0 fw-bold text-primary">Zarządzanie finansami rodzinnymi</h1>
+        <nav class="d-flex align-items-center">
+            {if isset($session.user_id)}
+                <span class="me-3 text-dark">
+    Witaj! <strong>{$session.user_name}</strong>
+
+    {if isset($session.family_id)}
+        • Jesteś:
+        {if isset($session.family_role)}
+            {if $session.family_role == 'family_admin'}
+                <span class="text-success fw-semibold">Administratorem rodziny</span>
+            {elseif $session.family_role == 'family_member'}
+                <span class="text-primary fw-semibold">Członkiem rodziny</span>
+            {else}
+                <span class="text-muted">Bez przypisanej roli</span>
+            {/if}
+        {else}
+            <span class="text-muted">Bez przypisanej roli</span>
+        {/if}
     {else}
-        <span class="text-muted">Bez przypisanej rodziny</span>
+        • <span class="text-muted">Nie należysz do żadnej rodziny</span>
     {/if}
 </span>
 
-                    {if isset($session.user_id) && !$session.family_id}
-    <a href="index.php?action=createFamily" class="btn btn-outline-primary btn-sm me-2">Załóż rodzinę</a>
-{/if}
 
-                    {if $session.role == 'member'}
+                {if !$session.family_id}
+                    <a href="index.php?action=createFamily" class="btn btn-outline-primary btn-sm me-2">Załóż rodzinę</a>
+                {/if}
+
+                {if isset($session.family_id)}
                     <a href="index.php?action=users" class="btn btn-outline-primary btn-sm me-2">Członkowie rodziny</a>
                     <a href="index.php?action=userPanel" class="btn btn-outline-primary btn-sm me-2">Panel użytkownika</a>
-                    {/if}
-                    {if $session.role == 'admin'}
-                        <a href="index.php?action=adminPanel" class="btn btn-outline-danger btn-sm me-2">
-                            <i class="bi bi-shield-lock"></i> Panel admina
-                        </a>
-                    {/if}
-                    <a href="index.php?action=logout" class="btn btn-primary btn-sm text-white">Wyloguj</a>
-                {else}
-                    <a href="index.php?action=login" class="btn btn-outline-primary btn-sm me-2">Logowanie</a>
-                    <a href="index.php?action=register" class="btn btn-primary btn-sm text-white">Rejestracja</a>
                 {/if}
-            </nav>
-        </div>
-    </header>
+
+                <a href="index.php?action=logout" class="btn btn-primary btn-sm text-white">Wyloguj</a>
+
+            {else}
+                <a href="index.php?action=login" class="btn btn-outline-primary btn-sm me-2">Logowanie</a>
+                <a href="index.php?action=register" class="btn btn-primary btn-sm text-white">Rejestracja</a>
+            {/if}
+        </nav>
+    </div>
+</header>
 
 <main class="container my-5 flex-grow-1">

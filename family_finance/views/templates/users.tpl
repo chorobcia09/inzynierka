@@ -1,7 +1,7 @@
 {include file="header.tpl"}
 
 <div class="users-container">
-    <h2 class="mb-4 fw-bold text-primary">Lista użytkowników</h2>
+    <h2 class="mb-4 fw-bold text-primary">Lista członków rodziny</h2>
 
     {if $users|@count > 0}
     <div class="table-responsive shadow rounded">
@@ -12,6 +12,7 @@
                     <th>Imię</th>
                     <th>Email</th>
                     <th>Rodzina</th>
+                    <th>Rola w rodzinie</th>
                 </tr>
             </thead>
             <tbody>
@@ -21,6 +22,15 @@
                     <td>{$user.username}</td>
                     <td>{$user.email}</td>
                     <td>{$user.family_name|default:'Brak przydzielonej rodziny'}</td>
+                    <td>
+                        {if $user.family_role == 'family_admin'}
+                            <span class="badge bg-success">Administrator rodziny</span>
+                        {elseif $user.family_role == 'family_member'}
+                            <span class="badge bg-primary">Członek rodziny</span>
+                        {else}
+                            <span class="badge bg-secondary">Brak przypisania</span>
+                        {/if}
+                    </td>
                 </tr>
                 {/foreach}
             </tbody>
