@@ -6,6 +6,7 @@
     <i class="bi bi-person-plus"></i> Dodaj użytkownika
 </a>
 
+
 <table class="table table-striped table-bordered">
     <thead class="table-light">
         <tr>
@@ -29,7 +30,8 @@
                     <a href="index.php?action=editUser&id={$user.id}" class="btn btn-sm btn-outline-primary">
                         <i class="bi bi-pencil"></i> Edytuj
                     </a>
-                    <a href="index.php?action=deleteUser&id={$user.id}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Czy na pewno chcesz usunąć tego użytkownika?');">
+                    <a href="index.php?action=deleteUser&id={$user.id}" class="btn btn-sm btn-outline-danger"
+                        onclick="return confirm('Czy na pewno chcesz usunąć tego użytkownika?');">
                         <i class="bi bi-trash"></i> Usuń
                     </a>
                 </td>

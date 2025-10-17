@@ -65,13 +65,9 @@ class User
      */
     public function getUserById($id)
     {
-        $sql = "
-        SELECT *
-        FROM users
-        WHERE id = " . $id . "
-        ";
-
-        return $this->db->select($sql);
+        $sql = "SELECT * FROM users WHERE id = :id";
+        $result = $this->db->select($sql, [':id' => $id]);
+        return $result[0] ?? null; // Zwróć pierwszy element lub null
     }
 
     /**
@@ -100,6 +96,96 @@ class User
         ]);
     }
 
+
+    /**
+     * Metoda aktualizująca dane użytkownika poprzez panel administratora
+     */
+    public function updateUser(int $id, string $username, string $email, string $role, $family_id = null, ?string $password = null)
+    {
+        // Pobierz aktualne dane użytkownika
+        $currentUser = $this->getUserById($id);
+        if (!$currentUser) {
+            throw new Exception("Użytkownik nie istnieje!");
+        }
+
+        // Sprawdź czy email jest już używany przez innego użytkownika
+        if ($email !== $currentUser['email'] && $this->emailExists($email)) {
+            throw new Exception("Podany email już istnieje w systemie!");
+        }
+
+        // Sprawdź czy username jest już używany przez innego użytkownika
+        if ($username !== $currentUser['username'] && $this->usernameExists($username)) {
+            throw new Exception("Podana nazwa użytkownika już istnieje w systemie!");
+        }
+
+        // Konwersja family_id na int lub null
+        $family_id = $this->parseFamilyId($family_id);
+
+        // buduje sql w zaleznosci czy podano nowe haslo
+        if ($password) {
+            $sql = "
+            UPDATE users
+            SET username = :username,
+                email = :email,
+                password = :password,
+                role = :role,
+                family_id = :family_id
+            WHERE id = :id
+        ";
+            $params = [
+                ':username' => $username,
+                ':email' => $email,
+                ':password' => password_hash($password, PASSWORD_DEFAULT),
+                ':role' => $role,
+                ':family_id' => $family_id,
+                ':id' => $id
+            ];
+        } else {
+            $sql = "
+            UPDATE users
+            SET username = :username,
+                email = :email,
+                role = :role,
+                family_id = :family_id
+            WHERE id = :id
+        ";
+            $params = [
+                ':username' => $username,
+                ':email' => $email,
+                ':role' => $role,
+                ':family_id' => $family_id,
+                ':id' => $id
+            ];
+        }
+
+        return $this->db->execute($sql, $params);
+    }
+
+    /**
+     * Metoda pomocnicza do konwersji family_id
+     */
+    private function parseFamilyId($family_id)
+    {
+        if ($family_id === null || $family_id === '') {
+            return null;
+        }
+
+        if (is_numeric($family_id)) {
+            return (int)$family_id;
+        }
+
+        return null;
+    }
+
+    /**
+     * Metoda do usuwania użytkownika 
+     */
+    public function deleteUser(int $id)
+    {
+        $sql = "DELETE FROM users WHERE id = :id";
+        return $this->db->execute($sql, [':id' => $id]);
+    }
+
     /**
      * Metoda sprawdzająca czy email istnieje w bazie danych.
      */
@@ -111,7 +197,7 @@ class User
     }
 
     /**
-     * Metoda sprawdzająca czy username istnieje w bazie danych.
+     * Metoda sprawdzająca czy użytkownik o konkretnym username istnieje w bazie danych.
      */
     public function usernameExists(string $username): bool
     {
