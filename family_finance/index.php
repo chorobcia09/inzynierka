@@ -5,6 +5,7 @@ require_once __DIR__ . '/config/smarty.php';
 require_once __DIR__ . '/controllers/AuthController.php';
 require_once __DIR__ . '/controllers/UserController.php';
 require_once __DIR__ . '/controllers/AdminController.php';
+require_once __DIR__ . '/controllers/FamilyController.php';
 
 $action = $_GET['action'] ?? 'login';
 
@@ -52,6 +53,9 @@ switch ($action) {
         break;
     case 'editUser':
         (new AdminController($smarty))->editUser($_GET['id'] ?? null);
+        break;
+    case 'createFamily':
+        (new FamilyController($smarty))->create();
         break;
 
     default:

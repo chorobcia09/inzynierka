@@ -24,6 +24,10 @@
                             • Rodzaj konta: <strong>{$session.account_type}</strong>
                         {/if}
                     </span>
+                    {if isset($session.user_id) && !$session.family_id}
+    <a href="index.php?action=createFamily" class="btn btn-outline-primary btn-sm me-2">Załóż rodzinę</a>
+{/if}
+
                     {if $session.role == 'member'}
                     <a href="index.php?action=users" class="btn btn-outline-primary btn-sm me-2">Członkowie rodziny</a>
                     <a href="index.php?action=userPanel" class="btn btn-outline-primary btn-sm me-2">Panel użytkownika</a>
