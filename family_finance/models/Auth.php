@@ -32,17 +32,39 @@ class Auth
      * Metoda do obsługi rejestracji.
      */
 
-    public function register(string $username, string $email, string $password)
+    public function register(string $username, string $email, string $password, string $UID = null)
     {
         // Sprawdź, czy użytkownik już istnieje
         if ($this->userModel->getUserByEmail($email)) {
             return false;
         }
 
-        // Hasło hash
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        // Jeśli UID nie został przekazany, wygeneruj losowy
+        if (!$UID) {
+            $UID = $this->generateRandomCode(10);
+        }
 
         // Zapisz do bazy
-        return $this->userModel->createUser($username, $email, $hashedPassword);
+        return $this->userModel->createUser(
+            $username,
+            $email,
+            $password,
+            'member',   // rola
+            null,       // family_id
+            $UID
+        );
+    }
+
+    private function generateRandomCode($length = 10)
+    {
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*()-_=+';
+        $charactersLength = strlen($characters);
+        $randomCode = '';
+
+        for ($i = 0; $i < $length; $i++) {
+            $randomCode .= $characters[random_int(0, $charactersLength - 1)];
+        }
+
+        return $randomCode;
     }
 }

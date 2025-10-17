@@ -59,9 +59,9 @@ switch ($action) {
         (new FamilyController($smarty))->create();
         break;
 
-        case 'dashboard':
-    (new DashboardController($smarty))->index();
-    break;
+    case 'dashboard':
+        (new DashboardController($smarty))->index();
+        break;
 
 
     default:

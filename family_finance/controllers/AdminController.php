@@ -21,6 +21,7 @@ class AdminController
     public function index()
     {
         $users = $this->userModel->getAllUsersWithFamily();
+        dump($users);
 
         $this->smarty->assign([
             'users' => $users,
@@ -46,7 +47,7 @@ class AdminController
                     $_POST['email'],
                     $_POST['password'],
                     $_POST['role'],
-                    $_POST['family_id'] ?? null
+                    $_POST['family_id'] ?? null,
                 );
                 header('Location: index.php?action=adminPanel');
 

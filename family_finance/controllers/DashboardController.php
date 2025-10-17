@@ -24,6 +24,10 @@ class DashboardController
             exit;
         }
 
+        header("Cache-Control: no-cache, no-store, must-revalidate");
+        header("Pragma: no-cache");
+        header("Expires: 0");
+
         // Pobierz dodatkowe informacje o rodzinie, jeśli użytkownik do niej należy
         if (!empty($_SESSION['family_id'])) {
             $family = $this->familyModel->getFamilyById($_SESSION['family_id']);
@@ -31,7 +35,7 @@ class DashboardController
                 $_SESSION['family_name'] = $family[0]['family_name'] ?? '';
             }
         }
-
+        dump($_SESSION);
         $this->smarty->assign('session', $_SESSION);
         $this->smarty->display('dashboard.tpl');
     }

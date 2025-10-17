@@ -13,6 +13,7 @@
             <th>ID</th>
             <th>Imię</th>
             <th>Email</th>
+            <th>Rodzaj konta</th>
             <th>Rodzina</th>
             <th>Rola</th>
             <th>Rola w rodzinie</th>
@@ -25,16 +26,18 @@
                 <td>{$user.id}</td>
                 <td>{$user.username}</td>
                 <td>{$user.email}</td>
+                <td>{$user.account_type}</td>
                 <td>{$user.family_name|default:'Brak'}</td>
-                
+
                 <td>{$user.role}</td>
                 <td> {if $user.family_role == 'family_admin'}
-                            <span class="badge bg-success">Administrator rodziny</span>
-                        {elseif $user.family_role == 'family_member'}
-                            <span class="badge bg-primary">Członek rodziny</span>
-                        {else}
-                            <span class="badge bg-secondary">Brak przypisania</span>
-                        {/if}</td>
+                        <span class="badge bg-success">Administrator rodziny</span>
+                    {elseif $user.family_role == 'family_member'}
+                        <span class="badge bg-primary">Członek rodziny</span>
+                    {else}
+                        <span class="badge bg-secondary">Brak przypisania</span>
+                    {/if}
+                </td>
                 <td>
                     <a href="index.php?action=editUser&id={$user.id}" class="btn btn-sm btn-outline-primary">
                         <i class="bi bi-pencil"></i> Edytuj

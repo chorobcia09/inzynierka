@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-17 20:28:09
+/* Smarty version 5.6.0, created on 2025-10-17 21:43:27
   from 'file:admin_panel.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68f28ab94cfec9_89137258',
+  'unifunc' => 'content_68f29c5f9c7959_43093243',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '3109ee7d5a8cde23b272d8861fff9b81f35827c2' => 
     array (
       0 => 'admin_panel.tpl',
-      1 => 1760725687,
+      1 => 1760730206,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_68f28ab94cfec9_89137258 (\Smarty\Template $_smarty_tpl) {
+function content_68f29c5f9c7959_43093243 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -40,6 +40,7 @@ $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_sma
             <th>ID</th>
             <th>Imię</th>
             <th>Email</th>
+            <th>Rodzaj konta</th>
             <th>Rodzina</th>
             <th>Rola</th>
             <th>Rola w rodzinie</th>
@@ -60,18 +61,21 @@ $foreach0DoElse = false;
 </td>
                 <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('user')['email']), ENT_QUOTES, 'UTF-8');?>
 </td>
+                <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('user')['account_type']), ENT_QUOTES, 'UTF-8');?>
+</td>
                 <td><?php echo htmlspecialchars((string) ((($tmp = $_smarty_tpl->getValue('user')['family_name'] ?? null)===null||$tmp==='' ? 'Brak' ?? null : $tmp)), ENT_QUOTES, 'UTF-8');?>
 </td>
-                
+
                 <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('user')['role']), ENT_QUOTES, 'UTF-8');?>
 </td>
                 <td> <?php if ($_smarty_tpl->getValue('user')['family_role'] == 'family_admin') {?>
-                            <span class="badge bg-success">Administrator rodziny</span>
-                        <?php } elseif ($_smarty_tpl->getValue('user')['family_role'] == 'family_member') {?>
-                            <span class="badge bg-primary">Członek rodziny</span>
-                        <?php } else { ?>
-                            <span class="badge bg-secondary">Brak przypisania</span>
-                        <?php }?></td>
+                        <span class="badge bg-success">Administrator rodziny</span>
+                    <?php } elseif ($_smarty_tpl->getValue('user')['family_role'] == 'family_member') {?>
+                        <span class="badge bg-primary">Członek rodziny</span>
+                    <?php } else { ?>
+                        <span class="badge bg-secondary">Brak przypisania</span>
+                    <?php }?>
+                </td>
                 <td>
                     <a href="index.php?action=editUser&id=<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('user')['id']), ENT_QUOTES, 'UTF-8');?>
 " class="btn btn-sm btn-outline-primary">

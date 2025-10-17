@@ -22,7 +22,7 @@ class AuthController
     private function redirectIfLoggedIn()
     {
         if (isset($_SESSION['user_id'])) {
-            header('Location: index.php?action=users');
+            header('Location: index.php?action=dashboard');
             exit;
         }
     }
@@ -61,7 +61,7 @@ class AuthController
             $_SESSION['role'] = $user['role'];
             $_SESSION['account_type'] = $user['account_type'];
             $_SESSION['family_role'] = $user['family_role'];
-            
+
             header('Location: index.php?action=dashboard');
             exit;
         } else {
@@ -115,17 +115,25 @@ class AuthController
         //     return;
         // }
 
-        $result = $this->authModel->register($username, $email, $password);
+        try {
+            $result = $this->authModel->register($username, $email, $password);
+            if ($result) {
+                $user = $this->authModel->login($email, $password);
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['user_name'] = $user['username'];
+                $_SESSION['role'] = $user['role'] ?? 'użytkownik';
+                $_SESSION['email'] = $user['email'];
+                $_SESSION['family_id'] = $user['family_id'] ?? null;
+                $_SESSION['family_role'] = $user['family_role'] ?? null;
+                $_SESSION['account_type'] = $user['account_type'] ?? null;
 
-        if ($result) {
-            $user = $this->authModel->login($email, $password);
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['user_name'] = $user['username'];
-            $_SESSION['role'] = $user['role'] ?? 'użytkownik';
-            header('Location: index.php?action=users');
-            exit;
-        } else {
-            $this->showRegisterForm("Użytkownik o tym emailu już istnieje.");
+                header('Location: index.php?action=dashboard');
+                exit;
+            } else {
+                $this->showRegisterForm("Użytkownik o tym emailu już istnieje.");
+            }
+        } catch (Exception $e) {
+            $this->showRegisterForm($e->getMessage());
         }
     }
 }

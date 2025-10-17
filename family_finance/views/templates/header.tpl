@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{$title|default:"Zarządzanie finansami rodzinnymi"}</title>
+    <title>Zarządzanie finansami rodzinnymi</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
@@ -13,7 +13,7 @@
 <body class="d-flex flex-column min-vh-100">
     <header class="shadow-sm py-3 mb-4" style="background-color: #f8f9fa; font-family: 'Inter', sans-serif;">
         <div class="container d-flex justify-content-between align-items-center">
-            <h1 class="h4 m-0 fw-bold text-primary">Zarządzanie finansami rodzinnymi</h1>
+            <h1 class="h4 m-0 fw-bold text-primary"><a href="index.php?action=dashboard" style="text-decoration: none;">Zarządzanie finansami rodzinnymi</a></h1>
             <nav class="d-flex align-items-center">
                 {if isset($session.user_id)}
                     {if $session.role == 'admin'}
@@ -24,7 +24,7 @@
                     {else}
                         <span class="me-3 text-dark">
                             Witaj! <strong>{$session.user_name}</strong>
-                            
+
                         </span>
 
                         {if !$session.family_id}
@@ -33,8 +33,9 @@
 
                         {if isset($session.family_id)}
                             <a href="index.php?action=users" class="btn btn-outline-primary btn-sm me-2">Członkowie rodziny</a>
-                            <a href="index.php?action=userPanel" class="btn btn-outline-primary btn-sm me-2">Panel użytkownika</a>
+                            
                         {/if}
+                        <a href="index.php?action=userPanel" class="btn btn-outline-primary btn-sm me-2">Panel użytkownika</a>
 
                         <a href="index.php?action=logout" class="btn btn-primary btn-sm text-white">Wyloguj</a>
                     {/if}

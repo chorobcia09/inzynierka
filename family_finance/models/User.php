@@ -35,22 +35,6 @@ class User
     }
 
     /**
-     * Metoda zwracająca wszystkich użytkowników po ID RODZINY z bazy danych.
-     */
-    public function getUsersByFamily(?int $family_id)
-    {
-        if ($family_id === null) {
-            // Pobiera użytkowników bez przypisanej rodziny
-            $sql = "SELECT * FROM users WHERE family_id IS NULL";
-            return $this->db->select($sql);
-        }
-
-        $sql = "SELECT * FROM users WHERE family_id = :family_id";
-        return $this->db->select($sql, [':family_id' => $family_id]);
-    }
-
-
-    /**
      * Metoda zwracająca wszystkich użytkowników po adresie email z bazy danych.
      */
     public function getUserByEmail(string $email)
@@ -73,7 +57,7 @@ class User
     /**
      * Metoda dodająca użytkownika do bazy danych.
      */
-    public function createUser(string $username, string $email, string $password, string $role, ?int $family_id = null)
+    public function createUser(string $username, string $email, string $password, string $role, ?int $family_id = null, string $UID)
     {
         // sprawdzenie czy email jest w bazie 
         if ($this->emailExists($email)) {
@@ -84,15 +68,16 @@ class User
             throw new Exception("Podana nazwa użytkownika już istnieje w systemie!");
         }
 
-        $sql = "INSERT INTO users (username, email, password, role, family_id) 
-            VALUES (:username, :email, :password, :role, :family_id)";
+        $sql = "INSERT INTO users (username, email, password, role, family_id, UID) 
+            VALUES (:username, :email, :password, :role, :family_id, :UID)";
 
         return $this->db->execute($sql, [
             ':username' => $username,
             ':email' => $email,
             ':password' => password_hash($password, PASSWORD_DEFAULT),
             ':role' => $role,
-            ':family_id' => $family_id
+            ':family_id' => $family_id,
+            ':UID' => $UID
         ]);
     }
 
@@ -216,6 +201,7 @@ class User
             u.id,
             u.username,
             u.email,
+            u.account_type,
             u.role,
             u.family_id,
             f.family_name,
@@ -247,6 +233,27 @@ class User
         }
 
         return $this->db->select($sql, $params);
+    }
+
+    public function getInfoAboutFamiliesWithUserByUserId(int $id)
+    {
+        $sql = "
+        SELECT 
+            u.id,
+            u.username,
+            u.email,
+            u.role,
+            u.account_type,
+            u.family_id,
+            f.family_name,
+            u.family_role
+        FROM users u
+        LEFT JOIN families f ON u.family_id = f.id
+        WHERE u.id = :id
+    ";
+        return $this->db->select($sql, [
+            ':id' => $id
+        ]);
     }
 
     

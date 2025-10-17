@@ -48,9 +48,8 @@ class UserController
             exit;
         }
 
-        $user = $this->userModel->getUsersById($_SESSION['user_id']);
-        // dump($user);
-        $this->smarty->assign('user', $user[0]); // zakładam, że getUsersById zwraca tablicę
+        $user = $this->userModel->getInfoAboutFamiliesWithUserByUserId($_SESSION['user_id']);
+        $this->smarty->assign('user', $user[0]);
         $this->smarty->assign('session', $_SESSION);
         $this->smarty->display('panel.tpl');
     }
