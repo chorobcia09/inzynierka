@@ -54,4 +54,5 @@ class UserController
         $this->smarty->assign('session', $_SESSION);
         $this->smarty->display('panel.tpl');
     }
+    
 }
