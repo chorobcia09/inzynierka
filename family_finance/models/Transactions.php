@@ -11,7 +11,7 @@ class Transactions
     }
 
     public function addTransaction(
-        int $family_id,
+        ?int $family_id,
         int $user_id,
         int $category_id = null,
         int $local_category_id = null,

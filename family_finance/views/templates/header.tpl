@@ -35,7 +35,7 @@
                         {if !$session.family_id}
                             <a href="index.php?action=createFamily" class="btn btn-outline-primary btn-sm me-2">Załóż rodzinę</a>
                         {/if}
-                        {if isset($session.family_id)}
+                        {* {if isset($session.family_id)} *}
                             <div class="dropdown me-2">
                                 <button class="btn btn-outline-success btn-sm dropdown-toggle" type="button"
                                     id="transactionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -54,7 +54,7 @@
                                     </li>
                                 </ul>
                             </div>
-                        {/if}
+                        {* {/if} *}
 
 
                         {if isset($session.family_id)}

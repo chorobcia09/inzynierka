@@ -51,7 +51,7 @@ class TransactionController
             $is_recurring = isset($_POST['is_recurring']) ? 1 : 0;
 
             $errors = [];
-            if (!$family_id) $errors[] = 'Brak rodziny';
+
             if (!$type || !in_array($type, ['expense', 'income'])) $errors[] = 'Nieprawidłowy typ';
             if (!$amount || !is_numeric($amount) || $amount <= 0) $errors[] = 'Nieprawidłowa kwota';
 

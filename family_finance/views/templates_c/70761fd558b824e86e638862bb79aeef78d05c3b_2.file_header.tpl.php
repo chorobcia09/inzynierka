@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-18 17:09:30
+/* Smarty version 5.6.0, created on 2025-10-18 17:34:00
   from 'file:header.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68f3adaaa03a78_49909723',
+  'unifunc' => 'content_68f3b3688d8637_19440927',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '70761fd558b824e86e638862bb79aeef78d05c3b' => 
     array (
       0 => 'header.tpl',
-      1 => 1760800117,
+      1 => 1760801639,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_68f3adaaa03a78_49909723 (\Smarty\Template $_smarty_tpl) {
+function content_68f3b3688d8637_19440927 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 ?><!DOCTYPE html>
 <html lang="pl">
@@ -64,8 +64,7 @@ $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\vi
                         <?php if (!$_smarty_tpl->getValue('session')['family_id']) {?>
                             <a href="index.php?action=createFamily" class="btn btn-outline-primary btn-sm me-2">Załóż rodzinę</a>
                         <?php }?>
-                        <?php if ((true && (true && null !== ($_smarty_tpl->getValue('session')['family_id'] ?? null)))) {?>
-                            <div class="dropdown me-2">
+                                                    <div class="dropdown me-2">
                                 <button class="btn btn-outline-success btn-sm dropdown-toggle" type="button"
                                     id="transactionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="bi bi-cash-stack"></i> Transakcje
@@ -83,8 +82,7 @@ $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\vi
                                     </li>
                                 </ul>
                             </div>
-                        <?php }?>
-
+                        
 
                         <?php if ((true && (true && null !== ($_smarty_tpl->getValue('session')['family_id'] ?? null)))) {?>
                             <div class="dropdown me-2">
