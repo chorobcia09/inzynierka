@@ -31,10 +31,16 @@ class UserController
             $users = $this->userModel->getUsersByFamilyId($_SESSION['family_id'] ?? null);
         }
 
+        // $findUser = $this->userModel->findUser('oQA&VD#rz5');
+        // $this->userModel->addUserToFamily($_SESSION['family_id'], 'oQA&VD#rz5');
+        // dump($_SESSION);
+
         $this->smarty->assign([
             'users' => $users,
             'session' => $_SESSION
         ]);
+
+        
         $this->smarty->display('users.tpl');
     }
 

@@ -58,6 +58,9 @@ switch ($action) {
     case 'createFamily':
         (new FamilyController($smarty))->create();
         break;
+    case 'addUserToFamily':
+        (new FamilyController($smarty))->addUser();
+        break;
 
     case 'dashboard':
         (new DashboardController($smarty))->index();

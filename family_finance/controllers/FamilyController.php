@@ -82,4 +82,56 @@ class FamilyController
 
         $this->smarty->display('create_family.tpl');
     }
+
+    public function addUser()
+    {
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: index.php?action=login');
+            exit;
+        }
+
+        // Jeśli użytkownik nie ma przypisanej rodziny — blokujemy dostęp
+        if (empty($_SESSION['family_id'])) {
+            $this->smarty->assign('error', 'Nie jesteś przypisany do żadnej rodziny.');
+            $this->smarty->display('error.tpl');
+            return;
+        }
+
+        // Obsługa formularza (POST)
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $UID = trim($_POST['UID'] ?? '');
+
+            if (empty($UID)) {
+                $this->smarty->assign('error', 'Wprowadź kod UID użytkownika.');
+                
+                $this->smarty->display('add_user_to_family.tpl');
+                return;
+            }
+
+            try {
+                // Próba dodania użytkownika do rodziny
+                $this->familyModel->addUserToFamily($_SESSION['family_id'], $UID);
+
+                // Sukces — przekierowanie lub komunikat
+                $this->smarty->assign('success', 'Użytkownik został pomyślnie dodany do rodziny!');
+                $this->smarty->assign([
+            'session' => $_SESSION
+        ]);
+                $this->smarty->display('add_user_to_family.tpl');
+            } catch (Exception $e) {
+                $this->smarty->assign('error', $e->getMessage());
+                $this->smarty->assign([
+            'session' => $_SESSION
+        ]);
+                $this->smarty->display('add_user_to_family.tpl');
+            }
+        } else {
+            $this->smarty->assign([
+            'session' => $_SESSION
+        ]);
+            $this->smarty->display('add_user_to_family.tpl');
+            
+        }
+        
+    }
 }

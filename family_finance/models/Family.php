@@ -53,4 +53,40 @@ class Family
             ':id' => $userId
         ]);
     }
+
+    /**
+     * Metoda sprawdzająca czy użytkownik o podanym UID istenieje i czy jest w rodzinie - POMOCNICZA
+     */
+    public function findUser(string $UID)
+    {
+        $sql = "
+        select COUNT(*) as count 
+        from users where UID = :UID AND (family_id IS NULL)
+        ";
+        $result = $this->db->select($sql, [
+            ':UID' => $UID
+        ]);
+        return !empty($result) && $result[0]['count'] > 0;
+    }
+
+    public function addUserToFamily(int $family_id, string $UID)
+    {
+        $findUser = $this->findUser($UID);
+
+        if (!$findUser) {
+            throw new Exception("Użytkownik o podanym UID nie istnieje lub już należy do rodziny!");
+        }
+
+        $sql = "
+        UPDATE users
+        SET family_id = :family_id,
+            family_role = 'family_member'
+        WHERE id = (SELECT id from users WHERE UID = :UID)
+        ";
+
+        return $this->db->execute($sql, [
+            ':family_id' => $family_id,
+            ':UID' => $UID
+        ]);
+    }
 }
