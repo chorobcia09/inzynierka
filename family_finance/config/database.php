@@ -52,8 +52,11 @@ class Database
         return $stmt->execute($params);
     }
 
-    public function lastInsertId() {
-    return $this->pdo->lastInsertId();
-}
-
+    /** 
+     * Zwrócenie ostatniego dodanego id z bazy danych 
+     */
+    public function lastInsertId()
+    {
+        return $this->pdo->lastInsertId();
+    }
 }
