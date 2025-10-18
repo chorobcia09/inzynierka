@@ -56,4 +56,23 @@ class Transactions
             return false;
         }
     }
+
+    public function addTransactionItem(int $transaction_id, int $category_id, string $name, float $amount, int $quantity = 1)
+    {
+        $sql = "INSERT INTO transaction_items (transaction_id, category_id, name, amount, quantity)
+            VALUES (:transaction_id, :category_id, :name, :amount, :quantity)";
+        try {
+            $this->db->execute($sql, [
+                ':transaction_id' => $transaction_id,
+                ':category_id' => $category_id,
+                ':name' => $name,
+                ':amount' => $amount,
+                ':quantity' => $quantity
+            ]);
+            return true;
+        } catch (PDOException $e) {
+            error_log("DB error (addTransactionItem): " . $e->getMessage());
+            return false;
+        }
+    }
 }

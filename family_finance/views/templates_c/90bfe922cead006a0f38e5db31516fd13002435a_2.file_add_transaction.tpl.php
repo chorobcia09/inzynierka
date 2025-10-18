@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-18 17:57:25
+/* Smarty version 5.6.0, created on 2025-10-18 19:51:37
   from 'file:add_transaction.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68f3b8e5ea80a1_54673320',
+  'unifunc' => 'content_68f3d3a91e1990_48965893',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '90bfe922cead006a0f38e5db31516fd13002435a' => 
     array (
       0 => 'add_transaction.tpl',
-      1 => 1760802908,
+      1 => 1760809895,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_68f3b8e5ea80a1_54673320 (\Smarty\Template $_smarty_tpl) {
+function content_68f3d3a91e1990_48965893 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -52,12 +52,10 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
     </div>
 <?php }?>
 
-
 <form action="index.php?action=addTransaction" method="POST" class="p-4 bg-light rounded shadow-sm"
     id="transactionForm">
     <h4 class="mb-4">Dodaj nową transakcję</h4>
 
-    <!-- Typ transakcji -->
     <div class="mb-3">
         <label class="form-label">Typ transakcji:</label>
         <div>
@@ -72,10 +70,91 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         </div>
     </div>
 
-    <!-- Kwota -->
+
+    <div class="mb-3">
+        <label for="category_id" class="form-label">Kategoria główna:</label>
+        <select class="form-select select2" id="category_id" name="category_id" required>
+            <option value="">Wybierz kategorię...</option>
+            <?php
+$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('categories'), 'category');
+$foreach1DoElse = true;
+foreach ($_from ?? [] as $_smarty_tpl->getVariable('category')->value) {
+$foreach1DoElse = false;
+?>
+                <?php if ($_smarty_tpl->getValue('category')['parent_id'] == null) {?>
+                    <option value="<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('category')['id']), ENT_QUOTES, 'UTF-8');?>
+"><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('category')['name']), ENT_QUOTES, 'UTF-8');?>
+</option>
+                    <?php
+$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('categories'), 'sub');
+$foreach2DoElse = true;
+foreach ($_from ?? [] as $_smarty_tpl->getVariable('sub')->value) {
+$foreach2DoElse = false;
+?>
+                        <?php if ($_smarty_tpl->getValue('sub')['parent_id'] == $_smarty_tpl->getValue('category')['id']) {?>
+                            <option value="<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('sub')['id']), ENT_QUOTES, 'UTF-8');?>
+">&nbsp;&nbsp;– <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('sub')['name']), ENT_QUOTES, 'UTF-8');?>
+</option>
+                        <?php }?>
+                    <?php
+}
+$_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
+                <?php }?>
+            <?php
+}
+$_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
+        </select>
+        <div class="form-text">
+            Nie znalazłeś kategorii? <a href="#" id="addCategoryLink">Dodaj nową kategorię</a>.
+        </div>
+    </div>
+
+
+    <h5 class="mt-4">Pozycje transakcji:</h5>
+    <table class="table table-bordered" id="transactionItems">
+        <thead>
+            <tr>
+                <th>Nazwa</th>
+                <th>Ilość</th>
+                <th>Cena</th>
+                <th>Usuń</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><input type="text" name="items[0][name]" class="form-control" required></td>
+                <td><input type="number" name="items[0][quantity]" class="form-control itemQuantity" value="1" min="1">
+                </td>
+                <td><input type="number" step="0.01" name="items[0][amount]" class="form-control itemAmount" required>
+                </td>
+                <td><button type="button" class="btn btn-danger btn-sm removeRow">X</button></td>
+            </tr>
+        </tbody>
+    </table>
+    <button type="button" id="addRow" class="btn btn-secondary mb-3">Dodaj pozycję</button>
+    <div class="mb-3">
+        <strong>Suma: </strong> <span id="totalAmount">0.00</span>
+    </div>
+
+    <div class="mb-3">
+        <label for="description" class="form-label">Opis (opcjonalny):</label>
+        <input type="text" class="form-control" id="description" name="description" maxlength="255"
+            placeholder="np. Zakupy w Lidlu">
+    </div>
+
+    <div class="mb-3">
+        <label for="transaction_date" class="form-label">Data transakcji:</label>
+        <input type="datetime-local" class="form-control" id="transaction_date" name="transaction_date" required>
+    </div>
+
+    <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="is_recurring" name="is_recurring" value="1">
+        <label class="form-check-label" for="is_recurring">Oznacz jako transakcję cykliczną</label>
+    </div>
+
     <div class="row mb-3">
         <div class="col-md-6">
-            <label for="amount" class="form-label">Kwota:</label>
+            <label for="amount" class="form-label">Kwota całkowita:</label>
             <input type="number" step="0.01" min="0" class="form-control" id="amount" name="amount" required>
         </div>
         <div class="col-md-6">
@@ -91,7 +170,6 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         </div>
     </div>
 
-    <!-- Forma płatności -->
     <div class="mb-3">
         <label for="payment_method" class="form-label">Forma płatności:</label>
         <select class="form-select" id="payment_method" name="payment_method" required>
@@ -102,43 +180,6 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         </select>
     </div>
 
-    <!-- Kategoria -->
-    <div class="mb-3">
-        <label for="category_id" class="form-label">Kategoria:</label>
-        <select class="form-select select2" id="category_id" name="category_id" required>
-            <option value="">Wybierz kategorię...</option>
-            <option value="1">Owoce i warzywa</option>
-            <option value="2">Słodycze</option>
-            <option value="3">Paliwo</option>
-            <option value="4">Bilety komunikacji</option>
-            <option value="5">Kino</option>
-            <option value="6">Gry komputerowe</option>
-        </select>
-        <div class="form-text">
-            Nie znalazłeś kategorii? <a href="#" id="addCategoryLink">Dodaj nową kategorię</a>.
-        </div>
-    </div>
-
-    <!-- Opis -->
-    <div class="mb-3">
-        <label for="description" class="form-label">Opis (opcjonalny):</label>
-        <input type="text" class="form-control" id="description" name="description" maxlength="255"
-            placeholder="np. Zakupy w Lidlu">
-    </div>
-
-    <!-- Data transakcji -->
-    <div class="mb-3">
-        <label for="transaction_date" class="form-label">Data transakcji:</label>
-        <input type="datetime-local" class="form-control" id="transaction_date" name="transaction_date" required>
-    </div>
-
-    <!-- Cykliczność -->
-    <div class="mb-3 form-check">
-        <input type="checkbox" class="form-check-input" id="is_recurring" name="is_recurring" value="1">
-        <label class="form-check-label" for="is_recurring">Oznacz jako transakcję cykliczną</label>
-    </div>
-
-    <!-- Przycisk -->
     <div class="d-flex justify-content-end">
         <button type="submit" class="btn btn-primary">Zapisz transakcję</button>
     </div>
@@ -146,14 +187,68 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 
 <?php echo '<script'; ?>
 >
+    let rowIndex = 1;
+
+    // Funkcja do aktualizacji całkowitej kwoty
+    function updateTotal() {
+        let total = 0;
+        $('#transactionItems tbody tr').each(function() {
+            let qty = parseFloat($(this).find('.itemQuantity').val()) || 0;
+            let amount = parseFloat($(this).find('.itemAmount').val()) || 0;
+            total += qty * amount;
+        });
+        $('#totalAmount').text(total.toFixed(2));
+    }
+
     $(document).ready(function() {
+        // Select2 dla kategorii
         $('#category_id').select2({
             placeholder: "Wybierz kategorię",
             allowClear: true
         });
+
+        $('input[name="type"]').change(function() {
+            let type = $(this).val();
+            if (type === 'income') {
+                $('#transactionItems').removeClass('table-danger').addClass('table-success');
+            } else {
+                $('#transactionItems').removeClass('table-success').addClass('table-danger');
+            }
+        });
+
+        // Dodawanie nowego wiersza
+        $('#addRow').click(function() {
+            let newRow = '<tr>' +
+                '<td><input type="text" name="items[' + rowIndex +
+                '][name]" class="form-control" required></td>' +
+                '<td><input type="number" name="items[' + rowIndex +
+                '][quantity]" class="form-control itemQuantity" value="1" min="1"></td>' +
+                '<td><input type="number" step="0.01" name="items[' + rowIndex +
+                '][amount]" class="form-control itemAmount" required></td>' +
+                '<td><button type="button" class="btn btn-danger btn-sm removeRow">X</button></td>' +
+                '</tr>';
+            $('#transactionItems tbody').append(newRow);
+            rowIndex++;
+            updateTotal();
+        });
+
+        // Usuwanie wiersza
+        $(document).on('click', '.removeRow', function() {
+            $(this).closest('tr').remove();
+            updateTotal();
+        });
+
+        // Aktualizacja całkowitej kwoty przy zmianie wartości
+        $(document).on('input', '.itemQuantity, .itemAmount', function() {
+            updateTotal();
+        });
+
+        // Początkowe wyliczenie
+        updateTotal();
     });
 <?php echo '</script'; ?>
 >
+
 <?php $_smarty_tpl->renderSubTemplate('file:footer.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 }
 }

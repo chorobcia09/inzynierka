@@ -5,6 +5,7 @@ require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/Transactions.php';
 require_once __DIR__ . '/../models/User.php';
 require_once __DIR__ . '/../models/Family.php';
+require_once __DIR__ . '/../models/Categories.php';
 
 class TransactionController
 {
@@ -12,6 +13,7 @@ class TransactionController
     private $transactionModel;
     private $userModel;
     private $familyModel;
+    private $categoriesModel;
 
     public function __construct($smarty)
     {
@@ -20,6 +22,7 @@ class TransactionController
         $this->transactionModel = new Transactions($db);
         $this->userModel = new User($db);
         $this->familyModel = new Family($db);
+        $this->categoriesModel = new Categories($db);
     }
 
     public function index()
@@ -36,6 +39,9 @@ class TransactionController
             header('Location: index.php?action=login');
             exit;
         }
+
+        $categories = $this->categoriesModel->getAllCategories();
+
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $family_id = $_SESSION['family_id'] ?? null;
@@ -55,6 +61,7 @@ class TransactionController
             if (!$type || !in_array($type, ['expense', 'income'])) $errors[] = 'Nieprawidłowy typ';
             if (!$amount || !is_numeric($amount) || $amount <= 0) $errors[] = 'Nieprawidłowa kwota';
 
+
             if (!empty($errors)) {
                 $this->smarty->assign('errors', $errors);
                 $this->smarty->assign('old', $_POST);
@@ -63,6 +70,7 @@ class TransactionController
                 return;
             }
 
+            // DODANIE TRANSAKCJI GLOWNEJ
             $res = $this->transactionModel->addTransaction(
                 $family_id,
                 $user_id,
@@ -77,7 +85,20 @@ class TransactionController
                 $is_recurring
             );
 
-
+            // DODANIE ELEMENTU TRANSAKCJI
+            if ($res && !empty($_POST['items'])) {
+                foreach ($_POST['items'] as $item) {
+                    if (!empty($item['name']) && !empty($item['amount'])) {
+                        $this->transactionModel->addTransactionItem(
+                            $res,
+                            $category_id,
+                            $item['name'],
+                            (float)$item['amount'],
+                            (int)($item['quantity'] ?? 1)
+                        );
+                    }
+                }
+            }
 
             if ($res) {
                 $this->smarty->assign('success', 'Transakcja dodana pomyślnie!');
@@ -90,8 +111,9 @@ class TransactionController
             $this->smarty->display('add_transaction.tpl');
             return;
         } else {
-            // --- obsługa GET, wyświetlenie formularza ---
+            // GET wyswietlenie formularza
             $this->smarty->assign('session', $_SESSION);
+            $this->smarty->assign('categories', $categories);
             $this->smarty->display('add_transaction.tpl');
             return;
         }
