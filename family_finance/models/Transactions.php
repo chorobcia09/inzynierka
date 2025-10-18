@@ -10,6 +10,50 @@ class Transactions
         $this->db = new Database();
     }
 
+    public function addTransaction(
+        int $family_id,
+        int $user_id,
+        int $category_id = null,
+        int $local_category_id = null,
+        string $type,
+        float $amount,
+        string $currency,
+        string $payment_method,
+        string $description,
+        string $transaction_date,
+        int $is_recurring = 0
+    ) {
+        $sql = "
+        INSERT INTO transactions (
+            family_id, user_id, category_id, local_category_id,
+            type, amount, currency, payment_method,
+            description, transaction_date, is_recurring
+        ) VALUES (
+            :family_id, :user_id, :category_id, :local_category_id,
+            :type, :amount, :currency, :payment_method,
+            :description, :transaction_date, :is_recurring
+        )
+    ";
 
+        try {
+            $this->db->execute($sql, [
+                ':family_id' => $family_id,
+                ':user_id' => $user_id,
+                ':category_id' => $category_id,
+                ':local_category_id' => $local_category_id,
+                ':type' => $type,
+                ':amount' => $amount,
+                ':currency' => $currency,
+                ':payment_method' => $payment_method,
+                ':description' => $description,
+                ':transaction_date' => $transaction_date,
+                ':is_recurring' => $is_recurring,
+            ]);
 
+            return $this->db->lastInsertId();
+        } catch (PDOException $e) {
+            error_log("DB error (addTransaction): " . $e->getMessage());
+            return false;
+        }
+    }
 }

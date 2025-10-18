@@ -1,6 +1,24 @@
 {include file='header.tpl'}
 
-<form action="add_transaction.php" method="POST" class="p-4 bg-light rounded shadow-sm" id="transactionForm">
+{if isset($success)}
+    <div class="alert alert-success">
+        {$success}
+    </div>
+{/if}
+
+{if isset($errors) && $errors|@count > 0}
+    <div class="alert alert-danger">
+        <ul>
+            {foreach $errors as $error}
+                <li>{$error}</li>
+            {/foreach}
+        </ul>
+    </div>
+{/if}
+
+
+<form action="index.php?action=addTransaction" method="POST" class="p-4 bg-light rounded shadow-sm"
+    id="transactionForm">
     <h4 class="mb-4">Dodaj nową transakcję</h4>
 
     <!-- Typ transakcji -->
@@ -51,20 +69,14 @@
     <!-- Kategoria -->
     <div class="mb-3">
         <label for="category_id" class="form-label">Kategoria:</label>
-        <select class="form-select" id="category_id" name="category_id" required>
+        <select class="form-select select2" id="category_id" name="category_id" required>
             <option value="">Wybierz kategorię...</option>
-            <optgroup label="Żywność">
-                <option value="1">Owoce i warzywa</option>
-                <option value="2">Słodycze</option>
-            </optgroup>
-            <optgroup label="Transport">
-                <option value="3">Paliwo</option>
-                <option value="4">Bilety komunikacji</option>
-            </optgroup>
-            <optgroup label="Rozrywka">
-                <option value="5">Kino</option>
-                <option value="6">Gry komputerowe</option>
-            </optgroup>
+            <option value="1">Owoce i warzywa</option>
+            <option value="2">Słodycze</option>
+            <option value="3">Paliwo</option>
+            <option value="4">Bilety komunikacji</option>
+            <option value="5">Kino</option>
+            <option value="6">Gry komputerowe</option>
         </select>
         <div class="form-text">
             Nie znalazłeś kategorii? <a href="#" id="addCategoryLink">Dodaj nową kategorię</a>.
@@ -92,9 +104,16 @@
 
     <!-- Przycisk -->
     <div class="d-flex justify-content-end">
-        <button type="submit" class="btn btn-primary">💾 Zapisz transakcję</button>
+        <button type="submit" class="btn btn-primary">Zapisz transakcję</button>
     </div>
 </form>
 
-
+<script>
+    $(document).ready(function() {
+        $('#category_id').select2({
+            placeholder: "Wybierz kategorię",
+            allowClear: true
+        });
+    });
+</script>
 {include file='footer.tpl'}

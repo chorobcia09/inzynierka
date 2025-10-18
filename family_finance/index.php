@@ -79,7 +79,7 @@ switch ($action) {
 
     // ------------------------------DASHBOARDCONTROLLER------------------------------
     case 'addTransaction':
-        (new TransactionController($smarty))->index();
+        (new TransactionController($smarty))->addTransaction();
         break;
 
     default:

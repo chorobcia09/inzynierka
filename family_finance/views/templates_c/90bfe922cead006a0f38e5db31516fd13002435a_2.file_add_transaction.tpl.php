@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-18 16:15:55
+/* Smarty version 5.6.0, created on 2025-10-18 17:29:26
   from 'file:add_transaction.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68f3a11bbcbdc5_81865112',
+  'unifunc' => 'content_68f3b256dc4ef0_40781271',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '90bfe922cead006a0f38e5db31516fd13002435a' => 
     array (
       0 => 'add_transaction.tpl',
-      1 => 1760796719,
+      1 => 1760801329,
       2 => 'file',
     ),
   ),
@@ -22,12 +22,39 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_68f3a11bbcbdc5_81865112 (\Smarty\Template $_smarty_tpl) {
+function content_68f3b256dc4ef0_40781271 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
 
-<form action="add_transaction.php" method="POST" class="p-4 bg-light rounded shadow-sm" id="transactionForm">
+<?php if ((true && ($_smarty_tpl->hasVariable('success') && null !== ($_smarty_tpl->getValue('success') ?? null)))) {?>
+    <div class="alert alert-success">
+        <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('success')), ENT_QUOTES, 'UTF-8');?>
+
+    </div>
+<?php }?>
+
+<?php if ((true && ($_smarty_tpl->hasVariable('errors') && null !== ($_smarty_tpl->getValue('errors') ?? null))) && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('errors')) > 0) {?>
+    <div class="alert alert-danger">
+        <ul>
+            <?php
+$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('errors'), 'error');
+$foreach0DoElse = true;
+foreach ($_from ?? [] as $_smarty_tpl->getVariable('error')->value) {
+$foreach0DoElse = false;
+?>
+                <li><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('error')), ENT_QUOTES, 'UTF-8');?>
+</li>
+            <?php
+}
+$_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
+        </ul>
+    </div>
+<?php }?>
+
+
+<form action="index.php?action=addTransaction" method="POST" class="p-4 bg-light rounded shadow-sm"
+    id="transactionForm">
     <h4 class="mb-4">Dodaj nową transakcję</h4>
 
     <!-- Typ transakcji -->
@@ -78,20 +105,14 @@ $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_sma
     <!-- Kategoria -->
     <div class="mb-3">
         <label for="category_id" class="form-label">Kategoria:</label>
-        <select class="form-select" id="category_id" name="category_id" required>
+        <select class="form-select select2" id="category_id" name="category_id" required>
             <option value="">Wybierz kategorię...</option>
-            <optgroup label="Żywność">
-                <option value="1">Owoce i warzywa</option>
-                <option value="2">Słodycze</option>
-            </optgroup>
-            <optgroup label="Transport">
-                <option value="3">Paliwo</option>
-                <option value="4">Bilety komunikacji</option>
-            </optgroup>
-            <optgroup label="Rozrywka">
-                <option value="5">Kino</option>
-                <option value="6">Gry komputerowe</option>
-            </optgroup>
+            <option value="1">Owoce i warzywa</option>
+            <option value="2">Słodycze</option>
+            <option value="3">Paliwo</option>
+            <option value="4">Bilety komunikacji</option>
+            <option value="5">Kino</option>
+            <option value="6">Gry komputerowe</option>
         </select>
         <div class="form-text">
             Nie znalazłeś kategorii? <a href="#" id="addCategoryLink">Dodaj nową kategorię</a>.
@@ -119,11 +140,20 @@ $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_sma
 
     <!-- Przycisk -->
     <div class="d-flex justify-content-end">
-        <button type="submit" class="btn btn-primary">💾 Zapisz transakcję</button>
+        <button type="submit" class="btn btn-primary">Zapisz transakcję</button>
     </div>
 </form>
 
-
+<?php echo '<script'; ?>
+>
+    $(document).ready(function() {
+        $('#category_id').select2({
+            placeholder: "Wybierz kategorię",
+            allowClear: true
+        });
+    });
+<?php echo '</script'; ?>
+>
 <?php $_smarty_tpl->renderSubTemplate('file:footer.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 }
 }
