@@ -4,8 +4,8 @@
     <h2 class="mb-4 fw-bold text-primary">Lista członków rodziny</h2>
 
     <a href="index.php?action=addUserToFamily" class="btn btn-success mb-3">
-    <i class="bi bi-person-plus"></i> Dodaj członka rodziny
-</a>
+        <i class="bi bi-person-plus"></i> Dodaj członka rodziny
+    </a>
 
     {if $users|@count > 0}
         <div class="table-responsive shadow rounded">
@@ -16,6 +16,9 @@
                         <th>Email</th>
                         <th>Rodzina</th>
                         <th>Rola w rodzinie</th>
+                        {if $session.family_role == 'family_admin'}
+                            <th>Akcje</th>
+                        {/if}
                     </tr>
                 </thead>
                 <tbody>
@@ -33,6 +36,16 @@
                                     <span class="badge bg-secondary">Brak przypisania</span>
                                 {/if}
                             </td>
+                            {if $session.family_role == 'family_admin'}
+
+                                <td>
+                                    <a href="index.php?action=deleteUserFromFamily&id={$user.id}"
+                                        class="btn btn-sm btn-outline-danger"
+                                        onclick="return confirm('Czy na pewno chcesz usunąć tego użytkownika?');">
+                                        <i class="bi bi-trash"></i> Usuń członka rodziny</a>
+
+                                </td>
+                            {/if}
                         </tr>
                     {/foreach}
                 </tbody>

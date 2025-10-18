@@ -89,4 +89,18 @@ class Family
             ':UID' => $UID
         ]);
     }
+
+    public function deleteUserFromFamily(int $id)
+    {
+        $sql = "
+        UPDATE users
+        SET family_id = NULL,
+            family_role = NULL
+        WHERE id = :id
+        ";
+
+        return $this->db->execute($sql, [
+            ':id' => $id
+        ]);
+    }
 }

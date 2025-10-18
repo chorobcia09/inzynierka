@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-18 11:33:57
+/* Smarty version 5.6.0, created on 2025-10-18 13:54:40
   from 'file:users.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68f35f052996e2_74297176',
+  'unifunc' => 'content_68f38000018942_56080509',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'eb4b948c230150206911e6e298893c862bfe2858' => 
     array (
       0 => 'users.tpl',
-      1 => 1760780036,
+      1 => 1760788445,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_68f35f052996e2_74297176 (\Smarty\Template $_smarty_tpl) {
+function content_68f38000018942_56080509 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -31,8 +31,8 @@ $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_sma
     <h2 class="mb-4 fw-bold text-primary">Lista członków rodziny</h2>
 
     <a href="index.php?action=addUserToFamily" class="btn btn-success mb-3">
-    <i class="bi bi-person-plus"></i> Dodaj członka rodziny
-</a>
+        <i class="bi bi-person-plus"></i> Dodaj członka rodziny
+    </a>
 
     <?php if ($_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('users')) > 0) {?>
         <div class="table-responsive shadow rounded">
@@ -43,6 +43,9 @@ $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_sma
                         <th>Email</th>
                         <th>Rodzina</th>
                         <th>Rola w rodzinie</th>
+                        <?php if ($_smarty_tpl->getValue('session')['family_role'] == 'family_admin') {?>
+                            <th>Akcje</th>
+                        <?php }?>
                     </tr>
                 </thead>
                 <tbody>
@@ -68,6 +71,17 @@ $foreach0DoElse = false;
                                     <span class="badge bg-secondary">Brak przypisania</span>
                                 <?php }?>
                             </td>
+                            <?php if ($_smarty_tpl->getValue('session')['family_role'] == 'family_admin') {?>
+
+                                <td>
+                                    <a href="index.php?action=deleteUserFromFamily&id=<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('user')['id']), ENT_QUOTES, 'UTF-8');?>
+"
+                                        class="btn btn-sm btn-outline-danger"
+                                        onclick="return confirm('Czy na pewno chcesz usunąć tego użytkownika?');">
+                                        <i class="bi bi-trash"></i> Usuń członka rodziny</a>
+
+                                </td>
+                            <?php }?>
                         </tr>
                     <?php
 }

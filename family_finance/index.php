@@ -34,7 +34,7 @@ switch ($action) {
         break;
 
     case 'users':
-        (new UserController($smarty))->index();
+        (new FamilyController($smarty))->index();
         break;
 
     case 'userPanel':
@@ -51,6 +51,9 @@ switch ($action) {
 
     case 'deleteUser':
         (new AdminController($smarty))->deleteUser($_GET['id'] ?? null);
+        break;
+    case 'deleteUserFromFamily':
+        (new FamilyController($smarty))->deleteUser($_GET['id'] ?? null);
         break;
     case 'editUser':
         (new AdminController($smarty))->editUser($_GET['id'] ?? null);

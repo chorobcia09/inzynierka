@@ -15,36 +15,6 @@ class UserController
     }
 
     /**
-     * Metoda wyświetlająca użytkowników.
-     */
-    public function index()
-    {
-        // Blokada dla niezalogowanych użytkowników
-        if (!isset($_SESSION['user_id'])) {
-            header('Location: index.php?action=login');
-            exit;
-        }
-
-        if ($_SESSION['role'] == 'admin') {
-            $users = $this->userModel->getAllUsersWithFamily();
-        } else {
-            $users = $this->userModel->getUsersByFamilyId($_SESSION['family_id'] ?? null);
-        }
-
-        // $findUser = $this->userModel->findUser('oQA&VD#rz5');
-        // $this->userModel->addUserToFamily($_SESSION['family_id'], 'oQA&VD#rz5');
-        // dump($_SESSION);
-
-        $this->smarty->assign([
-            'users' => $users,
-            'session' => $_SESSION
-        ]);
-
-        
-        $this->smarty->display('users.tpl');
-    }
-
-    /**
      * Metoda wyświetlająca panel użytkownika
      */
     public function panel()

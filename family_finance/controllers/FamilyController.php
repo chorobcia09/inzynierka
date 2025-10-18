@@ -37,6 +37,32 @@ class FamilyController
     }
 
     /**
+     * Metoda wyświetlająca użytkowników rodziny.
+     */
+    public function index()
+    {
+        // Blokada dla niezalogowanych użytkowników
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: index.php?action=login');
+            exit;
+        }
+
+        if ($_SESSION['role'] == 'admin') {
+            $users = $this->userModel->getAllUsersWithFamily();
+        } else {
+            $users = $this->userModel->getUsersByFamilyId($_SESSION['family_id'] ?? null);
+        }
+
+        $this->smarty->assign([
+            'users' => $users,
+            'session' => $_SESSION
+        ]);
+
+        // dump($_SESSION);
+        $this->smarty->display('users.tpl');
+    }
+
+    /**
      * Wyświetla formularz tworzenia rodziny
      */
     public function create()
@@ -90,48 +116,61 @@ class FamilyController
             exit;
         }
 
-        // Jeśli użytkownik nie ma przypisanej rodziny — blokujemy dostęp
         if (empty($_SESSION['family_id'])) {
             $this->smarty->assign('error', 'Nie jesteś przypisany do żadnej rodziny.');
             $this->smarty->display('error.tpl');
             return;
         }
 
-        // Obsługa formularza (POST)
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $UID = trim($_POST['UID'] ?? '');
 
             if (empty($UID)) {
                 $this->smarty->assign('error', 'Wprowadź kod UID użytkownika.');
-                
+
                 $this->smarty->display('add_user_to_family.tpl');
                 return;
             }
 
             try {
-                // Próba dodania użytkownika do rodziny
                 $this->familyModel->addUserToFamily($_SESSION['family_id'], $UID);
 
-                // Sukces — przekierowanie lub komunikat
                 $this->smarty->assign('success', 'Użytkownik został pomyślnie dodany do rodziny!');
                 $this->smarty->assign([
-            'session' => $_SESSION
-        ]);
+                    'session' => $_SESSION
+                ]);
                 $this->smarty->display('add_user_to_family.tpl');
             } catch (Exception $e) {
                 $this->smarty->assign('error', $e->getMessage());
                 $this->smarty->assign([
-            'session' => $_SESSION
-        ]);
+                    'session' => $_SESSION
+                ]);
                 $this->smarty->display('add_user_to_family.tpl');
             }
         } else {
             $this->smarty->assign([
-            'session' => $_SESSION
-        ]);
+                'session' => $_SESSION
+            ]);
             $this->smarty->display('add_user_to_family.tpl');
-            
         }
-        
     }
+
+    public function deleteUser($id)
+    {
+        // Blokada dla niezalogowanych / niez uprawnionych
+        if (!isset($_SESSION['user_id']) || $_SESSION['family_role'] !== 'family_admin') {
+            header('Location: index.php?action=login');
+            exit;
+        }
+
+        $this->familyModel->deleteUserFromFamily($id);
+        header('Location: index.php?action=users');
+        exit;
+
+        
+        $this->smarty->assign([
+                'session' => $_SESSION
+            ]);
+    }
+    
 }
