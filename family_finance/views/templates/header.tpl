@@ -31,11 +31,51 @@
                         {if !$session.family_id}
                             <a href="index.php?action=createFamily" class="btn btn-outline-primary btn-sm me-2">Załóż rodzinę</a>
                         {/if}
+                        {if isset($session.family_id)}
+                            <div class="dropdown me-2">
+                                <button class="btn btn-outline-success btn-sm dropdown-toggle" type="button"
+                                    id="transactionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-cash-stack"></i> Transakcje
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="transactionsDropdown">
+                                    <li>
+                                        <a class="dropdown-item" href="index.php?action=addTransaction">
+                                            <i class="bi bi-plus-circle"></i> Dodaj transakcję
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="index.php?action=manageTransactions">
+                                            <i class="bi bi-wallet2"></i> Zarządzaj transakcjami
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        {/if}
+
 
                         {if isset($session.family_id)}
-                            <a href="index.php?action=usersFamily" class="btn btn-outline-primary btn-sm me-2">Członkowie rodziny</a>
-
+                            <div class="dropdown me-2">
+                                <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" id="familyDropdown"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-people-fill"></i> Rodzina
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="familyDropdown">
+                                    <li>
+                                        <a class="dropdown-item" href="index.php?action=usersFamily">
+                                            <i class="bi bi-people"></i> Członkowie rodziny
+                                        </a>
+                                    </li>
+                                    {if $session.family_role == 'family_admin'}
+                                        <li>
+                                            <a class="dropdown-item" href="index.php?action=addUserToFamily">
+                                                <i class="bi bi-person-plus"></i> Dodaj członka
+                                            </a>
+                                        </li>
+                                    {/if}
+                                </ul>
+                            </div>
                         {/if}
+
                         <a href="index.php?action=userPanel" class="btn btn-outline-primary btn-sm me-2">Panel użytkownika</a>
 
                         <a href="index.php?action=logout" class="btn btn-primary btn-sm text-white">Wyloguj</a>

@@ -7,6 +7,7 @@ require_once __DIR__ . '/controllers/UserController.php';
 require_once __DIR__ . '/controllers/AdminController.php';
 require_once __DIR__ . '/controllers/FamilyController.php';
 require_once __DIR__ . '/controllers/DashboardController.php';
+require_once __DIR__ . '/controllers/TransactionController.php';
 
 $action = $_GET['action'] ?? 'login';
 
@@ -76,6 +77,10 @@ switch ($action) {
         (new DashboardController($smarty))->index();
         break;
 
+    // ------------------------------DASHBOARDCONTROLLER------------------------------
+    case 'addTransaction':
+        (new TransactionController($smarty))->index();
+        break;
 
     default:
         (new AuthController($smarty))->showLoginForm();

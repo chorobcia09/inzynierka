@@ -53,6 +53,7 @@ class FamilyController
             $users = $this->userModel->getUsersByFamilyId($_SESSION['family_id'] ?? null);
         }
 
+
         $this->smarty->assign([
             'users' => $users,
             'session' => $_SESSION
@@ -140,7 +141,7 @@ class FamilyController
 
     public function addUser()
     {
-        if (!isset($_SESSION['user_id']) || $_SESSION['role'] === 'admin') {
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] === 'admin' || $_SESSION['family_role'] == 'family_member') {
             header('Location: index.php?action=login');
             exit;
         }
