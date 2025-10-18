@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-18 14:20:56
+/* Smarty version 5.6.0, created on 2025-10-18 15:29:42
   from 'file:users_family.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68f38628929a84_41389482',
+  'unifunc' => 'content_68f39646243a33_81426897',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '8e300cf5e677cdbe32f4d3b622999c7baecdbafd' => 
     array (
       0 => 'users_family.tpl',
-      1 => 1760789111,
+      1 => 1760794180,
       2 => 'file',
     ),
   ),
@@ -22,18 +22,18 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_68f38628929a84_41389482 (\Smarty\Template $_smarty_tpl) {
+function content_68f39646243a33_81426897 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
 
 <div class="users-container">
     <h2 class="mb-4 fw-bold text-primary">Lista członków rodziny</h2>
-
+<?php if ($_smarty_tpl->getValue('session')['family_role'] == 'family_admin') {?>
     <a href="index.php?action=addUserToFamily" class="btn btn-success mb-3">
         <i class="bi bi-person-plus"></i> Dodaj członka rodziny
     </a>
-
+<?php }?>
     <?php if ($_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('users')) > 0) {?>
         <div class="table-responsive shadow rounded">
             <table class="table table-striped table-bordered mb-0" style="font-family: 'Inter', sans-serif;">

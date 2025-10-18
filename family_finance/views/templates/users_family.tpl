@@ -2,11 +2,11 @@
 
 <div class="users-container">
     <h2 class="mb-4 fw-bold text-primary">Lista członków rodziny</h2>
-
+{if $session.family_role == 'family_admin'}
     <a href="index.php?action=addUserToFamily" class="btn btn-success mb-3">
         <i class="bi bi-person-plus"></i> Dodaj członka rodziny
     </a>
-
+{/if}
     {if $users|@count > 0}
         <div class="table-responsive shadow rounded">
             <table class="table table-striped table-bordered mb-0" style="font-family: 'Inter', sans-serif;">

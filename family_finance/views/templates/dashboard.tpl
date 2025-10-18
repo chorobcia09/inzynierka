@@ -61,7 +61,7 @@
                     <div class="card shadow-sm p-3">
                         <h5 class="card-title">Zarządzaj członkami rodziny</h5>
                         <p class="card-text">Dodawaj, edytuj lub usuwaj członków swojej rodziny.</p>
-                        <a href="index.php?action=users" class="btn btn-primary w-100">Członkowie rodziny</a>
+                        <a href="index.php?action=usersFamily" class="btn btn-primary w-100">Członkowie rodziny</a>
                     </div>
                 </div>
             {/if}
