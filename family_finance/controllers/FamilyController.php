@@ -194,7 +194,7 @@ class FamilyController
         }
 
         $this->familyModel->deleteUserFromFamily($id);
-        header('Location: index.php?action=users');
+        header('Location: index.php?action=usersFamily');
         exit;
 
 

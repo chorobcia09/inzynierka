@@ -66,6 +66,9 @@ switch ($action) {
     case 'addUserToFamily':
         (new FamilyController($smarty))->addUser();
         break;
+    case 'deleteUserFromFamily':
+        (new FamilyController($smarty))->deleteUser($_GET['id'] ?? null);
+        break;
 
     // ------------------------------USERCONTROLLER------------------------------
     case 'userPanel':
