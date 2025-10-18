@@ -33,7 +33,7 @@
                         {/if}
 
                         {if isset($session.family_id)}
-                            <a href="index.php?action=users" class="btn btn-outline-primary btn-sm me-2">Członkowie rodziny</a>
+                            <a href="index.php?action=usersFamily" class="btn btn-outline-primary btn-sm me-2">Członkowie rodziny</a>
 
                         {/if}
                         <a href="index.php?action=userPanel" class="btn btn-outline-primary btn-sm me-2">Panel użytkownika</a>

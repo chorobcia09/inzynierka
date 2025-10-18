@@ -103,4 +103,18 @@ class Family
             ':id' => $id
         ]);
     }
+
+    public function deleteFamily(int $id)
+    {
+        // najpierw ustawia uzytkownikom nulla
+        $this->db->execute("
+        UPDATE users
+        SET family_id = NULL, family_role = NULL
+        WHERE family_id = :id
+    ", [':id' => $id]);
+
+        // pozniej usuwa
+        $sql = "DELETE FROM families WHERE id = :id";
+        return $this->db->execute($sql, [':id' => $id]);
+    }
 }

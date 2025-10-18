@@ -37,13 +37,11 @@
                                 {/if}
                             </td>
                             {if $session.family_role == 'family_admin'}
-
                                 <td>
                                     <a href="index.php?action=deleteUserFromFamily&id={$user.id}"
                                         class="btn btn-sm btn-outline-danger"
                                         onclick="return confirm('Czy na pewno chcesz usunąć tego użytkownika?');">
                                         <i class="bi bi-trash"></i> Usuń członka rodziny</a>
-
                                 </td>
                             {/if}
                         </tr>
@@ -52,7 +50,16 @@
             </table>
         </div>
     {else}
-        <div class="alert alert-info text-center mt-3">Brak przypisanch członków do rodziny.</div>
+        <div class="alert alert-info text-center mt-3">Brak przypisanych członków do rodziny.</div>
+    {/if}
+
+    {if $session.family_role == 'family_admin'}
+    <div class="mt-4 pt-3 border-top">
+        <a href="index.php?action=deleteFamily" class="btn btn-danger" 
+           onclick="return confirm('Czy na pewno chcesz usunąć całą rodzinę? Ta operacja jest nieodwracalna!');">
+            <i class="bi bi-trash"></i> Usuń rodzinę
+        </a>
+    </div>
     {/if}
 </div>
 

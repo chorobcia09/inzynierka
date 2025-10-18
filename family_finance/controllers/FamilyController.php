@@ -42,7 +42,7 @@ class FamilyController
     public function index()
     {
         // Blokada dla niezalogowanych użytkowników
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] === 'admin') {
             header('Location: index.php?action=login');
             exit;
         }
@@ -59,7 +59,7 @@ class FamilyController
         ]);
 
         // dump($_SESSION);
-        $this->smarty->display('users.tpl');
+        $this->smarty->display('users_family.tpl');
     }
 
     /**
@@ -67,7 +67,7 @@ class FamilyController
      */
     public function create()
     {
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] === 'admin') {
             header('Location: index.php?action=login');
             exit;
         }
@@ -109,9 +109,38 @@ class FamilyController
         $this->smarty->display('create_family.tpl');
     }
 
+    public function delete()
+    {
+        if (!isset($_SESSION['user_id']) || $_SESSION['family_role'] !== 'family_admin') {
+            header('Location: index.php?action=login');
+            exit;
+        }
+
+        // Pobieramy ID rodziny z sesji (użytkownik może usuwać tylko swoją rodzinę)
+        $familyId = $_SESSION['family_id'] ?? null;
+
+        if (!$familyId) {
+            $this->smarty->assign('error', 'Nie znaleziono przypisanej rodziny.');
+            $this->smarty->display('error.tpl');
+            return;
+        }
+
+        // Usunięcie rodziny
+        $this->familyModel->deleteFamily($familyId);
+
+        // Czyścimy powiązanie z rodziną w sesji
+        $_SESSION['family_id'] = null;
+        $_SESSION['family_role'] = null;
+
+        // Po usunięciu rodziny — przekierowanie do listy użytkowników lub dashboardu
+        header('Location: index.php?action=dashboard');
+        exit;
+    }
+
+
     public function addUser()
     {
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] === 'admin') {
             header('Location: index.php?action=login');
             exit;
         }
@@ -167,10 +196,9 @@ class FamilyController
         header('Location: index.php?action=users');
         exit;
 
-        
+
         $this->smarty->assign([
-                'session' => $_SESSION
-            ]);
+            'session' => $_SESSION
+        ]);
     }
-    
 }

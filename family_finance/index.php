@@ -11,6 +11,7 @@ require_once __DIR__ . '/controllers/DashboardController.php';
 $action = $_GET['action'] ?? 'login';
 
 switch ($action) {
+    // ------------------------------AUTHCONTROLLER------------------------------
     case 'login':
         $controller = new AuthController($smarty); // przekazujemy Smarty
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -33,14 +34,7 @@ switch ($action) {
         (new AuthController($smarty))->logout();
         break;
 
-    case 'users':
-        (new FamilyController($smarty))->index();
-        break;
-
-    case 'userPanel':
-        (new UserController($smarty))->panel();
-        break;
-
+    // ------------------------------ADMINCONTROLLER------------------------------
     case 'adminPanel':
         (new AdminController($smarty))->index();
         break;
@@ -52,19 +46,32 @@ switch ($action) {
     case 'deleteUser':
         (new AdminController($smarty))->deleteUser($_GET['id'] ?? null);
         break;
-    case 'deleteUserFromFamily':
-        (new FamilyController($smarty))->deleteUser($_GET['id'] ?? null);
-        break;
+
     case 'editUser':
         (new AdminController($smarty))->editUser($_GET['id'] ?? null);
         break;
+
+
+    // ------------------------------FAMILYCONTROLLER------------------------------
+    case 'usersFamily':
+        (new FamilyController($smarty))->index();
+        break;
     case 'createFamily':
         (new FamilyController($smarty))->create();
+        break;
+    case 'deleteFamily':
+        (new FamilyController($smarty))->delete();
         break;
     case 'addUserToFamily':
         (new FamilyController($smarty))->addUser();
         break;
 
+    // ------------------------------USERCONTROLLER------------------------------
+    case 'userPanel':
+        (new UserController($smarty))->panel();
+        break;
+
+    // ------------------------------DASHBOARDCONTROLLER------------------------------
     case 'dashboard':
         (new DashboardController($smarty))->index();
         break;
