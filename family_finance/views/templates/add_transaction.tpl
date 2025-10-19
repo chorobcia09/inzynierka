@@ -40,14 +40,7 @@
         <select class="form-select select2" id="category_id" name="category_id" required>
             <option value="">Wybierz kategorię...</option>
             {foreach $categories as $category}
-                {if $category.parent_id == null}
-                    <option value="{$category.id}">{$category.name}</option>
-                    {foreach $categories as $sub}
-                        {if $sub.parent_id == $category.id}
-                            <option value="{$sub.id}">&nbsp;&nbsp;– {$sub.name}</option>
-                        {/if}
-                    {/foreach}
-                {/if}
+                <option value="{$category.id}">{$category.name}</option>
             {/foreach}
         </select>
         <div class="form-text">
@@ -68,7 +61,12 @@
         </thead>
         <tbody>
             <tr>
-                <td><input type="text" name="items[0][name]" class="form-control" required></td>
+                <td><select class="form-select select2" id="category_id" name="category_id" required>
+                        <option value="">Wybierz kategorię...</option>
+                        {foreach $subCategories as $category}
+                            <option value="{$subCategory.id}">{$category.name}</option>
+                        {/foreach}
+                    </select></td>
                 <td><input type="number" name="items[0][quantity]" class="form-control itemQuantity" value="1" min="1">
                 </td>
                 <td><input type="number" step="0.01" name="items[0][amount]" class="form-control itemAmount" required>

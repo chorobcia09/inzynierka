@@ -6,6 +6,7 @@ require_once __DIR__ . '/../models/Transactions.php';
 require_once __DIR__ . '/../models/User.php';
 require_once __DIR__ . '/../models/Family.php';
 require_once __DIR__ . '/../models/Categories.php';
+require_once __DIR__ . '/../models/SubCategories.php';
 
 class TransactionController
 {
@@ -14,6 +15,7 @@ class TransactionController
     private $userModel;
     private $familyModel;
     private $categoriesModel;
+    private $subCategoriesModel;
 
     public function __construct($smarty)
     {
@@ -23,6 +25,7 @@ class TransactionController
         $this->userModel = new User($db);
         $this->familyModel = new Family($db);
         $this->categoriesModel = new Categories($db);
+        $this->subCategoriesModel = new SubCategories($db);
     }
 
     /**
@@ -62,6 +65,7 @@ class TransactionController
 
         // pobranie kategorii
         $categories = $this->categoriesModel->getAllCategories();
+        $subCategories = $this->subCategoriesModel->getAllSubCategories();
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $family_id = $_SESSION['family_id'] ?? null;
@@ -132,8 +136,11 @@ class TransactionController
             return;
         } else {
             // GET wyswietlenie formularza
-            $this->smarty->assign('session', $_SESSION);
-            $this->smarty->assign('categories', $categories);
+            $this->smarty->assign([
+                'session' => $_SESSION,
+                'categories' => $categories,
+                'subCategories' => $subCategories
+            ]);
             $this->smarty->display('add_transaction.tpl');
             return;
         }
