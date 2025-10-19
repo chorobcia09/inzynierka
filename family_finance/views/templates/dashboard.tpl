@@ -75,6 +75,17 @@
                     </div>
                 </div>
             {/if}
+
+            <div class="col-md-6 col-lg-4">
+                <div class="card shadow-sm p-3">
+                    <h5 class="card-title">Twoje transakcje</h5>
+                    <p class="card-text">Przeglądaj i zarządzaj transakcjami finansowymi.</p>
+                    <a href="index.php?action=manageTransactions" class="btn btn-success w-100">
+                        <i class="bi bi-card-list"></i> Przejdź do transakcji
+                    </a>
+                </div>
+            </div>
+
         </div>
     {/if}
 </div>

@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-18 15:18:09
+/* Smarty version 5.6.0, created on 2025-10-19 13:51:44
   from 'file:dashboard.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68f39391d11ff9_95725765',
+  'unifunc' => 'content_68f4d0d0c29351_34324276',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'cf7293f29adcf680da2b976996f1d74f414782de' => 
     array (
       0 => 'dashboard.tpl',
-      1 => 1760793488,
+      1 => 1760874703,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_68f39391d11ff9_95725765 (\Smarty\Template $_smarty_tpl) {
+function content_68f4d0d0c29351_34324276 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -105,6 +105,17 @@ $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_sma
                     </div>
                 </div>
             <?php }?>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="card shadow-sm p-3">
+                    <h5 class="card-title">Twoje transakcje</h5>
+                    <p class="card-text">Przeglądaj i zarządzaj transakcjami finansowymi.</p>
+                    <a href="index.php?action=manageTransactions" class="btn btn-success w-100">
+                        <i class="bi bi-card-list"></i> Przejdź do transakcji
+                    </a>
+                </div>
+            </div>
+
         </div>
     <?php }?>
 </div>
