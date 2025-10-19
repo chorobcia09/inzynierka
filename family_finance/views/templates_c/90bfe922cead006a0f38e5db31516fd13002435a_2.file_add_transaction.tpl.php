@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-19 18:02:01
+/* Smarty version 5.6.0, created on 2025-10-19 18:54:41
   from 'file:add_transaction.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68f50b7999f610_89810622',
+  'unifunc' => 'content_68f517d172af52_83590855',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '90bfe922cead006a0f38e5db31516fd13002435a' => 
     array (
       0 => 'add_transaction.tpl',
-      1 => 1760889720,
+      1 => 1760892879,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_68f50b7999f610_89810622 (\Smarty\Template $_smarty_tpl) {
+function content_68f517d172af52_83590855 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -106,22 +106,25 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         </thead>
         <tbody>
             <tr>
-                <td><select class="form-select select2" id="category_id" name="category_id" required>
-                        <option value="">Wybierz kategorię...</option>
+                <td>
+                    <select class="form-select subcategory-select" name="items[0][subcategory_id]" required>
+                        <option value="">Wybierz podkategorię...</option>
                         <?php
-$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('subCategories'), 'category');
+$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('subCategories'), 'subCategory');
 $foreach2DoElse = true;
-foreach ($_from ?? [] as $_smarty_tpl->getVariable('category')->value) {
+foreach ($_from ?? [] as $_smarty_tpl->getVariable('subCategory')->value) {
 $foreach2DoElse = false;
 ?>
                             <option value="<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('subCategory')['id']), ENT_QUOTES, 'UTF-8');?>
-"><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('category')['name']), ENT_QUOTES, 'UTF-8');?>
+"><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('subCategory')['name']), ENT_QUOTES, 'UTF-8');?>
 </option>
                         <?php
 }
 $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
-                    </select></td>
-                <td><input type="number" name="items[0][quantity]" class="form-control itemQuantity" value="1" min="1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top">
+                    </select>
+                </td>
+
+                <td><input type="number" name="items[0][quantity]" class="form-control itemQuantity" value="1" min="1">
                 </td>
                 <td><input type="number" step="0.01" name="items[0][amount]" class="form-control itemAmount" required>
                 </td>
@@ -212,6 +215,11 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
             allowClear: true
         });
 
+        $('#subCategory_id').select2({
+            placeholder: "Wybierz podkategorię",
+            allowClear: true
+        });
+
         $('input[name="type"]').change(function() {
             let type = $(this).val();
             if (type === 'income') {
@@ -224,8 +232,22 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         // Dodawanie nowego wiersza
         $('#addRow').click(function() {
             let newRow = '<tr>' +
-                '<td><input type="text" name="items[' + rowIndex +
-                '][name]" class="form-control" required></td>' +
+                '<td><select class="form-select subcategory-select" name="items[' + rowIndex +
+                '][subcategory_id]" required>' +
+                '<option value="">Wybierz podkategorię...</option>' +
+                '<?php
+$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('subCategories'), 'subCategory');
+$foreach3DoElse = true;
+foreach ($_from ?? [] as $_smarty_tpl->getVariable('subCategory')->value) {
+$foreach3DoElse = false;
+?>' +
+                    '<option value="<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('subCategory')['id']), ENT_QUOTES, 'UTF-8');?>
+"><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('subCategory')['name']), ENT_QUOTES, 'UTF-8');?>
+</option>' +
+                '<?php
+}
+$_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>' +
+                '</select></td>' +
                 '<td><input type="number" name="items[' + rowIndex +
                 '][quantity]" class="form-control itemQuantity" value="1" min="1"></td>' +
                 '<td><input type="number" step="0.01" name="items[' + rowIndex +

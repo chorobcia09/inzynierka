@@ -61,12 +61,15 @@
         </thead>
         <tbody>
             <tr>
-                <td><select class="form-select select2" id="category_id" name="category_id" required>
-                        <option value="">Wybierz kategorię...</option>
-                        {foreach $subCategories as $category}
-                            <option value="{$subCategory.id}">{$category.name}</option>
+                <td>
+                    <select class="form-select subcategory-select" name="items[0][subcategory_id]" required>
+                        <option value="">Wybierz podkategorię...</option>
+                        {foreach $subCategories as $subCategory}
+                            <option value="{$subCategory.id}">{$subCategory.name}</option>
                         {/foreach}
-                    </select></td>
+                    </select>
+                </td>
+
                 <td><input type="number" name="items[0][quantity]" class="form-control itemQuantity" value="1" min="1">
                 </td>
                 <td><input type="number" step="0.01" name="items[0][amount]" class="form-control itemAmount" required>
@@ -157,6 +160,11 @@
             allowClear: true
         });
 
+        $('#subCategory_id').select2({
+            placeholder: "Wybierz podkategorię",
+            allowClear: true
+        });
+
         $('input[name="type"]').change(function() {
             let type = $(this).val();
             if (type === 'income') {
@@ -169,8 +177,13 @@
         // Dodawanie nowego wiersza
         $('#addRow').click(function() {
             let newRow = '<tr>' +
-                '<td><input type="text" name="items[' + rowIndex +
-                '][name]" class="form-control" required></td>' +
+                '<td><select class="form-select subcategory-select" name="items[' + rowIndex +
+                '][subcategory_id]" required>' +
+                '<option value="">Wybierz podkategorię...</option>' +
+                '{foreach $subCategories as $subCategory}' +
+                    '<option value="{$subCategory.id}">{$subCategory.name}</option>' +
+                '{/foreach}' +
+                '</select></td>' +
                 '<td><input type="number" name="items[' + rowIndex +
                 '][quantity]" class="form-control itemQuantity" value="1" min="1"></td>' +
                 '<td><input type="number" step="0.01" name="items[' + rowIndex +

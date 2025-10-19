@@ -72,6 +72,7 @@ class TransactionController
             $user_id = $_SESSION['user_id'];
 
             $category_id = $_POST['category_id'] ?? null;
+            $sub_category_id = $_POST['sub_category_id'] ?? null;
             $type = $_POST['type'] ?? null;
             $amount = $_POST['amount'] ?? null;
             $currency = $_POST['currency'] ?? 'PLN';
@@ -108,21 +109,23 @@ class TransactionController
                 $transaction_date,
                 $is_recurring
             );
-
+            // dump($_POST);
             // DODANIE ELEMENTU TRANSAKCJI
             if ($res && !empty($_POST['items'])) {
                 foreach ($_POST['items'] as $item) {
-                    if (!empty($item['name']) && !empty($item['amount'])) {
+                    // dump($item);
+                    if (!empty($item['subcategory_id']) && !empty($item['amount'])) {
                         $this->transactionModel->addTransactionItem(
                             $res,
                             $category_id,
-                            $item['name'],
+                            (int)$item['subcategory_id'],
                             (float)$item['amount'],
                             (int)($item['quantity'] ?? 1)
                         );
                     }
                 }
             }
+
 
             if ($res) {
                 $this->smarty->assign('success', 'Transakcja dodana pomyślnie!');

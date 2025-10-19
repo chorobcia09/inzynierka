@@ -65,15 +65,23 @@ class Transactions
      * Dodanie elementu transakcji
      */
 
-    public function addTransactionItem(int $transaction_id, int $category_id, string $name, float $amount, int $quantity = 1)
-    {
-        $sql = "INSERT INTO transaction_items (transaction_id, category_id, name, amount, quantity)
-            VALUES (:transaction_id, :category_id, :name, :amount, :quantity)";
+    public function addTransactionItem(
+        int $transaction_id,
+        int $category_id,
+        ?int $sub_category_id,
+        float $amount,
+        int $quantity = 1
+    ) {
+        $sql = "INSERT INTO transaction_items 
+            (transaction_id, category_id, sub_category_id, amount, quantity)
+            VALUES 
+            (:transaction_id, :category_id, :sub_category_id, :amount, :quantity)";
+
         try {
             $this->db->execute($sql, [
                 ':transaction_id' => $transaction_id,
                 ':category_id' => $category_id,
-                ':name' => $name,
+                ':sub_category_id' => $sub_category_id,
                 ':amount' => $amount,
                 ':quantity' => $quantity
             ]);
@@ -83,6 +91,7 @@ class Transactions
             return false;
         }
     }
+
 
     /**
      * Zwrócenie wszystkich transakcji rodziny 
