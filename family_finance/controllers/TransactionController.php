@@ -25,6 +25,10 @@ class TransactionController
         $this->categoriesModel = new Categories($db);
     }
 
+    /**
+     * Wyświetlanie na stronie tabeli z transakcjami
+     */
+
     public function index()
     {
         if (!isset($_SESSION['user_id']) || $_SESSION['role'] === 'admin') {
@@ -45,6 +49,10 @@ class TransactionController
         $this->smarty->display('manage_transactions.tpl');
     }
 
+    /**
+     * Metoda dodająca transakcje
+     */
+
     public function addTransaction()
     {
         if (!isset($_SESSION['user_id'])) {
@@ -52,9 +60,8 @@ class TransactionController
             exit;
         }
 
+        // pobranie kategorii
         $categories = $this->categoriesModel->getAllCategories();
-
-
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $family_id = $_SESSION['family_id'] ?? null;

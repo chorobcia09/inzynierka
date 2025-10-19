@@ -10,6 +10,10 @@ class Transactions
         $this->db = new Database();
     }
 
+    /**
+     * Dodanie transakcji
+     */
+
     public function addTransaction(
         ?int $family_id,
         int $user_id,
@@ -56,6 +60,10 @@ class Transactions
             return false;
         }
     }
+
+    /**
+     * Dodanie elementu transakcji
+     */
 
     public function addTransactionItem(int $transaction_id, int $category_id, string $name, float $amount, int $quantity = 1)
     {
@@ -107,7 +115,9 @@ class Transactions
         ]);
     }
 
-
+    /**
+     * Zwrócenie transakcji użytkownika
+     */
     public function getAllTransactionsByUser(int $user_id)
     {
         $sql = "
