@@ -13,7 +13,6 @@
             <table class="table table-striped table-bordered mb-0" style="font-family: 'Inter', sans-serif;">
                 <thead class="table-primary">
                     <tr>
-                        <th>ID Transakcji</th>
                         <th>Nazwa użytkownika</th>
                         <th>Kategoria</th>
                         <th>Typ</th>
@@ -32,7 +31,6 @@
                 <tbody>
                     {foreach from=$transactions item=transaction}
                         <tr class="{if $transaction.type == 'income'}table-success{else}table-danger{/if}">
-                            <td>{$transaction.transaction_id}</td>
                             <td>{$transaction.user_name}</td>
                             <td>{$transaction.category_name}</td>
                             <td>{if $transaction.type == 'income'}
@@ -82,7 +80,6 @@
             <table class="table table-striped table-bordered mb-0" style="font-family: 'Inter', sans-serif;">
                 <thead class="table-primary">
                     <tr>
-                        <th>ID Transakcji</th>
                         <th>Nazwa użytkownika</th>
                         <th>Kategoria</th>
                         <th>Typ</th>
@@ -99,7 +96,6 @@
                 <tbody>
                     {foreach from=$transactionsUser item=transaction}
                         <tr class="{if $transaction.type == 'income'}table-success{else}table-danger{/if}">
-                            <td>{$transaction.transaction_id}</td>
                             <td>{$transaction.user_name}</td>
                             <td>{$transaction.category_name}</td>
                             <td>{if $transaction.type == 'income'}
