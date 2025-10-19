@@ -27,10 +27,22 @@ class TransactionController
 
     public function index()
     {
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] === 'admin') {
             header('Location: index.php?action=login');
             exit;
         }
+
+        $transactions = [];
+        if (!empty($_SESSION['family_id'])) {
+            $transactions = $this->transactionModel->getAllTransactionsByFamily($_SESSION['family_id']);
+        }
+        $transactionsUser = $this->transactionModel->getAllTransactionsByUser($_SESSION['user_id']);
+        $this->smarty->assign([
+            'transactions' => $transactions,
+            'session' => $_SESSION,
+            'transactionsUser' => $transactionsUser
+        ]);
+        $this->smarty->display('manage_transactions.tpl');
     }
 
     public function addTransaction()
@@ -41,6 +53,7 @@ class TransactionController
         }
 
         $categories = $this->categoriesModel->getAllCategories();
+
 
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {

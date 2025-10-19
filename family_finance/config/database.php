@@ -17,6 +17,7 @@ class Database
 
     public function __construct()
     {
+        date_default_timezone_set('Europe/Warsaw');
         $dsn = "mysql:host={$this->host};dbname={$this->db};charset={$this->charset}";
 
         // Opcje PDO
@@ -25,7 +26,7 @@ class Database
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             PDO::ATTR_EMULATE_PREPARES   => false,
         ];
-
+        
         try {
             $this->pdo = new PDO($dsn, $this->user, $this->pass, $options);
         } catch (PDOException $e) {

@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-18 19:51:37
+/* Smarty version 5.6.0, created on 2025-10-19 13:24:35
   from 'file:add_transaction.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68f3d3a91e1990_48965893',
+  'unifunc' => 'content_68f4ca739ba265_65798046',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '90bfe922cead006a0f38e5db31516fd13002435a' => 
     array (
       0 => 'add_transaction.tpl',
-      1 => 1760809895,
+      1 => 1760873034,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_68f3d3a91e1990_48965893 (\Smarty\Template $_smarty_tpl) {
+function content_68f4ca739ba265_65798046 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -182,8 +182,15 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 
     <div class="d-flex justify-content-end">
         <button type="submit" class="btn btn-primary">Zapisz transakcję</button>
+
+        </a>
     </div>
 </form>
+<div class="d-flex justify-content-end mt-4">
+    <a href="index.php?action=manageTransactions" class="btn btn-success">
+        <i class="bi bi-list-ul"></i> Przejdź do zarządzania transakcjami
+    </a>
+</div>
 
 <?php echo '<script'; ?>
 >

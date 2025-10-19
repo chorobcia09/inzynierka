@@ -10,6 +10,10 @@
     {if isset($success)}
         <div class="alert alert-success">{$success}</div>
     {/if}
+    <div class="alert alert-danger" role="alert">
+        UWAGA! W MOMENCIE DODAWANIA UŻYTKOWNIKA DO RODZINY, KTÓRY POSIADA JUŻ JAKIEŚ TRANSAKCJE, JEGO TRANSAKCJE NIE
+        ZOSTANĄ DODANE DO TRANSAKCJI RODZINNYCH!
+    </div>
 
     <form method="POST" action="index.php?action=addUserToFamily">
         <div class="mb-3">

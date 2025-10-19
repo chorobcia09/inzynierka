@@ -80,7 +80,10 @@ switch ($action) {
         (new DashboardController($smarty))->index();
         break;
 
-    // ------------------------------DASHBOARDCONTROLLER------------------------------
+    // ------------------------------TRANSACTIONSCONTROLLER------------------------------
+    case 'manageTransactions':
+        (new TransactionController($smarty))->index();
+        break;
     case 'addTransaction':
         (new TransactionController($smarty))->addTransaction();
         break;

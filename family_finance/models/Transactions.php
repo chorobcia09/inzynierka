@@ -75,4 +75,64 @@ class Transactions
             return false;
         }
     }
+
+    /**
+     * Zwrócenie wszystkich transakcji rodziny 
+     */
+    public function getAllTransactionsByFamily(?int $family_id)
+    {
+        $sql = "
+        SELECT t.id AS transaction_id,
+               t.user_id,
+               t.category_id,
+               t.type,
+               t.amount,
+               t.currency,
+               t.payment_method,
+               t.description,
+               t.transaction_date,
+               t.is_recurring,
+               t.created_at,
+               c.name AS category_name,
+               u.username AS user_name
+        FROM transactions t
+        LEFT JOIN categories c ON t.category_id = c.id
+        LEFT JOIN users u ON t.user_id = u.id
+        WHERE t.family_id = :family_id
+                ORDER by t.created_at desc
+    ";
+
+        return $this->db->select($sql, [
+            ':family_id' => $family_id
+        ]);
+    }
+
+
+    public function getAllTransactionsByUser(int $user_id)
+    {
+        $sql = "
+        SELECT t.id AS transaction_id,
+               t.user_id,
+               t.category_id,
+               t.type,
+               t.amount,
+               t.currency,
+               t.payment_method,
+               t.description,
+               t.transaction_date,
+               t.is_recurring,
+               t.created_at,
+               c.name AS category_name,
+               u.username AS user_name
+        FROM transactions t
+        LEFT JOIN categories c ON t.category_id = c.id
+        LEFT JOIN users u ON t.user_id = u.id
+        WHERE t.user_id = :user_id
+        ORDER by t.created_at asc
+    ";
+
+        return $this->db->select($sql, [
+            ':user_id' => $user_id
+        ]);
+    }
 }

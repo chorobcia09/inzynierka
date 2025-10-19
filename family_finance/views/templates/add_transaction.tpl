@@ -128,8 +128,15 @@
 
     <div class="d-flex justify-content-end">
         <button type="submit" class="btn btn-primary">Zapisz transakcję</button>
+
+        </a>
     </div>
 </form>
+<div class="d-flex justify-content-end mt-4">
+    <a href="index.php?action=manageTransactions" class="btn btn-success">
+        <i class="bi bi-list-ul"></i> Przejdź do zarządzania transakcjami
+    </a>
+</div>
 
 <script>
     let rowIndex = 1;
