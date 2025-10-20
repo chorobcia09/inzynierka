@@ -11,6 +11,7 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <link rel="stylesheet" href="views/css/styles.css">
 
 </head>
 
@@ -18,7 +19,7 @@
     <header class="shadow-sm py-3 mb-4" style="background-color: #f8f9fa; font-family: 'Inter', sans-serif;">
         <div class="container d-flex justify-content-between align-items-center">
             <h1 class="h4 m-0 fw-bold text-primary"><a href="index.php?action=dashboard"
-                    style="text-decoration: none;">Zarządzanie finansami rodzinnymi</a></h1>
+                    style="text-decoration: none;"><i class="bi bi-piggy-bank-fill"></i> Manage Your Finances</a></h1>
             <nav class="d-flex align-items-center">
                 {if isset($session.user_id)}
                     {if $session.role == 'admin'}

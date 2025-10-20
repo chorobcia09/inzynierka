@@ -23,7 +23,7 @@
 
     <div class="text-center mt-4">
         <a href="index.php?action=dashboard" class="btn btn-primary me-2">Dashboard</a>
-        <a href="index.php?action=users" class="btn btn-outline-primary">Członkowie rodziny</a>
+        <a href="index.php?action=usersFamily" class="btn btn-outline-primary">Członkowie rodziny</a>
     </div>
 </div>
 

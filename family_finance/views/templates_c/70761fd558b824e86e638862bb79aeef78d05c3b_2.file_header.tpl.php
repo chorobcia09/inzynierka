@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-20 18:19:05
+/* Smarty version 5.6.0, created on 2025-10-20 19:18:41
   from 'file:header.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68f660f9d303c1_03118928',
+  'unifunc' => 'content_68f66ef1511e57_57640257',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '70761fd558b824e86e638862bb79aeef78d05c3b' => 
     array (
       0 => 'header.tpl',
-      1 => 1760977129,
+      1 => 1760980719,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_68f660f9d303c1_03118928 (\Smarty\Template $_smarty_tpl) {
+function content_68f66ef1511e57_57640257 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 ?><!DOCTYPE html>
 <html lang="pl">
@@ -39,6 +39,7 @@ $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\vi
     <?php echo '<script'; ?>
  src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"><?php echo '</script'; ?>
 >
+    <link rel="stylesheet" href="views/css/styles.css">
 
 </head>
 
@@ -46,7 +47,7 @@ $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\vi
     <header class="shadow-sm py-3 mb-4" style="background-color: #f8f9fa; font-family: 'Inter', sans-serif;">
         <div class="container d-flex justify-content-between align-items-center">
             <h1 class="h4 m-0 fw-bold text-primary"><a href="index.php?action=dashboard"
-                    style="text-decoration: none;">Zarządzanie finansami rodzinnymi</a></h1>
+                    style="text-decoration: none;"><i class="bi bi-piggy-bank-fill"></i> Manage Your Finances</a></h1>
             <nav class="d-flex align-items-center">
                 <?php if ((true && (true && null !== ($_smarty_tpl->getValue('session')['user_id'] ?? null)))) {?>
                     <?php if ($_smarty_tpl->getValue('session')['role'] == 'admin') {?>

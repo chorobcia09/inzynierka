@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-18 11:39:10
+/* Smarty version 5.6.0, created on 2025-10-20 19:21:20
   from 'file:panel.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68f3603ed8b6d7_63377865',
+  'unifunc' => 'content_68f66f90d0d1e1_48511470',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'c910ae6a0b0f705df3d5dde92d429a02e8266750' => 
     array (
       0 => 'panel.tpl',
-      1 => 1760732921,
+      1 => 1760980877,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_68f3603ed8b6d7_63377865 (\Smarty\Template $_smarty_tpl) {
+function content_68f66f90d0d1e1_48511470 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -55,7 +55,7 @@ $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_sma
 
     <div class="text-center mt-4">
         <a href="index.php?action=dashboard" class="btn btn-primary me-2">Dashboard</a>
-        <a href="index.php?action=users" class="btn btn-outline-primary">Członkowie rodziny</a>
+        <a href="index.php?action=usersFamily" class="btn btn-outline-primary">Członkowie rodziny</a>
     </div>
 </div>
 
