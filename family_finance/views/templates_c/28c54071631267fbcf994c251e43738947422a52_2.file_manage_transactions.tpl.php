@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-19 14:06:48
+/* Smarty version 5.6.0, created on 2025-10-20 17:48:41
   from 'file:manage_transactions.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68f4d45847ead0_43385795',
+  'unifunc' => 'content_68f659d9da3174_07624642',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '28c54071631267fbcf994c251e43738947422a52' => 
     array (
       0 => 'manage_transactions.tpl',
-      1 => 1760875606,
+      1 => 1760975292,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_68f4d45847ead0_43385795 (\Smarty\Template $_smarty_tpl) {
+function content_68f659d9da3174_07624642 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -100,7 +100,7 @@ $foreach0DoElse = false;
 " class="btn btn-sm btn-outline-primary">
                                         <i class="bi bi-pencil"></i> Edytuj
                                     </a>
-                                    <a href="<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['transaction_id']), ENT_QUOTES, 'UTF-8');?>
+                                    <a href="index.php?action=deleteTransaction&id=<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['transaction_id']), ENT_QUOTES, 'UTF-8');?>
 " class="btn btn-sm btn-outline-danger"
                                         onclick="return confirm('Czy na pewno chcesz usunąć transakcję?');">
                                         <i class="bi bi-trash"></i> Usuń
@@ -116,8 +116,8 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         </div>
     <?php } else { ?>
         <div class="alert alert-info text-center mt-3">Brak przypisanych członków do rodziny.</div>
-    <?php }
-} else { ?>
+    <?php }?>
+    <?php } else { ?>
     <?php if ($_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('transactionsUser')) > 0) {?>
         <div class="table-responsive shadow rounded">
             <table class="table table-striped table-bordered mb-0" style="font-family: 'Inter', sans-serif;">
@@ -180,7 +180,7 @@ $foreach1DoElse = false;
 " class="btn btn-sm btn-outline-primary">
                                     <i class="bi bi-pencil"></i> Edytuj
                                 </a>
-                                <a href="<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['transaction_id']), ENT_QUOTES, 'UTF-8');?>
+                                <a href="index.php?action=deleteTransaction&id=<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['transaction_id']), ENT_QUOTES, 'UTF-8');?>
 " class="btn btn-sm btn-outline-danger"
                                     onclick="return confirm('Czy na pewno chcesz usunąć transakcję?');">
                                     <i class="bi bi-trash"></i> Usuń

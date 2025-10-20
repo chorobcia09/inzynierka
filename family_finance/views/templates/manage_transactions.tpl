@@ -60,7 +60,7 @@
                                     <a href="{$transaction.transaction_id}" class="btn btn-sm btn-outline-primary">
                                         <i class="bi bi-pencil"></i> Edytuj
                                     </a>
-                                    <a href="{$transaction.transaction_id}" class="btn btn-sm btn-outline-danger"
+                                    <a href="index.php?action=deleteTransaction&id={$transaction.transaction_id}" class="btn btn-sm btn-outline-danger"
                                         onclick="return confirm('Czy na pewno chcesz usunąć transakcję?');">
                                         <i class="bi bi-trash"></i> Usuń
                                     </a>
@@ -74,6 +74,7 @@
     {else}
         <div class="alert alert-info text-center mt-3">Brak przypisanych członków do rodziny.</div>
     {/if}
+    {* UZYTKOWNIK BEZ RODZINY *}
 {else}
     {if $transactionsUser|@count > 0}
         <div class="table-responsive shadow rounded">
@@ -124,7 +125,7 @@
                                 <a href="{$transaction.transaction_id}" class="btn btn-sm btn-outline-primary">
                                     <i class="bi bi-pencil"></i> Edytuj
                                 </a>
-                                <a href="{$transaction.transaction_id}" class="btn btn-sm btn-outline-danger"
+                                <a href="index.php?action=deleteTransaction&id={$transaction.transaction_id}" class="btn btn-sm btn-outline-danger"
                                     onclick="return confirm('Czy na pewno chcesz usunąć transakcję?');">
                                     <i class="bi bi-trash"></i> Usuń
                                 </a>

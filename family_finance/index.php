@@ -87,6 +87,9 @@ switch ($action) {
     case 'addTransaction':
         (new TransactionController($smarty))->addTransaction();
         break;
+    case 'deleteTransaction':
+        (new TransactionController($smarty))->deleteTransaction($_GET['id'] ?? null);
+        break;
 
     default:
         (new AuthController($smarty))->showLoginForm();

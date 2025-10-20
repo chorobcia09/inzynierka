@@ -63,6 +63,7 @@ class TransactionController
             exit;
         }
 
+
         // pobranie kategorii
         $categories = $this->categoriesModel->getAllCategories();
         $subCategories = $this->subCategoriesModel->getAllSubCategories();
@@ -147,5 +148,36 @@ class TransactionController
             $this->smarty->display('add_transaction.tpl');
             return;
         }
+    }
+
+    public function deleteTransaction($transaction_id)
+    {
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: index.php?action=login');
+            exit;
+        }
+
+        $user_id = $_SESSION['user_id'];
+        $family_role = $_SESSION['family_role'] ?? null;
+
+        if ($family_role === 'family_member') {
+            header('Location: index.php?action=manageTransactions&error=no_permission');
+            exit;
+        }
+
+        if ($family_role === 'family_admin') {
+            $this->transactionModel->deleteTransaction($transaction_id);
+            header('Location: index.php?action=manageTransactions&success=deleted');
+            exit;
+        }
+
+        if ($family_role === null) {
+            $this->transactionModel->deleteUserTransaction($transaction_id, $user_id);
+            header('Location: index.php?action=manageTransactions&success=deleted');
+            exit;
+        }
+
+        header('Location: index.php?action=manageTransactions&error=no_permission');
+        exit;
     }
 }

@@ -154,4 +154,22 @@ class Transactions
             ':user_id' => $user_id
         ]);
     }
+
+    public function deleteTransaction(int $transaction_id)
+    {
+        $sql = "DELETE FROM transactions WHERE id = :id";
+        return $this->db->execute($sql, ['id' => $transaction_id]);
+    }
+
+    public function deleteUserTransaction(int $transaction_id, int $user_id)
+    {
+        $sql = "
+        DELETE FROM transactions
+        WHERE id = :id AND user_id = :user_id
+    ";
+        return $this->db->execute($sql, [
+            'id' => $transaction_id,
+            'user_id' => $user_id
+        ]);
+    }
 }
