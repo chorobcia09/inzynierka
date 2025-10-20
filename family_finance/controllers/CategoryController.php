@@ -19,7 +19,8 @@ class CategoryController
         $this->subCategoriesModel = new SubCategories($db);
     }
 
-    public function index() {
+    public function index()
+    {
         if (!isset($_SESSION['user_id'])) {
             header('Location: index.php?action=login');
             exit;
@@ -34,4 +35,20 @@ class CategoryController
         $this->smarty->display('categories.tpl');
     }
 
+    public function viewCategory($id)
+    {
+        if (!$id) {
+            header('Location: index.php?action=categories');
+            exit;
+        }
+
+        $category = $this->categoriesModel->getAllCategories();
+        $subcategories = $this->categoriesModel->getAllSubCategoriesByCategory($id);
+        $this->smarty->assign([
+            'category_id' => $id,
+            'subcategories' => $subcategories,
+            'session' => $_SESSION
+        ]);
+        $this->smarty->display('category_view.tpl');
+    }
 }

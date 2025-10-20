@@ -3,7 +3,8 @@
 <h2 class="mb-4 text-primary">Kategorie</h2>
 
 <div class="alert alert-warning" role="alert">
-W tym miejscu możesz przeglądać kategorie wraz z podkategoriami, które są dostępne w systemie globlanie, jak i loklanie (utworzone przez użytkownika).
+    W tym miejscu możesz przeglądać kategorie wraz z podkategoriami, które są dostępne w systemie globlanie, jak i
+    loklanie (utworzone przez użytkownika).
 </div>
 <table class="table table-striped table-bordered">
     <thead class="table-light">
@@ -18,7 +19,12 @@ W tym miejscu możesz przeglądać kategorie wraz z podkategoriami, które są d
     <tbody>
         {foreach from=$category item=category}
             <tr>
-                <td>{$category.name}</td>
+                <td>
+                    <a href="index.php?action=viewCategory&id={$category.id}" >
+                        {$category.name}
+                    </a>
+                </td>
+
                 <td>{if $category.type == 'expense'}Wydatek {else} Przychód{/if}</td>
                 <td>{if $category.is_global = 1} Globalna {else} Loklana{/if}</td>
                 <td>{$category.created_at}</td>

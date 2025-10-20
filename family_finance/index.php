@@ -96,6 +96,9 @@ switch ($action) {
     case 'categories':
         (new CategoryController($smarty))->index();
         break;
+        case 'viewCategory':
+        (new CategoryController($smarty))->viewCategory($_GET['id'] ?? null);
+        break;
     default:
         (new AuthController($smarty))->showLoginForm();
         break;
