@@ -138,9 +138,15 @@ class User
      */
     public function deleteUser(int $id)
     {
+        // pierw usuwa transakcje
+        $sql = "DELETE FROM transactions WHERE user_id = :id";
+        $this->db->execute($sql, [':id' => $id]);
+
+        // pozniej uzytkownika
         $sql = "DELETE FROM users WHERE id = :id";
         return $this->db->execute($sql, [':id' => $id]);
     }
+
 
     /**
      * Metoda sprawdzająca czy email istnieje w bazie danych.
@@ -230,6 +236,4 @@ class User
             ':id' => $id
         ]);
     }
-
-    
 }
