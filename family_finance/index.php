@@ -8,6 +8,7 @@ require_once __DIR__ . '/controllers/AdminController.php';
 require_once __DIR__ . '/controllers/FamilyController.php';
 require_once __DIR__ . '/controllers/DashboardController.php';
 require_once __DIR__ . '/controllers/TransactionController.php';
+require_once __DIR__ . '/controllers/CategoryController.php';
 
 $action = $_GET['action'] ?? 'login';
 
@@ -91,6 +92,10 @@ switch ($action) {
         (new TransactionController($smarty))->deleteTransaction($_GET['id'] ?? null);
         break;
 
+    // ------------------------------CATEGORYSCONTROLLER------------------------------
+    case 'categories':
+        (new CategoryController($smarty))->index();
+        break;
     default:
         (new AuthController($smarty))->showLoginForm();
         break;

@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-18 17:34:00
+/* Smarty version 5.6.0, created on 2025-10-20 18:19:05
   from 'file:header.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68f3b3688d8637_19440927',
+  'unifunc' => 'content_68f660f9d303c1_03118928',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '70761fd558b824e86e638862bb79aeef78d05c3b' => 
     array (
       0 => 'header.tpl',
-      1 => 1760801639,
+      1 => 1760977129,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_68f3b3688d8637_19440927 (\Smarty\Template $_smarty_tpl) {
+function content_68f660f9d303c1_03118928 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 ?><!DOCTYPE html>
 <html lang="pl">
@@ -78,6 +78,19 @@ $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\vi
                                     <li>
                                         <a class="dropdown-item" href="index.php?action=manageTransactions">
                                             <i class="bi bi-wallet2"></i> Zarządzaj transakcjami
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="dropdown me-2">
+                                <button class="btn btn-outline-warning btn-sm dropdown-toggle" type="button" id="categoryDropdown"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-cash-stack"></i> Kategorie
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="categoryDropdown">
+                                    <li>
+                                        <a class="dropdown-item" href="index.php?action=categories">
+                                            <i class="bi bi-wallet2"></i> Przeglądaj kategorie
                                         </a>
                                     </li>
                                 </ul>

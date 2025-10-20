@@ -54,6 +54,19 @@
                                     </li>
                                 </ul>
                             </div>
+                            <div class="dropdown me-2">
+                                <button class="btn btn-outline-warning btn-sm dropdown-toggle" type="button" id="categoryDropdown"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-cash-stack"></i> Kategorie
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="categoryDropdown">
+                                    <li>
+                                        <a class="dropdown-item" href="index.php?action=categories">
+                                            <i class="bi bi-wallet2"></i> Przeglądaj kategorie
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         {* {/if} *}
 
 
