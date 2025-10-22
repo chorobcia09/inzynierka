@@ -1,5 +1,7 @@
 {include file="header.tpl"}
 
+
+
 <div class="users-container">
     <h2 class="mb-4 fw-bold text-primary">Lista członków rodziny</h2>
 {if $session.family_role == 'family_admin'}
@@ -50,7 +52,8 @@
             </table>
         </div>
     {else}
-        <div class="alert alert-info text-center mt-3">Brak przypisanych członków do rodziny.</div>
+    
+                    <div class="alert alert-info text-center mt-3">Brak przypisanych członków do rodziny.</div>
     {/if}
 
     {if $session.family_role == 'family_admin'}

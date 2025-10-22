@@ -180,4 +180,21 @@ class TransactionController
         header('Location: index.php?action=manageTransactions&error=no_permission');
         exit;
     }
+
+    public function transactionDetails(int $transaction_id)
+    {
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: index.php?action=login');
+            exit;
+        }
+
+        $transaction = $this->transactionModel->getTransactionDetails($transaction_id);
+
+        $this->smarty->assign([
+            'session' => $_SESSION,
+            'transaction' => $transaction
+        ]);
+        $this->smarty->display('transaction_details.tpl');
+        return;
+    }
 }

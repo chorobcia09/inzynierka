@@ -91,6 +91,9 @@ switch ($action) {
     case 'deleteTransaction':
         (new TransactionController($smarty))->deleteTransaction($_GET['id'] ?? null);
         break;
+        case 'transactionDetails':
+        (new TransactionController($smarty))->transactionDetails($_GET['id'] ?? null);
+        break;
 
     // ------------------------------CATEGORYSCONTROLLER------------------------------
     case 'categories':

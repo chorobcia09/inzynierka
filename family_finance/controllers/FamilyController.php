@@ -47,11 +47,8 @@ class FamilyController
             exit;
         }
 
-        if ($_SESSION['role'] == 'admin') {
-            $users = $this->userModel->getAllUsersWithFamily();
-        } else {
-            $users = $this->userModel->getUsersByFamilyId($_SESSION['family_id'] ?? null);
-        }
+        $users = $this->userModel->getUsersByFamilyId($_SESSION['family_id'] ?? null);
+ 
 
 
         $this->smarty->assign([
@@ -126,12 +123,13 @@ class FamilyController
             return;
         }
 
+
         // Usunięcie rodziny
         $this->familyModel->deleteFamily($familyId);
 
         // Czyścimy powiązanie z rodziną w sesji
-        $_SESSION['family_id'] = null;
-        $_SESSION['family_role'] = null;
+        unset($_SESSION['family_id'], $_SESSION['family_role']);
+
 
         // Po usunięciu rodziny — przekierowanie do listy użytkowników lub dashboardu
         header('Location: index.php?action=dashboard');

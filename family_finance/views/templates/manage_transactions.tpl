@@ -23,6 +23,7 @@
                         <th>Data transakcji</th>
                         <th>Cykliczność</th>
                         <th>Data dodania</th>
+                        <th>Szczegóły</th>
                         {if $session.family_role == 'family_admin'}
                             <th>Akcje</th>
                         {/if}
@@ -54,13 +55,16 @@
                                 {/if}</td>
                             <td>{$transaction.created_at|date_format:"%Y-%m-%d %H:%M:%S"}</td>
 
-
+                            <td><a href="index.php?action=transactionDetails&id={$transaction.transaction_id}"
+                                    class="btn btn-primary">Szczegóły
+                                </a></td>
                             {if $session.family_role == 'family_admin'}
                                 <td>
                                     <a href="{$transaction.transaction_id}" class="btn btn-sm btn-outline-primary">
                                         <i class="bi bi-pencil"></i> Edytuj
                                     </a>
-                                    <a href="index.php?action=deleteTransaction&id={$transaction.transaction_id}" class="btn btn-sm btn-outline-danger"
+                                    <a href="index.php?action=deleteTransaction&id={$transaction.transaction_id}"
+                                        class="btn btn-sm btn-outline-danger"
                                         onclick="return confirm('Czy na pewno chcesz usunąć transakcję?');">
                                         <i class="bi bi-trash"></i> Usuń
                                     </a>
@@ -72,7 +76,7 @@
             </table>
         </div>
     {else}
-        <div class="alert alert-info text-center mt-3">Brak przypisanych członków do rodziny.</div>
+        <div class="alert alert-info text-center mt-3">Brak transakcji w bazie danych.</div>
     {/if}
     {* UZYTKOWNIK BEZ RODZINY *}
 {else}
@@ -91,6 +95,7 @@
                         <th>Data transakcji</th>
                         <th>Cykliczność</th>
                         <th>Data dodania</th>
+                        <th>Szczegóły</th>
                         <th>Akcje</th>
                     </tr>
                 </thead>
@@ -120,12 +125,16 @@
                                 {/if}</td>
                             <td>{$transaction.created_at|date_format:"%Y-%m-%d %H:%M:%S"}</td>
 
+                            <td><a href="index.php?action=transactionDetails&id={$transaction.transaction_id}"
+                                    class="btn btn-primary">Szczegóły
+                                </a></td>
 
                             <td>
                                 <a href="{$transaction.transaction_id}" class="btn btn-sm btn-outline-primary">
                                     <i class="bi bi-pencil"></i> Edytuj
                                 </a>
-                                <a href="index.php?action=deleteTransaction&id={$transaction.transaction_id}" class="btn btn-sm btn-outline-danger"
+                                <a href="index.php?action=deleteTransaction&id={$transaction.transaction_id}"
+                                    class="btn btn-sm btn-outline-danger"
                                     onclick="return confirm('Czy na pewno chcesz usunąć transakcję?');">
                                     <i class="bi bi-trash"></i> Usuń
                                 </a>
