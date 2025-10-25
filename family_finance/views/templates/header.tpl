@@ -24,7 +24,10 @@
                 {if isset($session.user_id)}
                     {if $session.role == 'admin'}
                         <a href="index.php?action=adminPanel" class="btn btn-outline-danger btn-sm me-2">
-                            <i class="bi bi-shield-lock"></i> Panel admina
+                            <i class="bi bi-person-gear"></i> Zarządzanie użytkownikami
+                        </a>
+                        <a href="index.php?action=feedbackPanel" class="btn btn-outline-danger btn-sm me-2">
+                            <i class="bi bi-folder"></i> Zarządzanie zgłoszeniami
                         </a>
                         <a href="index.php?action=logout" class="btn btn-primary btn-sm text-white">Wyloguj</a>
                     {else}

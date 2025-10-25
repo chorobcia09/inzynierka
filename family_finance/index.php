@@ -108,6 +108,12 @@ switch ($action) {
     case 'addFeedback':
         (new FeedbackController($smarty))->add();
         break;
+    case 'feedbackPanel':
+        (new FeedbackController($smarty))->index();
+        break;
+    case 'changeStatus':
+        (new FeedbackController($smarty))->changeStatus();
+        break;
 
     default:
         (new AuthController($smarty))->showLoginForm();

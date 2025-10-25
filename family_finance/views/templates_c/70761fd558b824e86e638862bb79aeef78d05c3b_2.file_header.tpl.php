@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-20 19:18:41
+/* Smarty version 5.6.0, created on 2025-10-25 15:08:27
   from 'file:header.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68f66ef1511e57_57640257',
+  'unifunc' => 'content_68fccbcba7fb47_76083841',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '70761fd558b824e86e638862bb79aeef78d05c3b' => 
     array (
       0 => 'header.tpl',
-      1 => 1760980719,
+      1 => 1761397704,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_68f66ef1511e57_57640257 (\Smarty\Template $_smarty_tpl) {
+function content_68fccbcba7fb47_76083841 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 ?><!DOCTYPE html>
 <html lang="pl">
@@ -52,7 +52,10 @@ $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\vi
                 <?php if ((true && (true && null !== ($_smarty_tpl->getValue('session')['user_id'] ?? null)))) {?>
                     <?php if ($_smarty_tpl->getValue('session')['role'] == 'admin') {?>
                         <a href="index.php?action=adminPanel" class="btn btn-outline-danger btn-sm me-2">
-                            <i class="bi bi-shield-lock"></i> Panel admina
+                            <i class="bi bi-person-gear"></i> Zarządzanie użytkownikami
+                        </a>
+                        <a href="index.php?action=feedbackPanel" class="btn btn-outline-danger btn-sm me-2">
+                            <i class="bi bi-folder"></i> Zarządzanie zgłoszeniami
                         </a>
                         <a href="index.php?action=logout" class="btn btn-primary btn-sm text-white">Wyloguj</a>
                     <?php } else { ?>

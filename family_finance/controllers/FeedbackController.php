@@ -16,6 +16,22 @@ class FeedbackController
         $this->feedbackModel = new Feedback($db);
     }
 
+    public function index()
+    {
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+            header('Location: index.php?action=login');
+            exit;
+        }
+
+        $feedback = $this->feedbackModel->getAllFeedback();
+        $this->smarty->assign([
+            'feedback' => $feedback,
+            'session' => $_SESSION
+        ]);
+
+        $this->smarty->display('feedback_panel.tpl');
+    }
+
     public function add()
     {
         if (!isset($_SESSION['user_id'])) {
@@ -48,5 +64,39 @@ class FeedbackController
             'session' => $_SESSION,
         ]);
         $this->smarty->display('add_feedback.tpl');
+    }
+
+    public function changeStatus()
+    {
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+            header('Location: index.php?action=login');
+            exit;
+        }
+
+        $message = null;
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $feedback_id = (int)$_POST['feedback_id'];
+            $status = $_POST['status'];
+            if (in_array($status, ['new', 'in_progress', 'resolved'])) {
+                $result = $this->feedbackModel->updateStatus($feedback_id, $status);
+
+                if ($result) {
+                    $message = "Pomyślnie zmieniono status.";
+                } else {
+                    $message = "Wystąpił błąd podczas zmiany statusu.";
+                }
+            } else {
+                $message = "Nieprawidlowy status.";
+            }
+        }
+
+        $feedback = $this->feedbackModel->getAllFeedback();
+        $this->smarty->assign([
+            'message' => $message,
+            'feedback' => $feedback,
+            'session' => $_SESSION,
+        ]);
+        $this->smarty->display('feedback_panel.tpl');
     }
 }

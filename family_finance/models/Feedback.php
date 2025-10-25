@@ -23,4 +23,26 @@ class Feedback
             ':status' => $status
         ]);
     }
+
+    public function getAllFeedback()
+    {
+        $sql = "SELECT * 
+        FROM feedbacks
+        ORDER BY created_at desc
+        ";
+
+        return $this->db->select($sql);
+    }
+
+    public function updateStatus(int $feedback_id, string $status)
+    {
+        $sql = "UPDATE feedbacks 
+        SET status = :status 
+        WHERE id = :id";
+
+        return $this->db->execute($sql, [
+            ':status' => $status,
+            ':id' => $feedback_id
+        ]);
+    }
 }
