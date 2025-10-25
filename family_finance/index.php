@@ -9,6 +9,7 @@ require_once __DIR__ . '/controllers/FamilyController.php';
 require_once __DIR__ . '/controllers/DashboardController.php';
 require_once __DIR__ . '/controllers/TransactionController.php';
 require_once __DIR__ . '/controllers/CategoryController.php';
+require_once __DIR__ . '/controllers/FeedbackController.php';
 
 $action = $_GET['action'] ?? 'login';
 
@@ -91,7 +92,7 @@ switch ($action) {
     case 'deleteTransaction':
         (new TransactionController($smarty))->deleteTransaction($_GET['id'] ?? null);
         break;
-        case 'transactionDetails':
+    case 'transactionDetails':
         (new TransactionController($smarty))->transactionDetails($_GET['id'] ?? null);
         break;
 
@@ -99,9 +100,15 @@ switch ($action) {
     case 'categories':
         (new CategoryController($smarty))->index();
         break;
-        case 'viewCategory':
+    case 'viewCategory':
         (new CategoryController($smarty))->viewCategory($_GET['id'] ?? null);
         break;
+
+    // ------------------------------FEEDBACKCONTROLLER------------------------------
+    case 'addFeedback':
+        (new FeedbackController($smarty))->add();
+        break;
+
     default:
         (new AuthController($smarty))->showLoginForm();
         break;
