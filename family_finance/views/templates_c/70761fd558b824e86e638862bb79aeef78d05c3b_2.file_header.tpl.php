@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-25 15:08:27
+/* Smarty version 5.6.0, created on 2025-10-25 19:00:45
   from 'file:header.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68fccbcba7fb47_76083841',
+  'unifunc' => 'content_68fd023d270323_57269541',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '70761fd558b824e86e638862bb79aeef78d05c3b' => 
     array (
       0 => 'header.tpl',
-      1 => 1761397704,
+      1 => 1761411644,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_68fccbcba7fb47_76083841 (\Smarty\Template $_smarty_tpl) {
+function content_68fd023d270323_57269541 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 ?><!DOCTYPE html>
 <html lang="pl">
@@ -43,99 +43,126 @@ $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\vi
 
 </head>
 
-<body class="d-flex flex-column min-vh-100">
-    <header class="shadow-sm py-3 mb-4" style="background-color: #f8f9fa; font-family: 'Inter', sans-serif;">
-        <div class="container d-flex justify-content-between align-items-center">
-            <h1 class="h4 m-0 fw-bold text-primary"><a href="index.php?action=dashboard"
-                    style="text-decoration: none;"><i class="bi bi-piggy-bank-fill"></i> Manage Your Finances</a></h1>
-            <nav class="d-flex align-items-center">
-                <?php if ((true && (true && null !== ($_smarty_tpl->getValue('session')['user_id'] ?? null)))) {?>
-                    <?php if ($_smarty_tpl->getValue('session')['role'] == 'admin') {?>
-                        <a href="index.php?action=adminPanel" class="btn btn-outline-danger btn-sm me-2">
-                            <i class="bi bi-person-gear"></i> Zarządzanie użytkownikami
-                        </a>
-                        <a href="index.php?action=feedbackPanel" class="btn btn-outline-danger btn-sm me-2">
-                            <i class="bi bi-folder"></i> Zarządzanie zgłoszeniami
-                        </a>
-                        <a href="index.php?action=logout" class="btn btn-primary btn-sm text-white">Wyloguj</a>
-                    <?php } else { ?>
-                        <span class="me-3 text-dark">
-                            Witaj! <strong><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('session')['user_name']), ENT_QUOTES, 'UTF-8');?>
+<body class="d-flex flex-column min-vh-100" data-bs-theme="dark" class="bg-dark text-light">
+    <header>
+        <nav class="navbar navbar-expand-lg bg-dark navbar-dark shadow-sm border-bottom border-secondary">
+            <div class="container">
+                <!-- Logo -->
+                <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="index.php?action=dashboard">
+                    <i class="bi bi-piggy-bank-fill"></i>
+                    <span>Manage Your Finances</span>
+                </a>
+
+                <!-- Hamburger -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarDark"
+                    aria-controls="navbarDark" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Menu -->
+                <div class="collapse navbar-collapse" id="navbarDark">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+
+                        <?php if ((true && (true && null !== ($_smarty_tpl->getValue('session')['user_id'] ?? null)))) {?>
+                            <?php if ($_smarty_tpl->getValue('session')['role'] == 'admin') {?>
+                                <li class="nav-item me-2">
+                                    <a href="index.php?action=adminPanel" class="btn btn-outline-danger btn-sm">
+                                        <i class="bi bi-person-gear"></i> Użytkownicy
+                                    </a>
+                                </li>
+                                <li class="nav-item me-2">
+                                    <a href="index.php?action=feedbackPanel" class="btn btn-outline-danger btn-sm">
+                                        <i class="bi bi-folder"></i> Zgłoszenia
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="index.php?action=logout" class="btn btn-light btn-sm text-dark fw-semibold">
+                                        Wyloguj
+                                    </a>
+                                </li>
+                            <?php } else { ?>
+                                <li class="nav-item me-3 text-light">
+                                    Witaj, <strong><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('session')['user_name']), ENT_QUOTES, 'UTF-8');?>
 </strong>
+                                </li>
 
-                        </span>
+                                <?php if (!$_smarty_tpl->getValue('session')['family_id']) {?>
+                                    <li class="nav-item me-2">
+                                        <a href="index.php?action=createFamily" class="btn btn-outline-light btn-sm">
+                                            Załóż rodzinę
+                                        </a>
+                                    </li>
+                                <?php }?>
 
-                        <?php if (!$_smarty_tpl->getValue('session')['family_id']) {?>
-                            <a href="index.php?action=createFamily" class="btn btn-outline-primary btn-sm me-2">Załóż rodzinę</a>
+                                <!-- Transakcje -->
+                                <li class="nav-item dropdown me-2">
+                                    <button class="btn btn-outline-success btn-sm dropdown-toggle" id="transactionsDropdown"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-cash-stack"></i> Transakcje
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="transactionsDropdown">
+                                        <li><a class="dropdown-item" href="index.php?action=addTransaction">
+                                                <i class="bi bi-plus-circle"></i> Dodaj transakcję</a></li>
+                                        <li><a class="dropdown-item" href="index.php?action=manageTransactions">
+                                                <i class="bi bi-wallet2"></i> Zarządzaj transakcjami</a></li>
+                                    </ul>
+                                </li>
+
+                                <!-- Kategorie -->
+                                <li class="nav-item dropdown me-2">
+                                    <button class="btn btn-outline-warning btn-sm dropdown-toggle" id="categoryDropdown"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-tags-fill"></i> Kategorie
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="categoryDropdown">
+                                        <li><a class="dropdown-item" href="index.php?action=categories">
+                                                <i class="bi bi-list-ul"></i> Przeglądaj kategorie</a></li>
+                                    </ul>
+                                </li>
+
+                                <!-- Rodzina -->
+                                <?php if ((true && (true && null !== ($_smarty_tpl->getValue('session')['family_id'] ?? null)))) {?>
+                                    <li class="nav-item dropdown me-2">
+                                        <button class="btn btn-outline-info btn-sm dropdown-toggle" id="familyDropdown"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="bi bi-people-fill"></i> Rodzina
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="familyDropdown">
+                                            <li><a class="dropdown-item" href="index.php?action=usersFamily">
+                                                    <i class="bi bi-people"></i> Członkowie rodziny</a></li>
+                                            <?php if ($_smarty_tpl->getValue('session')['family_role'] == 'family_admin') {?>
+                                                <li><a class="dropdown-item" href="index.php?action=addUserToFamily">
+                                                        <i class="bi bi-person-plus"></i> Dodaj członka</a></li>
+                                            <?php }?>
+                                        </ul>
+                                    </li>
+                                <?php }?>
+
+                                <li class="nav-item me-2">
+                                    <a href="index.php?action=userPanel" class="btn btn-outline-light btn-sm">Panel
+                                        użytkownika</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="index.php?action=logout"
+                                        class="btn btn-light btn-sm text-dark fw-semibold">Wyloguj</a>
+                                </li>
+                            <?php }?>
+                        <?php } else { ?>
+                            <li class="nav-item me-2">
+                                <a href="index.php?action=login" class="btn btn-outline-light btn-sm">Logowanie</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="index.php?action=register"
+                                    class="btn btn-light btn-sm text-dark fw-semibold">Rejestracja</a>
+                            </li>
                         <?php }?>
-                                                    <div class="dropdown me-2">
-                                <button class="btn btn-outline-success btn-sm dropdown-toggle" type="button"
-                                    id="transactionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="bi bi-cash-stack"></i> Transakcje
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="transactionsDropdown">
-                                    <li>
-                                        <a class="dropdown-item" href="index.php?action=addTransaction">
-                                            <i class="bi bi-plus-circle"></i> Dodaj transakcję
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="index.php?action=manageTransactions">
-                                            <i class="bi bi-wallet2"></i> Zarządzaj transakcjami
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="dropdown me-2">
-                                <button class="btn btn-outline-warning btn-sm dropdown-toggle" type="button" id="categoryDropdown"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="bi bi-cash-stack"></i> Kategorie
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="categoryDropdown">
-                                    <li>
-                                        <a class="dropdown-item" href="index.php?action=categories">
-                                            <i class="bi bi-wallet2"></i> Przeglądaj kategorie
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        
-
-                        <?php if ((true && (true && null !== ($_smarty_tpl->getValue('session')['family_id'] ?? null)))) {?>
-                            <div class="dropdown me-2">
-                                <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" id="familyDropdown"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="bi bi-people-fill"></i> Rodzina
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="familyDropdown">
-                                    <li>
-                                        <a class="dropdown-item" href="index.php?action=usersFamily">
-                                            <i class="bi bi-people"></i> Członkowie rodziny
-                                        </a>
-                                    </li>
-                                    <?php if ($_smarty_tpl->getValue('session')['family_role'] == 'family_admin') {?>
-                                        <li>
-                                            <a class="dropdown-item" href="index.php?action=addUserToFamily">
-                                                <i class="bi bi-person-plus"></i> Dodaj członka
-                                            </a>
-                                        </li>
-                                    <?php }?>
-                                </ul>
-                            </div>
-                        <?php }?>
-
-                        <a href="index.php?action=userPanel" class="btn btn-outline-primary btn-sm me-2">Panel użytkownika</a>
-
-                        <a href="index.php?action=logout" class="btn btn-primary btn-sm text-white">Wyloguj</a>
-                    <?php }?>
-                <?php } else { ?>
-                    <a href="index.php?action=login" class="btn btn-outline-primary btn-sm me-2">Logowanie</a>
-                    <a href="index.php?action=register" class="btn btn-primary btn-sm text-white">Rejestracja</a>
-                <?php }?>
-
-            </nav>
-        </div>
+                    </ul>
+                </div>
+            </div>
+        </nav>
     </header>
+
+
 
 <main class="container my-5 flex-grow-1"><?php }
 }

@@ -1,7 +1,6 @@
 {include file="header.tpl"}
 
-
-<h2 class="mb-4 text-primary">Zarządzaj transakcjami</h2>
+<h2 class="mb-4 text-light-emphasis">Zarządzaj transakcjami</h2>
 
 <a href="index.php?action=addTransaction" class="btn btn-success mb-3">
     <i class="bi bi-plus-circle"></i> Dodaj transakcję
@@ -9,9 +8,9 @@
 
 {if $session.family_role == 'family_member' || $session.family_role == 'family_admin'}
     {if $transactions|@count > 0}
-        <div class="table-responsive shadow rounded">
-            <table class="table table-striped table-bordered mb-0" style="font-family: 'Inter', sans-serif;">
-                <thead class="table-primary">
+        <div class="table-responsive shadow-sm rounded">
+            <table class="table table-dark table-striped table-bordered mb-0" style="font-family: 'Inter', sans-serif;">
+                <thead class="table-dark">
                     <tr>
                         <th>Nazwa użytkownika</th>
                         <th>Kategoria</th>
@@ -34,30 +33,22 @@
                         <tr class="{if $transaction.type == 'income'}table-success{else}table-danger{/if}">
                             <td>{$transaction.user_name}</td>
                             <td>{$transaction.category_name}</td>
-                            <td>{if $transaction.type == 'income'}
-                                    Przychód
-                                {else}
-                                    Wydatek
-                                {/if}</td>
+                            <td>{if $transaction.type == 'income'}Przychód{else}Wydatek{/if}</td>
                             <td>{$transaction.amount}</td>
                             <td>{$transaction.currency}</td>
-                            <td>{if $transaction.payment_method == 'card'}
-                                    Karta płatnicza
-                                {else if $transaction.payment_method == 'cash'}
-                                    Gotówka
-                                {else}
-                                    Kryptowaluta
-                                {/if}</td>
+                            <td>
+                                {if $transaction.payment_method == 'card'}Karta płatnicza
+                                {elseif $transaction.payment_method == 'cash'}Gotówka
+                                {else}Kryptowaluta{/if}
+                            </td>
                             <td>{$transaction.description}</td>
                             <td>{$transaction.transaction_date}</td>
-                            <td>{if $transaction.is_recurring == 1}
-                                Tak{else} Nie
-                                {/if}</td>
+                            <td>{if $transaction.is_recurring == 1}Tak{else}Nie{/if}</td>
                             <td>{$transaction.created_at|date_format:"%Y-%m-%d %H:%M:%S"}</td>
-
-                            <td><a href="index.php?action=transactionDetails&id={$transaction.transaction_id}"
-                                    class="btn btn-primary">Szczegóły
-                                </a></td>
+                            <td>
+                                <a href="index.php?action=transactionDetails&id={$transaction.transaction_id}"
+                                    class="btn btn-primary btn-sm">Szczegóły</a>
+                            </td>
                             {if $session.family_role == 'family_admin'}
                                 <td>
                                     <a href="{$transaction.transaction_id}" class="btn btn-sm btn-outline-primary">
@@ -78,12 +69,11 @@
     {else}
         <div class="alert alert-info text-center mt-3">Brak transakcji w bazie danych.</div>
     {/if}
-    {* UZYTKOWNIK BEZ RODZINY *}
 {else}
     {if $transactionsUser|@count > 0}
-        <div class="table-responsive shadow rounded">
-            <table class="table table-striped table-bordered mb-0" style="font-family: 'Inter', sans-serif;">
-                <thead class="table-primary">
+        <div class="table-responsive shadow-sm rounded">
+            <table class="table table-dark table-striped table-bordered mb-0" style="font-family: 'Inter', sans-serif;">
+                <thead class="table-dark">
                     <tr>
                         <th>Nazwa użytkownika</th>
                         <th>Kategoria</th>
@@ -104,31 +94,22 @@
                         <tr class="{if $transaction.type == 'income'}table-success{else}table-danger{/if}">
                             <td>{$transaction.user_name}</td>
                             <td>{$transaction.category_name}</td>
-                            <td>{if $transaction.type == 'income'}
-                                    Przychód
-                                {else}
-                                    Wydatek
-                                {/if}</td>
+                            <td>{if $transaction.type == 'income'}Przychód{else}Wydatek{/if}</td>
                             <td>{$transaction.amount}</td>
                             <td>{$transaction.currency}</td>
-                            <td>{if $transaction.payment_method == 'card'}
-                                    Karta płatnicza
-                                {else if $transaction.payment_method == 'cash'}
-                                    Gotówka
-                                {else}
-                                    Kryptowaluta
-                                {/if}</td>
+                            <td>
+                                {if $transaction.payment_method == 'card'}Karta płatnicza
+                                {elseif $transaction.payment_method == 'cash'}Gotówka
+                                {else}Kryptowaluta{/if}
+                            </td>
                             <td>{$transaction.description}</td>
                             <td>{$transaction.transaction_date}</td>
-                            <td>{if $transaction.is_recurring == 1}
-                                Tak{else} Nie
-                                {/if}</td>
+                            <td>{if $transaction.is_recurring == 1}Tak{else}Nie{/if}</td>
                             <td>{$transaction.created_at|date_format:"%Y-%m-%d %H:%M:%S"}</td>
-
-                            <td><a href="index.php?action=transactionDetails&id={$transaction.transaction_id}"
-                                    class="btn btn-primary">Szczegóły
-                                </a></td>
-
+                            <td>
+                                <a href="index.php?action=transactionDetails&id={$transaction.transaction_id}"
+                                    class="btn btn-primary btn-sm">Szczegóły</a>
+                            </td>
                             <td>
                                 <a href="{$transaction.transaction_id}" class="btn btn-sm btn-outline-primary">
                                     <i class="bi bi-pencil"></i> Edytuj

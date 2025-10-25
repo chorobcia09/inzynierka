@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-22 19:37:19
+/* Smarty version 5.6.0, created on 2025-10-25 19:08:02
   from 'file:manage_transactions.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68f9164f002178_69782902',
+  'unifunc' => 'content_68fd03f2d87ad1_80675081',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '28c54071631267fbcf994c251e43738947422a52' => 
     array (
       0 => 'manage_transactions.tpl',
-      1 => 1761154637,
+      1 => 1761412081,
       2 => 'file',
     ),
   ),
@@ -22,13 +22,12 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_68f9164f002178_69782902 (\Smarty\Template $_smarty_tpl) {
+function content_68fd03f2d87ad1_80675081 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
 
-
-<h2 class="mb-4 text-primary">Zarządzaj transakcjami</h2>
+<h2 class="mb-4 text-light-emphasis">Zarządzaj transakcjami</h2>
 
 <a href="index.php?action=addTransaction" class="btn btn-success mb-3">
     <i class="bi bi-plus-circle"></i> Dodaj transakcję
@@ -36,9 +35,9 @@ $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_sma
 
 <?php if ($_smarty_tpl->getValue('session')['family_role'] == 'family_member' || $_smarty_tpl->getValue('session')['family_role'] == 'family_admin') {?>
     <?php if ($_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('transactions')) > 0) {?>
-        <div class="table-responsive shadow rounded">
-            <table class="table table-striped table-bordered mb-0" style="font-family: 'Inter', sans-serif;">
-                <thead class="table-primary">
+        <div class="table-responsive shadow-sm rounded">
+            <table class="table table-dark table-striped table-bordered mb-0" style="font-family: 'Inter', sans-serif;">
+                <thead class="table-dark">
                     <tr>
                         <th>Nazwa użytkownika</th>
                         <th>Kategoria</th>
@@ -68,36 +67,28 @@ $foreach0DoElse = false;
 </td>
                             <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['category_name']), ENT_QUOTES, 'UTF-8');?>
 </td>
-                            <td><?php if ($_smarty_tpl->getValue('transaction')['type'] == 'income') {?>
-                                    Przychód
-                                <?php } else { ?>
-                                    Wydatek
-                                <?php }?></td>
+                            <td><?php if ($_smarty_tpl->getValue('transaction')['type'] == 'income') {?>Przychód<?php } else { ?>Wydatek<?php }?></td>
                             <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['amount']), ENT_QUOTES, 'UTF-8');?>
 </td>
                             <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['currency']), ENT_QUOTES, 'UTF-8');?>
 </td>
-                            <td><?php if ($_smarty_tpl->getValue('transaction')['payment_method'] == 'card') {?>
-                                    Karta płatnicza
-                                <?php } elseif ($_smarty_tpl->getValue('transaction')['payment_method'] == 'cash') {?>
-                                    Gotówka
-                                <?php } else { ?>
-                                    Kryptowaluta
-                                <?php }?></td>
+                            <td>
+                                <?php if ($_smarty_tpl->getValue('transaction')['payment_method'] == 'card') {?>Karta płatnicza
+                                <?php } elseif ($_smarty_tpl->getValue('transaction')['payment_method'] == 'cash') {?>Gotówka
+                                <?php } else { ?>Kryptowaluta<?php }?>
+                            </td>
                             <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['description']), ENT_QUOTES, 'UTF-8');?>
 </td>
                             <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['transaction_date']), ENT_QUOTES, 'UTF-8');?>
 </td>
-                            <td><?php if ($_smarty_tpl->getValue('transaction')['is_recurring'] == 1) {?>
-                                Tak<?php } else { ?> Nie
-                                <?php }?></td>
+                            <td><?php if ($_smarty_tpl->getValue('transaction')['is_recurring'] == 1) {?>Tak<?php } else { ?>Nie<?php }?></td>
                             <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('date_format')($_smarty_tpl->getValue('transaction')['created_at'],"%Y-%m-%d %H:%M:%S")), ENT_QUOTES, 'UTF-8');?>
 </td>
-
-                            <td><a href="index.php?action=transactionDetails&id=<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['transaction_id']), ENT_QUOTES, 'UTF-8');?>
+                            <td>
+                                <a href="index.php?action=transactionDetails&id=<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['transaction_id']), ENT_QUOTES, 'UTF-8');?>
 "
-                                    class="btn btn-primary">Szczegóły
-                                </a></td>
+                                    class="btn btn-primary btn-sm">Szczegóły</a>
+                            </td>
                             <?php if ($_smarty_tpl->getValue('session')['family_role'] == 'family_admin') {?>
                                 <td>
                                     <a href="<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['transaction_id']), ENT_QUOTES, 'UTF-8');?>
@@ -121,12 +112,12 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         </div>
     <?php } else { ?>
         <div class="alert alert-info text-center mt-3">Brak transakcji w bazie danych.</div>
-    <?php }?>
-    <?php } else { ?>
+    <?php }
+} else { ?>
     <?php if ($_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('transactionsUser')) > 0) {?>
-        <div class="table-responsive shadow rounded">
-            <table class="table table-striped table-bordered mb-0" style="font-family: 'Inter', sans-serif;">
-                <thead class="table-primary">
+        <div class="table-responsive shadow-sm rounded">
+            <table class="table table-dark table-striped table-bordered mb-0" style="font-family: 'Inter', sans-serif;">
+                <thead class="table-dark">
                     <tr>
                         <th>Nazwa użytkownika</th>
                         <th>Kategoria</th>
@@ -154,37 +145,28 @@ $foreach1DoElse = false;
 </td>
                             <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['category_name']), ENT_QUOTES, 'UTF-8');?>
 </td>
-                            <td><?php if ($_smarty_tpl->getValue('transaction')['type'] == 'income') {?>
-                                    Przychód
-                                <?php } else { ?>
-                                    Wydatek
-                                <?php }?></td>
+                            <td><?php if ($_smarty_tpl->getValue('transaction')['type'] == 'income') {?>Przychód<?php } else { ?>Wydatek<?php }?></td>
                             <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['amount']), ENT_QUOTES, 'UTF-8');?>
 </td>
                             <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['currency']), ENT_QUOTES, 'UTF-8');?>
 </td>
-                            <td><?php if ($_smarty_tpl->getValue('transaction')['payment_method'] == 'card') {?>
-                                    Karta płatnicza
-                                <?php } elseif ($_smarty_tpl->getValue('transaction')['payment_method'] == 'cash') {?>
-                                    Gotówka
-                                <?php } else { ?>
-                                    Kryptowaluta
-                                <?php }?></td>
+                            <td>
+                                <?php if ($_smarty_tpl->getValue('transaction')['payment_method'] == 'card') {?>Karta płatnicza
+                                <?php } elseif ($_smarty_tpl->getValue('transaction')['payment_method'] == 'cash') {?>Gotówka
+                                <?php } else { ?>Kryptowaluta<?php }?>
+                            </td>
                             <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['description']), ENT_QUOTES, 'UTF-8');?>
 </td>
                             <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['transaction_date']), ENT_QUOTES, 'UTF-8');?>
 </td>
-                            <td><?php if ($_smarty_tpl->getValue('transaction')['is_recurring'] == 1) {?>
-                                Tak<?php } else { ?> Nie
-                                <?php }?></td>
+                            <td><?php if ($_smarty_tpl->getValue('transaction')['is_recurring'] == 1) {?>Tak<?php } else { ?>Nie<?php }?></td>
                             <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('date_format')($_smarty_tpl->getValue('transaction')['created_at'],"%Y-%m-%d %H:%M:%S")), ENT_QUOTES, 'UTF-8');?>
 </td>
-
-                            <td><a href="index.php?action=transactionDetails&id=<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['transaction_id']), ENT_QUOTES, 'UTF-8');?>
+                            <td>
+                                <a href="index.php?action=transactionDetails&id=<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['transaction_id']), ENT_QUOTES, 'UTF-8');?>
 "
-                                    class="btn btn-primary">Szczegóły
-                                </a></td>
-
+                                    class="btn btn-primary btn-sm">Szczegóły</a>
+                            </td>
                             <td>
                                 <a href="<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['transaction_id']), ENT_QUOTES, 'UTF-8');?>
 " class="btn btn-sm btn-outline-primary">

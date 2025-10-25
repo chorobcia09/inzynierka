@@ -15,99 +15,124 @@
 
 </head>
 
-<body class="d-flex flex-column min-vh-100">
-    <header class="shadow-sm py-3 mb-4" style="background-color: #f8f9fa; font-family: 'Inter', sans-serif;">
-        <div class="container d-flex justify-content-between align-items-center">
-            <h1 class="h4 m-0 fw-bold text-primary"><a href="index.php?action=dashboard"
-                    style="text-decoration: none;"><i class="bi bi-piggy-bank-fill"></i> Manage Your Finances</a></h1>
-            <nav class="d-flex align-items-center">
-                {if isset($session.user_id)}
-                    {if $session.role == 'admin'}
-                        <a href="index.php?action=adminPanel" class="btn btn-outline-danger btn-sm me-2">
-                            <i class="bi bi-person-gear"></i> Zarządzanie użytkownikami
-                        </a>
-                        <a href="index.php?action=feedbackPanel" class="btn btn-outline-danger btn-sm me-2">
-                            <i class="bi bi-folder"></i> Zarządzanie zgłoszeniami
-                        </a>
-                        <a href="index.php?action=logout" class="btn btn-primary btn-sm text-white">Wyloguj</a>
-                    {else}
-                        <span class="me-3 text-dark">
-                            Witaj! <strong>{$session.user_name}</strong>
+<body class="d-flex flex-column min-vh-100" data-bs-theme="dark" class="bg-dark text-light">
+    <header>
+        <nav class="navbar navbar-expand-lg bg-dark navbar-dark shadow-sm border-bottom border-secondary">
+            <div class="container">
+                <!-- Logo -->
+                <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="index.php?action=dashboard">
+                    <i class="bi bi-piggy-bank-fill"></i>
+                    <span>Manage Your Finances</span>
+                </a>
 
-                        </span>
+                <!-- Hamburger -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarDark"
+                    aria-controls="navbarDark" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-                        {if !$session.family_id}
-                            <a href="index.php?action=createFamily" class="btn btn-outline-primary btn-sm me-2">Załóż rodzinę</a>
+                <!-- Menu -->
+                <div class="collapse navbar-collapse" id="navbarDark">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+
+                        {if isset($session.user_id)}
+                            {if $session.role == 'admin'}
+                                <li class="nav-item me-2">
+                                    <a href="index.php?action=adminPanel" class="btn btn-outline-danger btn-sm">
+                                        <i class="bi bi-person-gear"></i> Użytkownicy
+                                    </a>
+                                </li>
+                                <li class="nav-item me-2">
+                                    <a href="index.php?action=feedbackPanel" class="btn btn-outline-danger btn-sm">
+                                        <i class="bi bi-folder"></i> Zgłoszenia
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="index.php?action=logout" class="btn btn-light btn-sm text-dark fw-semibold">
+                                        Wyloguj
+                                    </a>
+                                </li>
+                            {else}
+                                <li class="nav-item me-3 text-light">
+                                    Witaj, <strong>{$session.user_name}</strong>
+                                </li>
+
+                                {if !$session.family_id}
+                                    <li class="nav-item me-2">
+                                        <a href="index.php?action=createFamily" class="btn btn-outline-light btn-sm">
+                                            Załóż rodzinę
+                                        </a>
+                                    </li>
+                                {/if}
+
+                                <!-- Transakcje -->
+                                <li class="nav-item dropdown me-2">
+                                    <button class="btn btn-outline-success btn-sm dropdown-toggle" id="transactionsDropdown"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-cash-stack"></i> Transakcje
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="transactionsDropdown">
+                                        <li><a class="dropdown-item" href="index.php?action=addTransaction">
+                                                <i class="bi bi-plus-circle"></i> Dodaj transakcję</a></li>
+                                        <li><a class="dropdown-item" href="index.php?action=manageTransactions">
+                                                <i class="bi bi-wallet2"></i> Zarządzaj transakcjami</a></li>
+                                    </ul>
+                                </li>
+
+                                <!-- Kategorie -->
+                                <li class="nav-item dropdown me-2">
+                                    <button class="btn btn-outline-warning btn-sm dropdown-toggle" id="categoryDropdown"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-tags-fill"></i> Kategorie
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="categoryDropdown">
+                                        <li><a class="dropdown-item" href="index.php?action=categories">
+                                                <i class="bi bi-list-ul"></i> Przeglądaj kategorie</a></li>
+                                    </ul>
+                                </li>
+
+                                <!-- Rodzina -->
+                                {if isset($session.family_id)}
+                                    <li class="nav-item dropdown me-2">
+                                        <button class="btn btn-outline-info btn-sm dropdown-toggle" id="familyDropdown"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="bi bi-people-fill"></i> Rodzina
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="familyDropdown">
+                                            <li><a class="dropdown-item" href="index.php?action=usersFamily">
+                                                    <i class="bi bi-people"></i> Członkowie rodziny</a></li>
+                                            {if $session.family_role == 'family_admin'}
+                                                <li><a class="dropdown-item" href="index.php?action=addUserToFamily">
+                                                        <i class="bi bi-person-plus"></i> Dodaj członka</a></li>
+                                            {/if}
+                                        </ul>
+                                    </li>
+                                {/if}
+
+                                <li class="nav-item me-2">
+                                    <a href="index.php?action=userPanel" class="btn btn-outline-light btn-sm">Panel
+                                        użytkownika</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="index.php?action=logout"
+                                        class="btn btn-light btn-sm text-dark fw-semibold">Wyloguj</a>
+                                </li>
+                            {/if}
+                        {else}
+                            <li class="nav-item me-2">
+                                <a href="index.php?action=login" class="btn btn-outline-light btn-sm">Logowanie</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="index.php?action=register"
+                                    class="btn btn-light btn-sm text-dark fw-semibold">Rejestracja</a>
+                            </li>
                         {/if}
-                        {* {if isset($session.family_id)} *}
-                            <div class="dropdown me-2">
-                                <button class="btn btn-outline-success btn-sm dropdown-toggle" type="button"
-                                    id="transactionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="bi bi-cash-stack"></i> Transakcje
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="transactionsDropdown">
-                                    <li>
-                                        <a class="dropdown-item" href="index.php?action=addTransaction">
-                                            <i class="bi bi-plus-circle"></i> Dodaj transakcję
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="index.php?action=manageTransactions">
-                                            <i class="bi bi-wallet2"></i> Zarządzaj transakcjami
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="dropdown me-2">
-                                <button class="btn btn-outline-warning btn-sm dropdown-toggle" type="button" id="categoryDropdown"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="bi bi-cash-stack"></i> Kategorie
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="categoryDropdown">
-                                    <li>
-                                        <a class="dropdown-item" href="index.php?action=categories">
-                                            <i class="bi bi-wallet2"></i> Przeglądaj kategorie
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        {* {/if} *}
-
-
-                        {if isset($session.family_id)}
-                            <div class="dropdown me-2">
-                                <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" id="familyDropdown"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="bi bi-people-fill"></i> Rodzina
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="familyDropdown">
-                                    <li>
-                                        <a class="dropdown-item" href="index.php?action=usersFamily">
-                                            <i class="bi bi-people"></i> Członkowie rodziny
-                                        </a>
-                                    </li>
-                                    {if $session.family_role == 'family_admin'}
-                                        <li>
-                                            <a class="dropdown-item" href="index.php?action=addUserToFamily">
-                                                <i class="bi bi-person-plus"></i> Dodaj członka
-                                            </a>
-                                        </li>
-                                    {/if}
-                                </ul>
-                            </div>
-                        {/if}
-
-                        <a href="index.php?action=userPanel" class="btn btn-outline-primary btn-sm me-2">Panel użytkownika</a>
-
-                        <a href="index.php?action=logout" class="btn btn-primary btn-sm text-white">Wyloguj</a>
-                    {/if}
-                {else}
-                    <a href="index.php?action=login" class="btn btn-outline-primary btn-sm me-2">Logowanie</a>
-                    <a href="index.php?action=register" class="btn btn-primary btn-sm text-white">Rejestracja</a>
-                {/if}
-
-            </nav>
-        </div>
+                    </ul>
+                </div>
+            </div>
+        </nav>
     </header>
+
+
 
 <main class="container my-5 flex-grow-1">

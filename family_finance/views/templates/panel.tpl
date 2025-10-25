@@ -1,29 +1,33 @@
 {include file='header.tpl'}
 
-<div class="user-panel-container mx-auto shadow p-4 rounded"
-    style="max-width:600px; font-family: 'Inter', sans-serif; background-color: #ffffff;">
-    <h2 class="text-center mb-4 fw-bold text-primary">Panel użytkownika</h2>
+<div class="user-panel-container mx-auto shadow-lg p-4 rounded-4 bg-dark-subtle text-light"
+    style="max-width:600px; font-family: 'Inter', sans-serif;">
+    <h2 class="text-center mb-4 fw-bold text-light-emphasis">Panel użytkownika</h2>
 
-    <ul class="list-group list-group-flush">
-        <li class="list-group-item"><strong>Nazwa użytkownika:</strong> {$user.username}</li>
-        <li class="list-group-item"><strong>Email:</strong> {$user.email}</li>
-        <li class="list-group-item"><strong>Rodzina:</strong> {$user.family_name|default:'Brak przypisanej rodziny'}
+    <ul class="list-group list-group-flush rounded-3 overflow-hidden">
+        <li class="list-group-item bg-dark text-light"><strong>Nazwa użytkownika:</strong> {$user.username}</li>
+        <li class="list-group-item bg-dark text-light"><strong>Email:</strong> {$user.email}</li>
+        <li class="list-group-item bg-dark text-light">
+            <strong>Rodzina:</strong> {$user.family_name|default:'Brak przypisanej rodziny'}
         </li>
-        <li class="list-group-item"><strong>Rola:</strong> {if $user.family_role == 'family_admin'}
-                <span class="badge bg-success">Administrator rodziny</span>
+        <li class="list-group-item bg-dark text-light">
+            <strong>Rola:</strong>
+            {if $user.family_role == 'family_admin'}
+                <span class="badge bg-success bg-opacity-75">Administrator rodziny</span>
             {elseif $user.family_role == 'family_member'}
-                <span class="badge bg-primary">Członek rodziny</span>
+                <span class="badge bg-primary bg-opacity-75">Członek rodziny</span>
             {else}
-                <span class="badge bg-secondary">Brak przypisania</span>
+                <span class="badge bg-secondary bg-opacity-75">Brak przypisania</span>
             {/if}
         </li>
-        <li class="list-group-item"><strong>Rodzaj konta:</strong> {$user.account_type|default:'Brak'}</li>
-        <li class="list-group-item"><strong>UID:</strong> {$user.UID}</li>
+        <li class="list-group-item bg-dark text-light"><strong>Rodzaj konta:</strong>
+            {$user.account_type|default:'Brak'}</li>
+        <li class="list-group-item bg-dark text-light"><strong>UID:</strong> {$user.UID}</li>
     </ul>
 
     <div class="text-center mt-4">
-        <a href="index.php?action=dashboard" class="btn btn-primary me-2">Dashboard</a>
-        <a href="index.php?action=usersFamily" class="btn btn-outline-primary">Członkowie rodziny</a>
+        <a href="index.php?action=dashboard" class="btn btn-light text-dark fw-semibold me-2">Dashboard</a>
+        <a href="index.php?action=usersFamily" class="btn btn-outline-light fw-semibold">Członkowie rodziny</a>
     </div>
 </div>
 

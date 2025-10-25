@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-17 22:39:04
+/* Smarty version 5.6.0, created on 2025-10-25 19:11:32
   from 'file:admin_panel.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68f2a96863c336_04310837',
+  'unifunc' => 'content_68fd04c4b12bf4_08924917',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '3109ee7d5a8cde23b272d8861fff9b81f35827c2' => 
     array (
       0 => 'admin_panel.tpl',
-      1 => 1760733539,
+      1 => 1761412289,
       2 => 'file',
     ),
   ),
@@ -22,84 +22,89 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_68f2a96863c336_04310837 (\Smarty\Template $_smarty_tpl) {
+function content_68fd04c4b12bf4_08924917 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
 
-<h2 class="mb-4 text-primary">Panel administratora</h2>
+<div class="container mt-5">
+    <h2 class="mb-4 text-light-emphasis">Panel administratora</h2>
 
-<a href="index.php?action=addUserForm" class="btn btn-success mb-3">
-    <i class="bi bi-person-plus"></i> Dodaj użytkownika
-</a>
+    <a href="index.php?action=addUserForm" class="btn btn-success mb-3">
+        <i class="bi bi-person-plus"></i> Dodaj użytkownika
+    </a>
 
-
-<table class="table table-striped table-bordered">
-    <thead class="table-light">
-        <tr>
-            <th>ID</th>
-            <th>ID RODZINY</th>
-            <th>Imię</th>
-            <th>Email</th>
-            <th>Rodzaj konta</th>
-            <th>Rodzina</th>
-            <th>Rola</th>
-            <th>Rola w rodzinie</th>
-            <th>Akcje</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php
+    <div class="table-responsive shadow rounded bg-dark text-light p-3">
+        <table class="table table-striped table-bordered table-dark mb-0">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>ID RODZINY</th>
+                    <th>Imię</th>
+                    <th>Email</th>
+                    <th>Rodzaj konta</th>
+                    <th>Rodzina</th>
+                    <th>Rola</th>
+                    <th>Rola w rodzinie</th>
+                    <th>Akcje</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
 $_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('users'), 'user');
 $foreach0DoElse = true;
 foreach ($_from ?? [] as $_smarty_tpl->getVariable('user')->value) {
 $foreach0DoElse = false;
 ?>
-            <tr>
-                <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('user')['id']), ENT_QUOTES, 'UTF-8');?>
+                    <tr>
+                        <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('user')['id']), ENT_QUOTES, 'UTF-8');?>
 </td>
-                <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('user')['family_id']), ENT_QUOTES, 'UTF-8');?>
+                        <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('user')['family_id']), ENT_QUOTES, 'UTF-8');?>
 </td>
-                <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('user')['username']), ENT_QUOTES, 'UTF-8');?>
+                        <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('user')['username']), ENT_QUOTES, 'UTF-8');?>
 </td>
-                <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('user')['email']), ENT_QUOTES, 'UTF-8');?>
+                        <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('user')['email']), ENT_QUOTES, 'UTF-8');?>
 </td>
-                <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('user')['account_type']), ENT_QUOTES, 'UTF-8');?>
+                        <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('user')['account_type']), ENT_QUOTES, 'UTF-8');?>
 </td>
-                <td><?php echo htmlspecialchars((string) ((($tmp = $_smarty_tpl->getValue('user')['family_name'] ?? null)===null||$tmp==='' ? 'Brak' ?? null : $tmp)), ENT_QUOTES, 'UTF-8');?>
+                        <td><?php echo htmlspecialchars((string) ((($tmp = $_smarty_tpl->getValue('user')['family_name'] ?? null)===null||$tmp==='' ? 'Brak' ?? null : $tmp)), ENT_QUOTES, 'UTF-8');?>
 </td>
 
-                <td><?php if ($_smarty_tpl->getValue('user')['role'] == 'admin') {?>
-                        <span class="badge bg-danger">Administrator</span>
-                        <?php } else { ?>
-                        <span class="badge bg-warning">Użytkownik</span>
-                    <?php }?>
+                        <td>
+                            <?php if ($_smarty_tpl->getValue('user')['role'] == 'admin') {?>
+                                <span class="badge bg-danger">Administrator</span>
+                            <?php } else { ?>
+                                <span class="badge bg-warning text-dark">Użytkownik</span>
+                            <?php }?>
                         </td>
-                <td> <?php if ($_smarty_tpl->getValue('user')['family_role'] == 'family_admin') {?>
-                        <span class="badge bg-success">Administrator rodziny</span>
-                    <?php } elseif ($_smarty_tpl->getValue('user')['family_role'] == 'family_member') {?>
-                        <span class="badge bg-primary">Członek rodziny</span>
-                    <?php } else { ?>
-                        <span class="badge bg-secondary">Brak przypisania</span>
-                    <?php }?>
-                </td>
-                <td>
-                    <a href="index.php?action=editUser&id=<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('user')['id']), ENT_QUOTES, 'UTF-8');?>
-" class="btn btn-sm btn-outline-primary">
-                        <i class="bi bi-pencil"></i> Edytuj
-                    </a>
-                    <a href="index.php?action=deleteUser&id=<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('user')['id']), ENT_QUOTES, 'UTF-8');?>
+                        <td>
+                            <?php if ($_smarty_tpl->getValue('user')['family_role'] == 'family_admin') {?>
+                                <span class="badge bg-success">Administrator rodziny</span>
+                            <?php } elseif ($_smarty_tpl->getValue('user')['family_role'] == 'family_member') {?>
+                                <span class="badge bg-primary">Członek rodziny</span>
+                            <?php } else { ?>
+                                <span class="badge bg-secondary text-dark">Brak przypisania</span>
+                            <?php }?>
+                        </td>
+                        <td>
+                            <a href="index.php?action=editUser&id=<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('user')['id']), ENT_QUOTES, 'UTF-8');?>
+" class="btn btn-sm btn-outline-light">
+                                <i class="bi bi-pencil"></i> Edytuj
+                            </a>
+                            <a href="index.php?action=deleteUser&id=<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('user')['id']), ENT_QUOTES, 'UTF-8');?>
 " class="btn btn-sm btn-outline-danger"
-                        onclick="return confirm('Czy na pewno chcesz usunąć tego użytkownika?');">
-                        <i class="bi bi-trash"></i> Usuń
-                    </a>
-                </td>
-            </tr>
-        <?php
+                                onclick="return confirm('Czy na pewno chcesz usunąć tego użytkownika?');">
+                                <i class="bi bi-trash"></i> Usuń
+                            </a>
+                        </td>
+                    </tr>
+                <?php
 }
 $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
-    </tbody>
-</table>
+            </tbody>
+        </table>
+    </div>
+</div>
 
 <?php $_smarty_tpl->renderSubTemplate('file:footer.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 }

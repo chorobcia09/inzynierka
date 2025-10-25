@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-23 21:11:36
+/* Smarty version 5.6.0, created on 2025-10-25 19:18:58
   from 'file:users_family.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68fa7de885ced3_27380359',
+  'unifunc' => 'content_68fd0682d4e894_43398998',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '8e300cf5e677cdbe32f4d3b622999c7baecdbafd' => 
     array (
       0 => 'users_family.tpl',
-      1 => 1761156437,
+      1 => 1761412736,
       2 => 'file',
     ),
   ),
@@ -22,24 +22,24 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_68fa7de885ced3_27380359 (\Smarty\Template $_smarty_tpl) {
+function content_68fd0682d4e894_43398998 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
 
+<div class="users-container bg-dark text-light p-4 rounded shadow" style="font-family: 'Inter', sans-serif;">
+    <h2 class="mb-4 fw-bold text-primary text-light">Lista członków rodziny</h2>
 
+    <?php if ($_smarty_tpl->getValue('session')['family_role'] == 'family_admin') {?>
+        <a href="index.php?action=addUserToFamily" class="btn btn-success mb-3">
+            <i class="bi bi-person-plus"></i> Dodaj członka rodziny
+        </a>
+    <?php }?>
 
-<div class="users-container">
-    <h2 class="mb-4 fw-bold text-primary">Lista członków rodziny</h2>
-<?php if ($_smarty_tpl->getValue('session')['family_role'] == 'family_admin') {?>
-    <a href="index.php?action=addUserToFamily" class="btn btn-success mb-3">
-        <i class="bi bi-person-plus"></i> Dodaj członka rodziny
-    </a>
-<?php }?>
     <?php if ($_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('users')) > 0) {?>
         <div class="table-responsive shadow rounded">
-            <table class="table table-striped table-bordered mb-0" style="font-family: 'Inter', sans-serif;">
-                <thead class="table-primary">
+            <table class="table table-dark table-bordered mb-0">
+                <thead class="table-secondary text-dark">
                     <tr>
                         <th>Nazwa użytkownika</th>
                         <th>Email</th>
@@ -79,7 +79,8 @@ $foreach0DoElse = false;
 "
                                         class="btn btn-sm btn-outline-danger"
                                         onclick="return confirm('Czy na pewno chcesz usunąć tego użytkownika?');">
-                                        <i class="bi bi-trash"></i> Usuń członka rodziny</a>
+                                        <i class="bi bi-trash"></i> Usuń członka rodziny
+                                    </a>
                                 </td>
                             <?php }?>
                         </tr>
@@ -90,17 +91,18 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
             </table>
         </div>
     <?php } else { ?>
-    
-                    <div class="alert alert-info text-center mt-3">Brak przypisanych członków do rodziny.</div>
+        <div class="alert alert-info text-center mt-3 bg-info bg-opacity-25 border-0 text-dark">
+            Brak przypisanych członków do rodziny.
+        </div>
     <?php }?>
 
     <?php if ($_smarty_tpl->getValue('session')['family_role'] == 'family_admin') {?>
-    <div class="mt-4 pt-3 border-top">
-        <a href="index.php?action=deleteFamily" class="btn btn-danger" 
-           onclick="return confirm('Czy na pewno chcesz usunąć całą rodzinę? Ta operacja jest nieodwracalna!');">
-            <i class="bi bi-trash"></i> Usuń rodzinę
-        </a>
-    </div>
+        <div class="mt-4 pt-3 border-top border-secondary">
+            <a href="index.php?action=deleteFamily" class="btn btn-danger"
+                onclick="return confirm('Czy na pewno chcesz usunąć całą rodzinę? Ta operacja jest nieodwracalna!');">
+                <i class="bi bi-trash"></i> Usuń rodzinę
+            </a>
+        </div>
     <?php }?>
 </div>
 
