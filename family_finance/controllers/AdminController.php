@@ -2,6 +2,9 @@
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/User.php';
 
+/**
+ * Klasa obsługi panelu administratora
+ */
 class AdminController
 {
     private $userModel;
@@ -18,6 +21,9 @@ class AdminController
         $this->smarty = $smarty;
     }
 
+    /**
+     * Wyświetlenie panelu admina
+     */
     public function index()
     {
         $users = $this->userModel->getAllUsersWithFamily();
@@ -30,10 +36,11 @@ class AdminController
 
         $this->smarty->display('admin_panel.tpl');
     }
-
+    /**
+     * Dodawanie użytkownia przez administartora.
+     */
     public function addUser()
     {
-        // Blokada dla niezalogowanych / niez uprawnionych
         if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
             header('Location: index.php?action=login');
             exit;
@@ -81,10 +88,11 @@ class AdminController
         return $randomCode;
     }
 
-
+    /**
+     * Usuwanie użytkownika przez administratora
+     */
     public function deleteUser($id)
     {
-        // Blokada dla niezalogowanych / niez uprawnionych
         if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
             header('Location: index.php?action=login');
             exit;
@@ -95,9 +103,11 @@ class AdminController
         exit;
     }
 
+    /**
+     * Edycja użytkownika przez administratora.
+     */
     public function editUser($id)
     {
-        // Blokada dla niezalogowanych / nieuprawnionych
         if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
             header('Location: index.php?action=login');
             exit;

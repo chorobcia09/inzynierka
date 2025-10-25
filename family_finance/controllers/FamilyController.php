@@ -48,7 +48,7 @@ class FamilyController
         }
 
         $users = $this->userModel->getUsersByFamilyId($_SESSION['family_id'] ?? null);
- 
+
 
 
         $this->smarty->assign([
@@ -70,7 +70,6 @@ class FamilyController
             exit;
         }
 
-        // Sprawdzenie czy użytkownik już ma rodzinę
         if (!empty($_SESSION['family_id'])) {
             header('Location: index.php?action=dashboard');
             exit;
@@ -89,17 +88,12 @@ class FamilyController
                 return;
             }
 
-            // Tworzenie rodziny
             $familyId = $this->familyModel->createFamily($familyName, $region);
-
-            // Przypisanie użytkownika jako administratora rodziny
             $this->familyModel->updateUserFamilyAndRole($_SESSION['user_id'], $familyId, 'family_admin');
 
-            // Aktualizacja sesji
             $_SESSION['family_id'] = $familyId;
             $_SESSION['family_role'] = 'family_admin';
 
-            // Przeładowanie strony
             header('Location: index.php?action=dashboard');
             exit;
         }
@@ -114,7 +108,6 @@ class FamilyController
             exit;
         }
 
-        // Pobieramy ID rodziny z sesji (użytkownik może usuwać tylko swoją rodzinę)
         $familyId = $_SESSION['family_id'] ?? null;
 
         if (!$familyId) {
@@ -124,14 +117,8 @@ class FamilyController
         }
 
 
-        // Usunięcie rodziny
         $this->familyModel->deleteFamily($familyId);
-
-        // Czyścimy powiązanie z rodziną w sesji
         unset($_SESSION['family_id'], $_SESSION['family_role']);
-
-
-        // Po usunięciu rodziny — przekierowanie do listy użytkowników lub dashboardu
         header('Location: index.php?action=dashboard');
         exit;
     }
@@ -185,7 +172,6 @@ class FamilyController
 
     public function deleteUser($id)
     {
-        // Blokada dla niezalogowanych / niez uprawnionych
         if (!isset($_SESSION['user_id']) || $_SESSION['family_role'] !== 'family_admin') {
             header('Location: index.php?action=login');
             exit;

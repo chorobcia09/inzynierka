@@ -4,6 +4,9 @@ require_once __DIR__ . '/../models/User.php';
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/Family.php';
 
+/**
+ * Klasa do obsługi dashboardu.
+ */
 class DashboardController
 {
     private $smarty;

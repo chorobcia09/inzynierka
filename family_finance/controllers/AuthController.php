@@ -2,6 +2,9 @@
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/Auth.php';
 
+/**
+ * Klasa do obsługi logowania/rejestracji
+ */
 class AuthController
 {
     private $authModel;
@@ -17,7 +20,6 @@ class AuthController
     /**
      * Metoda zabezpieczająca dostępowi do stron logowania/rejestracji dla zalogowanych użytkowników.
      */
-
     private function redirectIfLoggedIn()
     {
         if (isset($_SESSION['user_id'])) {

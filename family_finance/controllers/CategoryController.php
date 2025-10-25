@@ -5,6 +5,9 @@ require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/Categories.php';
 require_once __DIR__ . '/../models/SubCategories.php';
 
+/**
+ * Klasa do obsługi kategorii
+ */
 class CategoryController
 {
     private $smarty;
@@ -19,6 +22,9 @@ class CategoryController
         $this->subCategoriesModel = new SubCategories($db);
     }
 
+    /**
+     * Wyświetlenie kategorii
+     */
     public function index()
     {
         if (!isset($_SESSION['user_id'])) {
@@ -35,6 +41,9 @@ class CategoryController
         $this->smarty->display('categories.tpl');
     }
 
+    /**
+     * wyświetlenie podkagorii
+     */
     public function viewCategory($id)
     {
         if (!$id) {

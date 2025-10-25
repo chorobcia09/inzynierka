@@ -87,25 +87,21 @@
         Suma: <span id="totalAmount">0.00</span>
     </div>
 
-    <!-- Opis -->
     <div class="mb-3">
         <label for="description" class="form-label fw-semibold">Opis (opcjonalny):</label>
         <input type="text" class="form-control bg-dark text-light" id="description" name="description" maxlength="255" placeholder="np. Zakupy w Lidlu">
     </div>
 
-    <!-- Data -->
     <div class="mb-3">
         <label for="transaction_date" class="form-label fw-semibold">Data transakcji:</label>
         <input type="datetime-local" class="form-control bg-dark text-light" id="transaction_date" name="transaction_date" required>
     </div>
 
-    <!-- Transakcja cykliczna -->
     <div class="mb-3 form-check">
         <input type="checkbox" class="form-check-input" id="is_recurring" name="is_recurring" value="1">
         <label class="form-check-label" for="is_recurring">Oznacz jako transakcję cykliczną</label>
     </div>
 
-    <!-- Kwota i waluta -->
     <div class="row mb-3">
         <div class="col-md-6">
             <label for="amount" class="form-label fw-semibold">Kwota całkowita:</label>
@@ -124,7 +120,6 @@
         </div>
     </div>
 
-    <!-- Forma płatności -->
     <div class="mb-3">
         <label for="payment_method" class="form-label fw-semibold">Forma płatności:</label>
         <select class="form-select bg-dark text-light" id="payment_method" name="payment_method" required>
