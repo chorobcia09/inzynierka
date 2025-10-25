@@ -6,7 +6,7 @@
 {/if}
 
 <form method="get" class="mb-3 d-flex align-items-center gap-2">
-    <input type="hidden" name="action" value="indexFeedback">
+    <input type="hidden" name="action" value="feedbackPanel">
     <label for="filter_status" class="form-label mb-0">Filtruj po statusie:</label>
     <select name="status" id="filter_status" class="form-select form-select-sm" onchange="this.form.submit()">
         <option value="">Wszystkie</option>

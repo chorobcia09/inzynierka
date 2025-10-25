@@ -23,14 +23,22 @@ class FeedbackController
             exit;
         }
 
-        $feedback = $this->feedbackModel->getAllFeedback();
+        $filter_status = $_GET['status'] ?? null;
+        if ($filter_status && !in_array($filter_status, ['new', 'in_progress', 'resolved'])) {
+            $filter_status = null;
+        }
+
+        $feedback = $this->feedbackModel->getAllFeedback($filter_status);
+
         $this->smarty->assign([
             'feedback' => $feedback,
+            'filter_status' => $filter_status,
             'session' => $_SESSION
         ]);
 
         $this->smarty->display('feedback_panel.tpl');
     }
+
 
     public function add()
     {

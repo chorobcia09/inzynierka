@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-25 15:56:13
+/* Smarty version 5.6.0, created on 2025-10-25 16:03:58
   from 'file:feedback_panel.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68fcd6fd5a6da6_05278741',
+  'unifunc' => 'content_68fcd8ce6f8301_45060239',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'da1069568a9fcef494254ee68ebf8f7ba12aba79' => 
     array (
       0 => 'feedback_panel.tpl',
-      1 => 1761400513,
+      1 => 1761401030,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_68fcd6fd5a6da6_05278741 (\Smarty\Template $_smarty_tpl) {
+function content_68fcd8ce6f8301_45060239 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -34,7 +34,7 @@ $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_sma
 <?php }?>
 
 <form method="get" class="mb-3 d-flex align-items-center gap-2">
-    <input type="hidden" name="action" value="indexFeedback">
+    <input type="hidden" name="action" value="feedbackPanel">
     <label for="filter_status" class="form-label mb-0">Filtruj po statusie:</label>
     <select name="status" id="filter_status" class="form-select form-select-sm" onchange="this.form.submit()">
         <option value="">Wszystkie</option>

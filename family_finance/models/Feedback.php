@@ -24,14 +24,21 @@ class Feedback
         ]);
     }
 
-    public function getAllFeedback()
+    public function getAllFeedback(?string $status = null)
     {
-        $sql = "SELECT * 
-        FROM feedbacks
-        ORDER BY created_at desc
-        ";
-
-        return $this->db->select($sql);
+        if ($status) {
+            $sql = "SELECT *
+            FROM feedbacks
+            WHERE status = :status 
+            ORDER BY created_at DESC
+            ";
+            return $this->db->select($sql, [
+                ':status' => $status
+            ]);
+        } else {
+            $sql = "SELECT * FROM feedbacks ORDER BY created_at DESC";
+            return $this->db->select($sql);
+        }
     }
 
     public function updateStatus(int $feedback_id, string $status)
