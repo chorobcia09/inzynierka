@@ -39,8 +39,8 @@
 
     <!-- Kategoria -->
     <div class="mb-3">
-        <label for="category_id" class="form-label fw-semibold">Kategoria główna:</label>
-        <select class="form-select select2" id="category_id" name="category_id" required>
+        <label for="category_id" class="form-label fw-semibold ">Kategoria główna:</label>
+        <select class="form-select select2 " id="category_id" name="category_id" required>
             <option value="">Wybierz kategorię...</option>
             {foreach $categories as $category}
                 <option value="{$category.id}">{$category.name}</option>

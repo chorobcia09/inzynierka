@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-25 19:15:42
+/* Smarty version 5.6.0, created on 2025-10-25 19:34:13
   from 'file:feedback_panel.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68fd05bedac237_95003290',
+  'unifunc' => 'content_68fd0a15510f00_06393280',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'da1069568a9fcef494254ee68ebf8f7ba12aba79' => 
     array (
       0 => 'feedback_panel.tpl',
-      1 => 1761412541,
+      1 => 1761413651,
       2 => 'file',
     ),
   ),
@@ -22,12 +22,12 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_68fd05bedac237_95003290 (\Smarty\Template $_smarty_tpl) {
+function content_68fd0a15510f00_06393280 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
 
-<h2 class="mb-4 text-primary">Zarządzanie zgłoszeniami</h2>
+<h2 class="mb-4 text-primary text-light">Zarządzanie zgłoszeniami</h2>
 
 <?php if ($_smarty_tpl->getValue('message')) {?>
     <div class="alert alert-info text-center bg-info bg-opacity-10 text-light border-0"><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('message')), ENT_QUOTES, 'UTF-8');?>

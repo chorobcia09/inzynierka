@@ -1,6 +1,6 @@
 {include file='header.tpl'}
 
-<h2 class="mb-4 text-primary">Zarządzanie zgłoszeniami</h2>
+<h2 class="mb-4 text-primary text-light">Zarządzanie zgłoszeniami</h2>
 
 {if $message}
     <div class="alert alert-info text-center bg-info bg-opacity-10 text-light border-0">{$message}</div>

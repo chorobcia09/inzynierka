@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-25 19:06:13
+/* Smarty version 5.6.0, created on 2025-10-25 19:38:22
   from 'file:add_transaction.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68fd0385366a07_20231832',
+  'unifunc' => 'content_68fd0b0edee4b3_05803322',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '90bfe922cead006a0f38e5db31516fd13002435a' => 
     array (
       0 => 'add_transaction.tpl',
-      1 => 1761411967,
+      1 => 1761413901,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_68fd0385366a07_20231832 (\Smarty\Template $_smarty_tpl) {
+function content_68fd0b0edee4b3_05803322 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -75,8 +75,8 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 
     <!-- Kategoria -->
     <div class="mb-3">
-        <label for="category_id" class="form-label fw-semibold">Kategoria główna:</label>
-        <select class="form-select select2" id="category_id" name="category_id" required>
+        <label for="category_id" class="form-label fw-semibold ">Kategoria główna:</label>
+        <select class="form-select select2 " id="category_id" name="category_id" required>
             <option value="">Wybierz kategorię...</option>
             <?php
 $_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('categories'), 'category');
@@ -141,25 +141,21 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         Suma: <span id="totalAmount">0.00</span>
     </div>
 
-    <!-- Opis -->
     <div class="mb-3">
         <label for="description" class="form-label fw-semibold">Opis (opcjonalny):</label>
         <input type="text" class="form-control bg-dark text-light" id="description" name="description" maxlength="255" placeholder="np. Zakupy w Lidlu">
     </div>
 
-    <!-- Data -->
     <div class="mb-3">
         <label for="transaction_date" class="form-label fw-semibold">Data transakcji:</label>
         <input type="datetime-local" class="form-control bg-dark text-light" id="transaction_date" name="transaction_date" required>
     </div>
 
-    <!-- Transakcja cykliczna -->
     <div class="mb-3 form-check">
         <input type="checkbox" class="form-check-input" id="is_recurring" name="is_recurring" value="1">
         <label class="form-check-label" for="is_recurring">Oznacz jako transakcję cykliczną</label>
     </div>
 
-    <!-- Kwota i waluta -->
     <div class="row mb-3">
         <div class="col-md-6">
             <label for="amount" class="form-label fw-semibold">Kwota całkowita:</label>
@@ -178,7 +174,6 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         </div>
     </div>
 
-    <!-- Forma płatności -->
     <div class="mb-3">
         <label for="payment_method" class="form-label fw-semibold">Forma płatności:</label>
         <select class="form-select bg-dark text-light" id="payment_method" name="payment_method" required>
