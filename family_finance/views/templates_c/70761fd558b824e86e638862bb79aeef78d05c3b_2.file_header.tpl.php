@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-26 10:51:26
+/* Smarty version 5.6.0, created on 2025-10-26 14:56:39
   from 'file:header.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68fdef1e941433_36555879',
+  'unifunc' => 'content_68fe2897790ae6_21206668',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '70761fd558b824e86e638862bb79aeef78d05c3b' => 
     array (
       0 => 'header.tpl',
-      1 => 1761472273,
+      1 => 1761486998,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_68fdef1e941433_36555879 (\Smarty\Template $_smarty_tpl) {
+function content_68fe2897790ae6_21206668 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 ?><!DOCTYPE html>
 <html lang="pl">
@@ -123,8 +123,6 @@ $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\vi
                                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="categoryDropdown">
                                         <li><a class="dropdown-item" href="index.php?action=categories">
                                                 <i class="bi bi-list-ul"></i> Przeglądaj kategorie</a></li>
-                                        <li><a class="dropdown-item" href="index.php?action=addLocalCategory">
-                                                <i class="bi bi-clipboard-plus"></i> Dodaj kategorię lokalną</a></li>
                                     </ul>
                                 </li>
 

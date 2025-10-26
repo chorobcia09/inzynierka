@@ -4,7 +4,7 @@
 
 <div class="alert alert-warning" role="alert">
     W tym miejscu możesz przeglądać kategorie wraz z podkategoriami, które są dostępne w systemie globalnie, jak i
-    lokalnie (utworzone przez użytkownika).
+    lokalnie (utworzone przez użytkownika). Naciśnij w dowolną kategorię, aby przejść do podkategorii.
 </div>
 
 <div class="table-responsive shadow rounded bg-dark text-light p-3">

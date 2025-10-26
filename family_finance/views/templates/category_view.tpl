@@ -3,8 +3,12 @@
 <h2 class="mb-4 text-light-emphasis">Podkategorie</h2>
 
 <div class="alert alert-info alert-dark" role="alert">
-    Wyświetlono podkategorie dla wybranej kategorii.
+    Wyświetlono podkategorie dla kategorii: <strong>{$category_name}</strong>
 </div>
+
+<a href="index.php?action=addSubCategory&category_id={$category_id}" class="btn btn-success">
+    + Dodaj podkategorię
+</a>
 
 <div class="table-responsive shadow rounded bg-dark text-light p-3">
     <table class="table table-striped table-bordered table-dark mb-0">

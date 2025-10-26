@@ -94,8 +94,6 @@
                                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="categoryDropdown">
                                         <li><a class="dropdown-item" href="index.php?action=categories">
                                                 <i class="bi bi-list-ul"></i> Przeglądaj kategorie</a></li>
-                                        <li><a class="dropdown-item" href="index.php?action=addLocalCategory">
-                                                <i class="bi bi-clipboard-plus"></i> Dodaj kategorię lokalną</a></li>
                                     </ul>
                                 </li>
 

@@ -108,8 +108,8 @@ switch ($action) {
     case 'viewCategory':
         (new CategoryController($smarty))->viewCategory($_GET['id'] ?? null);
         break;
-    case 'addLocalCategory':
-        // (new CategoryController($smarty))->;
+    case 'addSubCategory':
+        (new CategoryController($smarty))->addSubCategory();
         break;
 
     // ------------------------------FEEDBACKCONTROLLER------------------------------

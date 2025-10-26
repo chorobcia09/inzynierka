@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-25 21:58:16
+/* Smarty version 5.6.0, created on 2025-10-26 15:13:07
   from 'file:add_transaction.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68fd2bd89dfb21_90899614',
+  'unifunc' => 'content_68fe2c73774618_92338279',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '90bfe922cead006a0f38e5db31516fd13002435a' => 
     array (
       0 => 'add_transaction.tpl',
-      1 => 1761422293,
+      1 => 1761487893,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_68fd2bd89dfb21_90899614 (\Smarty\Template $_smarty_tpl) {
+function content_68fe2c73774618_92338279 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -53,10 +53,16 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 <?php }?>
-
+<div class="d-flex justify-content-end mt-4">
+    <a href="index.php?action=manageTransactions" class="btn btn-success fw-semibold">
+        <i class="bi bi-list-ul"></i> Przejdź do zarządzania transakcjami
+    </a>
+</div>
+<br>
 <form action="index.php?action=addTransaction" method="POST" class="p-4 bg-dark-subtle text-light rounded-4 shadow-lg"
     id="transactionForm">
     <h4 class="mb-4 fw-bold text-light-emphasis">Dodaj nową transakcję</h4>
+
 
     <!-- Typ transakcji -->
     <div class="mb-3">
@@ -195,12 +201,6 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         <button type="submit" class="btn btn-primary fw-semibold">Zapisz transakcję</button>
     </div>
 </form>
-
-<div class="d-flex justify-content-end mt-4">
-    <a href="index.php?action=manageTransactions" class="btn btn-success fw-semibold">
-        <i class="bi bi-list-ul"></i> Przejdź do zarządzania transakcjami
-    </a>
-</div>
 
 <?php echo '<script'; ?>
 >

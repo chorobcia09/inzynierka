@@ -66,7 +66,7 @@ class TransactionController
 
         // pobranie kategorii
         $categories = $this->categoriesModel->getAllCategories();
-        $subCategories = $this->subCategoriesModel->getAllSubCategories();
+        $subCategories = $this->subCategoriesModel->getAllGlobalSubCategories();
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $family_id = $_SESSION['family_id'] ?? null;

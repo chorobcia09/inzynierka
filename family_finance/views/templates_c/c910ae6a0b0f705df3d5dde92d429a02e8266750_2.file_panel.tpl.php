@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-25 19:03:09
+/* Smarty version 5.6.0, created on 2025-10-26 13:16:55
   from 'file:panel.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68fd02cd684232_20360302',
+  'unifunc' => 'content_68fe113729f725_16764399',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'c910ae6a0b0f705df3d5dde92d429a02e8266750' => 
     array (
       0 => 'panel.tpl',
-      1 => 1761411788,
+      1 => 1761473582,
       2 => 'file',
     ),
   ),
@@ -22,13 +22,13 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_68fd02cd684232_20360302 (\Smarty\Template $_smarty_tpl) {
+function content_68fe113729f725_16764399 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
 
 <div class="user-panel-container mx-auto shadow-lg p-4 rounded-4 bg-dark-subtle text-light"
-    style="max-width:600px; font-family: 'Inter', sans-serif;">
+    style="max-width:600px;">
     <h2 class="text-center mb-4 fw-bold text-light-emphasis">Panel użytkownika</h2>
 
     <ul class="list-group list-group-flush rounded-3 overflow-hidden">

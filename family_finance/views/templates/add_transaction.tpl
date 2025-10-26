@@ -17,10 +17,16 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 {/if}
-
+<div class="d-flex justify-content-end mt-4">
+    <a href="index.php?action=manageTransactions" class="btn btn-success fw-semibold">
+        <i class="bi bi-list-ul"></i> Przejdź do zarządzania transakcjami
+    </a>
+</div>
+<br>
 <form action="index.php?action=addTransaction" method="POST" class="p-4 bg-dark-subtle text-light rounded-4 shadow-lg"
     id="transactionForm">
     <h4 class="mb-4 fw-bold text-light-emphasis">Dodaj nową transakcję</h4>
+
 
     <!-- Typ transakcji -->
     <div class="mb-3">
@@ -141,12 +147,6 @@
         <button type="submit" class="btn btn-primary fw-semibold">Zapisz transakcję</button>
     </div>
 </form>
-
-<div class="d-flex justify-content-end mt-4">
-    <a href="index.php?action=manageTransactions" class="btn btn-success fw-semibold">
-        <i class="bi bi-list-ul"></i> Przejdź do zarządzania transakcjami
-    </a>
-</div>
 
 <script>
     let rowIndex = 1;

@@ -19,6 +19,20 @@ class Categories
         return $this->db->select($sql);
     }
 
+     public function getAllCategoriesById(int $id)
+    {
+        $sql = "
+        select *
+        from categories
+        where id = :id
+        ";
+
+        return $this->db->select($sql,[
+            ':id' => $id
+        ]);
+    }
+    
+
     public function getAllSubCategoriesByCategory(int $id) {
         $sql = "
         select *

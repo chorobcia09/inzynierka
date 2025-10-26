@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-25 19:18:21
+/* Smarty version 5.6.0, created on 2025-10-26 15:09:50
   from 'file:transaction_details.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68fd065d207d55_32341195',
+  'unifunc' => 'content_68fe2bae9519b4_91658416',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '903c8b20f1f2dad0a963cff668ec0788db27c024' => 
     array (
       0 => 'transaction_details.tpl',
-      1 => 1761412699,
+      1 => 1761473505,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_68fd065d207d55_32341195 (\Smarty\Template $_smarty_tpl) {
+function content_68fe2bae9519b4_91658416 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -32,7 +32,7 @@ $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_sma
 
     <?php if ($_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('transaction')) > 0) {?>
         <div class="table-responsive shadow rounded bg-dark p-3 text-light">
-            <table class="table table-dark table-bordered mb-0" style="font-family: 'Inter', sans-serif;">
+            <table class="table table-dark table-bordered mb-0">
                 <thead class="table-secondary text-dark">
                     <tr>
                         <th>Podkategoria</th>
@@ -69,7 +69,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                 </tbody>
             </table>
 
-            <table class="table table-dark table-bordered mt-2 mb-0" style="font-family: 'Inter', sans-serif;">
+            <table class="table table-dark table-bordered mt-2 mb-0">
                 <tbody class="table-secondary text-dark">
                     <tr>
                         <td><strong>Suma:</strong> <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('total')), ENT_QUOTES, 'UTF-8');?>
