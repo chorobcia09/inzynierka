@@ -1,6 +1,6 @@
 {include file="header.tpl"}
 
-<div class="users-container bg-dark text-light p-4 rounded shadow">
+<div class="users-container bg-dark text-light p-4 rounded shadow bg-dark-subtle">
     <h2 class="mb-4 fw-bold text-primary text-light">Lista członków rodziny</h2>
 
     {if $session.family_role == 'family_admin'}
@@ -10,9 +10,9 @@
     {/if}
 
     {if $users|@count > 0}
-        <div class="table-responsive shadow rounded">
-            <table class="table table-dark table-bordered mb-0">
-                <thead class="table-secondary text-dark">
+        <div class="table-responsive shadow rounded ">
+            <table class="table table-dark table-bordered mb-0 ">
+                <thead class="table-secondary text-dark ">
                     <tr>
                         <th>Nazwa użytkownika</th>
                         <th>Email</th>

@@ -1,8 +1,8 @@
 {include file="header.tpl"}
 
-<div class="login-container mx-auto shadow p-4 rounded "
+<div class="login-container mx-auto shadow p-4 rounded bg-dark-subtle"
     style="max-width:400px;">
-    <h2 class="text-center mb-4 fw-bold text-primary text-light">Logowanie</h2>
+    <h2 class="text-center mb-4 fw-bold text-primary text-light ">Logowanie</h2>
 
     {if $error}
         <div class="alert alert-danger text-center bg-danger bg-opacity-25 border-0">{$error}</div>

@@ -7,9 +7,9 @@
     lokalnie (utworzone przez użytkownika). Naciśnij w dowolną kategorię, aby przejść do podkategorii.
 </div>
 
-<div class="table-responsive shadow rounded bg-dark text-light p-3">
-    <table class="table table-striped table-bordered table-dark mb-0">
-        <thead class="table-dark">
+<div class="table-responsive shadow rounded bg-dark text-light p-3 bg-dark-subtle">
+    <table class="table table-dark table-bordered mb-0">
+        <thead class="table-secondary text-dark">
             <tr>
                 <th>Nazwa</th>
                 <th>Typ</th>

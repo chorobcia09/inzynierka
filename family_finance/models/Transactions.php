@@ -182,20 +182,17 @@ class Transactions
     ti.amount,
     ti.quantity,
     c.name AS category_name,
-    lc.name AS local_category_name,
     sc.name AS sub_category_name,
     c.type AS category_type,
     t.currency AS transaction_currency
     FROM transaction_items ti
     LEFT JOIN categories c 
         ON ti.category_id = c.id
-    LEFT JOIN categories lc 
-        ON ti.local_category_id = lc.id
     LEFT JOIN sub_categories sc 
         ON ti.sub_category_id = sc.id
     LEFT JOIN transactions t
         ON ti.transaction_id = t.id
-    WHERE ti.transaction_id = :transaction_id
+	WHERE ti.transaction_id =:transaction_id
         ";
 
         return $this->db->select($sql, [

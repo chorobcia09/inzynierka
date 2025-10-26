@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-26 15:02:18
+/* Smarty version 5.6.0, created on 2025-10-26 16:28:23
   from 'file:categories.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68fe29ea5e21a0_27368985',
+  'unifunc' => 'content_68fe3e170c1925_24585500',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '0ced3e45850b60c938df09d755765b16bf00267a' => 
     array (
       0 => 'categories.tpl',
-      1 => 1761487336,
+      1 => 1761492501,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_68fe29ea5e21a0_27368985 (\Smarty\Template $_smarty_tpl) {
+function content_68fe3e170c1925_24585500 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -34,9 +34,9 @@ $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_sma
     lokalnie (utworzone przez użytkownika). Naciśnij w dowolną kategorię, aby przejść do podkategorii.
 </div>
 
-<div class="table-responsive shadow rounded bg-dark text-light p-3">
-    <table class="table table-striped table-bordered table-dark mb-0">
-        <thead class="table-dark">
+<div class="table-responsive shadow rounded bg-dark text-light p-3 bg-dark-subtle">
+    <table class="table table-dark table-bordered mb-0">
+        <thead class="table-secondary text-dark">
             <tr>
                 <th>Nazwa</th>
                 <th>Typ</th>

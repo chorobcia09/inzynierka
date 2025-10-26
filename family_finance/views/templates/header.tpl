@@ -127,7 +127,7 @@
                             {/if}
                         {else}
                             <li class="nav-item me-2">
-                                <a href="index.php?action=login" class="btn btn-outline-light btn-sm">Logowanie</a>
+                                <a href="index.php?action=login" class="btn btn-outline-light btn-sm ">Logowanie</a>
                             </li>
                             <li class="nav-item">
                                 <a href="index.php?action=register"

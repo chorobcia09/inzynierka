@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-26 11:39:59
+/* Smarty version 5.6.0, created on 2025-10-26 16:22:27
   from 'file:login.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68fdfa7fa58013_33176538',
+  'unifunc' => 'content_68fe3cb33b2f73_29533837',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '5b68ed31ae1b2eff7702baa28c983c0f516867da' => 
     array (
       0 => 'login.tpl',
-      1 => 1761473612,
+      1 => 1761492146,
       2 => 'file',
     ),
   ),
@@ -22,14 +22,14 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_68fdfa7fa58013_33176538 (\Smarty\Template $_smarty_tpl) {
+function content_68fe3cb33b2f73_29533837 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
 
-<div class="login-container mx-auto shadow p-4 rounded "
+<div class="login-container mx-auto shadow p-4 rounded bg-dark-subtle"
     style="max-width:400px;">
-    <h2 class="text-center mb-4 fw-bold text-primary text-light">Logowanie</h2>
+    <h2 class="text-center mb-4 fw-bold text-primary text-light ">Logowanie</h2>
 
     <?php if ($_smarty_tpl->getValue('error')) {?>
         <div class="alert alert-danger text-center bg-danger bg-opacity-25 border-0"><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('error')), ENT_QUOTES, 'UTF-8');?>

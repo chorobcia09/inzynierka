@@ -4,11 +4,11 @@
     <h2 class="text-center mb-4 text-light-emphasis">Dodaj użytkownika do rodziny</h2>
 
     {if isset($error)}
-        <div class="alert alert-danger">{ $error }</div>
+        <div class="alert alert-danger">{$error}</div>
     {/if}
 
     {if isset($success)}
-        <div class="alert alert-success">{ $success }</div>
+        <div class="alert alert-success">{$success}</div>
     {/if}
 
     <div class="alert alert-warning" role="alert">

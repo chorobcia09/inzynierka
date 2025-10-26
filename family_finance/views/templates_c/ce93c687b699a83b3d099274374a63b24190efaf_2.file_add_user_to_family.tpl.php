@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-25 19:10:13
+/* Smarty version 5.6.0, created on 2025-10-26 16:10:11
   from 'file:add_user_to_family.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68fd04755687c6_53682324',
+  'unifunc' => 'content_68fe39d3615aa0_12603383',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'ce93c687b699a83b3d099274374a63b24190efaf' => 
     array (
       0 => 'add_user_to_family.tpl',
-      1 => 1761412212,
+      1 => 1761491409,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_68fd04755687c6_53682324 (\Smarty\Template $_smarty_tpl) {
+function content_68fe39d3615aa0_12603383 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -31,11 +31,13 @@ $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_sma
     <h2 class="text-center mb-4 text-light-emphasis">Dodaj użytkownika do rodziny</h2>
 
     <?php if ((true && ($_smarty_tpl->hasVariable('error') && null !== ($_smarty_tpl->getValue('error') ?? null)))) {?>
-        <div class="alert alert-danger">{ $error }</div>
+        <div class="alert alert-danger"><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('error')), ENT_QUOTES, 'UTF-8');?>
+</div>
     <?php }?>
 
     <?php if ((true && ($_smarty_tpl->hasVariable('success') && null !== ($_smarty_tpl->getValue('success') ?? null)))) {?>
-        <div class="alert alert-success">{ $success }</div>
+        <div class="alert alert-success"><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('success')), ENT_QUOTES, 'UTF-8');?>
+</div>
     <?php }?>
 
     <div class="alert alert-warning" role="alert">

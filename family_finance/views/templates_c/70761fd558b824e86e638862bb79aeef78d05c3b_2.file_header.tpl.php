@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-26 14:56:39
+/* Smarty version 5.6.0, created on 2025-10-26 16:23:16
   from 'file:header.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68fe2897790ae6_21206668',
+  'unifunc' => 'content_68fe3ce43a5872_57592110',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '70761fd558b824e86e638862bb79aeef78d05c3b' => 
     array (
       0 => 'header.tpl',
-      1 => 1761486998,
+      1 => 1761492195,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_68fe2897790ae6_21206668 (\Smarty\Template $_smarty_tpl) {
+function content_68fe3ce43a5872_57592110 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 ?><!DOCTYPE html>
 <html lang="pl">
@@ -156,7 +156,7 @@ $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\vi
                             <?php }?>
                         <?php } else { ?>
                             <li class="nav-item me-2">
-                                <a href="index.php?action=login" class="btn btn-outline-light btn-sm">Logowanie</a>
+                                <a href="index.php?action=login" class="btn btn-outline-light btn-sm ">Logowanie</a>
                             </li>
                             <li class="nav-item">
                                 <a href="index.php?action=register"

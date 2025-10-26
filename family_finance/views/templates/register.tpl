@@ -1,6 +1,6 @@
 {include file="header.tpl"}
 
-<div class="register-container mx-auto shadow p-4 rounded"
+<div class="register-container mx-auto shadow p-4 rounded bg-dark-subtle"
     style="max-width:400px;">
     <h2 class="text-center mb-4 fw-bold text-primary text-light">Rejestracja</h2>
 
