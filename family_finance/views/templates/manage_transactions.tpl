@@ -9,7 +9,7 @@
 {if $session.family_role == 'family_member' || $session.family_role == 'family_admin'}
     {if $transactions|@count > 0}
         <div class="table-responsive shadow-sm rounded">
-            <table class="table table-dark table-striped table-bordered mb-0" style="font-family: 'Inter', sans-serif;">
+            <table class="table table-dark table-striped table-bordered mb-0">
                 <thead class="table-dark">
                     <tr>
                         <th>Nazwa użytkownika</th>
@@ -72,7 +72,7 @@
 {else}
     {if $transactionsUser|@count > 0}
         <div class="table-responsive shadow-sm rounded">
-            <table class="table table-dark table-striped table-bordered mb-0" style="font-family: 'Inter', sans-serif;">
+            <table class="table table-dark table-striped table-bordered mb-0">
                 <thead class="table-dark">
                     <tr>
                         <th>Nazwa użytkownika</th>

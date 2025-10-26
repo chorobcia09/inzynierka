@@ -1,6 +1,6 @@
 {include file="header.tpl"}
 
-<div class="users-container bg-dark text-light p-4 rounded shadow" style="font-family: 'Inter', sans-serif;">
+<div class="users-container bg-dark text-light p-4 rounded shadow">
     <h2 class="mb-4 fw-bold text-primary text-light">Lista członków rodziny</h2>
 
     {if $session.family_role == 'family_admin'}

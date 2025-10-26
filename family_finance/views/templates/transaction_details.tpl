@@ -5,7 +5,7 @@
 
     {if $transaction|@count > 0}
         <div class="table-responsive shadow rounded bg-dark p-3 text-light">
-            <table class="table table-dark table-bordered mb-0" style="font-family: 'Inter', sans-serif;">
+            <table class="table table-dark table-bordered mb-0">
                 <thead class="table-secondary text-dark">
                     <tr>
                         <th>Podkategoria</th>
@@ -29,7 +29,7 @@
                 </tbody>
             </table>
 
-            <table class="table table-dark table-bordered mt-2 mb-0" style="font-family: 'Inter', sans-serif;">
+            <table class="table table-dark table-bordered mt-2 mb-0">
                 <tbody class="table-secondary text-dark">
                     <tr>
                         <td><strong>Suma:</strong> {$total} {$transaction[0].transaction_currency}</td>

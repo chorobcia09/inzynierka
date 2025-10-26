@@ -1,7 +1,7 @@
 {include file='header.tpl'}
 
 <div class="user-panel-container mx-auto shadow-lg p-4 rounded-4 bg-dark-subtle text-light"
-    style="max-width:600px; font-family: 'Inter', sans-serif;">
+    style="max-width:600px;">
     <h2 class="text-center mb-4 fw-bold text-light-emphasis">Panel użytkownika</h2>
 
     <ul class="list-group list-group-flush rounded-3 overflow-hidden">
