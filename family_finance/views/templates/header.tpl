@@ -20,11 +20,16 @@
         <nav class="navbar navbar-expand-lg bg-dark navbar-dark shadow-sm border-bottom border-secondary">
             <div class="container">
                 <!-- Logo -->
-                <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="index.php?action=dashboard">
-                    <i class="bi bi-piggy-bank-fill"></i>
-                    <span>Manage Your Finances</span>
-                </a>
-
+                {if isset($session.user_id)}
+                    <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="index.php?action=dashboard">
+                        <i class="bi bi-piggy-bank-fill"></i>
+                        <span>Manage Your Finances</span>
+                    </a>
+                {else} <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="index.php?action=home">
+                        <i class="bi bi-piggy-bank-fill"></i>
+                        <span>Manage Your Finances</span>
+                    </a>
+                {/if}
                 <!-- Hamburger -->
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarDark"
                     aria-controls="navbarDark" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,6 +41,7 @@
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
 
                         {if isset($session.user_id)}
+
                             {if $session.role == 'admin'}
                                 <li class="nav-item me-2">
                                     <a href="index.php?action=adminPanel" class="btn btn-outline-danger btn-sm">
@@ -72,10 +78,10 @@
                                         <i class="bi bi-cash-stack"></i> Transakcje
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="transactionsDropdown">
-                                        <li><a class="dropdown-item" href="index.php?action=addTransaction">
-                                                <i class="bi bi-plus-circle"></i> Dodaj transakcję</a></li>
                                         <li><a class="dropdown-item" href="index.php?action=manageTransactions">
                                                 <i class="bi bi-wallet2"></i> Zarządzaj transakcjami</a></li>
+                                        <li><a class="dropdown-item" href="index.php?action=addTransaction">
+                                                <i class="bi bi-plus-circle"></i> Dodaj transakcję</a></li>
                                     </ul>
                                 </li>
 
@@ -88,6 +94,8 @@
                                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="categoryDropdown">
                                         <li><a class="dropdown-item" href="index.php?action=categories">
                                                 <i class="bi bi-list-ul"></i> Przeglądaj kategorie</a></li>
+                                        <li><a class="dropdown-item" href="index.php?action=addLocalCategory">
+                                                <i class="bi bi-clipboard-plus"></i> Dodaj kategorię lokalną</a></li>
                                     </ul>
                                 </li>
 
@@ -117,6 +125,7 @@
                                     <a href="index.php?action=logout"
                                         class="btn btn-light btn-sm text-dark fw-semibold">Wyloguj</a>
                                 </li>
+
                             {/if}
                         {else}
                             <li class="nav-item me-2">

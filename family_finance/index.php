@@ -11,9 +11,14 @@ require_once __DIR__ . '/controllers/TransactionController.php';
 require_once __DIR__ . '/controllers/CategoryController.php';
 require_once __DIR__ . '/controllers/FeedbackController.php';
 
-$action = $_GET['action'] ?? 'login';
+$action = $_GET['action'] ?? 'home';
 
 switch ($action) {
+    // ------------------------------HOMECONTROLLER------------------------------
+    case 'home':
+        $smarty->display('landing.tpl');
+        break;
+
     // ------------------------------AUTHCONTROLLER------------------------------
     case 'login':
         $controller = new AuthController($smarty); // przekazujemy Smarty
@@ -102,6 +107,9 @@ switch ($action) {
         break;
     case 'viewCategory':
         (new CategoryController($smarty))->viewCategory($_GET['id'] ?? null);
+        break;
+    case 'addLocalCategory':
+        // (new CategoryController($smarty))->;
         break;
 
     // ------------------------------FEEDBACKCONTROLLER------------------------------

@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-25 19:38:22
+/* Smarty version 5.6.0, created on 2025-10-25 21:58:16
   from 'file:add_transaction.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68fd0b0edee4b3_05803322',
+  'unifunc' => 'content_68fd2bd89dfb21_90899614',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '90bfe922cead006a0f38e5db31516fd13002435a' => 
     array (
       0 => 'add_transaction.tpl',
-      1 => 1761413901,
+      1 => 1761422293,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_68fd0b0edee4b3_05803322 (\Smarty\Template $_smarty_tpl) {
+function content_68fd2bd89dfb21_90899614 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -54,8 +54,8 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
     </div>
 <?php }?>
 
-<form action="index.php?action=addTransaction" method="POST"
-    class="p-4 bg-dark-subtle text-light rounded-4 shadow-lg" id="transactionForm">
+<form action="index.php?action=addTransaction" method="POST" class="p-4 bg-dark-subtle text-light rounded-4 shadow-lg"
+    id="transactionForm">
     <h4 class="mb-4 fw-bold text-light-emphasis">Dodaj nową transakcję</h4>
 
     <!-- Typ transakcji -->
@@ -127,8 +127,10 @@ $foreach2DoElse = false;
 $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                         </select>
                     </td>
-                    <td><input type="number" name="items[0][quantity]" class="form-control itemQuantity" value="1" min="1"></td>
-                    <td><input type="number" step="0.01" name="items[0][amount]" class="form-control itemAmount" required></td>
+                    <td><input type="number" name="items[0][quantity]" class="form-control itemQuantity" value="1"
+                            min="1"></td>
+                    <td><input type="number" step="0.01" name="items[0][amount]" class="form-control itemAmount"
+                            required></td>
                     <td><button type="button" class="btn btn-danger btn-sm removeRow">X</button></td>
                 </tr>
             </tbody>
@@ -143,12 +145,14 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 
     <div class="mb-3">
         <label for="description" class="form-label fw-semibold">Opis (opcjonalny):</label>
-        <input type="text" class="form-control bg-dark text-light" id="description" name="description" maxlength="255" placeholder="np. Zakupy w Lidlu">
+        <input type="text" class="form-control bg-dark text-light" id="description" name="description" maxlength="255"
+            placeholder="np. Zakupy w Lidlu">
     </div>
 
     <div class="mb-3">
         <label for="transaction_date" class="form-label fw-semibold">Data transakcji:</label>
-        <input type="datetime-local" class="form-control bg-dark text-light" id="transaction_date" name="transaction_date" required>
+        <input type="datetime-local" class="form-control bg-dark text-light" id="transaction_date"
+            name="transaction_date" required>
     </div>
 
     <div class="mb-3 form-check">
@@ -156,10 +160,21 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         <label class="form-check-label" for="is_recurring">Oznacz jako transakcję cykliczną</label>
     </div>
 
+    <div class="mb-3">
+        <label for="payment_method" class="form-label fw-semibold">Forma płatności:</label>
+        <select class="form-select bg-dark text-light" id="payment_method" name="payment_method" required>
+            <option value="">Wybierz metodę...</option>
+            <option value="cash">Gotówka</option>
+            <option value="card">Karta płatnicza</option>
+            <option value="crypto">Kryptowaluta</option>
+        </select>
+    </div>
+
     <div class="row mb-3">
         <div class="col-md-6">
             <label for="amount" class="form-label fw-semibold">Kwota całkowita:</label>
-            <input type="number" step="0.01" min="0" class="form-control bg-dark text-light" id="amount" name="amount" required>
+            <input type="number" step="0.01" min="0" class="form-control bg-dark text-light" id="amount" name="amount"
+                required>
         </div>
         <div class="col-md-6">
             <label for="currency" class="form-label fw-semibold">Waluta:</label>
@@ -174,15 +189,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         </div>
     </div>
 
-    <div class="mb-3">
-        <label for="payment_method" class="form-label fw-semibold">Forma płatności:</label>
-        <select class="form-select bg-dark text-light" id="payment_method" name="payment_method" required>
-            <option value="">Wybierz metodę...</option>
-            <option value="cash">Gotówka</option>
-            <option value="card">Karta płatnicza</option>
-            <option value="crypto">Kryptowaluta</option>
-        </select>
-    </div>
+
 
     <div class="d-flex justify-content-end">
         <button type="submit" class="btn btn-primary fw-semibold">Zapisz transakcję</button>
@@ -220,7 +227,8 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 
         $('#addRow').click(function() {
             let newRow = '<tr>' +
-                '<td><select class="form-select subcategory-select" name="items[' + rowIndex + '][subcategory_id]" required>' +
+                '<td><select class="form-select subcategory-select" name="items[' + rowIndex +
+                '][subcategory_id]" required>' +
                 '<option value="">Wybierz podkategorię...</option>' +
                 '<?php
 $_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('subCategories'), 'subCategory');
@@ -235,8 +243,10 @@ $foreach3DoElse = false;
 }
 $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>' +
                 '</select></td>' +
-                '<td><input type="number" name="items[' + rowIndex + '][quantity]" class="form-control itemQuantity" value="1" min="1"></td>' +
-                '<td><input type="number" step="0.01" name="items[' + rowIndex + '][amount]" class="form-control itemAmount" required></td>' +
+                '<td><input type="number" name="items[' + rowIndex +
+                '][quantity]" class="form-control itemQuantity" value="1" min="1"></td>' +
+                '<td><input type="number" step="0.01" name="items[' + rowIndex +
+                '][amount]" class="form-control itemAmount" required></td>' +
                 '<td><button type="button" class="btn btn-danger btn-sm removeRow">X</button></td>' +
                 '</tr>';
             $('#transactionItems tbody').append(newRow);

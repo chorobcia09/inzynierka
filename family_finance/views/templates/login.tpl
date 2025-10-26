@@ -1,7 +1,7 @@
 {include file="header.tpl"}
 
-<div class="login-container mx-auto shadow p-4 rounded"
-    style="max-width:400px; font-family: 'Inter', sans-serif; background-color: #212529; color: #f8f9fa;">
+<div class="login-container mx-auto shadow p-4 rounded "
+    style="max-width:400px; font-family: 'Inter', sans-serif; color: #f8f9fa;">
     <h2 class="text-center mb-4 fw-bold text-primary text-light">Logowanie</h2>
 
     {if $error}

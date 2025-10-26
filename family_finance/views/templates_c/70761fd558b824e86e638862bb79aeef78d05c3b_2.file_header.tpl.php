@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-25 19:00:45
+/* Smarty version 5.6.0, created on 2025-10-26 10:51:26
   from 'file:header.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68fd023d270323_57269541',
+  'unifunc' => 'content_68fdef1e941433_36555879',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '70761fd558b824e86e638862bb79aeef78d05c3b' => 
     array (
       0 => 'header.tpl',
-      1 => 1761411644,
+      1 => 1761472273,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_68fd023d270323_57269541 (\Smarty\Template $_smarty_tpl) {
+function content_68fdef1e941433_36555879 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 ?><!DOCTYPE html>
 <html lang="pl">
@@ -48,11 +48,16 @@ $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\vi
         <nav class="navbar navbar-expand-lg bg-dark navbar-dark shadow-sm border-bottom border-secondary">
             <div class="container">
                 <!-- Logo -->
-                <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="index.php?action=dashboard">
-                    <i class="bi bi-piggy-bank-fill"></i>
-                    <span>Manage Your Finances</span>
-                </a>
-
+                <?php if ((true && (true && null !== ($_smarty_tpl->getValue('session')['user_id'] ?? null)))) {?>
+                    <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="index.php?action=dashboard">
+                        <i class="bi bi-piggy-bank-fill"></i>
+                        <span>Manage Your Finances</span>
+                    </a>
+                <?php } else { ?> <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="index.php?action=home">
+                        <i class="bi bi-piggy-bank-fill"></i>
+                        <span>Manage Your Finances</span>
+                    </a>
+                <?php }?>
                 <!-- Hamburger -->
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarDark"
                     aria-controls="navbarDark" aria-expanded="false" aria-label="Toggle navigation">
@@ -64,6 +69,7 @@ $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\vi
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
 
                         <?php if ((true && (true && null !== ($_smarty_tpl->getValue('session')['user_id'] ?? null)))) {?>
+
                             <?php if ($_smarty_tpl->getValue('session')['role'] == 'admin') {?>
                                 <li class="nav-item me-2">
                                     <a href="index.php?action=adminPanel" class="btn btn-outline-danger btn-sm">
@@ -101,10 +107,10 @@ $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\vi
                                         <i class="bi bi-cash-stack"></i> Transakcje
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="transactionsDropdown">
-                                        <li><a class="dropdown-item" href="index.php?action=addTransaction">
-                                                <i class="bi bi-plus-circle"></i> Dodaj transakcję</a></li>
                                         <li><a class="dropdown-item" href="index.php?action=manageTransactions">
                                                 <i class="bi bi-wallet2"></i> Zarządzaj transakcjami</a></li>
+                                        <li><a class="dropdown-item" href="index.php?action=addTransaction">
+                                                <i class="bi bi-plus-circle"></i> Dodaj transakcję</a></li>
                                     </ul>
                                 </li>
 
@@ -117,6 +123,8 @@ $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\vi
                                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="categoryDropdown">
                                         <li><a class="dropdown-item" href="index.php?action=categories">
                                                 <i class="bi bi-list-ul"></i> Przeglądaj kategorie</a></li>
+                                        <li><a class="dropdown-item" href="index.php?action=addLocalCategory">
+                                                <i class="bi bi-clipboard-plus"></i> Dodaj kategorię lokalną</a></li>
                                     </ul>
                                 </li>
 
@@ -146,6 +154,7 @@ $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\vi
                                     <a href="index.php?action=logout"
                                         class="btn btn-light btn-sm text-dark fw-semibold">Wyloguj</a>
                                 </li>
+
                             <?php }?>
                         <?php } else { ?>
                             <li class="nav-item me-2">

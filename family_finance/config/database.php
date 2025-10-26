@@ -30,7 +30,7 @@ class Database
         try {
             $this->pdo = new PDO($dsn, $this->user, $this->pass, $options);
         } catch (PDOException $e) {
-            echo "Błąd połączenia: " . $e->getMessage();
+            throw new RuntimeException('Błąd połączenia z bazą: ' . $e->getMessage());
         }
     }
 

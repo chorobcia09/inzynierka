@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-25 19:01:19
+/* Smarty version 5.6.0, created on 2025-10-26 10:51:26
   from 'file:footer.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68fd025fdba283_38464424',
+  'unifunc' => 'content_68fdef1e9594b7_37670203',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'f5302a207ca4cc58bc9019982b4d460f3020792c' => 
     array (
       0 => 'footer.tpl',
-      1 => 1761411669,
+      1 => 1761472275,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_68fd025fdba283_38464424 (\Smarty\Template $_smarty_tpl) {
+function content_68fdef1e9594b7_37670203 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 ?></main>
 
@@ -42,7 +42,8 @@ $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\vi
 <?php echo '<script'; ?>
  src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"><?php echo '</script'; ?>
 >
+
 </body>
-</html>
-<?php }
+
+</html><?php }
 }
