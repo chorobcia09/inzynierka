@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-11-04 20:29:53
+/* Smarty version 5.6.0, created on 2025-11-04 20:56:23
   from 'file:add_budget.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_690a5431d356e1_77203862',
+  'unifunc' => 'content_690a5a67bbe2c7_13929744',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'ee1837b410515a4daa213bbaae414cdf8b22b950' => 
     array (
       0 => 'add_budget.tpl',
-      1 => 1762284589,
+      1 => 1762285798,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_690a5431d356e1_77203862 (\Smarty\Template $_smarty_tpl) {
+function content_690a5a67bbe2c7_13929744 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -35,7 +35,8 @@ $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_sma
         </h2>
 
         <div class="alert alert-info bg-dark text-light border-light" role="alert">
-            <i class="bi bi-lightbulb-fill"></i> Tutaj możesz utworzyć nowy budżet rodzinny lub indywidualny. Określ okres obowiązywania oraz limity dla poszczególnych kategorii.
+            <i class="bi bi-lightbulb-fill"></i> Tutaj możesz utworzyć nowy budżet rodzinny lub indywidualny. Określ
+            okres obowiązywania oraz limity dla poszczególnych kategorii.
         </div>
 
         <?php if ((true && ($_smarty_tpl->hasVariable('error') && null !== ($_smarty_tpl->getValue('error') ?? null)))) {?>
@@ -57,7 +58,8 @@ $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_sma
             <div class="row mb-3">
                 <div class="col-md-4">
                     <label for="period_type" class="form-label fw-semibold">Typ okresu:</label>
-                    <select name="period_type" id="period_type" class="form-select bg-dark text-light border-secondary" required>
+                    <select name="period_type" id="period_type" class="form-select bg-dark text-light border-secondary"
+                        required>
                         <option value="monthly">Miesięczny</option>
                         <option value="yearly">Roczny</option>
                         <option value="custom">Niestandardowy</option>
@@ -65,11 +67,13 @@ $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_sma
                 </div>
                 <div class="col-md-4">
                     <label for="start_date" class="form-label fw-semibold">Data początkowa:</label>
-                    <input type="date" name="start_date" id="start_date" class="form-control bg-dark text-light border-secondary" required>
+                    <input type="date" name="start_date" id="start_date"
+                        class="form-control bg-dark text-light border-secondary" required>
                 </div>
                 <div class="col-md-4">
                     <label for="end_date" class="form-label fw-semibold">Data końcowa:</label>
-                    <input type="date" name="end_date" id="end_date" class="form-control bg-dark text-light border-secondary" required>
+                    <input type="date" name="end_date" id="end_date"
+                        class="form-control bg-dark text-light border-secondary" required>
                 </div>
             </div>
 
@@ -83,7 +87,8 @@ $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_sma
                 <div class="row mb-3 align-items-center category-row bg-dark p-3 rounded-3 shadow-sm">
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">Kategoria:</label>
-                        <select class="form-select bg-dark text-light border-secondary" name="categories[0][category_id]" required>
+                        <select class="form-select bg-dark text-light border-secondary"
+                            name="categories[0][category_id]" required>
                             <option value="">Wybierz kategorię...</option>
                             <?php
 $_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('categories'), 'category');
@@ -101,7 +106,8 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">Limit kategorii (PLN):</label>
-                        <input type="number" step="0.01" name="categories[0][limit_amount]" class="form-control bg-dark text-light border-secondary" placeholder="np. 500.00" required>
+                        <input type="number" step="0.01" name="categories[0][limit_amount]"
+                            class="form-control bg-dark text-light border-secondary" placeholder="np. 500.00" required>
                     </div>
                 </div>
             </div>
@@ -123,33 +129,33 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 </div>
 
 
-<?php echo '<script'; ?>
+    <?php echo '<script'; ?>
 >
-    let counter = 1;
-    document.getElementById('add-category').addEventListener('click', function() {
-        const container = document.getElementById('categories-container');
-        const newRow = document.createElement('div');
-        newRow.className = 'row mb-3 align-items-center category-row bg-dark p-3 rounded-3 shadow-sm fade-in';
-        newRow.innerHTML = `
+        let counter = 1;
+        document.getElementById('add-category').addEventListener('click', function() {
+            const container = document.getElementById('categories-container');
+            const newRow = document.createElement('div');
+            newRow.className = 'row mb-3 align-items-center category-row bg-dark p-3 rounded-3 shadow-sm fade-in';
+            newRow.innerHTML = `
             <div class="col-md-6">
                 <label class="form-label fw-semibold">Kategoria:</label>
-                <select class="form-select bg-dark text-light border-secondary" name="categories[${counter}][category_id]" required>
+<select class="form-select bg-dark text-light border-secondary" name="categories[${counter}][category_id]" required>
                     <option value="">Wybierz kategorię...</option>
-                    ${document.querySelector('select[name="categories[0][category_id]"]').innerHTML}
+${document.querySelector('select[name="categories[0][category_id]"]').innerHTML}
                 </select>
             </div>
             <div class="col-md-6">
                 <label class="form-label fw-semibold">Limit kategorii (PLN):</label>
-                <input type="number" step="0.01" name="categories[${counter}][limit_amount]" class="form-control bg-dark text-light border-secondary" placeholder="np. 500.00" required>
+<input type="number" step="0.01" name="categories[${counter}][limit_amount]" class="form-control bg-dark text-light border-secondary" placeholder="np. 500.00" required>
             </div>`;
-        container.appendChild(newRow);
-        newRow.scrollIntoView({ behavior: "smooth", block: "center" });
-        counter++;
-    });
+            container.appendChild(newRow);
+            newRow.scrollIntoView({ behavior: "smooth", block: "center" });
+            counter++;
+        });
 
-    // efekt płynnego pojawiania się nowego wiersza
-    const style = document.createElement('style');
-    style.innerHTML = `
+        // efekt płynnego pojawiania się nowego wiersza
+        const style = document.createElement('style');
+        style.innerHTML = `
         .fade-in {
             opacity: 0;
             transform: translateY(-10px);
@@ -162,8 +168,8 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
             }
         }
     `;
-    document.head.appendChild(style);
-<?php echo '</script'; ?>
+        document.head.appendChild(style);
+    <?php echo '</script'; ?>
 >
 
 

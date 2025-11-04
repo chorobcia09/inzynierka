@@ -58,7 +58,7 @@ class BudgetController
                         $total_limit += $limit;
                     }
                 }
-
+                // dump($_SESSION);
                 if (empty($items)) {
                     $error = 'Musisz dodać przynajmniej jedną kategorię z limitem.';
                 } else {
@@ -103,7 +103,7 @@ class BudgetController
         $user_id = $_SESSION['user_id'];
 
         $budgets = $this->budgetModel->getBudgets($family_id, $user_id);
-        dump($budgets);
+        // dump($budgets);
 
         $this->smarty->assign([
             'session' => $_SESSION,
