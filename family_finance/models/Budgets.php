@@ -1,0 +1,140 @@
+<?php
+
+class Budgets
+{
+    private $db;
+
+    public function __construct()
+    {
+        $this->db = new Database();
+    }
+
+    public function addBudget($family_id, $user_id, $name, $period_type, $start_date, $end_date, $items = [], $total_limit)
+    {
+        try {
+            $this->db->execute("START TRANSACTION");
+
+            $sqlBudget = "
+            INSERT INTO budgets (family_id, user_id, name, period_type, start_date, end_date, total_limit)
+            VALUES (:family_id, :user_id, :name, :period_type, :start_date, :end_date, :total_limit)
+        ";
+
+            $this->db->execute($sqlBudget, [
+                ':family_id'   => $family_id ?: null,
+                ':user_id'     => $user_id ?: null,
+                ':name'        => $name,
+                ':period_type' => $period_type,
+                ':start_date'  => $start_date,
+                ':end_date'    => $end_date,
+                ':total_limit'    => $total_limit,
+            ]);
+
+            $budget_id = $this->db->pdo->lastInsertId();
+            if (!empty($items)) {
+
+                foreach ($items as $item) {
+
+                    $sqlItem = "INSERT INTO budget_items (budget_id, category_id, limit_amount)
+                        VALUES (:budget_id, :category_id, :limit_amount)";
+                    $this->db->execute($sqlItem, [
+                        ':budget_id' => $budget_id,
+                        ':category_id' => $item['category_id'],
+                        ':limit_amount' => $item['limit_amount']
+                    ]);
+                }
+            }
+            $this->db->execute("COMMIT");
+
+            return $budget_id;
+        } catch (Exception $e) {
+            $this->db->execute("ROLLBACK");
+            error_log("Błąd dodawania budżetu: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function getBudgets($family_id, $user_id)
+    {
+        $sql = "
+        SELECT 
+            b.id,
+            b.name,
+            b.start_date,
+            b.end_date,
+            b.period_type,
+            
+            -- obliczamy całkowity limit z budget_items
+            (SELECT SUM(bi.limit_amount)
+             FROM budget_items bi
+             WHERE bi.budget_id = b.id) AS total_limit,
+
+            -- obliczamy całkowite wydatki z transakcji w tym okresie
+            COALESCE((
+                SELECT SUM(ti.amount * ti.quantity)
+                FROM transactions t
+                JOIN transaction_items ti ON ti.transaction_id = t.id
+                WHERE 
+                    (t.family_id = b.family_id OR t.user_id = b.user_id)
+                    AND t.transaction_date BETWEEN b.start_date AND b.end_date
+                    AND ti.category_id IN (
+                        SELECT bi.category_id FROM budget_items bi WHERE bi.budget_id = b.id
+                    )
+            ), 0) AS total_spent
+        FROM budgets b
+        WHERE (b.family_id = :family_id OR b.user_id = :user_id)
+        ORDER BY b.start_date DESC
+    ";
+
+        $budgets = $this->db->select($sql, [
+            ':family_id' => $family_id,
+            ':user_id' => $user_id
+        ]);
+
+        foreach ($budgets as &$b) {
+            $b['used_percent'] = $b['total_limit'] > 0
+                ? round(($b['total_spent'] / $b['total_limit']) * 100, 2)
+                : 0;
+        }
+
+        return $budgets;
+    }
+
+
+    public function getBudgetDetails($budget_id, $family_id, $user_id)
+    {
+        $sql = "
+        SELECT 
+            b.id AS budget_id,
+            b.name,
+            b.start_date,
+            b.end_date,
+            b.period_type,
+            c.name AS category_name,
+            bi.limit_amount,
+            COALESCE(SUM(ti.amount * ti.quantity), 0) AS spent_amount,
+            ROUND(
+                (COALESCE(SUM(ti.amount * ti.quantity), 0) / NULLIF(bi.limit_amount, 0)) * 100,
+                2
+            ) AS used_percent
+        FROM budgets b
+        JOIN budget_items bi ON bi.budget_id = b.id
+        JOIN categories c ON c.id = bi.category_id
+        LEFT JOIN transactions t 
+            ON (t.family_id = b.family_id OR t.user_id = b.user_id)
+            AND t.transaction_date BETWEEN b.start_date AND b.end_date
+        LEFT JOIN transaction_items ti 
+            ON ti.transaction_id = t.id
+            AND ti.category_id = bi.category_id
+        WHERE b.id = :budget_id
+          AND (b.family_id = :family_id OR b.user_id = :user_id)
+        GROUP BY bi.category_id
+        ORDER BY used_percent DESC
+    ";
+
+        return $this->db->select($sql, [
+            ':budget_id' => $budget_id,
+            ':family_id' => $family_id,
+            ':user_id' => $user_id
+        ]);
+    }
+}

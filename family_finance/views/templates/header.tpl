@@ -70,6 +70,20 @@
                                         </a>
                                     </li>
                                 {/if}
+                                <!-- Budżety -->
+                                <li class="nav-item dropdown me-2">
+                                    <button class="btn btn-outline-primary btn-sm dropdown-toggle" id="budgetDropdown"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-bar-chart-line-fill"></i> Budżety
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="budgetDropdown">
+                                        <li><a class="dropdown-item" href="index.php?action=viewBudgets">
+                                                <i class="bi bi-list-ul"></i> Przeglądaj budżety</a></li>
+                                        <li><a class="dropdown-item" href="index.php?action=addBudget">
+                                                <i class="bi bi-plus-circle"></i> Dodaj budżet</a></li>
+                                    </ul>
+                                </li>
+
 
                                 <!-- Transakcje -->
                                 <li class="nav-item dropdown me-2">

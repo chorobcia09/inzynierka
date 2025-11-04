@@ -10,6 +10,7 @@ require_once __DIR__ . '/controllers/DashboardController.php';
 require_once __DIR__ . '/controllers/TransactionController.php';
 require_once __DIR__ . '/controllers/CategoryController.php';
 require_once __DIR__ . '/controllers/FeedbackController.php';
+require_once __DIR__ . '/controllers/BudgetController.php';
 
 $action = $_GET['action'] ?? 'home';
 
@@ -122,7 +123,18 @@ switch ($action) {
     case 'changeStatus':
         (new FeedbackController($smarty))->changeStatus();
         break;
-
+    // ------------------------------BUDGETCONTROLLER------------------------------
+    case 'addBudget':
+        (new BudgetController($smarty))->add();
+        break;
+    case 'viewBudgets':
+        (new BudgetController($smarty))->viewBudgets();
+        break;
+    case 'viewBudget':
+        require_once 'controllers/BudgetController.php';
+        $controller = new BudgetController($smarty);
+        $controller->view();
+        break;
     default:
         (new AuthController($smarty))->showLoginForm();
         break;

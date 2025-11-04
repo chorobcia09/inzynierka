@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-26 16:23:16
+/* Smarty version 5.6.0, created on 2025-11-04 19:59:07
   from 'file:header.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68fe3ce43a5872_57592110',
+  'unifunc' => 'content_690a4cfbb0deb1_37805167',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '70761fd558b824e86e638862bb79aeef78d05c3b' => 
     array (
       0 => 'header.tpl',
-      1 => 1761492195,
+      1 => 1762282740,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_68fe3ce43a5872_57592110 (\Smarty\Template $_smarty_tpl) {
+function content_690a4cfbb0deb1_37805167 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 ?><!DOCTYPE html>
 <html lang="pl">
@@ -99,6 +99,20 @@ $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\vi
                                         </a>
                                     </li>
                                 <?php }?>
+                                <!-- Budżety -->
+                                <li class="nav-item dropdown me-2">
+                                    <button class="btn btn-outline-primary btn-sm dropdown-toggle" id="budgetDropdown"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-bar-chart-line-fill"></i> Budżety
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="budgetDropdown">
+                                        <li><a class="dropdown-item" href="index.php?action=viewBudgets">
+                                                <i class="bi bi-list-ul"></i> Przeglądaj budżety</a></li>
+                                        <li><a class="dropdown-item" href="index.php?action=addBudget">
+                                                <i class="bi bi-plus-circle"></i> Dodaj budżet</a></li>
+                                    </ul>
+                                </li>
+
 
                                 <!-- Transakcje -->
                                 <li class="nav-item dropdown me-2">
