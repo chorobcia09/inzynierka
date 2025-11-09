@@ -1,3 +1,4 @@
 composer init
 composer require smarty/smarty
+composer require symfony/var-dumper  
 php -S localhost:8000
