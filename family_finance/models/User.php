@@ -236,4 +236,13 @@ class User
             ':id' => $id
         ]);
     }
+
+    public function updatePassword($id, $hashedPassword)
+    {
+        $sql = "UPDATE users SET password = :password WHERE id = :id";
+        return $this->db->execute($sql, [
+            ':password' => $hashedPassword,
+            ':id' => $id
+        ]);
+    }
 }

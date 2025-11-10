@@ -82,6 +82,10 @@ switch ($action) {
     case 'userPanel':
         (new UserController($smarty))->panel();
         break;
+    case 'changePassword':
+        (new UserController($smarty))->changePassword();
+        break;
+
 
     // ------------------------------DASHBOARDCONTROLLER------------------------------
     case 'dashboard':

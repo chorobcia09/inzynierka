@@ -23,32 +23,38 @@
                     <div class="card bg-dark text-light shadow-sm h-100 bg-dark-subtle">
                         <div class="card-body d-flex flex-column justify-content-between">
                             <div>
-                                <h5 class="card-title mb-2 {if $transaction.type == 'income'}text-success{else}text-danger{/if}">
-                                    {if $transaction.type == 'income'}Przychód{else}Wydatek{/if} - 
+                                <h5
+                                    class="card-title mb-2 {if $transaction.type == 'income'}text-success{else}text-danger{/if}">
+                                    {if $transaction.type == 'income'}Przychód{else}Wydatek{/if} -
                                     {$transaction.amount|number_format:2:",":" "} {$transaction.currency}
                                 </h5>
                                 <p class="card-text mb-1"><strong>Użytkownik:</strong> {$transaction.user_name}</p>
                                 <p class="card-text mb-1"><strong>Kategoria:</strong> {$transaction.category_name}</p>
-                                <p class="card-text mb-1"><strong>Płatność:</strong> 
+                                <p class="card-text mb-1"><strong>Płatność:</strong>
                                     {if $transaction.payment_method == 'card'}Karta
                                     {elseif $transaction.payment_method == 'cash'}Gotówka
-                                    {else}Krypto{/if}
+                                    {else}Krypto
+                                    {/if}
                                 </p>
                                 <p class="card-text mb-1"><strong>Data transakcji:</strong> {$transaction.transaction_date}</p>
-                                <p class="card-text mb-1"><strong>Data dodania:</strong> {$transaction.created_at|date_format:"%Y-%m-%d %H:%M"}</p>
+                                <p class="card-text mb-1"><strong>Data dodania:</strong>
+                                    {$transaction.created_at|date_format:"%Y-%m-%d %H:%M"}</p>
                                 <p class="card-text mb-1 text-truncate" title="{$transaction.description|default:'—'}">
                                     <strong>Opis:</strong> {$transaction.description|default:'—'}
                                 </p>
                             </div>
                             <div class="d-flex gap-2 flex-wrap mt-3">
-                                <a href="index.php?action=transactionDetails&id={$transaction.transaction_id}" class="btn btn-outline-info btn-sm flex-grow-1">
+                                <a href="index.php?action=transactionDetails&id={$transaction.transaction_id}"
+                                    class="btn btn-outline-info btn-sm flex-grow-1">
                                     <i class="bi bi-eye"></i> Zobacz
                                 </a>
-                                {if $session.family_role == 'family_admin' || $session.family_id|default:false}
-                                    <a href="index.php?action=editTransaction&id={$transaction.transaction_id}" class="btn btn-outline-warning btn-sm flex-grow-1">
+                                {if $session.family_role == 'family_admin'}
+                                    <a href="index.php?action=editTransaction&id={$transaction.transaction_id}"
+                                        class="btn btn-outline-warning btn-sm flex-grow-1">
                                         <i class="bi bi-pencil"></i> Edytuj
                                     </a>
-                                    <a href="index.php?action=deleteTransaction&id={$transaction.transaction_id}" class="btn btn-outline-danger btn-sm flex-grow-1"
+                                    <a href="index.php?action=deleteTransaction&id={$transaction.transaction_id}"
+                                        class="btn btn-outline-danger btn-sm flex-grow-1"
                                         onclick="return confirm('Czy na pewno chcesz usunąć transakcję?');">
                                         <i class="bi bi-trash"></i> Usuń
                                     </a>
@@ -78,7 +84,7 @@
 
     .card:hover {
         transform: translateY(-5px);
-        box-shadow: 0 0.75rem 1.5rem rgba(0,0,0,0.3);
+        box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.3);
     }
 
     .text-truncate {
@@ -87,7 +93,9 @@
         white-space: nowrap;
     }
 
-    .btn-outline-info, .btn-outline-warning, .btn-outline-danger {
+    .btn-outline-info,
+    .btn-outline-warning,
+    .btn-outline-danger {
         min-width: 80px;
     }
 

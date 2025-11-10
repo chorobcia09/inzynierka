@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-26 13:16:55
+/* Smarty version 5.6.0, created on 2025-11-10 16:36:41
   from 'file:panel.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68fe113729f725_16764399',
+  'unifunc' => 'content_69120689aebca0_83058982',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'c910ae6a0b0f705df3d5dde92d429a02e8266750' => 
     array (
       0 => 'panel.tpl',
-      1 => 1761473582,
+      1 => 1762788999,
       2 => 'file',
     ),
   ),
@@ -22,13 +22,12 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_68fe113729f725_16764399 (\Smarty\Template $_smarty_tpl) {
+function content_69120689aebca0_83058982 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
 
-<div class="user-panel-container mx-auto shadow-lg p-4 rounded-4 bg-dark-subtle text-light"
-    style="max-width:600px;">
+<div class="user-panel-container mx-auto shadow-lg p-4 rounded-4 bg-dark-subtle text-light" style="max-width:600px;">
     <h2 class="text-center mb-4 fw-bold text-light-emphasis">Panel użytkownika</h2>
 
     <ul class="list-group list-group-flush rounded-3 overflow-hidden">
@@ -53,15 +52,90 @@ $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_sma
         <li class="list-group-item bg-dark text-light"><strong>Rodzaj konta:</strong>
             <?php echo htmlspecialchars((string) ((($tmp = $_smarty_tpl->getValue('user')['account_type'] ?? null)===null||$tmp==='' ? 'Brak' ?? null : $tmp)), ENT_QUOTES, 'UTF-8');?>
 </li>
-        <li class="list-group-item bg-dark text-light"><strong>UID:</strong> <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('user')['UID']), ENT_QUOTES, 'UTF-8');?>
-</li>
+
+        <!-- UID z przyciskami -->
+        <li
+            class="list-group-item bg-dark text-light d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <div>
+                <strong>UID:</strong>
+                <span id="uidValue" class="text-monospace">•••••••••••••••</span>
+            </div>
+            <div class="d-flex gap-2">
+                <button type="button" id="toggleUid" class="btn btn-sm btn-outline-light fw-semibold">
+                    <i class="bi bi-eye"></i> Pokaż
+                </button>
+                <button type="button" id="copyUid" class="btn btn-sm btn-outline-success fw-semibold">
+                    <i class="bi bi-clipboard"></i> Kopiuj
+                </button>
+            </div>
+        </li>
+
     </ul>
 
     <div class="text-center mt-4">
         <a href="index.php?action=dashboard" class="btn btn-light text-dark fw-semibold me-2">Dashboard</a>
         <a href="index.php?action=usersFamily" class="btn btn-outline-light fw-semibold">Członkowie rodziny</a>
+        <a href="index.php?action=changePassword" class="btn btn-outline-warning fw-semibold">Zmień hasło</a>
+
     </div>
 </div>
+
+<?php echo '<script'; ?>
+>
+    document.addEventListener('DOMContentLoaded', () => {
+        const uidElement = document.getElementById('uidValue');
+        const toggleButton = document.getElementById('toggleUid');
+        const copyButton = document.getElementById('copyUid');
+        const realUid = '<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('user')['UID']), ENT_QUOTES, 'UTF-8');?>
+';
+        let isVisible = false;
+
+        toggleButton.addEventListener('click', () => {
+            if (isVisible) {
+                uidElement.textContent = '•••••••••••••••';
+                toggleButton.innerHTML = '<i class="bi bi-eye"></i> Pokaż';
+            } else {
+                uidElement.textContent = realUid;
+                toggleButton.innerHTML = '<i class="bi bi-eye-slash"></i> Ukryj';
+            }
+            isVisible = !isVisible;
+        });
+
+        copyButton.addEventListener('click', async () => {
+            try {
+                await navigator.clipboard.writeText(realUid);
+                copyButton.innerHTML = '<i class="bi bi-check-lg"></i> Skopiowano!';
+                copyButton.classList.remove('btn-outline-success');
+                copyButton.classList.add('btn-success');
+                setTimeout(() => {
+                    copyButton.innerHTML = '<i class="bi bi-clipboard"></i> Kopiuj';
+                    copyButton.classList.remove('btn-success');
+                    copyButton.classList.add('btn-outline-success');
+                }, 2000);
+            } catch (err) {
+                alert('Nie udało się skopiować UID');
+            }
+        });
+    });
+<?php echo '</script'; ?>
+>
+
+<style>
+    .text-monospace {
+        font-family: monospace;
+        letter-spacing: 0.1rem;
+    }
+
+    #toggleUid,
+    #copyUid {
+        transition: all 0.2s ease-in-out;
+    }
+
+    #toggleUid:hover,
+    #copyUid:hover {
+        transform: translateY(-2px);
+    }
+</style>
 
 <?php $_smarty_tpl->renderSubTemplate('file:footer.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 }

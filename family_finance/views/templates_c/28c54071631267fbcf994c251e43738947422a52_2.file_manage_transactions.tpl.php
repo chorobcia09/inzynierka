@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-11-10 15:46:50
+/* Smarty version 5.6.0, created on 2025-11-10 15:55:57
   from 'file:manage_transactions.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_6911fada7adde9_65222906',
+  'unifunc' => 'content_6911fcfd70d6e7_00758860',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '28c54071631267fbcf994c251e43738947422a52' => 
     array (
       0 => 'manage_transactions.tpl',
-      1 => 1762786009,
+      1 => 1762786556,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_6911fada7adde9_65222906 (\Smarty\Template $_smarty_tpl) {
+function content_6911fcfd70d6e7_00758860 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -55,8 +55,9 @@ $foreach0DoElse = false;
                     <div class="card bg-dark text-light shadow-sm h-100 bg-dark-subtle">
                         <div class="card-body d-flex flex-column justify-content-between">
                             <div>
-                                <h5 class="card-title mb-2 <?php if ($_smarty_tpl->getValue('transaction')['type'] == 'income') {?>text-success<?php } else { ?>text-danger<?php }?>">
-                                    <?php if ($_smarty_tpl->getValue('transaction')['type'] == 'income') {?>Przychód<?php } else { ?>Wydatek<?php }?> - 
+                                <h5
+                                    class="card-title mb-2 <?php if ($_smarty_tpl->getValue('transaction')['type'] == 'income') {?>text-success<?php } else { ?>text-danger<?php }?>">
+                                    <?php if ($_smarty_tpl->getValue('transaction')['type'] == 'income') {?>Przychód<?php } else { ?>Wydatek<?php }?> -
                                     <?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('transaction')['amount'],2,","," ")), ENT_QUOTES, 'UTF-8');?>
  <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['currency']), ENT_QUOTES, 'UTF-8');?>
 
@@ -65,14 +66,16 @@ $foreach0DoElse = false;
 </p>
                                 <p class="card-text mb-1"><strong>Kategoria:</strong> <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['category_name']), ENT_QUOTES, 'UTF-8');?>
 </p>
-                                <p class="card-text mb-1"><strong>Płatność:</strong> 
+                                <p class="card-text mb-1"><strong>Płatność:</strong>
                                     <?php if ($_smarty_tpl->getValue('transaction')['payment_method'] == 'card') {?>Karta
                                     <?php } elseif ($_smarty_tpl->getValue('transaction')['payment_method'] == 'cash') {?>Gotówka
-                                    <?php } else { ?>Krypto<?php }?>
+                                    <?php } else { ?>Krypto
+                                    <?php }?>
                                 </p>
                                 <p class="card-text mb-1"><strong>Data transakcji:</strong> <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['transaction_date']), ENT_QUOTES, 'UTF-8');?>
 </p>
-                                <p class="card-text mb-1"><strong>Data dodania:</strong> <?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('date_format')($_smarty_tpl->getValue('transaction')['created_at'],"%Y-%m-%d %H:%M")), ENT_QUOTES, 'UTF-8');?>
+                                <p class="card-text mb-1"><strong>Data dodania:</strong>
+                                    <?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('date_format')($_smarty_tpl->getValue('transaction')['created_at'],"%Y-%m-%d %H:%M")), ENT_QUOTES, 'UTF-8');?>
 </p>
                                 <p class="card-text mb-1 text-truncate" title="<?php echo htmlspecialchars((string) ((($tmp = $_smarty_tpl->getValue('transaction')['description'] ?? null)===null||$tmp==='' ? '—' ?? null : $tmp)), ENT_QUOTES, 'UTF-8');?>
 ">
@@ -82,16 +85,19 @@ $foreach0DoElse = false;
                             </div>
                             <div class="d-flex gap-2 flex-wrap mt-3">
                                 <a href="index.php?action=transactionDetails&id=<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['transaction_id']), ENT_QUOTES, 'UTF-8');?>
-" class="btn btn-outline-info btn-sm flex-grow-1">
+"
+                                    class="btn btn-outline-info btn-sm flex-grow-1">
                                     <i class="bi bi-eye"></i> Zobacz
                                 </a>
-                                <?php if ($_smarty_tpl->getValue('session')['family_role'] == 'family_admin' || (($tmp = $_smarty_tpl->getValue('session')['family_id'] ?? null)===null||$tmp==='' ? false ?? null : $tmp)) {?>
+                                <?php if ($_smarty_tpl->getValue('session')['family_role'] == 'family_admin') {?>
                                     <a href="index.php?action=editTransaction&id=<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['transaction_id']), ENT_QUOTES, 'UTF-8');?>
-" class="btn btn-outline-warning btn-sm flex-grow-1">
+"
+                                        class="btn btn-outline-warning btn-sm flex-grow-1">
                                         <i class="bi bi-pencil"></i> Edytuj
                                     </a>
                                     <a href="index.php?action=deleteTransaction&id=<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['transaction_id']), ENT_QUOTES, 'UTF-8');?>
-" class="btn btn-outline-danger btn-sm flex-grow-1"
+"
+                                        class="btn btn-outline-danger btn-sm flex-grow-1"
                                         onclick="return confirm('Czy na pewno chcesz usunąć transakcję?');">
                                         <i class="bi bi-trash"></i> Usuń
                                     </a>
@@ -123,7 +129,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 
     .card:hover {
         transform: translateY(-5px);
-        box-shadow: 0 0.75rem 1.5rem rgba(0,0,0,0.3);
+        box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.3);
     }
 
     .text-truncate {
@@ -132,7 +138,9 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         white-space: nowrap;
     }
 
-    .btn-outline-info, .btn-outline-warning, .btn-outline-danger {
+    .btn-outline-info,
+    .btn-outline-warning,
+    .btn-outline-danger {
         min-width: 80px;
     }
 
