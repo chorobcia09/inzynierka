@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-11-04 21:11:07
+/* Smarty version 5.6.0, created on 2025-11-10 15:46:50
   from 'file:manage_transactions.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_690a5ddb390137_25878466',
+  'unifunc' => 'content_6911fada7adde9_65222906',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '28c54071631267fbcf994c251e43738947422a52' => 
     array (
       0 => 'manage_transactions.tpl',
-      1 => 1762287065,
+      1 => 1762786009,
       2 => 'file',
     ),
   ),
@@ -22,14 +22,14 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_690a5ddb390137_25878466 (\Smarty\Template $_smarty_tpl) {
+function content_6911fada7adde9_65222906 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
 
 <div class="container py-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="text-light fw-bold">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+        <h2 class="text-light fw-bold mb-3 mb-md-0">
             <i class="bi bi-credit-card-2-front me-2 text-success"></i> Twoje transakcje
         </h2>
         <a href="index.php?action=addTransaction" class="btn btn-success rounded-pill px-4 shadow-sm fw-semibold">
@@ -44,104 +44,65 @@ $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_sma
     <?php }?>
 
     <?php if ($_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('transactionsList')) > 0) {?>
-        <div class="table-responsive shadow-lg rounded-4 overflow-hidden">
-            <table class="table table-dark table-hover align-middle mb-0">
-                <thead class="bg-gradient bg-dark text-light small text-uppercase">
-                    <tr>
-                        <th class="text-nowrap"><i class="bi bi-person me-1 small"></i>Użytkownik</th>
-                        <th class="text-nowrap"><i class="bi bi-tag me-1 small"></i>Kategoria</th>
-                        <th class="text-nowrap"><i class="bi bi-arrow-left-right me-1 small"></i>Typ</th>
-                        <th class="text-nowrap"><i class="bi bi-cash-stack me-1 small"></i>Kwota</th>
-                        <th class="text-nowrap"><i class="bi bi-currency-exchange me-1 small"></i>Waluta</th>
-                        <th class="text-nowrap"><i class="bi bi-wallet2 me-1 small"></i>Płatność</th>
-                        <th class="text-nowrap"><i class="bi bi-pencil-square me-1 small"></i>Opis</th>
-                        <th class="text-nowrap"><i class="bi bi-calendar-event me-1 small"></i>Data</th>
-                        <th class="text-nowrap"><i class="bi bi-repeat me-1 small"></i>Cykliczność</th>
-                        <th class="text-nowrap"><i class="bi bi-clock me-1 small"></i>Dodano</th>
-                        <th class="text-nowrap"><i class="bi bi-eye me-1 small"></i>Szczegóły</th>
-                        <?php if ($_smarty_tpl->getValue('session')['family_role'] == 'family_admin' || !$_smarty_tpl->getValue('session')['family_id']) {?>
-                            <th class="text-nowrap"><i class="bi bi-gear me-1 small"></i>Akcje</th>
-                        <?php }?>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <?php
+        <div class="row g-3">
+            <?php
 $_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('transactionsList'), 'transaction');
 $foreach0DoElse = true;
 foreach ($_from ?? [] as $_smarty_tpl->getVariable('transaction')->value) {
 $foreach0DoElse = false;
 ?>
-                        <tr class="transition">
-                            <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['user_name']), ENT_QUOTES, 'UTF-8');?>
-</td>
-                            <td><span class="badge bg-info text-dark px-3 py-2"><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['category_name']), ENT_QUOTES, 'UTF-8');?>
-</span></td>
-                            <td>
-                                <?php if ($_smarty_tpl->getValue('transaction')['type'] == 'income') {?>
-                                    <span class="badge bg-success px-3 py-2">Przychód</span>
-                                <?php } else { ?>
-                                    <span class="badge bg-danger px-3 py-2">Wydatek</span>
-                                <?php }?>
-                            </td>
-                            <td class="fw-bold text-light">
-                                <?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('transaction')['amount'],2,","," ")), ENT_QUOTES, 'UTF-8');?>
+                <div class="col-12 col-md-6 col-lg-3">
+                    <div class="card bg-dark text-light shadow-sm h-100 bg-dark-subtle">
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <div>
+                                <h5 class="card-title mb-2 <?php if ($_smarty_tpl->getValue('transaction')['type'] == 'income') {?>text-success<?php } else { ?>text-danger<?php }?>">
+                                    <?php if ($_smarty_tpl->getValue('transaction')['type'] == 'income') {?>Przychód<?php } else { ?>Wydatek<?php }?> - 
+                                    <?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('transaction')['amount'],2,","," ")), ENT_QUOTES, 'UTF-8');?>
+ <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['currency']), ENT_QUOTES, 'UTF-8');?>
 
-                            </td>
-                            <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['currency']), ENT_QUOTES, 'UTF-8');?>
-</td>
-                            <td>
-                                <?php if ($_smarty_tpl->getValue('transaction')['payment_method'] == 'card') {?>
-                                    <i class="bi bi-credit-card text-warning"></i> Karta
-                                <?php } elseif ($_smarty_tpl->getValue('transaction')['payment_method'] == 'cash') {?>
-                                    <i class="bi bi-cash text-success"></i> Gotówka
-                                <?php } else { ?>
-                                    <i class="bi bi-coin text-info"></i> Krypto
-                                <?php }?>
-                            </td>
-                            <td class="text-muted"><?php echo htmlspecialchars((string) ((($tmp = $_smarty_tpl->getValue('transaction')['description'] ?? null)===null||$tmp==='' ? '—' ?? null : $tmp)), ENT_QUOTES, 'UTF-8');?>
-</td>
-                            <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['transaction_date']), ENT_QUOTES, 'UTF-8');?>
-</td>
-                            <td>
-                                <?php if ($_smarty_tpl->getValue('transaction')['is_recurring'] == 1) {?>
-                                    <span class="badge bg-primary">Tak</span>
-                                <?php } else { ?>
-                                    <span class="badge bg-secondary">Nie</span>
-                                <?php }?>
-                            </td>
-                            <td><?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('date_format')($_smarty_tpl->getValue('transaction')['created_at'],"%Y-%m-%d %H:%M")), ENT_QUOTES, 'UTF-8');?>
-</td>
-                            <td>
+                                </h5>
+                                <p class="card-text mb-1"><strong>Użytkownik:</strong> <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['user_name']), ENT_QUOTES, 'UTF-8');?>
+</p>
+                                <p class="card-text mb-1"><strong>Kategoria:</strong> <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['category_name']), ENT_QUOTES, 'UTF-8');?>
+</p>
+                                <p class="card-text mb-1"><strong>Płatność:</strong> 
+                                    <?php if ($_smarty_tpl->getValue('transaction')['payment_method'] == 'card') {?>Karta
+                                    <?php } elseif ($_smarty_tpl->getValue('transaction')['payment_method'] == 'cash') {?>Gotówka
+                                    <?php } else { ?>Krypto<?php }?>
+                                </p>
+                                <p class="card-text mb-1"><strong>Data transakcji:</strong> <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['transaction_date']), ENT_QUOTES, 'UTF-8');?>
+</p>
+                                <p class="card-text mb-1"><strong>Data dodania:</strong> <?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('date_format')($_smarty_tpl->getValue('transaction')['created_at'],"%Y-%m-%d %H:%M")), ENT_QUOTES, 'UTF-8');?>
+</p>
+                                <p class="card-text mb-1 text-truncate" title="<?php echo htmlspecialchars((string) ((($tmp = $_smarty_tpl->getValue('transaction')['description'] ?? null)===null||$tmp==='' ? '—' ?? null : $tmp)), ENT_QUOTES, 'UTF-8');?>
+">
+                                    <strong>Opis:</strong> <?php echo htmlspecialchars((string) ((($tmp = $_smarty_tpl->getValue('transaction')['description'] ?? null)===null||$tmp==='' ? '—' ?? null : $tmp)), ENT_QUOTES, 'UTF-8');?>
+
+                                </p>
+                            </div>
+                            <div class="d-flex gap-2 flex-wrap mt-3">
                                 <a href="index.php?action=transactionDetails&id=<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['transaction_id']), ENT_QUOTES, 'UTF-8');?>
-"
-                                    class="btn btn-outline-info btn-sm rounded-pill px-3">
+" class="btn btn-outline-info btn-sm flex-grow-1">
                                     <i class="bi bi-eye"></i> Zobacz
                                 </a>
-                            </td>
-                            <?php if ($_smarty_tpl->getValue('session')['family_role'] == 'family_admin' || !$_smarty_tpl->getValue('session')['family_id']) {?>
-                                <td>
-                                    <div class="d-flex gap-2">
-                                        <a href="index.php?action=editTransaction&id=<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['transaction_id']), ENT_QUOTES, 'UTF-8');?>
-"
-                                            class="btn btn-outline-warning btn-sm rounded-pill px-3">
-                                            <i class="bi bi-pencil"></i>
-                                        </a>
-                                        <a href="index.php?action=deleteTransaction&id=<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['transaction_id']), ENT_QUOTES, 'UTF-8');?>
-"
-                                            class="btn btn-outline-danger btn-sm rounded-pill px-3"
-                                            onclick="return confirm('Czy na pewno chcesz usunąć transakcję?');">
-                                            <i class="bi bi-trash"></i>
-                                        </a>
-                                    </div>
-                                </td>
-                            <?php }?>
-                        </tr>
-                    <?php
+                                <?php if ($_smarty_tpl->getValue('session')['family_role'] == 'family_admin' || (($tmp = $_smarty_tpl->getValue('session')['family_id'] ?? null)===null||$tmp==='' ? false ?? null : $tmp)) {?>
+                                    <a href="index.php?action=editTransaction&id=<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['transaction_id']), ENT_QUOTES, 'UTF-8');?>
+" class="btn btn-outline-warning btn-sm flex-grow-1">
+                                        <i class="bi bi-pencil"></i> Edytuj
+                                    </a>
+                                    <a href="index.php?action=deleteTransaction&id=<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['transaction_id']), ENT_QUOTES, 'UTF-8');?>
+" class="btn btn-outline-danger btn-sm flex-grow-1"
+                                        onclick="return confirm('Czy na pewno chcesz usunąć transakcję?');">
+                                        <i class="bi bi-trash"></i> Usuń
+                                    </a>
+                                <?php }?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php
 }
 $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
-                </tbody>
-            </table>
         </div>
     <?php } else { ?>
         <div class="text-center text-light mt-5">
@@ -155,25 +116,31 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 </div>
 
 <style>
-    .table-dark {
-        background-color: #1e1e2f !important;
+    .card {
+        border-radius: 1rem;
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
     }
 
-    .table-dark tbody tr:hover {
-        background-color: #2c2c3f !important;
-        transition: 0.3s;
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0.75rem 1.5rem rgba(0,0,0,0.3);
     }
 
-    .transition {
-        transition: all 0.2s ease-in-out;
+    .text-truncate {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
-    .transition:hover {
-        transform: scale(1.01);
+    .btn-outline-info, .btn-outline-warning, .btn-outline-danger {
+        min-width: 80px;
     }
 
-    .bg-gradient {
-        background: linear-gradient(135deg, #0d6efd, #6610f2);
+    @media (max-width: 576px) {
+        .btn {
+            flex-grow: 1;
+            text-align: center;
+        }
     }
 </style>
 

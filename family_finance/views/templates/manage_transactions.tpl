@@ -1,8 +1,8 @@
 {include file="header.tpl"}
 
 <div class="container py-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="text-light fw-bold">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+        <h2 class="text-light fw-bold mb-3 mb-md-0">
             <i class="bi bi-credit-card-2-front me-2 text-success"></i> Twoje transakcje
         </h2>
         <a href="index.php?action=addTransaction" class="btn btn-success rounded-pill px-4 shadow-sm fw-semibold">
@@ -17,87 +17,47 @@
     {/if}
 
     {if $transactionsList|@count > 0}
-        <div class="table-responsive shadow-lg rounded-4 overflow-hidden">
-            <table class="table table-dark table-hover align-middle mb-0">
-                <thead class="bg-gradient bg-dark text-light small text-uppercase">
-                    <tr>
-                        <th class="text-nowrap"><i class="bi bi-person me-1 small"></i>Użytkownik</th>
-                        <th class="text-nowrap"><i class="bi bi-tag me-1 small"></i>Kategoria</th>
-                        <th class="text-nowrap"><i class="bi bi-arrow-left-right me-1 small"></i>Typ</th>
-                        <th class="text-nowrap"><i class="bi bi-cash-stack me-1 small"></i>Kwota</th>
-                        <th class="text-nowrap"><i class="bi bi-currency-exchange me-1 small"></i>Waluta</th>
-                        <th class="text-nowrap"><i class="bi bi-wallet2 me-1 small"></i>Płatność</th>
-                        <th class="text-nowrap"><i class="bi bi-pencil-square me-1 small"></i>Opis</th>
-                        <th class="text-nowrap"><i class="bi bi-calendar-event me-1 small"></i>Data</th>
-                        <th class="text-nowrap"><i class="bi bi-repeat me-1 small"></i>Cykliczność</th>
-                        <th class="text-nowrap"><i class="bi bi-clock me-1 small"></i>Dodano</th>
-                        <th class="text-nowrap"><i class="bi bi-eye me-1 small"></i>Szczegóły</th>
-                        {if $session.family_role == 'family_admin' || !$session.family_id}
-                            <th class="text-nowrap"><i class="bi bi-gear me-1 small"></i>Akcje</th>
-                        {/if}
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {foreach from=$transactionsList item=transaction}
-                        <tr class="transition">
-                            <td>{$transaction.user_name}</td>
-                            <td><span class="badge bg-info text-dark px-3 py-2">{$transaction.category_name}</span></td>
-                            <td>
-                                {if $transaction.type == 'income'}
-                                    <span class="badge bg-success px-3 py-2">Przychód</span>
-                                {else}
-                                    <span class="badge bg-danger px-3 py-2">Wydatek</span>
-                                {/if}
-                            </td>
-                            <td class="fw-bold text-light">
-                                {$transaction.amount|number_format:2:",":" "}
-                            </td>
-                            <td>{$transaction.currency}</td>
-                            <td>
-                                {if $transaction.payment_method == 'card'}
-                                    <i class="bi bi-credit-card text-warning"></i> Karta
-                                {elseif $transaction.payment_method == 'cash'}
-                                    <i class="bi bi-cash text-success"></i> Gotówka
-                                {else}
-                                    <i class="bi bi-coin text-info"></i> Krypto
-                                {/if}
-                            </td>
-                            <td class="text-muted">{$transaction.description|default:'—'}</td>
-                            <td>{$transaction.transaction_date}</td>
-                            <td>
-                                {if $transaction.is_recurring == 1}
-                                    <span class="badge bg-primary">Tak</span>
-                                {else}
-                                    <span class="badge bg-secondary">Nie</span>
-                                {/if}
-                            </td>
-                            <td>{$transaction.created_at|date_format:"%Y-%m-%d %H:%M"}</td>
-                            <td>
-                                <a href="index.php?action=transactionDetails&id={$transaction.transaction_id}"
-                                    class="btn btn-outline-info btn-sm rounded-pill px-3">
+        <div class="row g-3">
+            {foreach from=$transactionsList item=transaction}
+                <div class="col-12 col-md-6 col-lg-3">
+                    <div class="card bg-dark text-light shadow-sm h-100 bg-dark-subtle">
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <div>
+                                <h5 class="card-title mb-2 {if $transaction.type == 'income'}text-success{else}text-danger{/if}">
+                                    {if $transaction.type == 'income'}Przychód{else}Wydatek{/if} - 
+                                    {$transaction.amount|number_format:2:",":" "} {$transaction.currency}
+                                </h5>
+                                <p class="card-text mb-1"><strong>Użytkownik:</strong> {$transaction.user_name}</p>
+                                <p class="card-text mb-1"><strong>Kategoria:</strong> {$transaction.category_name}</p>
+                                <p class="card-text mb-1"><strong>Płatność:</strong> 
+                                    {if $transaction.payment_method == 'card'}Karta
+                                    {elseif $transaction.payment_method == 'cash'}Gotówka
+                                    {else}Krypto{/if}
+                                </p>
+                                <p class="card-text mb-1"><strong>Data transakcji:</strong> {$transaction.transaction_date}</p>
+                                <p class="card-text mb-1"><strong>Data dodania:</strong> {$transaction.created_at|date_format:"%Y-%m-%d %H:%M"}</p>
+                                <p class="card-text mb-1 text-truncate" title="{$transaction.description|default:'—'}">
+                                    <strong>Opis:</strong> {$transaction.description|default:'—'}
+                                </p>
+                            </div>
+                            <div class="d-flex gap-2 flex-wrap mt-3">
+                                <a href="index.php?action=transactionDetails&id={$transaction.transaction_id}" class="btn btn-outline-info btn-sm flex-grow-1">
                                     <i class="bi bi-eye"></i> Zobacz
                                 </a>
-                            </td>
-                            {if $session.family_role == 'family_admin' || !$session.family_id}
-                                <td>
-                                    <div class="d-flex gap-2">
-                                        <a href="index.php?action=editTransaction&id={$transaction.transaction_id}"
-                                            class="btn btn-outline-warning btn-sm rounded-pill px-3">
-                                            <i class="bi bi-pencil"></i>
-                                        </a>
-                                        <a href="index.php?action=deleteTransaction&id={$transaction.transaction_id}"
-                                            class="btn btn-outline-danger btn-sm rounded-pill px-3"
-                                            onclick="return confirm('Czy na pewno chcesz usunąć transakcję?');">
-                                            <i class="bi bi-trash"></i>
-                                        </a>
-                                    </div>
-                                </td>
-                            {/if}
-                        </tr>
-                    {/foreach}
-                </tbody>
-            </table>
+                                {if $session.family_role == 'family_admin' || $session.family_id|default:false}
+                                    <a href="index.php?action=editTransaction&id={$transaction.transaction_id}" class="btn btn-outline-warning btn-sm flex-grow-1">
+                                        <i class="bi bi-pencil"></i> Edytuj
+                                    </a>
+                                    <a href="index.php?action=deleteTransaction&id={$transaction.transaction_id}" class="btn btn-outline-danger btn-sm flex-grow-1"
+                                        onclick="return confirm('Czy na pewno chcesz usunąć transakcję?');">
+                                        <i class="bi bi-trash"></i> Usuń
+                                    </a>
+                                {/if}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {/foreach}
         </div>
     {else}
         <div class="text-center text-light mt-5">
@@ -111,25 +71,31 @@
 </div>
 
 <style>
-    .table-dark {
-        background-color: #1e1e2f !important;
+    .card {
+        border-radius: 1rem;
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
     }
 
-    .table-dark tbody tr:hover {
-        background-color: #2c2c3f !important;
-        transition: 0.3s;
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0.75rem 1.5rem rgba(0,0,0,0.3);
     }
 
-    .transition {
-        transition: all 0.2s ease-in-out;
+    .text-truncate {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
-    .transition:hover {
-        transform: scale(1.01);
+    .btn-outline-info, .btn-outline-warning, .btn-outline-danger {
+        min-width: 80px;
     }
 
-    .bg-gradient {
-        background: linear-gradient(135deg, #0d6efd, #6610f2);
+    @media (max-width: 576px) {
+        .btn {
+            flex-grow: 1;
+            text-align: center;
+        }
     }
 </style>
 
