@@ -197,4 +197,59 @@ class TransactionController
         $this->smarty->display('transaction_details.tpl');
         return;
     }
+
+    public function getCategoriesByType()
+    {
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: index.php?action=login');
+            exit;
+        }
+
+        if (!isset($_GET['type'])) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Brak parametru type']);
+            exit;
+        }
+
+        $type = $_GET['type'];
+        if (!in_array($type, ['income', 'expense'])) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Nieprawidłowy typ']);
+            exit;
+        }
+
+        $categories = $this->categoriesModel->getCategoriesByType($type); // <- tylko tu
+
+        if (!$categories) {
+            http_response_code(500);
+            echo json_encode(['error' => 'Brak kategorii w bazie dla tego typu']);
+            exit;
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode($categories);
+        exit;
+    }
+    
+    public function getSubcategoriesByCategory()
+    {
+        if (!isset($_SESSION['user_id'])) {
+            http_response_code(403);
+            echo json_encode(['error' => 'Brak autoryzacji']);
+            exit;
+        }
+
+        if (empty($_GET['category_id'])) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Brak ID kategorii']);
+            exit;
+        }
+
+        $category_id = (int) $_GET['category_id'];
+        $subcategories = $this->subCategoriesModel->getSubCategoriesByCategory($category_id);
+
+        header('Content-Type: application/json');
+        echo json_encode($subcategories ?: []);
+        exit;
+    }
 }

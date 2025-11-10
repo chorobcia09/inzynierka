@@ -105,6 +105,14 @@ switch ($action) {
     case 'transactionDetails':
         (new TransactionController($smarty))->transactionDetails($_GET['id'] ?? null);
         break;
+    case 'getCategoriesByType':
+        (new TransactionController($smarty))->getCategoriesByType();
+        break;
+    case 'getSubcategoriesByCategory':
+        (new TransactionController($smarty))->getSubcategoriesByCategory();
+        break;
+
+
 
     // ------------------------------CATEGORYSCONTROLLER------------------------------
     case 'categories':

@@ -50,4 +50,11 @@ class SubCategories
             ':is_global' => $is_global
         ]);
     }
+
+    public function getSubCategoriesByCategory($category_id)
+    {
+        $sql = "SELECT * from sub_categories where category_id = :category_id";
+
+        return $this->db->select($sql, [':category_id' => $category_id]);
+    }
 }
