@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-26 16:26:39
+/* Smarty version 5.6.0, created on 2025-11-10 15:26:26
   from 'file:users_family.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68fe3daf3431f2_07592355',
+  'unifunc' => 'content_6911f612926db5_46490617',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '8e300cf5e677cdbe32f4d3b622999c7baecdbafd' => 
     array (
       0 => 'users_family.tpl',
-      1 => 1761492356,
+      1 => 1762784781,
       2 => 'file',
     ),
   ),
@@ -22,13 +22,21 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_68fe3daf3431f2_07592355 (\Smarty\Template $_smarty_tpl) {
+function content_6911f612926db5_46490617 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
 
 <div class="users-container bg-dark text-light p-4 rounded shadow bg-dark-subtle">
     <h2 class="mb-4 fw-bold text-primary text-light">Lista członków rodziny</h2>
+
+    <?php if ((true && (true && null !== ($_smarty_tpl->getValue('session')['error'] ?? null)))) {?>
+        <div class="alert alert-danger">
+            <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('session')['error']), ENT_QUOTES, 'UTF-8');?>
+
+        </div>
+    <?php }?>
+
 
     <?php if ($_smarty_tpl->getValue('session')['family_role'] == 'family_admin') {?>
         <a href="index.php?action=addUserToFamily" class="btn btn-success mb-3">

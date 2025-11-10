@@ -50,13 +50,13 @@ class FamilyController
         $users = $this->userModel->getUsersByFamilyId($_SESSION['family_id'] ?? null);
 
 
-
         $this->smarty->assign([
             'users' => $users,
             'session' => $_SESSION
         ]);
 
         // dump($_SESSION);
+        
         $this->smarty->display('users_family.tpl');
     }
 
@@ -119,8 +119,12 @@ class FamilyController
 
         $this->familyModel->deleteFamily($familyId);
         unset($_SESSION['family_id'], $_SESSION['family_role']);
+        
         header('Location: index.php?action=dashboard');
         exit;
+
+        $this->smarty->assign('session', $_SESSION);
+
     }
 
 
@@ -174,6 +178,12 @@ class FamilyController
     {
         if (!isset($_SESSION['user_id']) || $_SESSION['family_role'] !== 'family_admin') {
             header('Location: index.php?action=login');
+            exit;
+        }
+
+        if ($_SESSION['user_id'] == $id) {
+            $_SESSION['error'] = 'Administrator rodziny nie może usunąć samego siebie.';
+            header('Location: index.php?action=usersFamily');
             exit;
         }
 

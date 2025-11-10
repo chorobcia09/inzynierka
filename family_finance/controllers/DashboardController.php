@@ -18,6 +18,8 @@ class DashboardController
         $this->smarty = $smarty;
         $this->userModel = new User(new Database());
         $this->familyModel = new Family();
+        $this->smarty->assign('session', $_SESSION);
+
     }
 
     public function index()
@@ -31,6 +33,7 @@ class DashboardController
         header("Cache-Control: no-cache, no-store, must-revalidate");
         header("Pragma: no-cache");
         header("Expires: 0");
+        
 
         if (!empty($_SESSION['family_id'])) {
             $family = $this->familyModel->getFamilyById($_SESSION['family_id']);

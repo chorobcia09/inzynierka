@@ -3,6 +3,13 @@
 <div class="users-container bg-dark text-light p-4 rounded shadow bg-dark-subtle">
     <h2 class="mb-4 fw-bold text-primary text-light">Lista członków rodziny</h2>
 
+    {if isset($session.error)}
+        <div class="alert alert-danger">
+            {$session.error}
+        </div>
+    {/if}
+
+
     {if $session.family_role == 'family_admin'}
         <a href="index.php?action=addUserToFamily" class="btn btn-success mb-3">
             <i class="bi bi-person-plus"></i> Dodaj członka rodziny
