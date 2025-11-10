@@ -2,13 +2,14 @@
 
 <h2 class="mb-4 text-light-emphasis">Kategorie</h2>
 
-<div class="alert alert-warning" role="alert">
-    W tym miejscu możesz przeglądać kategorie wraz z podkategoriami, które są dostępne w systemie globalnie, jak i
-    lokalnie (utworzone przez użytkownika). Naciśnij w dowolną kategorię, aby przejść do podkategorii.
+<div class="alert alert-warning d-flex align-items-center gap-2" role="alert">
+    <i class="bi bi-info-circle-fill"></i>
+    W tym miejscu możesz przeglądać kategorie wraz z podkategoriami, które są dostępne w systemie globalnie i lokalnie.
+    Kliknij w dowolną kategorię, aby przejść do podkategorii.
 </div>
 
-<div class="table-responsive shadow rounded bg-dark text-light p-3 bg-dark-subtle">
-    <table class="table table-dark table-bordered mb-0">
+<div class="table-responsive shadow rounded bg-dark text-light p-3">
+    <table class="table table-dark table-hover table-bordered mb-0 align-middle">
         <thead class="table-secondary text-dark">
             <tr>
                 <th>Nazwa</th>
@@ -20,16 +21,32 @@
         </thead>
         <tbody>
             {foreach from=$category item=category}
-                <tr>
+                <tr class="align-middle">
                     <td>
-                        <a href="index.php?action=viewCategory&id={$category.id}" class="text-light">
-                            {$category.name}
+                        <a href="index.php?action=viewCategory&id={$category.id}" class="text-light text-decoration-none">
+                            <i class="bi bi-folder-fill me-1"></i> {$category.name}
                         </a>
                     </td>
-                    <td>{if $category.type == 'expense'}Wydatek{else}Przychód{/if}</td>
-                    <td>{if $category.is_global == 1}Globalna{else}Lokalna{/if}</td>
-                    <td>{$category.created_at}</td>
-                    <td>{$category.updated_at}</td>
+                    <td>
+                        {if $category.type == 'expense'}
+                            <span class="badge bg-danger"><i class="bi bi-cash-stack me-1"></i>Wydatek</span>
+                        {else}
+                            <span class="badge bg-success"><i class="bi bi-wallet2 me-1"></i>Przychód</span>
+                        {/if}
+                    </td>
+                    <td>
+                        {if $category.is_global == 1}
+                            <span class="badge bg-primary"><i class="bi bi-globe me-1"></i>Globalna</span>
+                        {else}
+                            <span class="badge bg-secondary"><i class="bi bi-person-fill me-1"></i>Lokalna</span>
+                        {/if}
+                    </td>
+                    <td title="{$category.created_at|date_format:"%d-%m-%Y %H:%M"}">
+                        {$category.created_at|date_format:"%d-%m-%Y"}
+                    </td>
+                    <td title="{$category.updated_at|date_format:"%d-%m-%Y %H:%M"}">
+                        {$category.updated_at|date_format:"%d-%m-%Y"}
+                    </td>
                 </tr>
             {/foreach}
         </tbody>
@@ -37,3 +54,19 @@
 </div>
 
 {include file="footer.tpl"}
+
+<style>
+    .table-hover tbody tr:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        transition: background-color 0.2s;
+    }
+
+    .table-responsive table {
+        border-radius: 0.5rem;
+        overflow: hidden;
+    }
+
+    .table a:hover {
+        text-decoration: underline;
+    }
+</style>

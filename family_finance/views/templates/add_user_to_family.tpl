@@ -1,6 +1,6 @@
 {include file='header.tpl'}
 
-<div class="container mt-5" style="max-width: 500px;">
+<div class="container mt-5 bg-subtitle" style="max-width: 500px;">
     <h2 class="text-center mb-4 text-light-emphasis">Dodaj użytkownika do rodziny</h2>
 
     {if isset($error)}

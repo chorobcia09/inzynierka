@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-11-10 18:21:19
+/* Smarty version 5.6.0, created on 2025-11-10 18:32:21
   from 'file:add_transaction.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_69121f0fe39d44_34030019',
+  'unifunc' => 'content_691221a57eb458_57189998',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '90bfe922cead006a0f38e5db31516fd13002435a' => 
     array (
       0 => 'add_transaction.tpl',
-      1 => 1762795276,
+      1 => 1762795424,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_69121f0fe39d44_34030019 (\Smarty\Template $_smarty_tpl) {
+function content_691221a57eb458_57189998 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -337,167 +337,168 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 >
 
 
-<?php echo '<script'; ?>
+    <?php echo '<script'; ?>
 >
-    // Waluty fiat i kryptowaluty
-    const fiatCurrencies = {
-        PLN: "PLN - Złoty",
-        USD: "USD - Dolar amerykański",
-        EUR: "EUR - Euro", 
-        GBP: "GBP - Funt brytyjski",
-        CHF: "CHF - Frank szwajcarski",
-        CAD: "CAD - Dolar kanadyjski",
-        AUD: "AUD - Dolar australijski",
-        JPY: "JPY - Jen japoński",
-        CZK: "CZK - Korona czeska",
-        NOK: "NOK - Korona norweska"
-    };
+        // Waluty fiat i kryptowaluty
+        const fiatCurrencies = {
+            PLN: "PLN - Złoty",
+            USD: "USD - Dolar amerykański",
+            EUR: "EUR - Euro",
+            GBP: "GBP - Funt brytyjski",
+            CHF: "CHF - Frank szwajcarski",
+            CAD: "CAD - Dolar kanadyjski",
+            AUD: "AUD - Dolar australijski",
+            JPY: "JPY - Jen japoński",
+            CZK: "CZK - Korona czeska",
+            NOK: "NOK - Korona norweska"
+        };
 
-    const cryptoCurrencies = {
-        BTC: "BTC - Bitcoin",
-        ETH: "ETH - Ethereum",
-        BNB: "BNB - Binance Coin", 
-        XRP: "XRP - Ripple",
-        DOGE: "DOGE - Dogecoin",
-        USDT: "USDT - Tether",
-        SOL: "SOL - Solana",
-        ADA: "ADA - Cardano",
-        TRX: "TRX - TRON"
-    };
+        const cryptoCurrencies = {
+            BTC: "BTC - Bitcoin",
+            ETH: "ETH - Ethereum",
+            BNB: "BNB - Binance Coin",
+            XRP: "XRP - Ripple",
+            DOGE: "DOGE - Dogecoin",
+            USDT: "USDT - Tether",
+            SOL: "SOL - Solana",
+            ADA: "ADA - Cardano",
+            TRX: "TRX - TRON"
+        };
 
-    const currencySelect = document.getElementById("currency");
-    const paymentMethodSelect = document.getElementById("payment_method");
-    const amountInput = document.getElementById("amount");
-    const convertedValue = document.getElementById("convertedValue");
-    const refreshRatesBtn = document.getElementById("refreshRates");
-    const lastUpdated = document.getElementById("lastUpdated");
+        const currencySelect = document.getElementById("currency");
+        const paymentMethodSelect = document.getElementById("payment_method");
+        const amountInput = document.getElementById("amount");
+        const convertedValue = document.getElementById("convertedValue");
+        const refreshRatesBtn = document.getElementById("refreshRates");
+        const lastUpdated = document.getElementById("lastUpdated");
 
-    let exchangeRates = {};
+        let exchangeRates = {};
 
-    // Funkcja odświeżania walut w select
-    function updateCurrencyOptions() {
-        const method = paymentMethodSelect.value;
-        currencySelect.innerHTML = '<option value="">Wybierz walutę...</option>';
-        let currencies = method === 'crypto' ? cryptoCurrencies : fiatCurrencies;
-        for (const [code, label] of Object.entries(currencies)) {
-            const option = document.createElement("option");
-            option.value = code;
-            option.textContent = label;
-            currencySelect.appendChild(option);
-        }
-        updateConversion();
-    }
-
-    // --- Pobranie kursów walut fiat z NBP ---
-    async function fetchFiatRates() {
-        try {
-            const res = await fetch('https://api.nbp.pl/api/exchangerates/tables/A/?format=json');
-            const data = await res.json();
-            const rates = data[0].rates;
-            
-            exchangeRates['PLN'] = 1;
-            rates.forEach(rate => {
-                const code = rate.code;
-                if (fiatCurrencies[code]) {
-                    exchangeRates[code] = rate.mid;
-                }
-            });
-            
-            // Dodaj brakujące waluty (dla USD, EUR itp.)
-            if (!exchangeRates['USD']) exchangeRates['USD'] = 4.0;
-            if (!exchangeRates['EUR']) exchangeRates['EUR'] = 4.5;
-            if (!exchangeRates['GBP']) exchangeRates['GBP'] = 5.0;
-            
-            lastUpdated.textContent = "Ostatnia aktualizacja: " + new Date().toLocaleTimeString();
+        // Funkcja odświeżania walut w select
+        function updateCurrencyOptions() {
+            const method = paymentMethodSelect.value;
+            currencySelect.innerHTML = '<option value="">Wybierz walutę...</option>';
+            let currencies = method === 'crypto' ? cryptoCurrencies : fiatCurrencies;
+            for (const [code, label] of Object.entries(currencies)) {
+                const option = document.createElement("option");
+                option.value = code;
+                option.textContent = label;
+                currencySelect.appendChild(option);
+            }
             updateConversion();
-        } catch (err) {
-            console.error("Błąd pobierania kursów fiat:", err);
-            lastUpdated.textContent = "Nie udało się pobrać kursów!";
         }
-    }
 
-    // --- Pobranie kursów kryptowalut z CoinGecko ---
-    async function fetchCryptoRates() {
-        try {
-            const ids = Object.values({
-                BTC: "bitcoin",
-                ETH: "ethereum", 
-                BNB: "binancecoin",
-                XRP: "ripple",
-                DOGE: "dogecoin",
-                USDT: "tether",
-                SOL: "solana",
-                ADA: "cardano",
-                TRX: "tron"
-            }).join(",");
-            const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=' + ids + '&vs_currencies=pln');
-            const data = await res.json();
-            for (const [code, id] of Object.entries({
+        // --- Pobranie kursów walut fiat z NBP ---
+        async function fetchFiatRates() {
+            try {
+                const res = await fetch('https://api.nbp.pl/api/exchangerates/tables/A/?format=json');
+                const data = await res.json();
+                const rates = data[0].rates;
+
+                exchangeRates['PLN'] = 1;
+                rates.forEach(rate => {
+                    const code = rate.code;
+                    if (fiatCurrencies[code]) {
+                        exchangeRates[code] = rate.mid;
+                    }
+                });
+
+                // Dodaj brakujące waluty (dla USD, EUR itp.)
+                if (!exchangeRates['USD']) exchangeRates['USD'] = 4.0;
+                if (!exchangeRates['EUR']) exchangeRates['EUR'] = 4.5;
+                if (!exchangeRates['GBP']) exchangeRates['GBP'] = 5.0;
+
+                lastUpdated.textContent = "Ostatnia aktualizacja: " + new Date().toLocaleTimeString();
+                updateConversion();
+            } catch (err) {
+                console.error("Błąd pobierania kursów fiat:", err);
+                lastUpdated.textContent = "Nie udało się pobrać kursów!";
+            }
+        }
+
+        // --- Pobranie kursów kryptowalut z CoinGecko ---
+        async function fetchCryptoRates() {
+            try {
+                const ids = Object.values({
                     BTC: "bitcoin",
                     ETH: "ethereum",
-                    BNB: "binancecoin", 
+                    BNB: "binancecoin",
                     XRP: "ripple",
                     DOGE: "dogecoin",
                     USDT: "tether",
                     SOL: "solana",
                     ADA: "cardano",
                     TRX: "tron"
-                })) {
-                exchangeRates[code] = data[id] ? data[id].pln : 0;
+                }).join(",");
+                const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=' + ids +
+                    '&vs_currencies=pln');
+                const data = await res.json();
+                for (const [code, id] of Object.entries({
+                        BTC: "bitcoin",
+                        ETH: "ethereum",
+                        BNB: "binancecoin",
+                        XRP: "ripple",
+                        DOGE: "dogecoin",
+                        USDT: "tether",
+                        SOL: "solana",
+                        ADA: "cardano",
+                        TRX: "tron"
+                    })) {
+                    exchangeRates[code] = data[id] ? data[id].pln : 0;
+                }
+                lastUpdated.textContent = "Ostatnia aktualizacja: " + new Date().toLocaleTimeString();
+                updateConversion();
+            } catch (err) {
+                console.error("Błąd pobierania kursów crypto:", err);
+                lastUpdated.textContent = "Nie udało się pobrać kursów!";
             }
-            lastUpdated.textContent = "Ostatnia aktualizacja: " + new Date().toLocaleTimeString();
-            updateConversion();
-        } catch (err) {
-            console.error("Błąd pobierania kursów crypto:", err);
-            lastUpdated.textContent = "Nie udało się pobrać kursów!";
         }
-    }
 
-    function updateConversion() {
-        const amount = parseFloat(amountInput.value) || 0;
-        const currency = currencySelect.value;
-        const rate = exchangeRates[currency] || 0;
-        
-        if (currency === 'PLN') {
-            convertedValue.value = amount.toFixed(2) + " PLN";
-        } else if (rate > 0) {
-            const converted = amount * rate;
-            convertedValue.value = converted.toFixed(2) + " PLN";
-        } else {
-            convertedValue.value = "Brak kursu";
+        function updateConversion() {
+            const amount = parseFloat(amountInput.value) || 0;
+            const currency = currencySelect.value;
+            const rate = exchangeRates[currency] || 0;
+
+            if (currency === 'PLN') {
+                convertedValue.value = amount.toFixed(2) + " PLN";
+            } else if (rate > 0) {
+                const converted = amount * rate;
+                convertedValue.value = converted.toFixed(2) + " PLN";
+            } else {
+                convertedValue.value = "Brak kursu";
+            }
         }
-    }
 
-    // Eventy
-    paymentMethodSelect.addEventListener("change", function() {
+        // Eventy
+        paymentMethodSelect.addEventListener("change", function() {
+            updateCurrencyOptions();
+            if (this.value === 'crypto') {
+                fetchCryptoRates();
+            } else {
+                fetchFiatRates();
+            }
+        });
+
+        currencySelect.addEventListener("change", updateConversion);
+        amountInput.addEventListener("input", updateConversion);
+        refreshRatesBtn.addEventListener("click", async function() {
+            refreshRatesBtn.disabled = true;
+            refreshRatesBtn.innerHTML = '<i class="bi bi-hourglass-split"></i> Odświeżanie...';
+
+            if (paymentMethodSelect.value === 'crypto') {
+                await fetchCryptoRates();
+            } else {
+                await fetchFiatRates();
+            }
+
+            refreshRatesBtn.innerHTML = '<i class="bi bi-arrow-repeat"></i> Odśwież kursy';
+            refreshRatesBtn.disabled = false;
+        });
+
+        // --- Pierwsze ładowanie ---
         updateCurrencyOptions();
-        if (this.value === 'crypto') {
-            fetchCryptoRates();
-        } else {
-            fetchFiatRates();
-        }
-    });
-
-    currencySelect.addEventListener("change", updateConversion);
-    amountInput.addEventListener("input", updateConversion);
-    refreshRatesBtn.addEventListener("click", async function() {
-        refreshRatesBtn.disabled = true;
-        refreshRatesBtn.innerHTML = '<i class="bi bi-hourglass-split"></i> Odświeżanie...';
-        
-        if (paymentMethodSelect.value === 'crypto') {
-            await fetchCryptoRates();
-        } else {
-            await fetchFiatRates();
-        }
-        
-        refreshRatesBtn.innerHTML = '<i class="bi bi-arrow-repeat"></i> Odśwież kursy';
-        refreshRatesBtn.disabled = false;
-    });
-
-    // --- Pierwsze ładowanie ---
-    updateCurrencyOptions();
-    fetchFiatRates(); // Ładuj domyślnie kursy fiat
-<?php echo '</script'; ?>
+        fetchFiatRates(); // Ładuj domyślnie kursy fiat
+    <?php echo '</script'; ?>
 >
 
 

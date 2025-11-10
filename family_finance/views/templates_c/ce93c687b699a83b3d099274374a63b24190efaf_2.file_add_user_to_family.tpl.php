@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-26 16:10:11
+/* Smarty version 5.6.0, created on 2025-11-10 18:31:58
   from 'file:add_user_to_family.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68fe39d3615aa0_12603383',
+  'unifunc' => 'content_6912218e8d5fd6_56071691',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'ce93c687b699a83b3d099274374a63b24190efaf' => 
     array (
       0 => 'add_user_to_family.tpl',
-      1 => 1761491409,
+      1 => 1762795916,
       2 => 'file',
     ),
   ),
@@ -22,12 +22,12 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_68fe39d3615aa0_12603383 (\Smarty\Template $_smarty_tpl) {
+function content_6912218e8d5fd6_56071691 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
 
-<div class="container mt-5" style="max-width: 500px;">
+<div class="container mt-5 bg-subtitle" style="max-width: 500px;">
     <h2 class="text-center mb-4 text-light-emphasis">Dodaj użytkownika do rodziny</h2>
 
     <?php if ((true && ($_smarty_tpl->hasVariable('error') && null !== ($_smarty_tpl->getValue('error') ?? null)))) {?>
