@@ -9,8 +9,12 @@ class Analysis
         $this->db = new Database();
     }
 
-    private function getPeriodCondition($period)
+    private function getPeriodCondition($period, $date_from = null, $date_to = null)
     {
+        if ($period === 'custom' && $date_from && $date_to) {
+            return "transaction_date BETWEEN :date_from AND :date_to";
+        }
+
         switch ($period) {
             case "monthly":
                 return "transaction_date >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)";
@@ -25,9 +29,9 @@ class Analysis
         }
     }
 
-    public function getSummary($user_id, $family_id, $period)
+    public function getSummary($user_id, $family_id, $period = 'monthly', $date_from = null, $date_to = null)
     {
-        $cond = $this->getPeriodCondition($period);
+        $cond = $this->getPeriodCondition($period, $date_from, $date_to);
 
         $sql = "
         SELECT
@@ -37,15 +41,22 @@ class Analysis
         WHERE ($cond) AND (family_id = :family_id OR user_id = :user_id)
         ";
 
-        return $this->db->select($sql, [
+        $params = [
             ':family_id' => $family_id,
             ':user_id' => $user_id
-        ])[0];
+        ];
+
+        if ($period === 'custom' && $date_from && $date_to) {
+            $params[':date_from'] = $date_from;
+            $params[':date_to'] = $date_to;
+        }
+
+        return $this->db->select($sql, $params)[0];
     }
 
-    public function getCategoryBreakdown($user_id, $family_id, $period, $type = 'expense')
+    public function getCategoryBreakdown($user_id, $family_id, $period = 'monthly', $type = 'expense', $date_from = null, $date_to = null)
     {
-        $cond = $this->getPeriodCondition($period);
+        $cond = $this->getPeriodCondition($period, $date_from, $date_to);
 
         $sql = "
         SELECT c.name, SUM(ti.amount * ti.quantity) as total
@@ -55,27 +66,31 @@ class Analysis
         WHERE ($cond) AND t.type = :type AND (t.family_id = :family_id OR t.user_id = :user_id)
         GROUP BY c.id
         ORDER BY total DESC
-    ";
+        ";
 
-        return $this->db->select($sql, [
+        $params = [
             ':family_id' => $family_id,
             ':user_id' => $user_id,
             ':type' => $type
-        ]);
+        ];
+
+        if ($period === 'custom' && $date_from && $date_to) {
+            $params[':date_from'] = $date_from;
+            $params[':date_to'] = $date_to;
+        }
+
+        return $this->db->select($sql, $params);
     }
 
-    public function getCategoryPercentages($user_id, $family_id, $period)
+    public function getCategoryPercentages($user_id, $family_id, $period = 'monthly', $date_from = null, $date_to = null)
     {
-        // Pobierz wydatki wg kategorii
-        $categories = $this->getCategoryBreakdown($user_id, $family_id, $period);
+        $categories = $this->getCategoryBreakdown($user_id, $family_id, $period, 'expense', $date_from, $date_to);
 
-        // Oblicz sumę wszystkich wydatków
         $total = 0;
         foreach ($categories as $c) {
             $total += $c['total'];
         }
 
-        // Dodaj procent do każdej kategorii
         foreach ($categories as &$c) {
             $c['percent'] = $total > 0 ? round(($c['total'] / $total) * 100, 2) : 0;
         }
@@ -83,10 +98,9 @@ class Analysis
         return $categories;
     }
 
-
-    public function getTrend($user_id, $family_id, $period, $type = 'expense')
+    public function getTrend($user_id, $family_id, $period = 'monthly', $type = 'expense', $date_from = null, $date_to = null)
     {
-        $cond = $this->getPeriodCondition($period);
+        $cond = $this->getPeriodCondition($period, $date_from, $date_to);
 
         $sql = "
         SELECT DATE(transaction_date) AS date, SUM(amount) AS total
@@ -94,19 +108,25 @@ class Analysis
         WHERE ($cond) AND type = :type AND (family_id = :family_id OR user_id = :user_id)
         GROUP BY DATE(transaction_date)
         ORDER BY date ASC
-    ";
+        ";
 
-        return $this->db->select($sql, [
+        $params = [
             ':family_id' => $family_id,
             ':user_id' => $user_id,
             ':type' => $type
-        ]);
+        ];
+
+        if ($period === 'custom' && $date_from && $date_to) {
+            $params[':date_from'] = $date_from;
+            $params[':date_to'] = $date_to;
+        }
+
+        return $this->db->select($sql, $params);
     }
 
-
-    public function getTopExpenses($user_id, $family_id, $period)
+    public function getTopExpenses($user_id, $family_id, $period = 'monthly', $date_from = null, $date_to = null)
     {
-        $cond = $this->getPeriodCondition($period);
+        $cond = $this->getPeriodCondition($period, $date_from, $date_to);
 
         $sql = "
         SELECT t.description, t.amount, t.transaction_date
@@ -118,10 +138,17 @@ class Analysis
         LIMIT 5
         ";
 
-        return $this->db->select($sql, [
+        $params = [
             ':family_id' => $family_id,
             ':user_id' => $user_id
-        ]);
+        ];
+
+        if ($period === 'custom' && $date_from && $date_to) {
+            $params[':date_from'] = $date_from;
+            $params[':date_to'] = $date_to;
+        }
+
+        return $this->db->select($sql, $params);
     }
 
     public function getFamilySpending($family_id)
@@ -137,14 +164,14 @@ class Analysis
         WHERE t.family_id = :family_id AND t.type='expense'
         GROUP BY u.id
         ORDER BY total_spent DESC
-    ";
+        ";
 
         return $this->db->select($sql, [':family_id' => $family_id]);
     }
 
-    public function getRegionalComparison($period)
+    public function getRegionalComparison($period = 'monthly', $date_from = null, $date_to = null)
     {
-        $cond = $this->getPeriodCondition($period);
+        $cond = $this->getPeriodCondition($period, $date_from, $date_to);
 
         $sql = "
         SELECT 
@@ -157,14 +184,20 @@ class Analysis
         WHERE ($cond) AND t.type='expense'
         GROUP BY f.region
         ORDER BY total_spent DESC
-    ";
+        ";
 
-        return $this->db->select($sql);
+        $params = [];
+        if ($period === 'custom' && $date_from && $date_to) {
+            $params[':date_from'] = $date_from;
+            $params[':date_to'] = $date_to;
+        }
+
+        return $this->db->select($sql, $params);
     }
 
-    public function getPaymentMethodBreakdown($user_id, $family_id, $period)
+    public function getPaymentMethodBreakdown($user_id, $family_id, $period = 'monthly', $date_from = null, $date_to = null)
     {
-        $cond = $this->getPeriodCondition($period);
+        $cond = $this->getPeriodCondition($period, $date_from, $date_to);
 
         $sql = "
         SELECT 
@@ -175,37 +208,47 @@ class Analysis
           AND (family_id = :family_id OR user_id = :user_id)
         GROUP BY payment_method
         ORDER BY total_spent DESC
-    ";
+        ";
 
-        return $this->db->select($sql, [
+        $params = [
             ':family_id' => $family_id,
             ':user_id' => $user_id
-        ]);
+        ];
+
+        if ($period === 'custom' && $date_from && $date_to) {
+            $params[':date_from'] = $date_from;
+            $params[':date_to'] = $date_to;
+        }
+
+        return $this->db->select($sql, $params);
     }
 
-    public function getSubCategoryBreakdown($user_id, $family_id, $category_id, $period)
+    public function getSubCategoryExpenses($user_id, $family_id, $period = 'monthly', $date_from = null, $date_to = null)
     {
-        $cond = $this->getPeriodCondition($period);
+        $cond = $this->getPeriodCondition($period, $date_from, $date_to);
 
         $sql = "
-        SELECT 
-            sc.name AS sub_category,
-            SUM(ti.amount * ti.quantity) AS total
-        FROM transaction_items ti
-        JOIN transactions t ON t.id = ti.transaction_id
-        JOIN sub_categories sc ON sc.id = ti.sub_category_id
-        WHERE ($cond)
-          AND (t.family_id = :family_id OR t.user_id = :user_id)
-          AND ti.category_id = :category_id
-          AND t.type = 'expense'
-        GROUP BY sc.id
-        ORDER BY total DESC
+    SELECT sc.name AS sub_category, SUM(ti.amount * ti.quantity) AS total
+    FROM transaction_items ti
+    JOIN transactions t ON t.id = ti.transaction_id
+    JOIN sub_categories sc ON sc.id = ti.sub_category_id
+    WHERE ($cond)
+      AND t.type = 'expense'
+      AND (t.family_id = :family_id OR t.user_id = :user_id)
+    GROUP BY sc.id
+    ORDER BY total DESC
     ";
 
-        return $this->db->select($sql, [
+        $params = [
             ':family_id' => $family_id,
-            ':user_id' => $user_id,
-            ':category_id' => $category_id
-        ]);
+            ':user_id' => $user_id
+        ];
+
+        if ($period === 'custom' && $date_from && $date_to) {
+            $params[':date_from'] = $date_from;
+            $params[':date_to'] = $date_to;
+        }
+
+        return $this->db->select($sql, $params);
     }
 }

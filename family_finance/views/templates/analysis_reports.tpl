@@ -1,24 +1,28 @@
 {include file="header.tpl"}
 
-<h2 class="mb-4 text-light-emphasis">Raporty finansowe ({$period})</h2>
+<h2 class="mb-4 text-light-emphasis">Raporty finansowe</h2>
 
 <div class="row g-4">
 
     <!-- Wybór okresu -->
     <div class="col-md-4">
         <div class="card bg-dark text-light p-3 shadow">
-            <h5>Wybierz okres raportu</h5>
+            <h5>Wybierz zakres dat</h5>
             <form method="get" action="index.php">
                 <input type="hidden" name="action" value="analysisReports">
+
                 <div class="mb-3">
-                    <select name="period" class="form-select bg-dark text-light">
-                        <option value="monthly" {if $period=='monthly'}selected{/if}>Miesięczny</option>
-                        <option value="quarterly" {if $period=='quarterly'}selected{/if}>Kwartalny</option>
-                        <option value="yearly" {if $period=='yearly'}selected{/if}>Roczny</option>
-                        <option value="custom" {if $period=='custom'}selected{/if}>Niestandardowy</option>
-                    </select>
+                    <label for="date_from" class="form-label">Od</label>
+                    <input type="date" name="date_from" id="date_from" value="{$date_from}"
+                        class="form-control bg-dark text-light">
                 </div>
-                <button type="submit" class="btn btn-primary w-100">Pokaż raport</button>
+                <div class="mb-3">
+                    <label for="date_to" class="form-label">Do</label>
+                    <input type="date" name="date_to" id="date_to" value="{$date_to}"
+                        class="form-control bg-dark text-light">
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Pokaż dane</button>
             </form>
         </div>
     </div>
@@ -28,33 +32,39 @@
         <div class="card bg-dark text-light p-3 shadow">
             <h5>Dostępne raporty</h5>
             <ul class="list-group list-group-flush">
+                {assign var="dateParams" value="&date_from=`$date_from`&date_to=`$date_to`"}
+
                 <li class="list-group-item bg-dark text-light d-flex justify-content-between align-items-center">
                     Raport podsumowania
-                    <a href="index.php?action=analysisPdf&period={$period}&type=summary" class="btn btn-sm btn-danger">
+                    <a href="index.php?action=analysisPdf&period={$period|default:'monthly'}&type=summary{$dateParams}" class="btn btn-sm btn-danger">
                         Pobierz PDF
                     </a>
                 </li>
+
                 <li class="list-group-item bg-dark text-light d-flex justify-content-between align-items-center">
                     Raport wg kategorii
-                    <a href="index.php?action=analysisPdf&period={$period}&type=categories" class="btn btn-sm btn-danger">
+                    <a href="index.php?action=analysisPdf&period={$period|default:'monthly'}&type=categories{$dateParams}" class="btn btn-sm btn-danger">
                         Pobierz PDF
                     </a>
                 </li>
+
                 <li class="list-group-item bg-dark text-light d-flex justify-content-between align-items-center">
                     Raport wg płatności
-                    <a href="index.php?action=analysisPdf&period={$period}&type=payments" class="btn btn-sm btn-danger">
+                    <a href="index.php?action=analysisPdf&period={$period|default:'monthly'}&type=payments{$dateParams}" class="btn btn-sm btn-danger">
                         Pobierz PDF
                     </a>
                 </li>
+
                 <li class="list-group-item bg-dark text-light d-flex justify-content-between align-items-center">
                     Raport budżet vs wydatki
-                    <a href="index.php?action=analysisPdf&period={$period}&type=budget" class="btn btn-sm btn-danger">
+                    <a href="index.php?action=analysisPdf&period={$period|default:'monthly'}&type=budget{$dateParams}" class="btn btn-sm btn-danger">
                         Pobierz PDF
                     </a>
                 </li>
+
                 <li class="list-group-item bg-dark text-light d-flex justify-content-between align-items-center">
                     Raport top wydatków
-                    <a href="index.php?action=analysisPdf&period={$period}&type=top" class="btn btn-sm btn-danger">
+                    <a href="index.php?action=analysisPdf&period={$period|default:'monthly'}&type=top{$dateParams}" class="btn btn-sm btn-danger">
                         Pobierz PDF
                     </a>
                 </li>
