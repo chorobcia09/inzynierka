@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-11-10 18:34:25
+/* Smarty version 5.6.0, created on 2025-11-17 16:37:18
   from 'file:header.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_69122221085359_40854479',
+  'unifunc' => 'content_691b412e038143_05059926',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '70761fd558b824e86e638862bb79aeef78d05c3b' => 
     array (
       0 => 'header.tpl',
-      1 => 1762796063,
+      1 => 1763393799,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_69122221085359_40854479 (\Smarty\Template $_smarty_tpl) {
+function content_691b412e038143_05059926 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 ?><!DOCTYPE html>
 <html lang="pl">
@@ -157,6 +157,26 @@ $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\vi
                                         </ul>
                                     </li>
                                 <?php }?>
+
+                                <!-- Analiza finansowa -->
+                                <li class="nav-item dropdown me-2">
+                                    <button class="btn btn-outline-secondary btn-sm dropdown-toggle" id="analysisDropdown"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-graph-up-arrow"></i> Analiza
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="analysisDropdown">
+                                        <li><a class="dropdown-item" href="index.php?action=analysisDashboard">
+                                                <i class="bi bi-graph-up"></i> Dashboard analityczny</a></li>
+
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+
+                                        <li><a class="dropdown-item" href="index.php?action=analysisReports">
+                                                <i class="bi bi-file-earmark-bar-graph"></i> Raporty</a></li>
+                                    </ul>
+                                </li>
+
 
                                 <li class="nav-item me-2">
                                     <a href="index.php?action=userPanel" class="btn btn-outline-light btn-sm">Panel

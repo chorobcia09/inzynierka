@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-11-10 18:38:23
+/* Smarty version 5.6.0, created on 2025-11-17 15:23:14
   from 'file:category_view.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_6912230f9c9a29_89811959',
+  'unifunc' => 'content_691b2fd2872627_11688101',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'd2f1ecd92d0518666f21ff32676ba94832dc3adc' => 
     array (
       0 => 'category_view.tpl',
-      1 => 1762796287,
+      1 => 1762796316,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_6912230f9c9a29_89811959 (\Smarty\Template $_smarty_tpl) {
+function content_691b2fd2872627_11688101 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -36,7 +36,8 @@ $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_sma
 </div>
 
 <a href="index.php?action=addSubCategory&category_id=<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('category_id')), ENT_QUOTES, 'UTF-8');?>
-" class="btn btn-success mb-3 d-flex align-items-center gap-1">
+"
+    class="btn btn-success mb-3 d-flex align-items-center gap-1">
     <i class="bi bi-plus-circle"></i> Dodaj podkategorię
 </a>
 
@@ -108,6 +109,5 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         text-decoration: none;
         opacity: 0.9;
     }
-</style>
-<?php }
+</style><?php }
 }

@@ -1,4 +1,6 @@
 composer init
 composer require smarty/smarty
 composer require symfony/var-dumper  
+composer require tecnickcom/tcpdf
+
 php -S localhost:8000

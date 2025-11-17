@@ -11,6 +11,8 @@ require_once __DIR__ . '/controllers/TransactionController.php';
 require_once __DIR__ . '/controllers/CategoryController.php';
 require_once __DIR__ . '/controllers/FeedbackController.php';
 require_once __DIR__ . '/controllers/BudgetController.php';
+require_once __DIR__ . '/controllers/AnalysisController.php';
+
 
 $action = $_GET['action'] ?? 'home';
 
@@ -147,6 +149,22 @@ switch ($action) {
         $controller = new BudgetController($smarty);
         $controller->view();
         break;
+
+    // ------------------------------ ANALYSIS CONTROLLER ------------------------------
+    case 'analysisDashboard':
+        (new AnalysisController($smarty))->dashboard();
+        break;
+
+
+    case 'analysisReports':
+        (new AnalysisController($smarty))->reports();
+        break;
+
+    case 'analysisPdf':
+        (new AnalysisController($smarty))->pdf();
+        break;
+
+
     default:
         (new AuthController($smarty))->showLoginForm();
         break;

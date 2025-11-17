@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-11-10 18:38:22
+/* Smarty version 5.6.0, created on 2025-11-17 15:23:08
   from 'file:categories.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_6912230e080797_32680368',
+  'unifunc' => 'content_691b2fcc3b4d37_31025944',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '0ced3e45850b60c938df09d755765b16bf00267a' => 
     array (
       0 => 'categories.tpl',
-      1 => 1762796299,
+      1 => 1762796318,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_6912230e080797_32680368 (\Smarty\Template $_smarty_tpl) {
+function content_691b2fcc3b4d37_31025944 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -31,7 +31,7 @@ $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_sma
 
 <div class="alert alert-warning d-flex align-items-center gap-2" role="alert">
     <i class="bi bi-info-circle-fill"></i>
-    W tym miejscu możesz przeglądać kategorie wraz z podkategoriami, które są dostępne w systemie globalnie i lokalnie. 
+    W tym miejscu możesz przeglądać kategorie wraz z podkategoriami, które są dostępne w systemie globalnie i lokalnie.
     Kliknij w dowolną kategorię, aby przejść do podkategorii.
 </div>
 
@@ -110,6 +110,5 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
     .table a:hover {
         text-decoration: underline;
     }
-</style>
-<?php }
+</style><?php }
 }

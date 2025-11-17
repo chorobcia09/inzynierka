@@ -129,6 +129,26 @@
                                     </li>
                                 {/if}
 
+                                <!-- Analiza finansowa -->
+                                <li class="nav-item dropdown me-2">
+                                    <button class="btn btn-outline-secondary btn-sm dropdown-toggle" id="analysisDropdown"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-graph-up-arrow"></i> Analiza
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="analysisDropdown">
+                                        <li><a class="dropdown-item" href="index.php?action=analysisDashboard">
+                                                <i class="bi bi-graph-up"></i> Dashboard analityczny</a></li>
+
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+
+                                        <li><a class="dropdown-item" href="index.php?action=analysisReports">
+                                                <i class="bi bi-file-earmark-bar-graph"></i> Raporty</a></li>
+                                    </ul>
+                                </li>
+
+
                                 <li class="nav-item me-2">
                                     <a href="index.php?action=userPanel" class="btn btn-outline-light btn-sm">Panel
                                         użytkownika</a>

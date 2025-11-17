@@ -1,5 +1,6 @@
 <?php
 require 'vendor/autoload.php';
+
 use Smarty\Smarty;
 
 $smarty = new Smarty();
