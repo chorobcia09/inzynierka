@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-11-17 17:09:31
+/* Smarty version 5.6.0, created on 2025-11-19 20:47:17
   from 'file:analysis_reports.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_691b48bb831e29_36576729',
+  'unifunc' => 'content_691e1ec51b4fe7_64818811',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'b5c4e8b4876924d9f1189d41183970ff354e0a45' => 
     array (
       0 => 'analysis_reports.tpl',
-      1 => 1763395595,
+      1 => 1763581101,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_691b48bb831e29_36576729 (\Smarty\Template $_smarty_tpl) {
+function content_691e1ec51b4fe7_64818811 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -67,7 +67,8 @@ $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_sma
                     Raport podsumowania
                     <a href="index.php?action=analysisPdf&period=<?php echo htmlspecialchars((string) ((($tmp = $_smarty_tpl->getValue('period') ?? null)===null||$tmp==='' ? 'monthly' ?? null : $tmp)), ENT_QUOTES, 'UTF-8');?>
 &type=summary<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('dateParams')), ENT_QUOTES, 'UTF-8');?>
-" class="btn btn-sm btn-danger">
+"
+                        class="btn btn-sm btn-danger">
                         Pobierz PDF
                     </a>
                 </li>
@@ -76,7 +77,8 @@ $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_sma
                     Raport wg kategorii
                     <a href="index.php?action=analysisPdf&period=<?php echo htmlspecialchars((string) ((($tmp = $_smarty_tpl->getValue('period') ?? null)===null||$tmp==='' ? 'monthly' ?? null : $tmp)), ENT_QUOTES, 'UTF-8');?>
 &type=categories<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('dateParams')), ENT_QUOTES, 'UTF-8');?>
-" class="btn btn-sm btn-danger">
+"
+                        class="btn btn-sm btn-danger">
                         Pobierz PDF
                     </a>
                 </li>
@@ -85,16 +87,8 @@ $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_sma
                     Raport wg płatności
                     <a href="index.php?action=analysisPdf&period=<?php echo htmlspecialchars((string) ((($tmp = $_smarty_tpl->getValue('period') ?? null)===null||$tmp==='' ? 'monthly' ?? null : $tmp)), ENT_QUOTES, 'UTF-8');?>
 &type=payments<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('dateParams')), ENT_QUOTES, 'UTF-8');?>
-" class="btn btn-sm btn-danger">
-                        Pobierz PDF
-                    </a>
-                </li>
-
-                <li class="list-group-item bg-dark text-light d-flex justify-content-between align-items-center">
-                    Raport budżet vs wydatki
-                    <a href="index.php?action=analysisPdf&period=<?php echo htmlspecialchars((string) ((($tmp = $_smarty_tpl->getValue('period') ?? null)===null||$tmp==='' ? 'monthly' ?? null : $tmp)), ENT_QUOTES, 'UTF-8');?>
-&type=budget<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('dateParams')), ENT_QUOTES, 'UTF-8');?>
-" class="btn btn-sm btn-danger">
+"
+                        class="btn btn-sm btn-danger">
                         Pobierz PDF
                     </a>
                 </li>
@@ -103,7 +97,8 @@ $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_sma
                     Raport top wydatków
                     <a href="index.php?action=analysisPdf&period=<?php echo htmlspecialchars((string) ((($tmp = $_smarty_tpl->getValue('period') ?? null)===null||$tmp==='' ? 'monthly' ?? null : $tmp)), ENT_QUOTES, 'UTF-8');?>
 &type=top<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('dateParams')), ENT_QUOTES, 'UTF-8');?>
-" class="btn btn-sm btn-danger">
+"
+                        class="btn btn-sm btn-danger">
                         Pobierz PDF
                     </a>
                 </li>

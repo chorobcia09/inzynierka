@@ -2,5 +2,5 @@ composer init
 composer require smarty/smarty
 composer require symfony/var-dumper  
 composer require tecnickcom/tcpdf
-
+composer require php-ai/php-ml
 php -S localhost:8000

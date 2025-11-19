@@ -36,35 +36,32 @@
 
                 <li class="list-group-item bg-dark text-light d-flex justify-content-between align-items-center">
                     Raport podsumowania
-                    <a href="index.php?action=analysisPdf&period={$period|default:'monthly'}&type=summary{$dateParams}" class="btn btn-sm btn-danger">
+                    <a href="index.php?action=analysisPdf&period={$period|default:'monthly'}&type=summary{$dateParams}"
+                        class="btn btn-sm btn-danger">
                         Pobierz PDF
                     </a>
                 </li>
 
                 <li class="list-group-item bg-dark text-light d-flex justify-content-between align-items-center">
                     Raport wg kategorii
-                    <a href="index.php?action=analysisPdf&period={$period|default:'monthly'}&type=categories{$dateParams}" class="btn btn-sm btn-danger">
+                    <a href="index.php?action=analysisPdf&period={$period|default:'monthly'}&type=categories{$dateParams}"
+                        class="btn btn-sm btn-danger">
                         Pobierz PDF
                     </a>
                 </li>
 
                 <li class="list-group-item bg-dark text-light d-flex justify-content-between align-items-center">
                     Raport wg płatności
-                    <a href="index.php?action=analysisPdf&period={$period|default:'monthly'}&type=payments{$dateParams}" class="btn btn-sm btn-danger">
-                        Pobierz PDF
-                    </a>
-                </li>
-
-                <li class="list-group-item bg-dark text-light d-flex justify-content-between align-items-center">
-                    Raport budżet vs wydatki
-                    <a href="index.php?action=analysisPdf&period={$period|default:'monthly'}&type=budget{$dateParams}" class="btn btn-sm btn-danger">
+                    <a href="index.php?action=analysisPdf&period={$period|default:'monthly'}&type=payments{$dateParams}"
+                        class="btn btn-sm btn-danger">
                         Pobierz PDF
                     </a>
                 </li>
 
                 <li class="list-group-item bg-dark text-light d-flex justify-content-between align-items-center">
                     Raport top wydatków
-                    <a href="index.php?action=analysisPdf&period={$period|default:'monthly'}&type=top{$dateParams}" class="btn btn-sm btn-danger">
+                    <a href="index.php?action=analysisPdf&period={$period|default:'monthly'}&type=top{$dateParams}"
+                        class="btn btn-sm btn-danger">
                         Pobierz PDF
                     </a>
                 </li>

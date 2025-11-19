@@ -20,12 +20,12 @@ class AnalysisController
             exit;
         }
 
-        $user_id   = $_SESSION['user_id'];
+        $user_id = $_SESSION['user_id'];
         $family_id = $_SESSION['family_id'] ?? null;
 
-        $period    = $_GET['period']    ?? 'monthly';
+        $period = $_GET['period']    ?? 'monthly';
         $date_from = $_GET['date_from'] ?? null;
-        $date_to   = $_GET['date_to']   ?? null;
+        $date_to = $_GET['date_to']   ?? null;
 
         if ($date_from && $date_to) {
             $period = 'custom';
@@ -33,24 +33,47 @@ class AnalysisController
 
         // ------ WALUTY ------
         $currencies = $this->analysis->getActiveCurrencies($user_id, $family_id, $period, $date_from, $date_to);
-
         $currency = $_GET['currency'] ?? ($currencies[0]['currency'] ?? 'PLN');
 
         // ------ WYDATKI ------
-        $summary           = $this->analysis->getSummary($user_id, $family_id, $currency, $period, $date_from, $date_to);
-        $byCategory        = $this->analysis->getCategoryBreakdown($user_id, $family_id, $currency, $period, 'expense', $date_from, $date_to);
-        $trend             = $this->analysis->getTrend($user_id, $family_id, $currency, $period, 'expense', $date_from, $date_to);
-        $topExpenses       = $this->analysis->getTopExpenses($user_id, $family_id, $currency, $period, $date_from, $date_to);
+        $summary = $this->analysis->getSummary($user_id, $family_id, $currency, $period, $date_from, $date_to);
+        $byCategory = $this->analysis->getCategoryBreakdown($user_id, $family_id, $currency, $period, 'expense', $date_from, $date_to);
+        $trend = $this->analysis->getTrend($user_id, $family_id, $currency, $period, 'expense', $date_from, $date_to);
+        $topExpenses = $this->analysis->getTopExpenses($user_id, $family_id, $currency, $period, $date_from, $date_to);
         $subCategoryExpenses = $this->analysis->getSubCategoryExpenses($user_id, $family_id, $currency, $period, $date_from, $date_to);
-        $subCategoryIncome = $this->analysis->getSubCategoryIncome($user_id, $family_id, $currency, $period, $date_from, $date_to);
+
         // ------ PRZYCHODY ------
-        $incomeCategories  = $this->analysis->getCategoryBreakdown($user_id, $family_id, $currency, $period, 'income', $date_from, $date_to);
-        $trendIncome       = $this->analysis->getTrend($user_id, $family_id, $currency, $period, 'income', $date_from, $date_to);
-// dump($_SESSION);die;
+        $incomeCategories = $this->analysis->getCategoryBreakdown($user_id, $family_id, $currency, $period, 'income', $date_from, $date_to);
+        $trendIncome = $this->analysis->getTrend($user_id, $family_id, $currency, $period, 'income', $date_from, $date_to);
+        $subCategoryIncome = $this->analysis->getSubCategoryIncome($user_id, $family_id, $currency, $period, $date_from, $date_to);
+
+        // ------ CZŁONKOWIE RODZINY ------
+        $familySpending = [];
+        $familyCategorySpending = [];
+        $familyTotalSpending = 0;
+        $familyTotalTransactions = 0;
+        $familyAverageSpending = 0;
+
+        if ($family_id) {
+            $familySpending = $this->analysis->getFamilySpending($family_id, $currency, $period, $date_from, $date_to);
+            $familyCategorySpending = $this->analysis->getFamilyCategorySpending($family_id, $currency, $period, $date_from, $date_to);
+
+            // Oblicz sumy
+            foreach ($familySpending as $member) {
+                $familyTotalSpending += $member['total_spent'];
+                $familyTotalTransactions += $member['transactions'];
+            }
+
+            $familyAverageSpending = count($familySpending) > 0 ? $familyTotalSpending / count($familySpending) : 0;
+        }
+
         // ------ INNE ------
         $regionalComparison   = $this->analysis->getRegionalComparison($currency, $period, $date_from, $date_to);
         $paymentMethodBreakdown = $this->analysis->getPaymentMethodBreakdown($user_id, $family_id, $currency, $period, $date_from, $date_to);
         $categoryPercentages  = $this->analysis->getCategoryPercentages($user_id, $family_id, $currency, $period, $date_from, $date_to);
+        $descriptiveStats = $this->analysis->getDescriptiveStats($user_id, $family_id, $currency, $period, $date_from, $date_to);
+        $concentrationStats = $this->analysis->getConcentrationStats($user_id, $family_id, $currency, $period, $date_from, $date_to);
+        $trendAnalysis = $this->analysis->getTrendAnalysis($user_id, $family_id, $currency, $period, $date_from, $date_to);
 
         $this->smarty->assign([
             'summary' => $summary,
@@ -68,8 +91,17 @@ class AnalysisController
             'trendIncome' => $trendIncome,
             'subCategoryExpenses' => $subCategoryExpenses,
             'subCategoryIncome' => $subCategoryIncome,
+            'familySpending' => $familySpending,
+            'familyCategorySpending' => $familyCategorySpending,
+            'familyTotalSpending' => $familyTotalSpending,
+            'familyTotalTransactions' => $familyTotalTransactions,
+            'familyAverageSpending' => $familyAverageSpending,
             'currencies' => $currencies,
-            'currency' => $currency
+            'currency' => $currency,
+            'descriptiveStats' => $descriptiveStats,
+            'concentrationStats' => $concentrationStats,
+            'trendAnalysis' => $trendAnalysis,
+
         ]);
 
         $this->smarty->display('analysis_dashboard.tpl');
@@ -83,13 +115,13 @@ class AnalysisController
             exit;
         }
 
-        $user_id   = $_SESSION['user_id'];
+        $user_id = $_SESSION['user_id'];
         $family_id = $_SESSION['family_id'] ?? null;
 
-        $period    = $_GET['period'] ?? 'monthly';
-        $type      = $_GET['type'] ?? 'summary';
+        $period = $_GET['period'] ?? 'monthly';
+        $type = $_GET['type'] ?? 'summary';
         $date_from = $_GET['date_from'] ?? null;
-        $date_to   = $_GET['date_to'] ?? null;
+        $date_to = $_GET['date_to'] ?? null;
 
         if ($date_from && $date_to) {
             $period = 'custom';
@@ -98,8 +130,8 @@ class AnalysisController
         // WALUTA
         $currency = $_GET['currency'] ?? 'PLN';
 
-        $summary     = $this->analysis->getSummary($user_id, $family_id, $currency, $period, $date_from, $date_to);
-        $categories  = $this->analysis->getCategoryBreakdown($user_id, $family_id, $currency, $period, 'expense', $date_from, $date_to);
+        $summary = $this->analysis->getSummary($user_id, $family_id, $currency, $period, $date_from, $date_to);
+        $categories = $this->analysis->getCategoryBreakdown($user_id, $family_id, $currency, $period, 'expense', $date_from, $date_to);
         $topExpenses = $this->analysis->getTopExpenses($user_id, $family_id, $currency, $period, $date_from, $date_to);
 
         $pdf = new TCPDF();
@@ -149,7 +181,7 @@ class AnalysisController
                 $html .= "</table>";
                 break;
 
-            default: // summary
+            default:
                 $html .= "<h3>Podsumowanie</h3>
                 <table border='1' cellpadding='5'>
                     <tr><th>Przychody</th><th>Wydatki</th><th>Bilans</th></tr>
@@ -173,12 +205,12 @@ class AnalysisController
             exit;
         }
 
-        $user_id   = $_SESSION['user_id'];
+        $user_id = $_SESSION['user_id'];
         $family_id = $_SESSION['family_id'] ?? null;
 
-        $period  = $_GET['period'] ?? 'monthly';
+        $period = $_GET['period'] ?? 'monthly';
         $date_from = $_GET['date_from'] ?? null;
-        $date_to   = $_GET['date_to'] ?? null;
+        $date_to = $_GET['date_to'] ?? null;
 
         if ($date_from && $date_to) {
             $period = 'custom';
@@ -186,7 +218,7 @@ class AnalysisController
 
         // WALUTA DO FILTRÓW
         $currencies = $this->analysis->getActiveCurrencies($user_id, $family_id, $period, $date_from, $date_to);
-        $currency   = $_GET['currency'] ?? ($currencies[0]['currency'] ?? 'PLN');
+        $currency = $_GET['currency'] ?? ($currencies[0]['currency'] ?? 'PLN');
 
         $this->smarty->assign([
             'period' => $period,
