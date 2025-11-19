@@ -20,33 +20,37 @@ class AnalysisController
             exit;
         }
 
-
-
-        $user_id = $_SESSION['user_id'];
+        $user_id   = $_SESSION['user_id'];
         $family_id = $_SESSION['family_id'] ?? null;
-        $period = $_GET['period'] ?? 'monthly';
+
+        $period    = $_GET['period']    ?? 'monthly';
         $date_from = $_GET['date_from'] ?? null;
-        $date_to = $_GET['date_to'] ?? null;
+        $date_to   = $_GET['date_to']   ?? null;
 
         if ($date_from && $date_to) {
             $period = 'custom';
         }
 
-        // Wydatki
-        $summary = $this->analysis->getSummary($user_id, $family_id, $period, $date_from, $date_to);
-        $byCategory = $this->analysis->getCategoryBreakdown($user_id, $family_id, $period, 'expense', $date_from, $date_to);
-        $trend = $this->analysis->getTrend($user_id, $family_id, $period, 'expense', $date_from, $date_to);
-        $topExpenses = $this->analysis->getTopExpenses($user_id, $family_id, $period, $date_from, $date_to);
-        $subCategoryExpenses = $this->analysis->getSubCategoryExpenses($user_id, $family_id, $period, $date_from, $date_to);
-        // dump($subCategoryExpenses);die;
-        // Przychody
-        $incomeCategories = $this->analysis->getCategoryBreakdown($user_id, $family_id, $period, 'income', $date_from, $date_to);
-        $trendIncome = $this->analysis->getTrend($user_id, $family_id, $period, 'income', $date_from, $date_to);
+        // ------ WALUTY ------
+        $currencies = $this->analysis->getActiveCurrencies($user_id, $family_id, $period, $date_from, $date_to);
 
-        // Inne
-        $regionalComparison = $this->analysis->getRegionalComparison($period, $date_from, $date_to);
-        $paymentMethodBreakdown = $this->analysis->getPaymentMethodBreakdown($user_id, $family_id, $period, $date_from, $date_to);
-        $categoryPercentages = $this->analysis->getCategoryPercentages($user_id, $family_id, $period, $date_from, $date_to);
+        $currency = $_GET['currency'] ?? ($currencies[0]['currency'] ?? 'PLN');
+
+        // ------ WYDATKI ------
+        $summary           = $this->analysis->getSummary($user_id, $family_id, $currency, $period, $date_from, $date_to);
+        $byCategory        = $this->analysis->getCategoryBreakdown($user_id, $family_id, $currency, $period, 'expense', $date_from, $date_to);
+        $trend             = $this->analysis->getTrend($user_id, $family_id, $currency, $period, 'expense', $date_from, $date_to);
+        $topExpenses       = $this->analysis->getTopExpenses($user_id, $family_id, $currency, $period, $date_from, $date_to);
+        $subCategoryExpenses = $this->analysis->getSubCategoryExpenses($user_id, $family_id, $currency, $period, $date_from, $date_to);
+        $subCategoryIncome = $this->analysis->getSubCategoryIncome($user_id, $family_id, $currency, $period, $date_from, $date_to);
+        // ------ PRZYCHODY ------
+        $incomeCategories  = $this->analysis->getCategoryBreakdown($user_id, $family_id, $currency, $period, 'income', $date_from, $date_to);
+        $trendIncome       = $this->analysis->getTrend($user_id, $family_id, $currency, $period, 'income', $date_from, $date_to);
+// dump($_SESSION);die;
+        // ------ INNE ------
+        $regionalComparison   = $this->analysis->getRegionalComparison($currency, $period, $date_from, $date_to);
+        $paymentMethodBreakdown = $this->analysis->getPaymentMethodBreakdown($user_id, $family_id, $currency, $period, $date_from, $date_to);
+        $categoryPercentages  = $this->analysis->getCategoryPercentages($user_id, $family_id, $currency, $period, $date_from, $date_to);
 
         $this->smarty->assign([
             'summary' => $summary,
@@ -62,12 +66,16 @@ class AnalysisController
             'categoryPercentages' => $categoryPercentages,
             'incomeCategories' => $incomeCategories,
             'trendIncome' => $trendIncome,
-            'subCategoryExpenses' => $subCategoryExpenses
+            'subCategoryExpenses' => $subCategoryExpenses,
+            'subCategoryIncome' => $subCategoryIncome,
+            'currencies' => $currencies,
+            'currency' => $currency
         ]);
 
         $this->smarty->display('analysis_dashboard.tpl');
     }
 
+    /* ========================= PDF ========================= */
     public function pdf()
     {
         if (!isset($_SESSION['user_id'])) {
@@ -75,19 +83,24 @@ class AnalysisController
             exit;
         }
 
-        $user_id = $_SESSION['user_id'];
+        $user_id   = $_SESSION['user_id'];
         $family_id = $_SESSION['family_id'] ?? null;
-        $period = $_GET['period'] ?? 'monthly';
-        $type = $_GET['type'] ?? 'summary';
+
+        $period    = $_GET['period'] ?? 'monthly';
+        $type      = $_GET['type'] ?? 'summary';
         $date_from = $_GET['date_from'] ?? null;
-        $date_to = $_GET['date_to'] ?? null;
+        $date_to   = $_GET['date_to'] ?? null;
 
         if ($date_from && $date_to) {
             $period = 'custom';
         }
-        $summary = $this->analysis->getSummary($user_id, $family_id, $period, $date_from, $date_to);
-        $categories = $this->analysis->getCategoryBreakdown($user_id, $family_id, $period, 'expense', $date_from, $date_to);
-        $topExpenses = $this->analysis->getTopExpenses($user_id, $family_id, $period, $date_from, $date_to);
+
+        // WALUTA
+        $currency = $_GET['currency'] ?? 'PLN';
+
+        $summary     = $this->analysis->getSummary($user_id, $family_id, $currency, $period, $date_from, $date_to);
+        $categories  = $this->analysis->getCategoryBreakdown($user_id, $family_id, $currency, $period, 'expense', $date_from, $date_to);
+        $topExpenses = $this->analysis->getTopExpenses($user_id, $family_id, $currency, $period, $date_from, $date_to);
 
         $pdf = new TCPDF();
         $pdf->SetCreator("Manage Your Finances");
@@ -99,47 +112,51 @@ class AnalysisController
 
         switch ($type) {
             case 'categories':
-                $categories = $this->analysis->getCategoryBreakdown($user_id, $family_id, $period, 'expense', $date_from, $date_to);
                 $html .= "<h3>Raport wg kategorii</h3>
                 <table border='1' cellpadding='5'>
                     <tr><th>Kategoria</th><th>Suma</th></tr>";
+
                 foreach ($categories as $c) {
-                    $html .= "<tr><td>{$c['name']}</td><td>{$c['total']} PLN</td></tr>";
+                    $html .= "<tr><td>{$c['name']}</td><td>{$c['total']} {$currency}</td></tr>";
                 }
+
                 $html .= "</table>";
                 break;
 
             case 'payments':
-                $payments = $this->analysis->getPaymentMethodBreakdown($user_id, $family_id, $period, $date_from, $date_to);
+                $payments = $this->analysis->getPaymentMethodBreakdown($user_id, $family_id, $currency, $period, $date_from, $date_to);
+
                 $html .= "<h3>Raport wg rodzaju płatności</h3>
                 <table border='1' cellpadding='5'>
                     <tr><th>Płatność</th><th>Suma</th></tr>";
+
                 foreach ($payments as $p) {
-                    $html .= "<tr><td>{$p['payment_method']}</td><td>{$p['total_spent']} PLN</td></tr>";
+                    $html .= "<tr><td>{$p['payment_method']}</td><td>{$p['total_spent']} {$currency}</td></tr>";
                 }
+
                 $html .= "</table>";
                 break;
 
             case 'top':
-                $topExpenses = $this->analysis->getTopExpenses($user_id, $family_id, $period, $date_from, $date_to);
                 $html .= "<h3>Top 5 wydatków</h3>
                 <table border='1' cellpadding='5'>
                     <tr><th>Opis</th><th>Kwota</th><th>Data</th></tr>";
+
                 foreach ($topExpenses as $e) {
-                    $html .= "<tr><td>{$e['description']}</td><td>{$e['amount']} PLN</td><td>{$e['transaction_date']}</td></tr>";
+                    $html .= "<tr><td>{$e['description']}</td><td>{$e['amount']} {$currency}</td><td>{$e['transaction_date']}</td></tr>";
                 }
+
                 $html .= "</table>";
                 break;
 
             default: // summary
-                $summary = $this->analysis->getSummary($user_id, $family_id, $period, $date_from, $date_to);
                 $html .= "<h3>Podsumowanie</h3>
                 <table border='1' cellpadding='5'>
                     <tr><th>Przychody</th><th>Wydatki</th><th>Bilans</th></tr>
                     <tr>
-                        <td>{$summary['income']} PLN</td>
-                        <td>{$summary['expense']} PLN</td>
-                        <td>" . ($summary['income'] - $summary['expense']) . " PLN</td>
+                        <td>{$summary['income']} {$currency}</td>
+                        <td>{$summary['expense']} {$currency}</td>
+                        <td>" . ($summary['income'] - $summary['expense']) . " {$currency}</td>
                     </tr>
                 </table>";
         }
@@ -148,6 +165,7 @@ class AnalysisController
         $pdf->Output("raport_$period.pdf", "D");
     }
 
+    /* ========================= RAPORTY ========================= */
     public function reports()
     {
         if (!isset($_SESSION['user_id'])) {
@@ -155,19 +173,28 @@ class AnalysisController
             exit;
         }
 
-        $user_id = $_SESSION['user_id'];
+        $user_id   = $_SESSION['user_id'];
         $family_id = $_SESSION['family_id'] ?? null;
-        $period = $_GET['period'] ?? 'monthly';
+
+        $period  = $_GET['period'] ?? 'monthly';
         $date_from = $_GET['date_from'] ?? null;
-        $date_to = $_GET['date_to'] ?? null;
+        $date_to   = $_GET['date_to'] ?? null;
+
         if ($date_from && $date_to) {
             $period = 'custom';
         }
+
+        // WALUTA DO FILTRÓW
+        $currencies = $this->analysis->getActiveCurrencies($user_id, $family_id, $period, $date_from, $date_to);
+        $currency   = $_GET['currency'] ?? ($currencies[0]['currency'] ?? 'PLN');
+
         $this->smarty->assign([
             'period' => $period,
             'date_from' => $date_from,
             'date_to' => $date_to,
-            'session' => $_SESSION
+            'session' => $_SESSION,
+            'currencies' => $currencies,
+            'currency' => $currency
         ]);
 
         $this->smarty->display('analysis_reports.tpl');

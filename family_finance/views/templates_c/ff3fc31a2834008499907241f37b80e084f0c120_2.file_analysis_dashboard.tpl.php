@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-11-18 20:15:41
+/* Smarty version 5.6.0, created on 2025-11-19 19:23:57
   from 'file:analysis_dashboard.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_691cc5ddd2c097_47674152',
+  'unifunc' => 'content_691e0b3dada430_31311280',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'ff3fc31a2834008499907241f37b80e084f0c120' => 
     array (
       0 => 'analysis_dashboard.tpl',
-      1 => 1763493314,
+      1 => 1763576516,
       2 => 'file',
     ),
   ),
@@ -22,17 +22,18 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_691cc5ddd2c097_47674152 (\Smarty\Template $_smarty_tpl) {
+function content_691e0b3dada430_31311280 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
 
 <h2 class="mb-4 text-primary fw-bold"><i class="bi bi-bar-chart"></i> Analiza Finansowa</h2>
 
+<!-- Formularz filtrowania z wyborem waluty -->
 <form method="get" action="index.php" class="mb-5 p-3 border rounded-3 bg-dark shadow-sm row g-3 align-items-end">
     <input type="hidden" name="action" value="analysisDashboard">
 
-    <div class="col-md-4 col-lg-3">
+    <div class="col-md-3 col-lg-2">
         <label for="date_from" class="form-label fw-semibold text-muted">Data początkowa:</label>
         <div class="input-group">
             <span class="input-group-text"><i class="bi bi-calendar-date"></i></span>
@@ -41,7 +42,7 @@ $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_sma
         </div>
     </div>
 
-    <div class="col-md-4 col-lg-3">
+    <div class="col-md-3 col-lg-2">
         <label for="date_to" class="form-label fw-semibold text-muted">Data końcowa:</label>
         <div class="input-group">
             <span class="input-group-text"><i class="bi bi-calendar-date-fill"></i></span>
@@ -50,8 +51,34 @@ $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_sma
         </div>
     </div>
 
-    <div class="col-md-4 col-lg-6 d-flex justify-content-start">
+    <div class="col-md-3 col-lg-2">
+        <label for="currency" class="form-label fw-semibold text-muted">Waluta:</label>
+        <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-currency-exchange"></i></span>
+            <select id="currency" name="currency" class="form-select">
+                <?php
+$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('currencies'), 'curr');
+$foreach0DoElse = true;
+foreach ($_from ?? [] as $_smarty_tpl->getVariable('curr')->value) {
+$foreach0DoElse = false;
+?>
+                    <option value="<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('curr')['currency']), ENT_QUOTES, 'UTF-8');?>
+" <?php if ($_smarty_tpl->getValue('currency') == $_smarty_tpl->getValue('curr')['currency']) {?>selected<?php }?>>
+                        <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('curr')['currency']), ENT_QUOTES, 'UTF-8');?>
+
+                    </option>
+                <?php
+}
+$_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
+            </select>
+        </div>
+    </div>
+
+    <div class="col-md-3 col-lg-6 d-flex justify-content-start align-items-end">
         <button type="submit" class="btn btn-primary me-2"><i class="bi bi-funnel-fill me-1"></i> Filtruj</button>
+        <a href="index.php?action=analysisDashboard" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-clockwise me-1"></i>Resetuj
+        </a>
     </div>
 </form>
 
@@ -70,8 +97,14 @@ $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_sma
     </li>
     <li class="nav-item" role="presentation">
         <button class="nav-link" id="subcategories-tab" data-bs-toggle="tab" data-bs-target="#subcategories"
-            type="button" role="tab"><i class="bi bi-tag me-2"></i>Podkategorie</button>
+            type="button" role="tab"><i class="bi bi-tag me-2"></i>Podkategorie wydatki</button>
     </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="subcategories-income-tab" data-bs-toggle="tab"
+            data-bs-target="#subcategories-income" type="button" role="tab"><i
+                class="bi bi-tag-fill me-2"></i>Podkategorie przychody</button>
+    </li>
+
     <li class="nav-item" role="presentation">
         <button class="nav-link" id="payments-tab" data-bs-toggle="tab" data-bs-target="#payments" type="button"
             role="tab"><i class="bi bi-credit-card-2-front-fill me-2"></i>Płatności</button>
@@ -94,25 +127,35 @@ $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_sma
                         <h4 class="card-title text-primary"><i class="bi bi-cash-stack me-2"></i>Podsumowanie Finansów
                         </h4>
                         <hr>
-                        <p class="fs-5 mb-2">
-                            <span class="fw-bold text-success"><i
-                                    class="bi bi-arrow-up-right-circle-fill me-2"></i>Przychody:</span>
-                            <span class="float-end"><?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('summary')['income'],2,","," ")), ENT_QUOTES, 'UTF-8');?>
- zł</span>
-                        </p>
-                        <p class="fs-5 mb-2">
-                            <span class="fw-bold text-danger"><i
-                                    class="bi bi-arrow-down-left-circle-fill me-2"></i>Wydatki:</span>
-                            <span class="float-end"><?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('summary')['expense'],2,","," ")), ENT_QUOTES, 'UTF-8');?>
- zł</span>
-                        </p>
-                        <p class="fs-4 fw-bold mt-4 pt-2 border-top 
-                           <?php if (($_smarty_tpl->getValue('summary')['income']-$_smarty_tpl->getValue('summary')['expense']) >= 0) {?>text-success<?php } else { ?>text-danger<?php }?>">
-                            <i class="bi bi-balance-fill me-2"></i>Bilans:
-                            <span class="float-end"><?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')(($_smarty_tpl->getValue('summary')['income']-$_smarty_tpl->getValue('summary')['expense']),2,","," ")), ENT_QUOTES, 'UTF-8');?>
+                        <?php if ($_smarty_tpl->getValue('summary')['income'] > 0 || $_smarty_tpl->getValue('summary')['expense'] > 0) {?>
+                            <p class="fs-5 mb-2">
+                                <span class="fw-bold text-success"><i
+                                        class="bi bi-arrow-up-right-circle-fill me-2"></i>Przychody:</span>
+                                <span class="float-end"><?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('summary')['income'],2,","," ")), ENT_QUOTES, 'UTF-8');?>
+ <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
+</span>
+                            </p>
+                            <p class="fs-5 mb-2">
+                                <span class="fw-bold text-danger"><i
+                                        class="bi bi-arrow-down-left-circle-fill me-2"></i>Wydatki:</span>
+                                <span class="float-end"><?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('summary')['expense'],2,","," ")), ENT_QUOTES, 'UTF-8');?>
+ <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
+</span>
+                            </p>
+                            <p class="fs-4 fw-bold mt-4 pt-2 border-top 
+                               <?php if (($_smarty_tpl->getValue('summary')['income']-$_smarty_tpl->getValue('summary')['expense']) >= 0) {?>text-success<?php } else { ?>text-danger<?php }?>">
+                                <i class="bi bi-balance-fill me-2"></i>Bilans:
+                                <span class="float-end"><?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')(($_smarty_tpl->getValue('summary')['income']-$_smarty_tpl->getValue('summary')['expense']),2,","," ")), ENT_QUOTES, 'UTF-8');?>
 
-                                zł</span>
-                        </p>
+                                    <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
+</span>
+                            </p>
+                        <?php } else { ?>
+                            <div class="text-center py-4">
+                                <i class="bi bi-inbox display-1 text-muted"></i>
+                                <p class="fs-5 text-muted mt-3">Brak danych finansowych w wybranym okresie</p>
+                            </div>
+                        <?php }?>
                     </div>
                 </div>
             </div>
@@ -122,13 +165,13 @@ $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_sma
                     <div class="card-body">
                         <h4 class="card-title text-danger"><i class="bi bi-bag-x-fill me-2"></i>Największe Wydatki</h4>
                         <hr>
-                        <div class="list-group list-group-flush">
-                            <?php if ($_smarty_tpl->getValue('topExpenses')) {?>
+                        <?php if ($_smarty_tpl->getValue('topExpenses')) {?>
+                            <div class="list-group list-group-flush">
                                 <?php
 $_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('topExpenses'), 'e');
-$foreach0DoElse = true;
+$foreach1DoElse = true;
 foreach ($_from ?? [] as $_smarty_tpl->getVariable('e')->value) {
-$foreach0DoElse = false;
+$foreach1DoElse = false;
 ?>
                                     <div class="list-group-item d-flex justify-content-between align-items-center">
                                         <div class="text-truncate me-3">
@@ -140,15 +183,19 @@ $foreach0DoElse = false;
                                         </div>
                                         <span class="badge bg-danger rounded-pill fs-6"><?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('e')['amount'],2,","," ")), ENT_QUOTES, 'UTF-8');?>
 
-                                            zł</span>
+                                            <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
+</span>
                                     </div>
                                 <?php
 }
 $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
-                            <?php } else { ?>
-                                <p class="text-muted fst-italic">Brak danych o wydatkach w wybranym okresie.</p>
-                            <?php }?>
-                        </div>
+                            </div>
+                        <?php } else { ?>
+                            <div class="text-center py-4">
+                                <i class="bi bi-receipt display-1 text-muted"></i>
+                                <p class="fs-5 text-muted mt-3">Brak wydatków w wybranym okresie</p>
+                            </div>
+                        <?php }?>
                     </div>
                 </div>
             </div>
@@ -160,8 +207,17 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
             <div class="col-md-12 col-lg-6">
                 <div class="card shadow-lg">
                     <div class="card-body">
-                        <h5 class="card-title text-danger"><i class="bi bi-graph-down me-2"></i>Trend wydatków</h5>
-                        <canvas id="trendExpensesChart" height="150"></canvas>
+                        <h5 class="card-title text-danger"><i class="bi bi-graph-down me-2"></i>Trend wydatków
+                            (<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
+)</h5>
+                        <?php if ($_smarty_tpl->getValue('trend') && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('trend')) > 0) {?>
+                            <canvas id="trendExpensesChart" height="150"></canvas>
+                        <?php } else { ?>
+                            <div class="text-center py-5">
+                                <i class="bi bi-graph-down display-1 text-muted"></i>
+                                <p class="fs-5 text-muted mt-3">Brak danych o trendzie wydatków</p>
+                            </div>
+                        <?php }?>
                     </div>
                 </div>
             </div>
@@ -169,8 +225,17 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
             <div class="col-md-12 col-lg-6">
                 <div class="card shadow-lg">
                     <div class="card-body">
-                        <h5 class="card-title text-success"><i class="bi bi-graph-up me-2"></i>Trend przychodów</h5>
-                        <canvas id="trendIncomeChart" height="150"></canvas>
+                        <h5 class="card-title text-success"><i class="bi bi-graph-up me-2"></i>Trend przychodów
+                            (<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
+)</h5>
+                        <?php if ($_smarty_tpl->getValue('trendIncome') && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('trendIncome')) > 0) {?>
+                            <canvas id="trendIncomeChart" height="150"></canvas>
+                        <?php } else { ?>
+                            <div class="text-center py-5">
+                                <i class="bi bi-graph-up display-1 text-muted"></i>
+                                <p class="fs-5 text-muted mt-3">Brak danych o trendzie przychodów</p>
+                            </div>
+                        <?php }?>
                     </div>
                 </div>
             </div>
@@ -183,8 +248,16 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                 <div class="card h-100 shadow-lg">
                     <div class="card-body">
                         <h5 class="card-title text-danger"><i class="bi bi-pie-chart-fill me-2"></i>Struktura wydatków
-                            (Kwoty)</h5>
-                        <canvas id="categoryExpensesChart"></canvas>
+                            (<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
+)</h5>
+                        <?php if ($_smarty_tpl->getValue('categories') && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('categories')) > 0) {?>
+                            <canvas id="categoryExpensesChart"></canvas>
+                        <?php } else { ?>
+                            <div class="text-center py-5">
+                                <i class="bi bi-pie-chart display-1 text-muted"></i>
+                                <p class="fs-5 text-muted mt-3">Brak danych o kategoriach wydatków</p>
+                            </div>
+                        <?php }?>
                     </div>
                 </div>
             </div>
@@ -193,8 +266,16 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                 <div class="card h-100 shadow-lg">
                     <div class="card-body">
                         <h5 class="card-title text-success"><i class="bi bi-pie-chart-fill me-2"></i>Struktura
-                            przychodów (Kwoty)</h5>
-                        <canvas id="categoryIncomeChart"></canvas>
+                            przychodów (<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
+)</h5>
+                        <?php if ($_smarty_tpl->getValue('incomeCategories') && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('incomeCategories')) > 0) {?>
+                            <canvas id="categoryIncomeChart"></canvas>
+                        <?php } else { ?>
+                            <div class="text-center py-5">
+                                <i class="bi bi-pie-chart display-1 text-muted"></i>
+                                <p class="fs-5 text-muted mt-3">Brak danych o kategoriach przychodów</p>
+                            </div>
+                        <?php }?>
                     </div>
                 </div>
             </div>
@@ -204,7 +285,14 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                     <div class="card-body">
                         <h5 class="card-title text-info"><i class="bi bi-percent me-2"></i>Procentowy udział wydatków
                         </h5>
-                        <canvas id="categoryPercentChart"></canvas>
+                        <?php if ($_smarty_tpl->getValue('categoryPercentages') && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('categoryPercentages')) > 0) {?>
+                            <canvas id="categoryPercentChart"></canvas>
+                        <?php } else { ?>
+                            <div class="text-center py-5">
+                                <i class="bi bi-percent display-1 text-muted"></i>
+                                <p class="fs-5 text-muted mt-3">Brak danych do analizy procentowej</p>
+                            </div>
+                        <?php }?>
                     </div>
                 </div>
             </div>
@@ -217,14 +305,44 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                 <div class="card shadow-lg">
                     <div class="card-body">
                         <h5 class="card-title text-danger"><i class="bi bi-journal-text me-2"></i>Wydatki wg
-                            podkategorii</h5>
-                        <canvas id="subCategoryChart"></canvas>
+                            podkategorii (<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
+)</h5>
+                        <?php if ($_smarty_tpl->getValue('subCategoryExpenses') && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('subCategoryExpenses')) > 0) {?>
+                            <canvas id="subCategoryChart"></canvas>
+                        <?php } else { ?>
+                            <div class="text-center py-5">
+                                <i class="bi bi-tags display-1 text-muted"></i>
+                                <p class="fs-5 text-muted mt-3">Brak danych o podkategoriach wydatków</p>
+                            </div>
+                        <?php }?>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Podkategorie Przychody -->
+    <div class="tab-pane fade" id="subcategories-income" role="tabpanel">
+        <div class="row g-4">
+            <div class="col-md-12">
+                <div class="card shadow-lg">
+                    <div class="card-body">
+                        <h5 class="card-title text-success"><i class="bi bi-journal-text me-2"></i>Przychody wg
+                            podkategorii (<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
+)</h5>
+                        <?php if ($_smarty_tpl->getValue('subCategoryIncome') && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('subCategoryIncome')) > 0) {?>
+                            <canvas id="subCategoryIncomeChart"></canvas>
+                        <?php } else { ?>
+                            <div class="text-center py-5">
+                                <i class="bi bi-tags display-1 text-muted"></i>
+                                <p class="fs-5 text-muted mt-3">Brak danych o podkategoriach przychodów</p>
+                            </div>
+                        <?php }?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="tab-pane fade" id="payments" role="tabpanel">
         <div class="row g-4">
@@ -232,8 +350,16 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                 <div class="card shadow-lg">
                     <div class="card-body">
                         <h5 class="card-title text-primary"><i class="bi bi-wallet-fill me-2"></i>Wydatki wg rodzaju
-                            płatności</h5>
-                        <canvas id="paymentChart"></canvas>
+                            płatności (<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
+)</h5>
+                        <?php if ($_smarty_tpl->getValue('paymentMethodBreakdown') && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('paymentMethodBreakdown')) > 0) {?>
+                            <canvas id="paymentChart"></canvas>
+                        <?php } else { ?>
+                            <div class="text-center py-5">
+                                <i class="bi bi-credit-card display-1 text-muted"></i>
+                                <p class="fs-5 text-muted mt-3">Brak danych o metodach płatności</p>
+                            </div>
+                        <?php }?>
                     </div>
                 </div>
             </div>
@@ -246,8 +372,16 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                 <div class="card shadow-lg">
                     <div class="card-body">
                         <h5 class="card-title text-secondary"><i class="bi bi-map-fill me-2"></i>Porównanie regionalne
-                            wydatków</h5>
-                        <canvas id="regionalChart" height="100"></canvas>
+                            wydatków (<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
+)</h5>
+                        <?php if ($_smarty_tpl->getValue('regionalComparison') && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('regionalComparison')) > 0) {?>
+                            <canvas id="regionalChart" height="100"></canvas>
+                        <?php } else { ?>
+                            <div class="text-center py-5">
+                                <i class="bi bi-map display-1 text-muted"></i>
+                                <p class="fs-5 text-muted mt-3">Brak danych do porównania regionalnego</p>
+                            </div>
+                        <?php }?>
                     </div>
                 </div>
             </div>
@@ -269,7 +403,6 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         transition: all 0.3s ease;
         padding: 0.75rem 1.25rem;
         margin-bottom: -2px;
-        /* Ddla efektu uniesienia */
         font-weight: 500;
     }
 
@@ -287,7 +420,6 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         font-weight: 700;
     }
 
-    /* Dopasowanie tła kart do jasnego motywu, użycie 'shadow-lg' dla głębi */
     .card {
         border: none;
         border-radius: 1rem;
@@ -302,14 +434,14 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 >
     // Ustalenie stałej, nowoczesnej palety kolorów
     const colors = {
-        primary: 'rgba(13, 110, 253, 0.8)', // Niebieski
-        success: 'rgba(25, 135, 84, 0.8)', // Zielony
-        danger: 'rgba(220, 53, 69, 0.8)', // Czerwony
-        warning: 'rgba(255, 193, 7, 0.8)', // Żółty
-        info: 'rgba(13, 202, 240, 0.8)', // Turkus
-        secondary: 'rgba(108, 117, 125, 0.8)', // Szary
-        custom1: 'rgba(153, 102, 255, 0.8)', // Fiolet
-        custom2: 'rgba(255, 159, 64, 0.8)' // Pomarańcz
+        primary: 'rgba(13, 110, 253, 0.8)',
+        success: 'rgba(25, 135, 84, 0.8)',
+        danger: 'rgba(220, 53, 69, 0.8)',
+        warning: 'rgba(255, 193, 7, 0.8)',
+        info: 'rgba(13, 202, 240, 0.8)',
+        secondary: 'rgba(108, 117, 125, 0.8)',
+        custom1: 'rgba(153, 102, 255, 0.8)',
+        custom2: 'rgba(255, 159, 64, 0.8)'
     };
 
     const chartColors = [
@@ -322,30 +454,12 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         return baseColor.replace(/, 0\.8\)/, ', 0.2)');
     }
 
-    // Trend wydatków
-    new Chart(document.getElementById('trendExpensesChart'), {
-        type: 'line',
-        data: {
-            labels: [<?php
-$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('trend'), 't', true);
-$_smarty_tpl->getVariable('t')->iteration = 0;
-$foreach1DoElse = true;
-foreach ($_from ?? [] as $_smarty_tpl->getVariable('t')->value) {
-$foreach1DoElse = false;
-$_smarty_tpl->getVariable('t')->iteration++;
-$_smarty_tpl->getVariable('t')->last = $_smarty_tpl->getVariable('t')->iteration === $_smarty_tpl->getVariable('t')->total;
-$foreach1Backup = clone $_smarty_tpl->getVariable('t');
-?>'<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('t')['date']), ENT_QUOTES, 'UTF-8');?>
-'
-                <?php if (!$_smarty_tpl->getVariable('t')->last) {?>,
-                <?php }?>
-            <?php
-$_smarty_tpl->setVariable('t', $foreach1Backup);
-}
-$_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>],
-            datasets: [{
-                label: 'Wydatki (zł)',
-                data: [<?php
+    // Trend wydatków - tylko jeśli są dane
+    <?php if ($_smarty_tpl->getValue('trend') && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('trend')) > 0) {?>
+        new Chart(document.getElementById('trendExpensesChart'), {
+            type: 'line',
+            data: {
+                labels: [<?php
 $_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('trend'), 't', true);
 $_smarty_tpl->getVariable('t')->iteration = 0;
 $foreach2DoElse = true;
@@ -354,38 +468,19 @@ $foreach2DoElse = false;
 $_smarty_tpl->getVariable('t')->iteration++;
 $_smarty_tpl->getVariable('t')->last = $_smarty_tpl->getVariable('t')->iteration === $_smarty_tpl->getVariable('t')->total;
 $foreach2Backup = clone $_smarty_tpl->getVariable('t');
-echo htmlspecialchars((string) ($_smarty_tpl->getValue('t')['total']), ENT_QUOTES, 'UTF-8');?>
-
+?>'<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('t')['date']), ENT_QUOTES, 'UTF-8');?>
+'
                     <?php if (!$_smarty_tpl->getVariable('t')->last) {?>,
                     <?php }?>
                 <?php
 $_smarty_tpl->setVariable('t', $foreach2Backup);
 }
 $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>],
-                borderColor: colors.danger.replace(/, 0\.8\)/, ', 1)'),
-                backgroundColor: getBackgroundColors(colors.danger),
-                fill: true,
-                tension: 0.3 // Nowoczesny, łagodny trend
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: { position: 'top' },
-                title: { display: false }
-            },
-            scales: {
-                y: { beginAtZero: true }
-            }
-        }
-    });
-
-    // Trend przychodów
-    new Chart(document.getElementById('trendIncomeChart'), {
-        type: 'line',
-        data: {
-            labels: [<?php
-$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('trendIncome'), 't', true);
+                datasets: [{
+                    label: 'Wydatki (<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
+)',
+                    data: [<?php
+$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('trend'), 't', true);
 $_smarty_tpl->getVariable('t')->iteration = 0;
 $foreach3DoElse = true;
 foreach ($_from ?? [] as $_smarty_tpl->getVariable('t')->value) {
@@ -393,17 +488,46 @@ $foreach3DoElse = false;
 $_smarty_tpl->getVariable('t')->iteration++;
 $_smarty_tpl->getVariable('t')->last = $_smarty_tpl->getVariable('t')->iteration === $_smarty_tpl->getVariable('t')->total;
 $foreach3Backup = clone $_smarty_tpl->getVariable('t');
-?>'<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('t')['date']), ENT_QUOTES, 'UTF-8');?>
-'
-                <?php if (!$_smarty_tpl->getVariable('t')->last) {?>,
-                <?php }?>
-            <?php
+echo htmlspecialchars((string) ($_smarty_tpl->getValue('t')['total']), ENT_QUOTES, 'UTF-8');?>
+
+                        <?php if (!$_smarty_tpl->getVariable('t')->last) {?>,
+                        <?php }?>
+                    <?php
 $_smarty_tpl->setVariable('t', $foreach3Backup);
 }
 $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>],
-            datasets: [{
-                label: 'Przychody (zł)',
-                data: [<?php
+                    borderColor: colors.danger.replace(/, 0\.8\)/, ', 1)'),
+                    backgroundColor: getBackgroundColors(colors.danger),
+                    fill: true,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'top' },
+                    title: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Kwota (<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
+)'
+                        }
+                    }
+                }
+            }
+        });
+    <?php }?>
+
+    // Trend przychodów - tylko jeśli są dane
+    <?php if ($_smarty_tpl->getValue('trendIncome') && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('trendIncome')) > 0) {?>
+        new Chart(document.getElementById('trendIncomeChart'), {
+            type: 'line',
+            data: {
+                labels: [<?php
 $_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('trendIncome'), 't', true);
 $_smarty_tpl->getVariable('t')->iteration = 0;
 $foreach4DoElse = true;
@@ -412,55 +536,66 @@ $foreach4DoElse = false;
 $_smarty_tpl->getVariable('t')->iteration++;
 $_smarty_tpl->getVariable('t')->last = $_smarty_tpl->getVariable('t')->iteration === $_smarty_tpl->getVariable('t')->total;
 $foreach4Backup = clone $_smarty_tpl->getVariable('t');
-echo htmlspecialchars((string) ($_smarty_tpl->getValue('t')['total']), ENT_QUOTES, 'UTF-8');?>
-
+?>'<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('t')['date']), ENT_QUOTES, 'UTF-8');?>
+'
                     <?php if (!$_smarty_tpl->getVariable('t')->last) {?>,
                     <?php }?>
                 <?php
 $_smarty_tpl->setVariable('t', $foreach4Backup);
 }
 $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>],
-                borderColor: colors.success.replace(/, 0\.8\)/, ', 1)'),
-                backgroundColor: getBackgroundColors(colors.success),
-                fill: true,
-                tension: 0.3
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: { position: 'top' },
-                title: { display: false }
-            },
-            scales: {
-                y: { beginAtZero: true }
-            }
-        }
-    });
-
-    // Kategorie wydatków (Kwoty)
-    new Chart(document.getElementById('categoryExpensesChart'), {
-        type: 'pie',
-        data: {
-            labels: [<?php
-$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('categories'), 'c', true);
-$_smarty_tpl->getVariable('c')->iteration = 0;
+                datasets: [{
+                    label: 'Przychody (<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
+)',
+                    data: [<?php
+$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('trendIncome'), 't', true);
+$_smarty_tpl->getVariable('t')->iteration = 0;
 $foreach5DoElse = true;
-foreach ($_from ?? [] as $_smarty_tpl->getVariable('c')->value) {
+foreach ($_from ?? [] as $_smarty_tpl->getVariable('t')->value) {
 $foreach5DoElse = false;
-$_smarty_tpl->getVariable('c')->iteration++;
-$_smarty_tpl->getVariable('c')->last = $_smarty_tpl->getVariable('c')->iteration === $_smarty_tpl->getVariable('c')->total;
-$foreach5Backup = clone $_smarty_tpl->getVariable('c');
-?>'<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('c')['name']), ENT_QUOTES, 'UTF-8');?>
-'
-                <?php if (!$_smarty_tpl->getVariable('c')->last) {?>,
-                <?php }?>
-            <?php
-$_smarty_tpl->setVariable('c', $foreach5Backup);
+$_smarty_tpl->getVariable('t')->iteration++;
+$_smarty_tpl->getVariable('t')->last = $_smarty_tpl->getVariable('t')->iteration === $_smarty_tpl->getVariable('t')->total;
+$foreach5Backup = clone $_smarty_tpl->getVariable('t');
+echo htmlspecialchars((string) ($_smarty_tpl->getValue('t')['total']), ENT_QUOTES, 'UTF-8');?>
+
+                        <?php if (!$_smarty_tpl->getVariable('t')->last) {?>,
+                        <?php }?>
+                    <?php
+$_smarty_tpl->setVariable('t', $foreach5Backup);
 }
 $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>],
-            datasets: [{
-                data: [<?php
+                    borderColor: colors.success.replace(/, 0\.8\)/, ', 1)'),
+                    backgroundColor: getBackgroundColors(colors.success),
+                    fill: true,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'top' },
+                    title: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Kwota (<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
+)'
+                        }
+                    }
+                }
+            }
+        });
+    <?php }?>
+
+    // Kategorie wydatków - tylko jeśli są dane
+    <?php if ($_smarty_tpl->getValue('categories') && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('categories')) > 0) {?>
+        new Chart(document.getElementById('categoryExpensesChart'), {
+            type: 'pie',
+            data: {
+                labels: [<?php
 $_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('categories'), 'c', true);
 $_smarty_tpl->getVariable('c')->iteration = 0;
 $foreach6DoElse = true;
@@ -469,32 +604,17 @@ $foreach6DoElse = false;
 $_smarty_tpl->getVariable('c')->iteration++;
 $_smarty_tpl->getVariable('c')->last = $_smarty_tpl->getVariable('c')->iteration === $_smarty_tpl->getVariable('c')->total;
 $foreach6Backup = clone $_smarty_tpl->getVariable('c');
-echo htmlspecialchars((string) ($_smarty_tpl->getValue('c')['total']), ENT_QUOTES, 'UTF-8');?>
-
+?>'<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('c')['name']), ENT_QUOTES, 'UTF-8');?>
+'
                     <?php if (!$_smarty_tpl->getVariable('c')->last) {?>,
                     <?php }?>
                 <?php
 $_smarty_tpl->setVariable('c', $foreach6Backup);
 }
 $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>],
-                backgroundColor: chartColors.slice(0, <?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('categories'))), ENT_QUOTES, 'UTF-8');?>
-)
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: { position: 'right' }
-            }
-        }
-    });
-
-    // Kategorie przychodów (Kwoty)
-    new Chart(document.getElementById('categoryIncomeChart'), {
-        type: 'pie',
-        data: {
-            labels: [<?php
-$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('incomeCategories'), 'c', true);
+                datasets: [{
+                    data: [<?php
+$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('categories'), 'c', true);
 $_smarty_tpl->getVariable('c')->iteration = 0;
 $foreach7DoElse = true;
 foreach ($_from ?? [] as $_smarty_tpl->getVariable('c')->value) {
@@ -502,16 +622,46 @@ $foreach7DoElse = false;
 $_smarty_tpl->getVariable('c')->iteration++;
 $_smarty_tpl->getVariable('c')->last = $_smarty_tpl->getVariable('c')->iteration === $_smarty_tpl->getVariable('c')->total;
 $foreach7Backup = clone $_smarty_tpl->getVariable('c');
-?>'<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('c')['name']), ENT_QUOTES, 'UTF-8');?>
-'
-                <?php if (!$_smarty_tpl->getVariable('c')->last) {?>,
-                <?php }?>
-            <?php
+echo htmlspecialchars((string) ($_smarty_tpl->getValue('c')['total']), ENT_QUOTES, 'UTF-8');?>
+
+                        <?php if (!$_smarty_tpl->getVariable('c')->last) {?>,
+                        <?php }?>
+                    <?php
 $_smarty_tpl->setVariable('c', $foreach7Backup);
 }
 $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>],
-            datasets: [{
-                data: [<?php
+                    backgroundColor: chartColors.slice(0, <?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('categories'))), ENT_QUOTES, 'UTF-8');?>
+)
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'right' },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                label += context.raw.toFixed(2) + ' <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
+';
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    <?php }?>
+
+    // Kategorie przychodów - tylko jeśli są dane
+    <?php if ($_smarty_tpl->getValue('incomeCategories') && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('incomeCategories')) > 0) {?>
+        new Chart(document.getElementById('categoryIncomeChart'), {
+            type: 'pie',
+            data: {
+                labels: [<?php
 $_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('incomeCategories'), 'c', true);
 $_smarty_tpl->getVariable('c')->iteration = 0;
 $foreach8DoElse = true;
@@ -520,32 +670,17 @@ $foreach8DoElse = false;
 $_smarty_tpl->getVariable('c')->iteration++;
 $_smarty_tpl->getVariable('c')->last = $_smarty_tpl->getVariable('c')->iteration === $_smarty_tpl->getVariable('c')->total;
 $foreach8Backup = clone $_smarty_tpl->getVariable('c');
-echo htmlspecialchars((string) ($_smarty_tpl->getValue('c')['total']), ENT_QUOTES, 'UTF-8');?>
-
+?>'<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('c')['name']), ENT_QUOTES, 'UTF-8');?>
+'
                     <?php if (!$_smarty_tpl->getVariable('c')->last) {?>,
                     <?php }?>
                 <?php
 $_smarty_tpl->setVariable('c', $foreach8Backup);
 }
 $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>],
-                backgroundColor: chartColors.slice(0, <?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('incomeCategories'))), ENT_QUOTES, 'UTF-8');?>
-)
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: { position: 'right' }
-            }
-        }
-    });
-
-    // Procentowy udział wydatków
-    new Chart(document.getElementById('categoryPercentChart'), {
-        type: 'doughnut',
-        data: {
-            labels: [<?php
-$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('categoryPercentages'), 'c', true);
+                datasets: [{
+                    data: [<?php
+$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('incomeCategories'), 'c', true);
 $_smarty_tpl->getVariable('c')->iteration = 0;
 $foreach9DoElse = true;
 foreach ($_from ?? [] as $_smarty_tpl->getVariable('c')->value) {
@@ -553,16 +688,46 @@ $foreach9DoElse = false;
 $_smarty_tpl->getVariable('c')->iteration++;
 $_smarty_tpl->getVariable('c')->last = $_smarty_tpl->getVariable('c')->iteration === $_smarty_tpl->getVariable('c')->total;
 $foreach9Backup = clone $_smarty_tpl->getVariable('c');
-?>'<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('c')['name']), ENT_QUOTES, 'UTF-8');?>
-'
-                <?php if (!$_smarty_tpl->getVariable('c')->last) {?>,
-                <?php }?>
-            <?php
+echo htmlspecialchars((string) ($_smarty_tpl->getValue('c')['total']), ENT_QUOTES, 'UTF-8');?>
+
+                        <?php if (!$_smarty_tpl->getVariable('c')->last) {?>,
+                        <?php }?>
+                    <?php
 $_smarty_tpl->setVariable('c', $foreach9Backup);
 }
 $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>],
-            datasets: [{
-                data: [<?php
+                    backgroundColor: chartColors.slice(0, <?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('incomeCategories'))), ENT_QUOTES, 'UTF-8');?>
+)
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'right' },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                label += context.raw.toFixed(2) + ' <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
+';
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    <?php }?>
+
+    // Procentowy udział wydatków - tylko jeśli są dane
+    <?php if ($_smarty_tpl->getValue('categoryPercentages') && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('categoryPercentages')) > 0) {?>
+        new Chart(document.getElementById('categoryPercentChart'), {
+            type: 'doughnut',
+            data: {
+                labels: [<?php
 $_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('categoryPercentages'), 'c', true);
 $_smarty_tpl->getVariable('c')->iteration = 0;
 $foreach10DoElse = true;
@@ -571,62 +736,63 @@ $foreach10DoElse = false;
 $_smarty_tpl->getVariable('c')->iteration++;
 $_smarty_tpl->getVariable('c')->last = $_smarty_tpl->getVariable('c')->iteration === $_smarty_tpl->getVariable('c')->total;
 $foreach10Backup = clone $_smarty_tpl->getVariable('c');
-echo htmlspecialchars((string) ($_smarty_tpl->getValue('c')['percent']), ENT_QUOTES, 'UTF-8');?>
-
+?>'<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('c')['name']), ENT_QUOTES, 'UTF-8');?>
+'
                     <?php if (!$_smarty_tpl->getVariable('c')->last) {?>,
                     <?php }?>
                 <?php
 $_smarty_tpl->setVariable('c', $foreach10Backup);
 }
 $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>],
-                backgroundColor: chartColors.slice(0, <?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('categoryPercentages'))), ENT_QUOTES, 'UTF-8');?>
+                datasets: [{
+                    data: [<?php
+$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('categoryPercentages'), 'c', true);
+$_smarty_tpl->getVariable('c')->iteration = 0;
+$foreach11DoElse = true;
+foreach ($_from ?? [] as $_smarty_tpl->getVariable('c')->value) {
+$foreach11DoElse = false;
+$_smarty_tpl->getVariable('c')->iteration++;
+$_smarty_tpl->getVariable('c')->last = $_smarty_tpl->getVariable('c')->iteration === $_smarty_tpl->getVariable('c')->total;
+$foreach11Backup = clone $_smarty_tpl->getVariable('c');
+echo htmlspecialchars((string) ($_smarty_tpl->getValue('c')['percent']), ENT_QUOTES, 'UTF-8');?>
+
+                        <?php if (!$_smarty_tpl->getVariable('c')->last) {?>,
+                        <?php }?>
+                    <?php
+$_smarty_tpl->setVariable('c', $foreach11Backup);
+}
+$_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>],
+                    backgroundColor: chartColors.slice(0, <?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('categoryPercentages'))), ENT_QUOTES, 'UTF-8');?>
 )
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: { position: 'right' },
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            // Dodanie procentu do etykiety
-                            let label = context.label || '';
-                            if (label) {
-                                label += ': ';
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'right' },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                label += context.raw.toFixed(2) + '%';
+                                return label;
                             }
-                            label += context.raw.toFixed(2) + '%';
-                            return label;
                         }
                     }
                 }
             }
-        }
-    });
+        });
+    <?php }?>
 
-    // Wydatki wg płatności
-    new Chart(document.getElementById('paymentChart'), {
-        type: 'pie',
-        data: {
-            labels: [<?php
-$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('paymentMethodBreakdown'), 'p', true);
-$_smarty_tpl->getVariable('p')->iteration = 0;
-$foreach11DoElse = true;
-foreach ($_from ?? [] as $_smarty_tpl->getVariable('p')->value) {
-$foreach11DoElse = false;
-$_smarty_tpl->getVariable('p')->iteration++;
-$_smarty_tpl->getVariable('p')->last = $_smarty_tpl->getVariable('p')->iteration === $_smarty_tpl->getVariable('p')->total;
-$foreach11Backup = clone $_smarty_tpl->getVariable('p');
-?>'<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('p')['payment_method']), ENT_QUOTES, 'UTF-8');?>
-'
-                <?php if (!$_smarty_tpl->getVariable('p')->last) {?>,
-                <?php }?>
-            <?php
-$_smarty_tpl->setVariable('p', $foreach11Backup);
-}
-$_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>],
-            datasets: [{
-                data: [<?php
+    // Wydatki wg płatności - tylko jeśli są dane
+    <?php if ($_smarty_tpl->getValue('paymentMethodBreakdown') && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('paymentMethodBreakdown')) > 0) {?>
+        new Chart(document.getElementById('paymentChart'), {
+            type: 'pie',
+            data: {
+                labels: [<?php
 $_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('paymentMethodBreakdown'), 'p', true);
 $_smarty_tpl->getVariable('p')->iteration = 0;
 $foreach12DoElse = true;
@@ -635,50 +801,64 @@ $foreach12DoElse = false;
 $_smarty_tpl->getVariable('p')->iteration++;
 $_smarty_tpl->getVariable('p')->last = $_smarty_tpl->getVariable('p')->iteration === $_smarty_tpl->getVariable('p')->total;
 $foreach12Backup = clone $_smarty_tpl->getVariable('p');
-echo htmlspecialchars((string) ($_smarty_tpl->getValue('p')['total_spent']), ENT_QUOTES, 'UTF-8');?>
-
+?>'<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('p')['payment_method']), ENT_QUOTES, 'UTF-8');?>
+'
                     <?php if (!$_smarty_tpl->getVariable('p')->last) {?>,
                     <?php }?>
                 <?php
 $_smarty_tpl->setVariable('p', $foreach12Backup);
 }
 $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>],
-                backgroundColor: chartColors.slice(0, <?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('paymentMethodBreakdown'))), ENT_QUOTES, 'UTF-8');?>
-)
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: { position: 'right' }
-            }
-        }
-    });
-
-    // Porównanie regionalne
-    new Chart(document.getElementById('regionalChart'), {
-        type: 'bar',
-        data: {
-            labels: [<?php
-$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('regionalComparison'), 'r', true);
-$_smarty_tpl->getVariable('r')->iteration = 0;
+                datasets: [{
+                    data: [<?php
+$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('paymentMethodBreakdown'), 'p', true);
+$_smarty_tpl->getVariable('p')->iteration = 0;
 $foreach13DoElse = true;
-foreach ($_from ?? [] as $_smarty_tpl->getVariable('r')->value) {
+foreach ($_from ?? [] as $_smarty_tpl->getVariable('p')->value) {
 $foreach13DoElse = false;
-$_smarty_tpl->getVariable('r')->iteration++;
-$_smarty_tpl->getVariable('r')->last = $_smarty_tpl->getVariable('r')->iteration === $_smarty_tpl->getVariable('r')->total;
-$foreach13Backup = clone $_smarty_tpl->getVariable('r');
-?>'<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('r')['region']), ENT_QUOTES, 'UTF-8');?>
-'
-                <?php if (!$_smarty_tpl->getVariable('r')->last) {?>,
-                <?php }?>
-            <?php
-$_smarty_tpl->setVariable('r', $foreach13Backup);
+$_smarty_tpl->getVariable('p')->iteration++;
+$_smarty_tpl->getVariable('p')->last = $_smarty_tpl->getVariable('p')->iteration === $_smarty_tpl->getVariable('p')->total;
+$foreach13Backup = clone $_smarty_tpl->getVariable('p');
+echo htmlspecialchars((string) ($_smarty_tpl->getValue('p')['total_spent']), ENT_QUOTES, 'UTF-8');?>
+
+                        <?php if (!$_smarty_tpl->getVariable('p')->last) {?>,
+                        <?php }?>
+                    <?php
+$_smarty_tpl->setVariable('p', $foreach13Backup);
 }
 $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>],
-            datasets: [{
-                label: 'Wydatki (zł)',
-                data: [<?php
+                    backgroundColor: chartColors.slice(0, <?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('paymentMethodBreakdown'))), ENT_QUOTES, 'UTF-8');?>
+)
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'right' },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                label += context.raw.toFixed(2) + ' <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
+';
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    <?php }?>
+
+    // Porównanie regionalne - tylko jeśli są dane
+    <?php if ($_smarty_tpl->getValue('regionalComparison') && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('regionalComparison')) > 0) {?>
+        new Chart(document.getElementById('regionalChart'), {
+            type: 'bar',
+            data: {
+                labels: [<?php
 $_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('regionalComparison'), 'r', true);
 $_smarty_tpl->getVariable('r')->iteration = 0;
 $foreach14DoElse = true;
@@ -687,65 +867,69 @@ $foreach14DoElse = false;
 $_smarty_tpl->getVariable('r')->iteration++;
 $_smarty_tpl->getVariable('r')->last = $_smarty_tpl->getVariable('r')->iteration === $_smarty_tpl->getVariable('r')->total;
 $foreach14Backup = clone $_smarty_tpl->getVariable('r');
-echo htmlspecialchars((string) ($_smarty_tpl->getValue('r')['total_spent']), ENT_QUOTES, 'UTF-8');?>
-
+?>'<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('r')['region']), ENT_QUOTES, 'UTF-8');?>
+'
                     <?php if (!$_smarty_tpl->getVariable('r')->last) {?>,
                     <?php }?>
                 <?php
 $_smarty_tpl->setVariable('r', $foreach14Backup);
 }
 $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>],
-                backgroundColor: getBackgroundColors(colors
-                    .primary), // Użycie koloru primary z przeźroczystością
-                borderColor: colors.primary.replace(/, 0\.8\)/, ', 1)'),
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: { position: 'top' },
-                title: { display: false }
-            },
-            scales: {
-                y: { beginAtZero: true }
-            }
-        }
-    });
-
-
-    // Inicjalizacja wykresu Podkategorii tylko po przejściu na zakładkę (optymalizacja)
-    let subCategoryChart;
-    document.getElementById('subcategories-tab').addEventListener('shown.bs.tab', function() {
-        if (!subCategoryChart) {
-            const ctx = document.getElementById('subCategoryChart').getContext('2d');
-            subCategoryChart = new Chart(ctx, {
-                type: 'bar', // Zmienione na 'bar' dla lepszej czytelności przy dużej liczbie podkategorii
-                data: {
-                    labels: [
-                        <?php
-$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('subCategoryExpenses'), 'sc', true);
-$_smarty_tpl->getVariable('sc')->iteration = 0;
+                datasets: [{
+                    label: 'Wydatki (<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
+)',
+                    data: [<?php
+$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('regionalComparison'), 'r', true);
+$_smarty_tpl->getVariable('r')->iteration = 0;
 $foreach15DoElse = true;
-foreach ($_from ?? [] as $_smarty_tpl->getVariable('sc')->value) {
+foreach ($_from ?? [] as $_smarty_tpl->getVariable('r')->value) {
 $foreach15DoElse = false;
-$_smarty_tpl->getVariable('sc')->iteration++;
-$_smarty_tpl->getVariable('sc')->last = $_smarty_tpl->getVariable('sc')->iteration === $_smarty_tpl->getVariable('sc')->total;
-$foreach15Backup = clone $_smarty_tpl->getVariable('sc');
-?>'<?php echo strtr((string)$_smarty_tpl->getValue('sc')['sub_category'], array("\\" => "\\\\", "'" => "\\'", "\"" => "\\\"", "\r" => "\\r", 
-						"\n" => "\\n", "</" => "<\/", "<!--" => "<\!--", "<s" => "<\s", "<S" => "<\S",
-						"`" => "\\`", "\${" => "\\\$\{"));?>
-'
-                            <?php if (!$_smarty_tpl->getVariable('sc')->last) {?>,
-                            <?php }?>
-                        <?php
-$_smarty_tpl->setVariable('sc', $foreach15Backup);
+$_smarty_tpl->getVariable('r')->iteration++;
+$_smarty_tpl->getVariable('r')->last = $_smarty_tpl->getVariable('r')->iteration === $_smarty_tpl->getVariable('r')->total;
+$foreach15Backup = clone $_smarty_tpl->getVariable('r');
+echo htmlspecialchars((string) ($_smarty_tpl->getValue('r')['total_spent']), ENT_QUOTES, 'UTF-8');?>
+
+                        <?php if (!$_smarty_tpl->getVariable('r')->last) {?>,
+                        <?php }?>
+                    <?php
+$_smarty_tpl->setVariable('r', $foreach15Backup);
 }
-$_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
-                    ],
-                    datasets: [{
-                        label: 'Wydatki (zł)',
-                        data: [
+$_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>],
+                    backgroundColor: getBackgroundColors(colors.primary),
+                    borderColor: colors.primary.replace(/, 0\.8\)/, ', 1)'),
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'top' },
+                    title: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Kwota (<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
+)'
+                        }
+                    }
+                }
+            }
+        });
+    <?php }?>
+
+    // Inicjalizacja wykresu Podkategorii - tylko jeśli są dane
+    <?php if ($_smarty_tpl->getValue('subCategoryExpenses') && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('subCategoryExpenses')) > 0) {?>
+        let subCategoryChart;
+        document.getElementById('subcategories-tab').addEventListener('shown.bs.tab', function() {
+            if (!subCategoryChart) {
+                const ctx = document.getElementById('subCategoryChart').getContext('2d');
+                subCategoryChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: [
                             <?php
 $_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('subCategoryExpenses'), 'sc', true);
 $_smarty_tpl->getVariable('sc')->iteration = 0;
@@ -755,8 +939,10 @@ $foreach16DoElse = false;
 $_smarty_tpl->getVariable('sc')->iteration++;
 $_smarty_tpl->getVariable('sc')->last = $_smarty_tpl->getVariable('sc')->iteration === $_smarty_tpl->getVariable('sc')->total;
 $foreach16Backup = clone $_smarty_tpl->getVariable('sc');
-echo htmlspecialchars((string) ($_smarty_tpl->getValue('sc')['total']), ENT_QUOTES, 'UTF-8');?>
-
+?>'<?php echo strtr((string)$_smarty_tpl->getValue('sc')['sub_category'], array("\\" => "\\\\", "'" => "\\'", "\"" => "\\\"", "\r" => "\\r", 
+						"\n" => "\\n", "</" => "<\/", "<!--" => "<\!--", "<s" => "<\s", "<S" => "<\S",
+						"`" => "\\`", "\${" => "\\\$\{"));?>
+'
                                 <?php if (!$_smarty_tpl->getVariable('sc')->last) {?>,
                                 <?php }?>
                             <?php
@@ -764,25 +950,132 @@ $_smarty_tpl->setVariable('sc', $foreach16Backup);
 }
 $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                         ],
-                        backgroundColor: getBackgroundColors(colors.danger),
-                        borderColor: colors.danger.replace(/, 0\.8\)/, ', 1)'),
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: { position: 'top' }
+                        datasets: [{
+                            label: 'Wydatki (<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
+)',
+                            data: [
+                                <?php
+$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('subCategoryExpenses'), 'sc', true);
+$_smarty_tpl->getVariable('sc')->iteration = 0;
+$foreach17DoElse = true;
+foreach ($_from ?? [] as $_smarty_tpl->getVariable('sc')->value) {
+$foreach17DoElse = false;
+$_smarty_tpl->getVariable('sc')->iteration++;
+$_smarty_tpl->getVariable('sc')->last = $_smarty_tpl->getVariable('sc')->iteration === $_smarty_tpl->getVariable('sc')->total;
+$foreach17Backup = clone $_smarty_tpl->getVariable('sc');
+echo htmlspecialchars((string) ($_smarty_tpl->getValue('sc')['total']), ENT_QUOTES, 'UTF-8');?>
+
+                                    <?php if (!$_smarty_tpl->getVariable('sc')->last) {?>,
+                                    <?php }?>
+                                <?php
+$_smarty_tpl->setVariable('sc', $foreach17Backup);
+}
+$_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
+                            ],
+                            backgroundColor: getBackgroundColors(colors.danger),
+                            borderColor: colors.danger.replace(/, 0\.8\)/, ', 1)'),
+                            borderWidth: 1
+                        }]
                     },
-                    scales: {
-                        y: { beginAtZero: true },
-                        x: { beginAtZero: true }
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: { position: 'top' }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Kwota (<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
+)'
+                                }
+                            }
+                        }
                     }
-                }
-            });
-        }
-    });
-<?php echo '</script'; ?>
+                });
+            }
+        });
+    <?php }?>
+
+    <?php if ($_smarty_tpl->getValue('subCategoryIncome') && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('subCategoryIncome')) > 0) {?>
+        // Wykres podkategorii przychodów
+        let subCategoryIncomeChart;
+        document.getElementById('subcategories-income-tab').addEventListener('shown.bs.tab', function() {
+            if (!subCategoryIncomeChart) {
+                const ctx = document.getElementById('subCategoryIncomeChart').getContext('2d');
+                subCategoryIncomeChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: [
+                            <?php
+$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('subCategoryIncome'), 'sc', true);
+$_smarty_tpl->getVariable('sc')->iteration = 0;
+$foreach18DoElse = true;
+foreach ($_from ?? [] as $_smarty_tpl->getVariable('sc')->value) {
+$foreach18DoElse = false;
+$_smarty_tpl->getVariable('sc')->iteration++;
+$_smarty_tpl->getVariable('sc')->last = $_smarty_tpl->getVariable('sc')->iteration === $_smarty_tpl->getVariable('sc')->total;
+$foreach18Backup = clone $_smarty_tpl->getVariable('sc');
+?>'<?php echo strtr((string)$_smarty_tpl->getValue('sc')['sub_category'], array("\\" => "\\\\", "'" => "\\'", "\"" => "\\\"", "\r" => "\\r", 
+						"\n" => "\\n", "</" => "<\/", "<!--" => "<\!--", "<s" => "<\s", "<S" => "<\S",
+						"`" => "\\`", "\${" => "\\\$\{"));?>
+'
+                                <?php if (!$_smarty_tpl->getVariable('sc')->last) {?>,
+                                <?php }?>
+                            <?php
+$_smarty_tpl->setVariable('sc', $foreach18Backup);
+}
+$_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
+                        ],
+                        datasets: [{
+                            label: 'Przychody (<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
+)',
+                            data: [
+                                <?php
+$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('subCategoryIncome'), 'sc', true);
+$_smarty_tpl->getVariable('sc')->iteration = 0;
+$foreach19DoElse = true;
+foreach ($_from ?? [] as $_smarty_tpl->getVariable('sc')->value) {
+$foreach19DoElse = false;
+$_smarty_tpl->getVariable('sc')->iteration++;
+$_smarty_tpl->getVariable('sc')->last = $_smarty_tpl->getVariable('sc')->iteration === $_smarty_tpl->getVariable('sc')->total;
+$foreach19Backup = clone $_smarty_tpl->getVariable('sc');
+echo htmlspecialchars((string) ($_smarty_tpl->getValue('sc')['total']), ENT_QUOTES, 'UTF-8');?>
+
+                                    <?php if (!$_smarty_tpl->getVariable('sc')->last) {?>,
+                                    <?php }?>
+                                <?php
+$_smarty_tpl->setVariable('sc', $foreach19Backup);
+}
+$_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
+                            ],
+                            backgroundColor: getBackgroundColors(colors.success),
+                            borderColor: colors.success.replace(/, 0\.8\)/, ', 1)'),
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: { position: 'top' }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Kwota (<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
+)'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    <?php }
+echo '</script'; ?>
 >
 
 <?php $_smarty_tpl->renderSubTemplate("file:footer.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
