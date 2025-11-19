@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-11-10 18:40:26
+/* Smarty version 5.6.0, created on 2025-11-17 19:04:00
   from 'file:dashboard.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_6912238abee5d7_37533540',
+  'unifunc' => 'content_691b6390d40ee1_17386284',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'cf7293f29adcf680da2b976996f1d74f414782de' => 
     array (
       0 => 'dashboard.tpl',
-      1 => 1762796425,
+      1 => 1763402639,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_6912238abee5d7_37533540 (\Smarty\Template $_smarty_tpl) {
+function content_691b6390d40ee1_17386284 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -117,7 +117,7 @@ $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_sma
                 </div>
             </div>
 
-            <!-- NOWOŚĆ: Budżety -->
+            <!-- Budżety -->
             <div class="col-md-6 col-lg-4">
                 <div class="card dashboard-card glass-effect">
                     <h5 class="text-danger"><i class="bi bi-wallet2 me-2"></i>Twoje budżety</h5>
@@ -129,7 +129,7 @@ $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_sma
                 </div>
             </div>
 
-            <!-- NOWOŚĆ: Kursy walut i kryptowalut -->
+            <!-- Kursy walut i kryptowalut -->
             <div class="col-md-6 col-lg-4">
                 <div class="card dashboard-card glass-effect">
                     <h5 class="text-light"><i class="bi bi-currency-exchange me-2"></i>Kursy walut & krypto</h5>
@@ -138,12 +138,12 @@ $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_sma
                 </div>
             </div>
 
-            <!-- NOWOŚĆ: Analiza wydatków -->
+            <!-- Analiza -->
             <div class="col-md-6 col-lg-4">
                 <div class="card dashboard-card glass-effect">
-                    <h5 class="text-info"><i class="bi bi-pie-chart-fill me-2"></i>Analiza wydatków</h5>
-                    <p>Sprawdź szczegółowy podział wydatków według kategorii.</p>
-                    <a href="index.php?action=spendingAnalysis" class="btn btn-info w-100 fw-semibold">Zobacz analizę</a>
+                    <h5 class="text-info"><i class="bi bi-pie-chart-fill me-2"></i>Analityka</h5>
+                    <p>Przejdź do analizy własnych transakcji.</p>
+                    <a href="index.php?action=analysisDashboard" class="btn btn-info w-100 fw-semibold">Zobacz analizę</a>
                 </div>
             </div>
         <?php }?>

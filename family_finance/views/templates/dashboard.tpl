@@ -87,7 +87,7 @@
                 </div>
             </div>
 
-            <!-- NOWOŚĆ: Budżety -->
+            <!-- Budżety -->
             <div class="col-md-6 col-lg-4">
                 <div class="card dashboard-card glass-effect">
                     <h5 class="text-danger"><i class="bi bi-wallet2 me-2"></i>Twoje budżety</h5>
@@ -99,7 +99,7 @@
                 </div>
             </div>
 
-            <!-- NOWOŚĆ: Kursy walut i kryptowalut -->
+            <!-- Kursy walut i kryptowalut -->
             <div class="col-md-6 col-lg-4">
                 <div class="card dashboard-card glass-effect">
                     <h5 class="text-light"><i class="bi bi-currency-exchange me-2"></i>Kursy walut & krypto</h5>
@@ -108,12 +108,12 @@
                 </div>
             </div>
 
-            <!-- NOWOŚĆ: Analiza wydatków -->
+            <!-- Analiza -->
             <div class="col-md-6 col-lg-4">
                 <div class="card dashboard-card glass-effect">
-                    <h5 class="text-info"><i class="bi bi-pie-chart-fill me-2"></i>Analiza wydatków</h5>
-                    <p>Sprawdź szczegółowy podział wydatków według kategorii.</p>
-                    <a href="index.php?action=spendingAnalysis" class="btn btn-info w-100 fw-semibold">Zobacz analizę</a>
+                    <h5 class="text-info"><i class="bi bi-pie-chart-fill me-2"></i>Analityka</h5>
+                    <p>Przejdź do analizy własnych transakcji.</p>
+                    <a href="index.php?action=analysisDashboard" class="btn btn-info w-100 fw-semibold">Zobacz analizę</a>
                 </div>
             </div>
         {/if}
