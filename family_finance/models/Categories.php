@@ -9,41 +9,28 @@ class Categories
         $this->db = new Database();
     }
 
+    /** Pobiera wszystkie kategorie */
     public function getAllCategories()
     {
-        $sql = "
-        select *
-        from categories
-        ";
-
+        $sql = "SELECT * FROM categories";
         return $this->db->select($sql);
     }
 
+    /** Pobiera kategorię po ID */
     public function getAllCategoriesById(int $id)
     {
-        $sql = "
-        select *
-        from categories
-        where id = :id
-        ";
-
-        return $this->db->select($sql, [
-            ':id' => $id
-        ]);
-    }
-
-
-    public function getAllSubCategoriesByCategory(int $id)
-    {
-        $sql = "
-        select *
-        from sub_categories
-        where category_id = :id
-        ";
-
+        $sql = "SELECT * FROM categories WHERE id = :id";
         return $this->db->select($sql, [':id' => $id]);
     }
 
+    /** Pobiera podkategorie dla kategorii */
+    public function getAllSubCategoriesByCategory(int $id)
+    {
+        $sql = "SELECT * FROM sub_categories WHERE category_id = :id";
+        return $this->db->select($sql, [':id' => $id]);
+    }
+
+    /** Pobiera nazwę podkategorii po ID */
     public function getSubcategoryNameById(int $id): string
     {
         $sql = "SELECT name FROM sub_categories WHERE id = :id";
@@ -51,11 +38,10 @@ class Categories
         return $result[0]['name'] ?? '';
     }
 
+    /** Pobiera kategorie według typu */
     public function getCategoriesByType(string $type)
     {
-        $sql = "SELECT * FROM categories WHERE type = :type";;
-        return $this->db->select($sql, [
-            ':type' => $type
-        ]);
+        $sql = "SELECT * FROM categories WHERE type = :type";
+        return $this->db->select($sql, [':type' => $type]);
     }
 }

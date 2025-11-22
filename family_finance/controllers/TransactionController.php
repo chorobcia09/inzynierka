@@ -28,10 +28,7 @@ class TransactionController
         $this->subCategoriesModel = new SubCategories($db);
     }
 
-    /**
-     * Wyświetlanie na stronie tabeli z transakcjami
-     */
-
+    /** Wyświetla listę transakcji */
     public function index()
     {
         if (!isset($_SESSION['user_id']) || $_SESSION['role'] === 'admin') {
@@ -52,10 +49,7 @@ class TransactionController
         $this->smarty->display('manage_transactions.tpl');
     }
 
-    /**
-     * Metoda dodająca transakcje
-     */
-
+    /** Dodaje nową transakcję */
     public function addTransaction()
     {
         if (!isset($_SESSION['user_id']) || $_SESSION['role'] === 'admin') {
@@ -63,17 +57,13 @@ class TransactionController
             exit;
         }
 
-
-        // pobranie kategorii
+        $family_id = $_SESSION['family_id'] ?? null;
+        $user_id = $_SESSION['user_id'];
         $categories = $this->categoriesModel->getAllCategories();
-        $subCategories = $this->subCategoriesModel->getAllGlobalSubCategories();
+        $subCategories = [];
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $family_id = $_SESSION['family_id'] ?? null;
-            $user_id = $_SESSION['user_id'];
-
             $category_id = $_POST['category_id'] ?? null;
-            $sub_category_id = $_POST['sub_category_id'] ?? null;
             $type = $_POST['type'] ?? null;
             $amount = $_POST['amount'] ?? null;
             $currency = $_POST['currency'] ?? 'PLN';
@@ -86,18 +76,24 @@ class TransactionController
 
             if (!$type || !in_array($type, ['expense', 'income'])) $errors[] = 'Nieprawidłowy typ';
             if (!$amount || !is_numeric($amount) || $amount <= 0) $errors[] = 'Nieprawidłowa kwota';
-
+            if (!$category_id) $errors[] = 'Wybierz kategorię';
 
             if (!empty($errors)) {
                 $this->smarty->assign('errors', $errors);
                 $this->smarty->assign('old', $_POST);
                 $this->smarty->assign('session', $_SESSION);
+
+                if ($category_id) {
+                    $subCategories = $this->subCategoriesModel->getAllSubCategories($category_id, $user_id, $family_id);
+                }
+
+                $this->smarty->assign('categories', $categories);
+                $this->smarty->assign('subCategories', $subCategories);
                 $this->smarty->display('add_transaction.tpl');
                 return;
             }
 
-            // DODANIE TRANSAKCJI GLOWNEJ
-            $res = $this->transactionModel->addTransaction(
+            $transaction_id = $this->transactionModel->addTransaction(
                 $family_id,
                 $user_id,
                 $category_id,
@@ -110,36 +106,51 @@ class TransactionController
                 $transaction_date,
                 $is_recurring
             );
-            // dump($_POST);
-            // DODANIE ELEMENTU TRANSAKCJI
-            if ($res && !empty($_POST['items'])) {
+
+            $itemsAdded = false;
+            if ($transaction_id && !empty($_POST['items'])) {
                 foreach ($_POST['items'] as $item) {
-                    // dump($item);
                     if (!empty($item['subcategory_id']) && !empty($item['amount'])) {
-                        $this->transactionModel->addTransactionItem(
-                            $res,
+                        $itemAdded = $this->transactionModel->addTransactionItem(
+                            $transaction_id,
                             $category_id,
                             (int)$item['subcategory_id'],
                             (float)$item['amount'],
                             (int)($item['quantity'] ?? 1)
                         );
+                        if ($itemAdded) {
+                            $itemsAdded = true;
+                        }
                     }
                 }
             }
 
-
-            if ($res) {
-                $this->smarty->assign('success', 'Transakcja dodana pomyślnie!');
+            if ($transaction_id) {
+                if ($itemsAdded || empty($_POST['items'])) {
+                    $this->smarty->assign('success', 'Transakcja dodana pomyślnie!');
+                    $this->smarty->assign('old', []);
+                    $subCategories = [];
+                } else {
+                    $this->smarty->assign('errors', ['Transakcja została dodana, ale nie udało się dodać pozycji.']);
+                    $this->smarty->assign('old', $_POST);
+                    $subCategories = $this->subCategoriesModel->getAllSubCategories($category_id, $user_id, $family_id);
+                }
             } else {
                 $this->smarty->assign('errors', ['Nie udało się dodać transakcji.']);
+                $this->smarty->assign('old', $_POST);
+                if ($category_id) {
+                    $subCategories = $this->subCategoriesModel->getAllSubCategories($category_id, $user_id, $family_id);
+                }
             }
 
-            $this->smarty->assign('old', $_POST);
-            $this->smarty->assign('session', $_SESSION);
+            $this->smarty->assign([
+                'session' => $_SESSION,
+                'categories' => $categories,
+                'subCategories' => $subCategories
+            ]);
             $this->smarty->display('add_transaction.tpl');
             return;
         } else {
-            // GET wyswietlenie formularza
             $this->smarty->assign([
                 'session' => $_SESSION,
                 'categories' => $categories,
@@ -150,6 +161,7 @@ class TransactionController
         }
     }
 
+    /** Usuwa transakcję */
     public function deleteTransaction($transaction_id)
     {
         if (!isset($_SESSION['user_id']) || $_SESSION['role'] === 'admin') {
@@ -181,6 +193,7 @@ class TransactionController
         exit;
     }
 
+    /** Wyświetla szczegóły transakcji */
     public function transactionDetails(int $transaction_id)
     {
         if (!isset($_SESSION['user_id']) || $_SESSION['role'] === 'admin') {
@@ -198,6 +211,7 @@ class TransactionController
         return;
     }
 
+    /** Zwraca kategorie wg typu (AJAX) */
     public function getCategoriesByType()
     {
         if (!isset($_SESSION['user_id']) || $_SESSION['role'] === 'admin') {
@@ -218,7 +232,7 @@ class TransactionController
             exit;
         }
 
-        $categories = $this->categoriesModel->getCategoriesByType($type); // <- tylko tu
+        $categories = $this->categoriesModel->getCategoriesByType($type);
 
         if (!$categories) {
             http_response_code(500);
@@ -230,7 +244,8 @@ class TransactionController
         echo json_encode($categories);
         exit;
     }
-    
+
+    /** Zwraca podkategorie wg kategorii (AJAX) */
     public function getSubcategoriesByCategory()
     {
         if (!isset($_SESSION['user_id'])) {
@@ -246,10 +261,121 @@ class TransactionController
         }
 
         $category_id = (int) $_GET['category_id'];
-        $subcategories = $this->subCategoriesModel->getSubCategoriesByCategory($category_id);
+        $user_id = $_SESSION['user_id'];
+        $family_id = $_SESSION['family_id'] ?? null;
+
+        $subcategories = $this->subCategoriesModel->getAllSubCategories($category_id, $user_id, $family_id);
 
         header('Content-Type: application/json');
         echo json_encode($subcategories ?: []);
         exit;
+    }
+
+    /** Edytuje istniejącą transakcję */
+    public function editTransaction()
+    {
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] === 'admin') {
+            header('Location: index.php?action=login');
+            exit;
+        }
+
+        $family_id = $_SESSION['family_id'] ?? null;
+        $user_id = $_SESSION['user_id'];
+        $transaction_id = $_GET['id'] ?? null;
+
+        if (!$transaction_id) {
+            header('Location: index.php?action=manageTransactions');
+            exit;
+        }
+
+        $hasAccess = $this->transactionModel->checkUserAccess($transaction_id, $user_id, $family_id);
+        if (!$hasAccess) {
+            header('Location: index.php?action=manageTransactions&error=no_access');
+            exit;
+        }
+
+        $transaction = $this->transactionModel->getTransactionForEdit($transaction_id);
+        if (!$transaction) {
+            header('Location: index.php?action=manageTransactions&error=not_found');
+            exit;
+        }
+
+        $transactionItems = $this->transactionModel->getTransactionDetails($transaction_id);
+        $categories = $this->categoriesModel->getAllCategories();
+        $subCategories = $this->subCategoriesModel->getAllSubCategories($transaction['category_id'], $user_id, $family_id);
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $category_id = $_POST['category_id'] ?? null;
+            $type = $_POST['type'] ?? null;
+            $amount = $_POST['amount'] ?? null;
+            $currency = $_POST['currency'] ?? 'PLN';
+            $payment_method = $_POST['payment_method'] ?? 'cash';
+            $description = $_POST['description'] ?? '';
+            $transaction_date = $_POST['transaction_date'] ?? date('Y-m-d H:i:s');
+            $is_recurring = isset($_POST['is_recurring']) ? 1 : 0;
+
+            $errors = [];
+
+            if (!$type || !in_array($type, ['expense', 'income'])) $errors[] = 'Nieprawidłowy typ';
+            if (!$amount || !is_numeric($amount) || $amount <= 0) $errors[] = 'Nieprawidłowa kwota';
+            if (!$category_id) $errors[] = 'Wybierz kategorię';
+
+            if (!empty($errors)) {
+                $this->smarty->assign('errors', $errors);
+                $subCategories = $this->subCategoriesModel->getAllSubCategories($category_id, $user_id, $family_id);
+            } else {
+                try {
+                    $updated = $this->transactionModel->updateTransaction(
+                        $transaction_id,
+                        $category_id,
+                        $type,
+                        (float)$amount,
+                        $currency,
+                        $payment_method,
+                        $description,
+                        $transaction_date,
+                        $is_recurring
+                    );
+
+                    if ($updated) {
+                        $this->transactionModel->deleteTransactionItems($transaction_id);
+
+                        if (!empty($_POST['items'])) {
+                            foreach ($_POST['items'] as $item) {
+                                if (!empty($item['subcategory_id']) && !empty($item['amount'])) {
+                                    $this->transactionModel->addTransactionItem(
+                                        $transaction_id,
+                                        $category_id,
+                                        (int)$item['subcategory_id'],
+                                        (float)$item['amount'],
+                                        (int)($item['quantity'] ?? 1)
+                                    );
+                                }
+                            }
+                        }
+
+                        $this->smarty->assign('success', 'Transakcja została zaktualizowana!');
+                        $transaction = $this->transactionModel->getTransactionForEdit($transaction_id);
+                        $transactionItems = $this->transactionModel->getTransactionDetails($transaction_id);
+                        $subCategories = $this->subCategoriesModel->getAllSubCategories($category_id, $user_id, $family_id);
+                    } else {
+                        $this->smarty->assign('errors', ['Nie udało się zaktualizować transakcji.']);
+                    }
+                } catch (Exception $e) {
+                    $this->smarty->assign('errors', ['Wystąpił błąd podczas aktualizacji transakcji.']);
+                }
+            }
+        }
+
+        $this->smarty->assign([
+            'session' => $_SESSION,
+            'categories' => $categories,
+            'subCategories' => $subCategories,
+            'transaction' => $transaction,
+            'transactionItems' => $transactionItems,
+            'transaction_id' => $transaction_id
+        ]);
+
+        $this->smarty->display('edit_transaction.tpl');
     }
 }

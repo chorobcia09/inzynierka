@@ -48,7 +48,7 @@
                                     class="btn btn-outline-info btn-sm flex-grow-1">
                                     <i class="bi bi-eye"></i> Zobacz
                                 </a>
-                                {if $session.family_role == 'family_admin'}
+                                {if $session.family_role == 'family_admin' || $session.family_id == null}
                                     <a href="index.php?action=editTransaction&id={$transaction.transaction_id}"
                                         class="btn btn-outline-warning btn-sm flex-grow-1">
                                         <i class="bi bi-pencil"></i> Edytuj

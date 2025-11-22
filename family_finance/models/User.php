@@ -237,6 +237,9 @@ class User
         ]);
     }
 
+    /**
+     * Aktualizacja hasła.
+     */
     public function updatePassword($id, $hashedPassword)
     {
         $sql = "UPDATE users SET password = :password WHERE id = :id";
@@ -245,7 +248,9 @@ class User
             ':id' => $id
         ]);
     }
-
+    /**
+     * Przejscie na uzytkownika premium
+     */
     public function upgradeToPremium(int $userId)
     {
         $sql = "UPDATE users SET account_type = 'premium' WHERE id = :id";

@@ -10,6 +10,9 @@ class Feedback
         $this->db = new Database();
     }
 
+    /**
+     * Dodanie feedbacku.
+     */
     public function addFeedback(int $user_id, string $type, string $subject, string $message, string $status = 'new')
     {
         $sql = "INSERT INTO feedbacks (user_id, type, subject, message, status)
@@ -24,6 +27,9 @@ class Feedback
         ]);
     }
 
+    /**
+     * Zwrócenie wszystkich feedbackow
+     */
     public function getAllFeedback(?string $status = null)
     {
         if ($status) {
@@ -41,6 +47,9 @@ class Feedback
         }
     }
 
+    /**
+     * Aktualizacja feedbacku.
+     */
     public function updateStatus(int $feedback_id, string $status)
     {
         $sql = "UPDATE feedbacks 

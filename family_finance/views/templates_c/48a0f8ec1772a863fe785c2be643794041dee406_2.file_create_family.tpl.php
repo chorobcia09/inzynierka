@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-25 19:14:23
+/* Smarty version 5.6.0, created on 2025-11-22 20:09:40
   from 'file:create_family.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68fd056f36fa23_59522804',
+  'unifunc' => 'content_69220a749e8b36_31757426',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '48a0f8ec1772a863fe785c2be643794041dee406' => 
     array (
       0 => 'create_family.tpl',
-      1 => 1761412461,
+      1 => 1763838579,
       2 => 'file',
     ),
   ),
@@ -22,12 +22,12 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_68fd056f36fa23_59522804 (\Smarty\Template $_smarty_tpl) {
+function content_69220a749e8b36_31757426 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
 
-<div class="mx-auto shadow p-4 rounded bg-dark text-light" style="max-width:400px;">
+<div class="mx-auto shadow p-4 rounded bg-dark-subtle text-light" style="max-width:400px;">
     <h2 class="text-center mb-4 text-primary text-light">Utwórz rodzinę</h2>
 
     <?php if ($_smarty_tpl->getValue('error')) {?>

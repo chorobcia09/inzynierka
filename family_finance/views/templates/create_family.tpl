@@ -1,6 +1,6 @@
 {include file='header.tpl'}
 
-<div class="mx-auto shadow p-4 rounded bg-dark text-light" style="max-width:400px;">
+<div class="mx-auto shadow p-4 rounded bg-dark-subtle text-light" style="max-width:400px;">
     <h2 class="text-center mb-4 text-primary text-light">Utwórz rodzinę</h2>
 
     {if $error}

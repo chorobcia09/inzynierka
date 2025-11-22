@@ -1,23 +1,58 @@
-{include file='header.tpl'}
+<?php
+/* Smarty version 5.6.0, created on 2025-11-22 19:30:18
+  from 'file:edit_transaction.tpl' */
 
-{* ------------------------ ALERTY ------------------------ *}
-{if isset($success)}
+/* @var \Smarty\Template $_smarty_tpl */
+if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
+  'version' => '5.6.0',
+  'unifunc' => 'content_6922013ae7f992_17504458',
+  'has_nocache_code' => false,
+  'file_dependency' => 
+  array (
+    'a3f59f0d7daf9beec5f6ea6f187fa61007ebbec1' => 
+    array (
+      0 => 'edit_transaction.tpl',
+      1 => 1763836216,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+    'file:header.tpl' => 1,
+    'file:footer.tpl' => 1,
+  ),
+))) {
+function content_6922013ae7f992_17504458 (\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
+$_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
+?>
+
+<?php if ((true && ($_smarty_tpl->hasVariable('success') && null !== ($_smarty_tpl->getValue('success') ?? null)))) {?>
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {$success}
+        <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('success')), ENT_QUOTES, 'UTF-8');?>
+
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-{/if}
+<?php }?>
 
-{if isset($errors) && $errors|@count > 0}
+<?php if ((true && ($_smarty_tpl->hasVariable('errors') && null !== ($_smarty_tpl->getValue('errors') ?? null))) && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('errors')) > 0) {?>
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <ul class="mb-0">
-            {foreach $errors as $error}
-                <li>{$error}</li>
-            {/foreach}
+            <?php
+$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('errors'), 'error');
+$foreach0DoElse = true;
+foreach ($_from ?? [] as $_smarty_tpl->getVariable('error')->value) {
+$foreach0DoElse = false;
+?>
+                <li><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('error')), ENT_QUOTES, 'UTF-8');?>
+</li>
+            <?php
+}
+$_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         </ul>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-{/if}
+<?php }?>
 
 <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
     <h4 class="mb-0 fw-bold text-light-emphasis">Edytuj transakcję</h4>
@@ -26,24 +61,23 @@
     </a>
 </div>
 
-{* ------------------------ FORMULARZ EDYCJI ------------------------ *}
-<form action="index.php?action=editTransaction&id={$transaction_id}" method="POST"
+<form action="index.php?action=editTransaction&id=<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction_id')), ENT_QUOTES, 'UTF-8');?>
+" method="POST"
     class="p-4 bg-dark-subtle text-light rounded-4 shadow-lg" id="transactionForm">
 
-    {* --- Typ transakcji --- *}
-    <div class="mb-3">
+        <div class="mb-3">
         <label class="form-label fw-semibold">Typ transakcji:</label>
         <div class="d-flex align-items-center gap-3">
             <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" name="type" id="income" value="income"
-                    {if $transaction.type == 'income'}checked{/if} required>
+                    <?php if ($_smarty_tpl->getValue('transaction')['type'] == 'income') {?>checked<?php }?> required>
                 <label class="form-check-label text-success fw-semibold" for="income">
                     <i class="bi bi-arrow-up-circle"></i> Przychód
                 </label>
             </div>
             <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" name="type" id="expense" value="expense"
-                    {if $transaction.type == 'expense'}checked{/if}>
+                    <?php if ($_smarty_tpl->getValue('transaction')['type'] == 'expense') {?>checked<?php }?>>
                 <label class="form-check-label text-danger fw-semibold" for="expense">
                     <i class="bi bi-arrow-down-circle"></i> Wydatek
                 </label>
@@ -51,21 +85,28 @@
         </div>
     </div>
 
-    {* --- Kategoria główna --- *}
-    <div class="mb-3">
+        <div class="mb-3">
         <label for="category_id" class="form-label fw-semibold">Kategoria główna:</label>
         <select class="form-select select2 text-light" id="category_id" name="category_id" required>
             <option value="">Wybierz kategorię...</option>
-            {foreach $categories as $category}
-                <option value="{$category.id}" {if $category.id == $transaction.category_id}selected{/if}>
-                    {$category.name}
+            <?php
+$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('categories'), 'category');
+$foreach1DoElse = true;
+foreach ($_from ?? [] as $_smarty_tpl->getVariable('category')->value) {
+$foreach1DoElse = false;
+?>
+                <option value="<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('category')['id']), ENT_QUOTES, 'UTF-8');?>
+" <?php if ($_smarty_tpl->getValue('category')['id'] == $_smarty_tpl->getValue('transaction')['category_id']) {?>selected<?php }?>>
+                    <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('category')['name']), ENT_QUOTES, 'UTF-8');?>
+
                 </option>
-            {/foreach}
+            <?php
+}
+$_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         </select>
     </div>
 
-    {* --- Pozycje transakcji --- *}
-    <h5 class="mt-4 fw-semibold">Pozycje transakcji:</h5>
+        <h5 class="mt-4 fw-semibold">Pozycje transakcji:</h5>
     <div class="table-responsive">
         <table class="table table-bordered table-dark-subtle text-light" id="transactionItems">
             <thead class="table-dark">
@@ -77,32 +118,53 @@
                 </tr>
             </thead>
             <tbody>
-                {foreach $transactionItems as $index => $item}
+                <?php
+$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('transactionItems'), 'item', false, 'index');
+$foreach2DoElse = true;
+foreach ($_from ?? [] as $_smarty_tpl->getVariable('index')->value => $_smarty_tpl->getVariable('item')->value) {
+$foreach2DoElse = false;
+?>
                     <tr>
                         <td>
-                            <select class="form-select subcategory-select" name="items[{$index}][subcategory_id]" required>
+                            <select class="form-select subcategory-select" name="items[<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('index')), ENT_QUOTES, 'UTF-8');?>
+][subcategory_id]" required>
                                 <option value="">Wybierz podkategorię...</option>
-                                {foreach $subCategories as $sub}
-                                    <option value="{$sub.id}" {if $sub.id == $item.sub_category_id}selected{/if}>
-                                        {$sub.name}
+                                <?php
+$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('subCategories'), 'sub');
+$foreach3DoElse = true;
+foreach ($_from ?? [] as $_smarty_tpl->getVariable('sub')->value) {
+$foreach3DoElse = false;
+?>
+                                    <option value="<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('sub')['id']), ENT_QUOTES, 'UTF-8');?>
+" <?php if ($_smarty_tpl->getValue('sub')['id'] == $_smarty_tpl->getValue('item')['sub_category_id']) {?>selected<?php }?>>
+                                        <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('sub')['name']), ENT_QUOTES, 'UTF-8');?>
+
                                     </option>
-                                {/foreach}
+                                <?php
+}
+$_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                             </select>
                         </td>
                         <td>
-                            <input type="number" name="items[{$index}][quantity]" class="form-control itemQuantity"
-                                value="{$item.quantity|default:1}" min="1">
+                            <input type="number" name="items[<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('index')), ENT_QUOTES, 'UTF-8');?>
+][quantity]" class="form-control itemQuantity"
+                                value="<?php echo htmlspecialchars((string) ((($tmp = $_smarty_tpl->getValue('item')['quantity'] ?? null)===null||$tmp==='' ? 1 ?? null : $tmp)), ENT_QUOTES, 'UTF-8');?>
+" min="1">
                         </td>
                         <td>
-                            <input type="number" step="0.01" name="items[{$index}][amount]" class="form-control itemAmount"
-                                value="{$item.amount}" required>
+                            <input type="number" step="0.01" name="items[<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('index')), ENT_QUOTES, 'UTF-8');?>
+][amount]" class="form-control itemAmount"
+                                value="<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('item')['amount']), ENT_QUOTES, 'UTF-8');?>
+" required>
                         </td>
                         <td>
                             <button type="button" class="btn btn-danger btn-sm removeRow">X</button>
                         </td>
                     </tr>
-                {/foreach}
-                {if $transactionItems|@count == 0}
+                <?php
+}
+$_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
+                <?php if ($_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('transactionItems')) == 0) {?>
                     <tr>
                         <td>
                             <select class="form-select subcategory-select" name="items[0][subcategory_id]" required>
@@ -115,33 +177,34 @@
                                 required></td>
                         <td><button type="button" class="btn btn-danger btn-sm removeRow">X</button></td>
                     </tr>
-                {/if}
+                <?php }?>
             </tbody>
         </table>
     </div>
 
     <button type="button" id="addRow" class="btn btn-secondary mb-3">Dodaj pozycję</button>
 
-    {* --- Pozostałe pola formularza --- *}
-    <div class="mb-3">
+        <div class="mb-3">
         <label for="description" class="form-label fw-semibold">Opis (opcjonalny):</label>
         <input type="text" class="form-control bg-dark text-light" id="description" name="description"
-            value="{$transaction.description}" maxlength="255" placeholder="np. Zakupy w Lidlu">
+            value="<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['description']), ENT_QUOTES, 'UTF-8');?>
+" maxlength="255" placeholder="np. Zakupy w Lidlu">
     </div>
 
     <div class="mb-3">
         <label for="transaction_date" class="form-label fw-semibold">Data transakcji:</label>
         <input type="datetime-local" class="form-control bg-dark text-light" id="transaction_date"
-            name="transaction_date" value="{$transaction.transaction_date|date_format:'%Y-%m-%dT%H:%M'}" required>
+            name="transaction_date" value="<?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('date_format')($_smarty_tpl->getValue('transaction')['transaction_date'],'%Y-%m-%dT%H:%M')), ENT_QUOTES, 'UTF-8');?>
+" required>
     </div>
 
     <div class="mb-3">
         <label for="payment_method" class="form-label fw-semibold">Forma płatności:</label>
         <select class="form-select bg-dark text-light" id="payment_method" name="payment_method" required>
             <option value="">Wybierz metodę...</option>
-            <option value="cash" {if $transaction.payment_method == 'cash'}selected{/if}>Gotówka</option>
-            <option value="card" {if $transaction.payment_method == 'card'}selected{/if}>Karta płatnicza</option>
-            <option value="crypto" {if $transaction.payment_method == 'crypto'}selected{/if}>Kryptowaluta</option>
+            <option value="cash" <?php if ($_smarty_tpl->getValue('transaction')['payment_method'] == 'cash') {?>selected<?php }?>>Gotówka</option>
+            <option value="card" <?php if ($_smarty_tpl->getValue('transaction')['payment_method'] == 'card') {?>selected<?php }?>>Karta płatnicza</option>
+            <option value="crypto" <?php if ($_smarty_tpl->getValue('transaction')['payment_method'] == 'crypto') {?>selected<?php }?>>Kryptowaluta</option>
         </select>
     </div>
 
@@ -149,32 +212,33 @@
         <div class="col-md-3">
             <label for="amount" class="form-label fw-semibold">Kwota całkowita:</label>
             <input type="number" step="0.0001" min="0" class="form-control bg-dark text-light" id="amount" name="amount"
-                value="{$transaction.amount}" readonly>
+                value="<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['amount']), ENT_QUOTES, 'UTF-8');?>
+" readonly>
         </div>
 
         <div class="col-md-3">
             <label for="currency" class="form-label fw-semibold">Waluta:</label>
             <select class="form-select bg-dark text-light" id="currency" name="currency" required>
                 <option value="">Wybierz walutę...</option>
-                <option value="PLN" {if $transaction.currency == 'PLN'}selected{/if}>PLN - Złoty</option>
-                <option value="USD" {if $transaction.currency == 'USD'}selected{/if}>USD - Dolar amerykański</option>
-                <option value="EUR" {if $transaction.currency == 'EUR'}selected{/if}>EUR - Euro</option>
-                <option value="GBP" {if $transaction.currency == 'GBP'}selected{/if}>GBP - Funt brytyjski</option>
-                <option value="CHF" {if $transaction.currency == 'CHF'}selected{/if}>CHF - Frank szwajcarski</option>
-                <option value="CAD" {if $transaction.currency == 'CAD'}selected{/if}>CAD - Dolar kanadyjski</option>
-                <option value="AUD" {if $transaction.currency == 'AUD'}selected{/if}>AUD - Dolar australijski</option>
-                <option value="JPY" {if $transaction.currency == 'JPY'}selected{/if}>JPY - Jen japoński</option>
-                <option value="CZK" {if $transaction.currency == 'CZK'}selected{/if}>CZK - Korona czeska</option>
-                <option value="NOK" {if $transaction.currency == 'NOK'}selected{/if}>NOK - Korona norweska</option>
-                <option value="BTC" {if $transaction.currency == 'BTC'}selected{/if}>BTC - Bitcoin</option>
-                <option value="ETH" {if $transaction.currency == 'ETH'}selected{/if}>ETH - Ethereum</option>
-                <option value="BNB" {if $transaction.currency == 'BNB'}selected{/if}>BNB - Binance Coin</option>
-                <option value="XRP" {if $transaction.currency == 'XRP'}selected{/if}>XRP - Ripple</option>
-                <option value="DOGE" {if $transaction.currency == 'DOGE'}selected{/if}>DOGE - Dogecoin</option>
-                <option value="USDT" {if $transaction.currency == 'USDT'}selected{/if}>USDT - Tether</option>
-                <option value="SOL" {if $transaction.currency == 'SOL'}selected{/if}>SOL - Solana</option>
-                <option value="ADA" {if $transaction.currency == 'ADA'}selected{/if}>ADA - Cardano</option>
-                <option value="TRX" {if $transaction.currency == 'TRX'}selected{/if}>TRX - TRON</option>
+                <option value="PLN" <?php if ($_smarty_tpl->getValue('transaction')['currency'] == 'PLN') {?>selected<?php }?>>PLN - Złoty</option>
+                <option value="USD" <?php if ($_smarty_tpl->getValue('transaction')['currency'] == 'USD') {?>selected<?php }?>>USD - Dolar amerykański</option>
+                <option value="EUR" <?php if ($_smarty_tpl->getValue('transaction')['currency'] == 'EUR') {?>selected<?php }?>>EUR - Euro</option>
+                <option value="GBP" <?php if ($_smarty_tpl->getValue('transaction')['currency'] == 'GBP') {?>selected<?php }?>>GBP - Funt brytyjski</option>
+                <option value="CHF" <?php if ($_smarty_tpl->getValue('transaction')['currency'] == 'CHF') {?>selected<?php }?>>CHF - Frank szwajcarski</option>
+                <option value="CAD" <?php if ($_smarty_tpl->getValue('transaction')['currency'] == 'CAD') {?>selected<?php }?>>CAD - Dolar kanadyjski</option>
+                <option value="AUD" <?php if ($_smarty_tpl->getValue('transaction')['currency'] == 'AUD') {?>selected<?php }?>>AUD - Dolar australijski</option>
+                <option value="JPY" <?php if ($_smarty_tpl->getValue('transaction')['currency'] == 'JPY') {?>selected<?php }?>>JPY - Jen japoński</option>
+                <option value="CZK" <?php if ($_smarty_tpl->getValue('transaction')['currency'] == 'CZK') {?>selected<?php }?>>CZK - Korona czeska</option>
+                <option value="NOK" <?php if ($_smarty_tpl->getValue('transaction')['currency'] == 'NOK') {?>selected<?php }?>>NOK - Korona norweska</option>
+                <option value="BTC" <?php if ($_smarty_tpl->getValue('transaction')['currency'] == 'BTC') {?>selected<?php }?>>BTC - Bitcoin</option>
+                <option value="ETH" <?php if ($_smarty_tpl->getValue('transaction')['currency'] == 'ETH') {?>selected<?php }?>>ETH - Ethereum</option>
+                <option value="BNB" <?php if ($_smarty_tpl->getValue('transaction')['currency'] == 'BNB') {?>selected<?php }?>>BNB - Binance Coin</option>
+                <option value="XRP" <?php if ($_smarty_tpl->getValue('transaction')['currency'] == 'XRP') {?>selected<?php }?>>XRP - Ripple</option>
+                <option value="DOGE" <?php if ($_smarty_tpl->getValue('transaction')['currency'] == 'DOGE') {?>selected<?php }?>>DOGE - Dogecoin</option>
+                <option value="USDT" <?php if ($_smarty_tpl->getValue('transaction')['currency'] == 'USDT') {?>selected<?php }?>>USDT - Tether</option>
+                <option value="SOL" <?php if ($_smarty_tpl->getValue('transaction')['currency'] == 'SOL') {?>selected<?php }?>>SOL - Solana</option>
+                <option value="ADA" <?php if ($_smarty_tpl->getValue('transaction')['currency'] == 'ADA') {?>selected<?php }?>>ADA - Cardano</option>
+                <option value="TRX" <?php if ($_smarty_tpl->getValue('transaction')['currency'] == 'TRX') {?>selected<?php }?>>TRX - TRON</option>
             </select>
         </div>
         <div class="col-md-3">
@@ -192,7 +256,7 @@
 
     <div class="form-check mb-3">
         <input class="form-check-input" type="checkbox" name="is_recurring" id="is_recurring" value="1"
-            {if $transaction.is_recurring}checked{/if}>
+            <?php if ($_smarty_tpl->getValue('transaction')['is_recurring']) {?>checked<?php }?>>
         <label class="form-check-label" for="is_recurring">
             Transakcja cykliczna
         </label>
@@ -204,9 +268,10 @@
     </div>
 </form>
 
-{* ------------------------ SKRYPTY JS ------------------------ *}
-<script>
-    let rowIndex = {$transactionItems|@count};
+<?php echo '<script'; ?>
+>
+    let rowIndex = <?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('transactionItems'))), ENT_QUOTES, 'UTF-8');?>
+;
     if (rowIndex === 0) rowIndex = 1;
 
     function updateTotal() {
@@ -332,10 +397,12 @@
         // Inicjalna aktualizacja sumy
         updateTotal();
     });
-</script>
+<?php echo '</script'; ?>
+>
 
-{literal}
-    <script>
+
+    <?php echo '<script'; ?>
+>
         // Waluty fiat i kryptowaluty
         const fiatCurrencies = {
             PLN: "PLN - Złoty",
@@ -384,7 +451,8 @@
             }
 
             // Ustaw aktualną walutę transakcji
-            const currentCurrency = '{/literal}{$transaction.currency}{literal}';
+            const currentCurrency = '<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['currency']), ENT_QUOTES, 'UTF-8');?>
+';
             if (currentCurrency) {
                 currencySelect.value = currentCurrency;
             }
@@ -502,7 +570,8 @@
         // --- Pierwsze ładowanie ---
         updateCurrencyOptions();
         // Ustaw aktualną metodę płatności i załaduj odpowiednie kursy
-        const currentPaymentMethod = '{/literal}{$transaction.payment_method}{literal}';
+        const currentPaymentMethod = '<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['payment_method']), ENT_QUOTES, 'UTF-8');?>
+';
         if (currentPaymentMethod === 'crypto') {
             fetchCryptoRates();
         } else {
@@ -510,8 +579,9 @@
         }
         // Wykonaj konwersję na starcie
         setTimeout(updateConversion, 500);
-    </script>
-{/literal}
+    <?php echo '</script'; ?>
+>
+
 
 <style>
     .select2-container--bootstrap-5 .select2-selection {
@@ -538,4 +608,6 @@
     }
 </style>
 
-{include file='footer.tpl'}
+<?php $_smarty_tpl->renderSubTemplate('file:footer.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
+}
+}

@@ -116,7 +116,9 @@ switch ($action) {
     case 'getSubcategoriesByCategory':
         (new TransactionController($smarty))->getSubcategoriesByCategory();
         break;
-
+    case 'editTransaction':
+        (new TransactionController($smarty))->editTransaction();
+        break;
 
 
     // ------------------------------CATEGORYSCONTROLLER------------------------------

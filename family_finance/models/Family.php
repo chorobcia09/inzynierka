@@ -69,6 +69,9 @@ class Family
         return !empty($result) && $result[0]['count'] > 0;
     }
 
+    /**
+     * Dodanie uzytkownika do rodziny po UID.
+     */
     public function addUserToFamily(int $family_id, string $UID)
     {
         $findUser = $this->findUser($UID);
@@ -90,6 +93,9 @@ class Family
         ]);
     }
 
+    /**
+     * Usunięcie użytkownika z rodziny
+     */
     public function deleteUserFromFamily(int $id)
     {
         $sql = "
@@ -104,6 +110,9 @@ class Family
         ]);
     }
 
+    /**
+     * Usunięcie rodziny
+     */
     public function deleteFamily(int $id)
     {
         // najpierw ustawia uzytkownikom nulla

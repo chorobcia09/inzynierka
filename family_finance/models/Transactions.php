@@ -199,4 +199,109 @@ class Transactions
             ":transaction_id" => $transaction_id
         ]);
     }
+
+    /**
+     * Pobranie szczegółów transakcji do edycji
+     */
+    public function getTransactionForEdit(int $transaction_id)
+    {
+        $sql = "
+    SELECT 
+        t.id,
+        t.family_id,
+        t.user_id,
+        t.category_id,
+        t.local_category_id,
+        t.type,
+        t.amount,
+        t.currency,
+        t.payment_method,
+        t.description,
+        t.transaction_date,
+        t.is_recurring,
+        c.name AS category_name
+    FROM transactions t
+    LEFT JOIN categories c ON t.category_id = c.id
+    WHERE t.id = :transaction_id
+    ";
+
+        $result = $this->db->select($sql, [':transaction_id' => $transaction_id]);
+        return $result[0] ?? null;
+    }
+
+    /**
+     * Aktualizacja transakcji
+     */
+    public function updateTransaction(
+        int $transaction_id,
+        int $category_id,
+        string $type,
+        float $amount,
+        string $currency,
+        string $payment_method,
+        string $description,
+        string $transaction_date,
+        int $is_recurring = 0
+    ) {
+        $sql = "
+    UPDATE transactions 
+    SET 
+        category_id = :category_id,
+        type = :type,
+        amount = :amount,
+        currency = :currency,
+        payment_method = :payment_method,
+        description = :description,
+        transaction_date = :transaction_date,
+        is_recurring = :is_recurring
+    WHERE id = :transaction_id
+    ";
+
+        try {
+            return $this->db->execute($sql, [
+                ':category_id' => $category_id,
+                ':type' => $type,
+                ':amount' => $amount,
+                ':currency' => $currency,
+                ':payment_method' => $payment_method,
+                ':description' => $description,
+                ':transaction_date' => $transaction_date,
+                ':is_recurring' => $is_recurring,
+                ':transaction_id' => $transaction_id
+            ]);
+        } catch (PDOException $e) {
+            error_log("DB error (updateTransaction): " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Usunięcie wszystkich pozycji transakcji
+     */
+    public function deleteTransactionItems(int $transaction_id)
+    {
+        $sql = "DELETE FROM transaction_items WHERE transaction_id = :transaction_id";
+        return $this->db->execute($sql, [':transaction_id' => $transaction_id]);
+    }
+
+    /**
+     * Sprawdzenie czy użytkownik ma dostęp do transakcji
+     */
+    public function checkUserAccess(int $transaction_id, int $user_id, ?int $family_id)
+    {
+        $sql = "
+    SELECT id 
+    FROM transactions 
+    WHERE id = :transaction_id 
+    AND (user_id = :user_id OR family_id = :family_id)
+    ";
+
+        $result = $this->db->select($sql, [
+            ':transaction_id' => $transaction_id,
+            ':user_id' => $user_id,
+            ':family_id' => $family_id
+        ]);
+
+        return !empty($result);
+    }
 }
