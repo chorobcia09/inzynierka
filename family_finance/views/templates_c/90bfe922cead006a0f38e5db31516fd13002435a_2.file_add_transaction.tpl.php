@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-11-22 17:30:54
+/* Smarty version 5.6.0, created on 2025-11-22 20:18:45
   from 'file:add_transaction.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_6921e53ebb9869_62286845',
+  'unifunc' => 'content_69220c95ce3df0_46808948',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '90bfe922cead006a0f38e5db31516fd13002435a' => 
     array (
       0 => 'add_transaction.tpl',
-      1 => 1763829050,
+      1 => 1763839116,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_6921e53ebb9869_62286845 (\Smarty\Template $_smarty_tpl) {
+function content_69220c95ce3df0_46808948 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -257,6 +257,65 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
     }
 
     $(document).ready(function() {
+        // --- Obsługa zmiany typu transakcji ---
+        $('input[name="type"]').on('change', function() {
+            const type = $(this).val();
+            loadCategoriesByType(type);
+        });
+
+        // Funkcja do ładowania kategorii według typu
+        function loadCategoriesByType(type) {
+            if (!type) {
+                $('#category_id').empty().append('<option value="">Wybierz kategorię...</option>');
+                $('.subcategory-select').empty().append('<option value="">Wybierz podkategorię...</option>');
+                return;
+            }
+
+            $.ajax({
+                url: 'index.php?action=getCategoriesByType',
+                method: 'GET',
+                data: { type: type },
+                dataType: 'json',
+                success: function(data) {
+                    const $categorySelect = $('#category_id');
+                    $categorySelect.empty().append(
+                    '<option value="">Wybierz kategorię...</option>');
+
+                    if (data.length > 0) {
+                        data.forEach(function(category) {
+                            $categorySelect.append('<option value="' + category.id + '">' +
+                                category.name + '</option>');
+                        });
+                    } else {
+                        $categorySelect.append(
+                            '<option value="">Brak kategorii dla tego typu</option>');
+                    }
+
+                    // Wyczyść podkategorie
+                    $('.subcategory-select').empty().append(
+                        '<option value="">Wybierz podkategorię...</option>');
+                },
+                error: function(xhr, status, error) {
+                    console.error('Błąd pobierania kategorii:', error);
+                    $('#category_id').empty().append(
+                        '<option value="">Błąd ładowania kategorii</option>');
+                }
+            });
+        }
+
+        // Na starcie, jeśli typ jest już wybrany (np. z old data), załaduj kategorie
+        const initialType = $('input[name="type"]:checked').val();
+        if (initialType) {
+            loadCategoriesByType(initialType);
+
+            // Jeśli kategoria jest też wybrana, załaduj podkategorie
+            const initialCategoryId = $('#category_id').val();
+            if (initialCategoryId) {
+                setTimeout(() => {
+                    loadSubcategoriesForAllRows(initialCategoryId);
+                }, 500);
+            }
+        }
 
         // --- Select2 dla kategorii ---
         $('#category_id, #subCategory_id').select2({

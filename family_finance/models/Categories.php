@@ -42,6 +42,7 @@ class Categories
     public function getCategoriesByType(string $type)
     {
         $sql = "SELECT * FROM categories WHERE type = :type";
+        // dump($sql);
         return $this->db->select($sql, [':type' => $type]);
     }
 }

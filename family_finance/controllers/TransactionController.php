@@ -50,6 +50,7 @@ class TransactionController
     }
 
     /** Dodaje nową transakcję */
+    /** Dodaje nową transakcję */
     public function addTransaction()
     {
         if (!isset($_SESSION['user_id']) || $_SESSION['role'] === 'admin') {
@@ -59,7 +60,9 @@ class TransactionController
 
         $family_id = $_SESSION['family_id'] ?? null;
         $user_id = $_SESSION['user_id'];
-        $categories = $this->categoriesModel->getAllCategories();
+
+        // Początkowo puste kategorie i podkategorie
+        $categories = [];
         $subCategories = [];
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -77,6 +80,11 @@ class TransactionController
             if (!$type || !in_array($type, ['expense', 'income'])) $errors[] = 'Nieprawidłowy typ';
             if (!$amount || !is_numeric($amount) || $amount <= 0) $errors[] = 'Nieprawidłowa kwota';
             if (!$category_id) $errors[] = 'Wybierz kategorię';
+
+            // Pobierz kategorie na podstawie typu
+            if ($type) {
+                $categories = $this->categoriesModel->getCategoriesByType($type);
+            }
 
             if (!empty($errors)) {
                 $this->smarty->assign('errors', $errors);
@@ -129,15 +137,20 @@ class TransactionController
                 if ($itemsAdded || empty($_POST['items'])) {
                     $this->smarty->assign('success', 'Transakcja dodana pomyślnie!');
                     $this->smarty->assign('old', []);
+                    $categories = [];
                     $subCategories = [];
                 } else {
                     $this->smarty->assign('errors', ['Transakcja została dodana, ale nie udało się dodać pozycji.']);
                     $this->smarty->assign('old', $_POST);
+                    $categories = $this->categoriesModel->getCategoriesByType($type);
                     $subCategories = $this->subCategoriesModel->getAllSubCategories($category_id, $user_id, $family_id);
                 }
             } else {
                 $this->smarty->assign('errors', ['Nie udało się dodać transakcji.']);
                 $this->smarty->assign('old', $_POST);
+                if ($type) {
+                    $categories = $this->categoriesModel->getCategoriesByType($type);
+                }
                 if ($category_id) {
                     $subCategories = $this->subCategoriesModel->getAllSubCategories($category_id, $user_id, $family_id);
                 }
@@ -151,6 +164,7 @@ class TransactionController
             $this->smarty->display('add_transaction.tpl');
             return;
         } else {
+            // GET - początkowo puste
             $this->smarty->assign([
                 'session' => $_SESSION,
                 'categories' => $categories,
