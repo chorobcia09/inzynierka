@@ -32,7 +32,7 @@ class UserController
 
     public function changePassword()
     {
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] === 'admin') {
             header('Location: index.php?action=login');
             exit;
         }

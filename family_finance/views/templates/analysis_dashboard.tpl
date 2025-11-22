@@ -679,8 +679,8 @@
             <div class="col-12">
                 <div class="card shadow-lg">
                     <div class="card-header bg-light">
-                        <h5 class="card-title mb-0">
-                            <i class="bi bi-question-circle me-2"></i>Co oznaczają te liczby? - Proste wyjaśnienie
+                        <h5 class="card-title mb-0" style="color: #0d6efd;">
+                            <i class="bi bi-question-circle me-2" ></i>Co oznaczają te liczby? - Proste wyjaśnienie
                         </h5>
                     </div>
                     <div class="card-body">

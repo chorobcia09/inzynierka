@@ -10,7 +10,7 @@
         {if $session.role == 'admin'}
             <!-- Sekcja dla administratora -->
             <div class="col-md-6 col-lg-4">
-                <div class="card dashboard-card gradient-purple">
+                <div class="card dashboard-card admin-card admin-card-users">
                     <h5><i class="bi bi-person-gear me-2"></i>Zarządzaj użytkownikami</h5>
                     <p>Dodawaj, edytuj lub usuwaj użytkowników systemu.</p>
                     <a href="index.php?action=adminPanel" class="btn btn-light w-100 fw-semibold">Panel admina</a>
@@ -18,18 +18,10 @@
             </div>
 
             <div class="col-md-6 col-lg-4">
-                <div class="card dashboard-card gradient-orange">
-                    <h5><i class="bi bi-people-fill me-2"></i>Zarządzaj rodzinami</h5>
-                    <p>Przeglądaj i edytuj dane rodzin. (Wkrótce)</p>
-                    <a href="#" class="btn btn-light w-100 fw-semibold">Rodziny</a>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-4">
-                <div class="card dashboard-card gradient-green">
-                    <h5><i class="bi bi-bar-chart me-2"></i>Raporty i statystyki</h5>
-                    <p>Generuj raporty finansowe i analizy globalne.</p>
-                    <a href="#" class="btn btn-light w-100 fw-semibold">Raporty</a>
+                <div class="card dashboard-card admin-card admin-card-feedback">
+                    <h5><i class="bi bi-folder me-2"></i>Zarządzaj zgłoszeniami</h5>
+                    <p>Przeglądaj i zarządzaj zgłoszeniami użytkowników.</p>
+                    <a href="index.php?action=feedbackPanel" class="btn btn-light w-100 fw-semibold">Zgłoszenia</a>
                 </div>
             </div>
         {else}
@@ -43,7 +35,7 @@
                         {if isset($session.family_id)}
                             <hr class="my-2">
                             Rodzina: <strong>{$session.family_name|default:'Brak'}</strong><br>
-                            Rola: 
+                            Rola:
                             {if $session.family_role == 'family_admin'}
                                 <span class="badge bg-success">Administrator rodziny</span>
                             {elseif $session.family_role == 'family_member'}
@@ -99,14 +91,6 @@
                 </div>
             </div>
 
-            <!-- Kursy walut i kryptowalut -->
-            <div class="col-md-6 col-lg-4">
-                <div class="card dashboard-card glass-effect">
-                    <h5 class="text-light"><i class="bi bi-currency-exchange me-2"></i>Kursy walut & krypto</h5>
-                    <p>Sprawdź aktualne kursy walut i kryptowalut w czasie rzeczywistym.</p>
-                    <a href="index.php?action=exchangeRates" class="btn btn-outline-light w-100 fw-semibold">Sprawdź kursy</a>
-                </div>
-            </div>
 
             <!-- Analiza -->
             <div class="col-md-6 col-lg-4">
@@ -121,37 +105,52 @@
 </div>
 
 <style>
-/* === Styl ogólny dashboardu === */
-.dashboard-card {
-    background: rgba(25, 25, 25, 0.75);
-    backdrop-filter: blur(8px);
-    border-radius: 1.25rem;
-    padding: 1.5rem;
-    color: #f8f9fa;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.dashboard-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-}
 
-/* Efekt szkła (Glassmorphism) */
-.glass-effect {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255,255,255,0.15);
-    backdrop-filter: blur(8px);
-}
+    .dashboard-card {
+        background: rgba(25, 25, 25, 0.75);
+        backdrop-filter: blur(8px);
+        border-radius: 1.25rem;
+        padding: 1.5rem;
+        color: #f8f9fa;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
 
-/* Gradientowe tła dla admina */
-.gradient-purple { background: linear-gradient(135deg, #6f42c1, #6610f2); }
-.gradient-orange { background: linear-gradient(135deg, #fd7e14, #ff9f43); }
-.gradient-green  { background: linear-gradient(135deg, #198754, #20c997); }
+    .dashboard-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+    .glass-effect {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(8px);
+    }
 
-.btn {
-    border-radius: 0.75rem;
-}
+    .admin-card {
+        background: rgba(30, 30, 30, 0.85);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(6px);
+        border-radius: 1.25rem;
+        padding: 1.5rem;
+        color: #f8f9fa;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
 
+    .admin-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    }
+    .admin-card-users h5 {
+        color: #6f42c1;
+    }
+    .admin-card-feedback h5 {
+        color: #fd7e14;
+    }
+
+    .btn {
+        border-radius: 0.75rem;
+    }
 </style>
 
 {include file='footer.tpl'}

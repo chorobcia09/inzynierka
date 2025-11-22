@@ -15,7 +15,7 @@ class AnalysisController
 
     public function dashboard()
     {
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] === 'admin') {
             header('Location: index.php?action=login');
             exit;
         }
@@ -107,7 +107,6 @@ class AnalysisController
         $this->smarty->display('analysis_dashboard.tpl');
     }
 
-    /* ========================= PDF ========================= */
     public function pdf()
     {
         if (!isset($_SESSION['user_id'])) {
@@ -127,7 +126,6 @@ class AnalysisController
             $period = 'custom';
         }
 
-        // WALUTA
         $currency = $_GET['currency'] ?? 'PLN';
 
         $summary = $this->analysis->getSummary($user_id, $family_id, $currency, $period, $date_from, $date_to);

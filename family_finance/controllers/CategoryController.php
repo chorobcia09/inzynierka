@@ -27,7 +27,7 @@ class CategoryController
      */
     public function index()
     {
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] === 'admin') {
             header('Location: index.php?action=login');
             exit;
         }
@@ -46,8 +46,8 @@ class CategoryController
      */
     public function viewCategory($id)
     {
-        if (!isset($_SESSION['user_id']) | !$id) {
-            header('Location: index.php?action=categories');
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] === 'admin') {
+            header('Location: index.php?action=login');
             exit;
         }
 

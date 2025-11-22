@@ -31,8 +31,6 @@
                     <label for="period_type" class="form-label fw-semibold">Typ okresu:</label>
                     <select name="period_type" id="period_type" class="form-select bg-dark text-light border-secondary"
                         required>
-                        <option value="monthly">Miesięczny</option>
-                        <option value="yearly">Roczny</option>
                         <option value="custom">Niestandardowy</option>
                     </select>
                 </div>

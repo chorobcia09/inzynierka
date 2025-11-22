@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-11-04 20:56:23
+/* Smarty version 5.6.0, created on 2025-11-22 14:43:06
   from 'file:add_budget.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_690a5a67bbe2c7_13929744',
+  'unifunc' => 'content_6921bdeaf14962_56030264',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'ee1837b410515a4daa213bbaae414cdf8b22b950' => 
     array (
       0 => 'add_budget.tpl',
-      1 => 1762285798,
+      1 => 1763818985,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_690a5a67bbe2c7_13929744 (\Smarty\Template $_smarty_tpl) {
+function content_6921bdeaf14962_56030264 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -60,8 +60,6 @@ $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_sma
                     <label for="period_type" class="form-label fw-semibold">Typ okresu:</label>
                     <select name="period_type" id="period_type" class="form-select bg-dark text-light border-secondary"
                         required>
-                        <option value="monthly">Miesięczny</option>
-                        <option value="yearly">Roczny</option>
                         <option value="custom">Niestandardowy</option>
                     </select>
                 </div>

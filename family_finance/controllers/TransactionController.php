@@ -58,7 +58,7 @@ class TransactionController
 
     public function addTransaction()
     {
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] === 'admin') {
             header('Location: index.php?action=login');
             exit;
         }
@@ -152,7 +152,7 @@ class TransactionController
 
     public function deleteTransaction($transaction_id)
     {
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] === 'admin') {
             header('Location: index.php?action=login');
             exit;
         }
@@ -183,7 +183,7 @@ class TransactionController
 
     public function transactionDetails(int $transaction_id)
     {
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] === 'admin') {
             header('Location: index.php?action=login');
             exit;
         }
@@ -200,7 +200,7 @@ class TransactionController
 
     public function getCategoriesByType()
     {
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] === 'admin') {
             header('Location: index.php?action=login');
             exit;
         }

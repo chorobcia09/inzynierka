@@ -1,6 +1,6 @@
 {include file='header.tpl'}
 
-<div class="mx-auto shadow p-4 rounded bg-dark text-light" style="max-width:500px;">
+<div class="mx-auto shadow p-4 rounded bg-dark-subtle text-light" style="max-width:500px;">
     <h2 class="mb-4 text-center text-primary text-light">Edytuj użytkownika</h2>
 
     {* Wyświetl komunikat błędu *}

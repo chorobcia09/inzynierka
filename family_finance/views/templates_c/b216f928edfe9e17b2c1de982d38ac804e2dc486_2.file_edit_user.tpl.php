@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-25 19:15:09
+/* Smarty version 5.6.0, created on 2025-11-22 14:26:09
   from 'file:edit_user.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68fd059d7eeeb0_08820786',
+  'unifunc' => 'content_6921b9f11db216_44791296',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'b216f928edfe9e17b2c1de982d38ac804e2dc486' => 
     array (
       0 => 'edit_user.tpl',
-      1 => 1761412507,
+      1 => 1763817968,
       2 => 'file',
     ),
   ),
@@ -22,12 +22,12 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_68fd059d7eeeb0_08820786 (\Smarty\Template $_smarty_tpl) {
+function content_6921b9f11db216_44791296 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
 
-<div class="mx-auto shadow p-4 rounded bg-dark text-light" style="max-width:500px;">
+<div class="mx-auto shadow p-4 rounded bg-dark-subtle text-light" style="max-width:500px;">
     <h2 class="mb-4 text-center text-primary text-light">Edytuj użytkownika</h2>
 
         <?php if ((true && ($_smarty_tpl->hasVariable('error') && null !== ($_smarty_tpl->getValue('error') ?? null)))) {?>
