@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-11-17 19:11:17
+/* Smarty version 5.6.0, created on 2025-11-22 17:30:54
   from 'file:add_transaction.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_691b6545566394_38821085',
+  'unifunc' => 'content_6921e53ebb9869_62286845',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '90bfe922cead006a0f38e5db31516fd13002435a' => 
     array (
       0 => 'add_transaction.tpl',
-      1 => 1763403034,
+      1 => 1763829050,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_691b6545566394_38821085 (\Smarty\Template $_smarty_tpl) {
+function content_6921e53ebb9869_62286845 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -134,11 +134,6 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
     </div>
 
     <button type="button" id="addRow" class="btn btn-secondary mb-3">Dodaj pozycję</button>
-
-    <div class="mb-3 fw-semibold">
-        Suma: <span id="totalAmount">0.00</span>
-    </div>
-
         <div class="mb-3">
         <label for="description" class="form-label fw-semibold">Opis (opcjonalny):</label>
         <input type="text" class="form-control bg-dark text-light" id="description" name="description" maxlength="255"
@@ -165,8 +160,9 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         <div class="col-md-3">
             <label for="amount" class="form-label fw-semibold">Kwota całkowita:</label>
             <input type="number" step="0.0001" min="0" class="form-control bg-dark text-light" id="amount" name="amount"
-                required>
+                readonly>
         </div>
+
         <div class="col-md-3">
             <label for="currency" class="form-label fw-semibold">Waluta:</label>
             <select class="form-select bg-dark text-light" id="currency" name="currency" required>
@@ -222,7 +218,10 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
             total += qty * amount;
         });
         $('#totalAmount').text(total.toFixed(2));
+        $('#amount').val(total.toFixed(2)); // Uzupełnia pole kwoty całkowitej
+        updateConversion(); // Przeliczanie wartości w PLN
     }
+
 
     // Funkcja do ładowania podkategorii dla wszystkich wierszy
     function loadSubcategoriesForAllRows(categoryId) {

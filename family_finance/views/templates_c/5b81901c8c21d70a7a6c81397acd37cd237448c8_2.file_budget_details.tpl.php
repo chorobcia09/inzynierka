@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-11-04 21:01:07
+/* Smarty version 5.6.0, created on 2025-11-22 17:43:46
   from 'file:budget_details.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_690a5b83921c34_27550249',
+  'unifunc' => 'content_6921e842107868_78005383',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '5b81901c8c21d70a7a6c81397acd37cd237448c8' => 
     array (
       0 => 'budget_details.tpl',
-      1 => 1762285796,
+      1 => 1763829824,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_690a5b83921c34_27550249 (\Smarty\Template $_smarty_tpl) {
+function content_6921e842107868_78005383 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -55,12 +55,16 @@ $foreach0DoElse = false;
 </span>
                 <span>
                     <?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('cat')['spent_amount'],2)), ENT_QUOTES, 'UTF-8');?>
- / <?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('cat')['limit_amount'],2)), ENT_QUOTES, 'UTF-8');?>
- PLN
+ <?php echo htmlspecialchars((string) ((($tmp = $_smarty_tpl->getValue('budget')['currency'] ?? null)===null||$tmp==='' ? "PLN" ?? null : $tmp)), ENT_QUOTES, 'UTF-8');?>
+ /
+                    <?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('cat')['limit_amount'],2)), ENT_QUOTES, 'UTF-8');?>
+ <?php echo htmlspecialchars((string) ((($tmp = $_smarty_tpl->getValue('budget')['currency'] ?? null)===null||$tmp==='' ? "PLN" ?? null : $tmp)), ENT_QUOTES, 'UTF-8');?>
+
                     (<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('cat')['used_percent']), ENT_QUOTES, 'UTF-8');?>
 %)
                 </span>
             </div>
+
             <div class="progress mt-2" style="height: 10px;">
                 <div class="progress-bar <?php if ($_smarty_tpl->getValue('cat')['used_percent'] >= 100) {?>bg-danger<?php } elseif ($_smarty_tpl->getValue('cat')['used_percent'] >= 80) {?>bg-warning<?php } else { ?>bg-success<?php }?>"
                     role="progressbar" style="width: <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('cat')['used_percent']), ENT_QUOTES, 'UTF-8');?>

@@ -17,10 +17,12 @@
             <div class="d-flex justify-content-between">
                 <span class="fw-semibold">{$cat.category_name}</span>
                 <span>
-                    {$cat.spent_amount|number_format:2} / {$cat.limit_amount|number_format:2} PLN
+                    {$cat.spent_amount|number_format:2} {$budget.currency|default:"PLN"} /
+                    {$cat.limit_amount|number_format:2} {$budget.currency|default:"PLN"}
                     ({$cat.used_percent}%)
                 </span>
             </div>
+
             <div class="progress mt-2" style="height: 10px;">
                 <div class="progress-bar {if $cat.used_percent >= 100}bg-danger{elseif $cat.used_percent >= 80}bg-warning{else}bg-success{/if}"
                     role="progressbar" style="width: {$cat.used_percent}%;" aria-valuenow="{$cat.used_percent}"

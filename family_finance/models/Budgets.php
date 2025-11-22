@@ -9,15 +9,15 @@ class Budgets
         $this->db = new Database();
     }
 
-    public function addBudget($family_id, $user_id, $name, $period_type, $start_date, $end_date, $items = [], $total_limit)
+    public function addBudget($family_id, $user_id, $name, $period_type, $start_date, $end_date, $items = [], $total_limit, $currency)
     {
         try {
             $this->db->execute("START TRANSACTION");
 
             $sqlBudget = "
-            INSERT INTO budgets (family_id, user_id, name, period_type, start_date, end_date, total_limit)
-            VALUES (:family_id, :user_id, :name, :period_type, :start_date, :end_date, :total_limit)
-        ";
+                        INSERT INTO budgets (family_id, user_id, name, period_type, start_date, end_date, total_limit, currency)
+                        VALUES (:family_id, :user_id, :name, :period_type, :start_date, :end_date, :total_limit, :currency)
+                    ";
 
             $this->db->execute($sqlBudget, [
                 ':family_id'   => $family_id ?: null,
@@ -26,7 +26,8 @@ class Budgets
                 ':period_type' => $period_type,
                 ':start_date'  => $start_date,
                 ':end_date'    => $end_date,
-                ':total_limit'    => $total_limit,
+                ':total_limit' => $total_limit,
+                ':currency'    => $currency
             ]);
 
             $budget_id = $this->db->pdo->lastInsertId();
@@ -62,13 +63,10 @@ class Budgets
             b.start_date,
             b.end_date,
             b.period_type,
-            
-            -- obliczamy całkowity limit z budget_items
+            b.currency,  -- <-- dodaj to
             (SELECT SUM(bi.limit_amount)
-             FROM budget_items bi
-             WHERE bi.budget_id = b.id) AS total_limit,
-
-            -- obliczamy całkowite wydatki z transakcji w tym okresie
+            FROM budget_items bi
+            WHERE bi.budget_id = b.id) AS total_limit,
             COALESCE((
                 SELECT SUM(ti.amount * ti.quantity)
                 FROM transactions t
@@ -83,7 +81,8 @@ class Budgets
         FROM budgets b
         WHERE (b.family_id = :family_id OR b.user_id = :user_id)
         ORDER BY b.start_date DESC
-    ";
+        ";
+
 
         $budgets = $this->db->select($sql, [
             ':family_id' => $family_id,
@@ -109,6 +108,7 @@ class Budgets
             b.start_date,
             b.end_date,
             b.period_type,
+            b.currency,
             c.name AS category_name,
             bi.limit_amount,
             COALESCE(SUM(ti.amount * ti.quantity), 0) AS spent_amount,

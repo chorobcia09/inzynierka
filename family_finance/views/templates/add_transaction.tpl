@@ -94,11 +94,6 @@
     </div>
 
     <button type="button" id="addRow" class="btn btn-secondary mb-3">Dodaj pozycję</button>
-
-    <div class="mb-3 fw-semibold">
-        Suma: <span id="totalAmount">0.00</span>
-    </div>
-
     {* --- Pozostałe pola formularza --- *}
     <div class="mb-3">
         <label for="description" class="form-label fw-semibold">Opis (opcjonalny):</label>
@@ -126,8 +121,9 @@
         <div class="col-md-3">
             <label for="amount" class="form-label fw-semibold">Kwota całkowita:</label>
             <input type="number" step="0.0001" min="0" class="form-control bg-dark text-light" id="amount" name="amount"
-                required>
+                readonly>
         </div>
+
         <div class="col-md-3">
             <label for="currency" class="form-label fw-semibold">Waluta:</label>
             <select class="form-select bg-dark text-light" id="currency" name="currency" required>
@@ -183,7 +179,10 @@
             total += qty * amount;
         });
         $('#totalAmount').text(total.toFixed(2));
+        $('#amount').val(total.toFixed(2)); // Uzupełnia pole kwoty całkowitej
+        updateConversion(); // Przeliczanie wartości w PLN
     }
+
 
     // Funkcja do ładowania podkategorii dla wszystkich wierszy
     function loadSubcategoriesForAllRows(categoryId) {

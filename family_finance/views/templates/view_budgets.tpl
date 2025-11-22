@@ -15,7 +15,7 @@
                 <tr>
                     <th>Nazwa</th>
                     <th>Okres</th>
-                    <th>Limit (PLN)</th>
+                    <th>Limit</th>
                     <th>Wydano</th>
                     <th>Postęp</th>
                     <th>Akcje</th>
@@ -29,8 +29,9 @@
                             {$budget.start_date|date_format:"%d.%m.%Y"} -
                             {$budget.end_date|date_format:"%d.%m.%Y"}
                         </td>
-                        <td>{$budget.total_limit|number_format:2:",":" "} zł</td>
-                        <td>{$budget.total_spent|number_format:2:",":" "} zł</td>
+                        <td>{$budget.total_limit|number_format:2:",":" "} {$budget.currency|default:"zł"}</td>
+                        <td>{$budget.total_spent|number_format:2:",":" "} {$budget.currency|default:"zł"}</td>
+
                         <td style="min-width:180px;">
                             <div class="progress" style="height: 20px;">
                                 <div class="progress-bar 

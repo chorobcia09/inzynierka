@@ -44,6 +44,17 @@
                     <input type="date" name="end_date" id="end_date"
                         class="form-control bg-dark text-light border-secondary" required>
                 </div>
+                <div class="col-md-4 mb-3">
+                    <label for="currency" class="form-label fw-semibold">Waluta:</label>
+                    <select name="currency" id="currency" class="form-select bg-dark text-light border-secondary"
+                        required>
+                        <option value="PLN" selected>PLN - Złoty</option>
+                        <option value="USD">USD - Dolar amerykański</option>
+                        <option value="EUR">EUR - Euro</option>
+                        <option value="BTC">BTC - Bitcoin</option>
+                        <option value="ETH">ETH - Ethereum</option>
+                    </select>
+                </div>
             </div>
 
             <hr class="my-4 border-secondary">
@@ -51,6 +62,9 @@
             <h4 class="mb-3 text-light-emphasis fw-bold">
                 <i class="bi bi-pie-chart-fill me-2"></i>Limity w kategoriach
             </h4>
+
+
+
 
             <div id="categories-container">
                 <div class="row mb-3 align-items-center category-row bg-dark p-3 rounded-3 shadow-sm">

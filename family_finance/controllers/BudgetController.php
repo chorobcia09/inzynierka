@@ -35,6 +35,8 @@ class BudgetController
             $end_date = $_POST['end_date'] ?? null;
             $family_id = $_SESSION['family_id'] ?? null;
             $user_id = $_SESSION['user_id'];
+            // dump($_POST);
+            $currency = $_POST['currency'];
 
             // Walidacja
             if (empty($name) || empty($start_date) || empty($end_date)) {
@@ -70,7 +72,8 @@ class BudgetController
                         $start_date,
                         $end_date,
                         $items,
-                        $total_limit
+                        $total_limit,
+                        $currency
                     );
 
                     if ($budget_id) {
@@ -102,7 +105,7 @@ class BudgetController
         $family_id = $_SESSION['family_id'] ?? null;
         $user_id = $_SESSION['user_id'];
 
-        $budgets = $this->budgetModel->getBudgets($family_id, $user_id);
+        $budgets = $this->budgetModel->getBudgets($family_id, $user_id,);
         // dump($budgets);
 
         $this->smarty->assign([

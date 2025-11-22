@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-11-22 14:43:06
+/* Smarty version 5.6.0, created on 2025-11-22 17:35:46
   from 'file:add_budget.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_6921bdeaf14962_56030264',
+  'unifunc' => 'content_6921e6623450a3_43688827',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'ee1837b410515a4daa213bbaae414cdf8b22b950' => 
     array (
       0 => 'add_budget.tpl',
-      1 => 1763818985,
+      1 => 1763829345,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_6921bdeaf14962_56030264 (\Smarty\Template $_smarty_tpl) {
+function content_6921e6623450a3_43688827 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -73,6 +73,18 @@ $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_sma
                     <input type="date" name="end_date" id="end_date"
                         class="form-control bg-dark text-light border-secondary" required>
                 </div>
+                <div class="col-md-4 mb-3">
+                    <label for="currency" class="form-label fw-semibold">Waluta:</label>
+                    <select name="currency" id="currency" class="form-select bg-dark text-light border-secondary"
+                        required>
+                        <option value="PLN" selected>PLN - Złoty</option>
+                        <option value="USD">USD - Dolar amerykański</option>
+                        <option value="EUR">EUR - Euro</option>
+                        <option value="BTC">BTC - Bitcoin</option>
+                        <option value="ETH">ETH - Ethereum</option>
+                        <!-- dodaj inne w razie potrzeby -->
+                    </select>
+                </div>
             </div>
 
             <hr class="my-4 border-secondary">
@@ -80,6 +92,9 @@ $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_sma
             <h4 class="mb-3 text-light-emphasis fw-bold">
                 <i class="bi bi-pie-chart-fill me-2"></i>Limity w kategoriach
             </h4>
+
+
+
 
             <div id="categories-container">
                 <div class="row mb-3 align-items-center category-row bg-dark p-3 rounded-3 shadow-sm">
