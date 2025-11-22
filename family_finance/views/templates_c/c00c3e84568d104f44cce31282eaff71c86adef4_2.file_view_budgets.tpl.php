@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-11-22 17:39:30
+/* Smarty version 5.6.0, created on 2025-11-22 19:21:09
   from 'file:view_budgets.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_6921e7426e50f0_38547720',
+  'unifunc' => 'content_6921ff159bac43_16651215',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'c00c3e84568d104f44cce31282eaff71c86adef4' => 
     array (
       0 => 'view_budgets.tpl',
-      1 => 1763829568,
+      1 => 1763835622,
       2 => 'file',
     ),
   ),
@@ -22,12 +22,21 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_6921e7426e50f0_38547720 (\Smarty\Template $_smarty_tpl) {
+function content_6921ff159bac43_16651215 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
 
 <h2 class="mb-4 text-light-emphasis">Twoje budżety</h2>
+
+<?php if ((true && ($_smarty_tpl->hasVariable('error') && null !== ($_smarty_tpl->getValue('error') ?? null)))) {?>
+    <div class="alert alert-danger" role="alert"><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('error')), ENT_QUOTES, 'UTF-8');?>
+</div>
+<?php }
+if ((true && ($_smarty_tpl->hasVariable('success') && null !== ($_smarty_tpl->getValue('success') ?? null)))) {?>
+    <div class="alert alert-success" role="alert"><?php echo $_smarty_tpl->getValue('success');?>
+</div>
+<?php }?>
 
 <div class="d-flex justify-content-end mb-3">
     <a href="index.php?action=addBudget" class="btn btn-success">
@@ -94,6 +103,17 @@ $foreach0DoElse = false;
 " class="btn btn-sm btn-primary">
                                 <i class="bi bi-eye"></i> Szczegóły
                             </a>
+
+                            <a href="index.php?action=editBudget&id=<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('budget')['id']), ENT_QUOTES, 'UTF-8');?>
+" class="btn btn-sm btn-warning">
+                                <i class="bi bi-pencil-square"></i> Edytuj
+                            </a>
+                            <a href="index.php?action=deleteBudget&id=<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('budget')['id']), ENT_QUOTES, 'UTF-8');?>
+" class="btn btn-danger"
+                                onclick="return confirm('Czy na pewno chcesz usunąć ten budżet?');">
+                                <i class="bi bi-trash me-2"></i>Usuń budżet
+                            </a>
+
 
                         </td>
                     </tr>

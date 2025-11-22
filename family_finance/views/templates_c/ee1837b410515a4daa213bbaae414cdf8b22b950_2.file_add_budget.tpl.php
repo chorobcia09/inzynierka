@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-11-22 17:35:46
+/* Smarty version 5.6.0, created on 2025-11-22 18:18:01
   from 'file:add_budget.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_6921e6623450a3_43688827',
+  'unifunc' => 'content_6921f0499dd6f8_10651584',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'ee1837b410515a4daa213bbaae414cdf8b22b950' => 
     array (
       0 => 'add_budget.tpl',
-      1 => 1763829345,
+      1 => 1763831152,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_6921e6623450a3_43688827 (\Smarty\Template $_smarty_tpl) {
+function content_6921f0499dd6f8_10651584 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -75,14 +75,27 @@ $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_sma
                 </div>
                 <div class="col-md-4 mb-3">
                     <label for="currency" class="form-label fw-semibold">Waluta:</label>
-                    <select name="currency" id="currency" class="form-select bg-dark text-light border-secondary"
-                        required>
-                        <option value="PLN" selected>PLN - Złoty</option>
+                    <select class="form-select bg-dark text-light" id="currency" name="currency" required>
+                        <option value="">Wybierz walutę...</option>
+                        <option value="PLN">PLN - Złoty</option>
                         <option value="USD">USD - Dolar amerykański</option>
                         <option value="EUR">EUR - Euro</option>
+                        <option value="GBP">GBP - Funt brytyjski</option>
+                        <option value="CHF">CHF - Frank szwajcarski</option>
+                        <option value="CAD">CAD - Dolar kanadyjski</option>
+                        <option value="AUD">AUD - Dolar australijski</option>
+                        <option value="JPY">JPY - Jen japoński</option>
+                        <option value="CZK">CZK - Korona czeska</option>
+                        <option value="NOK">NOK - Korona norweska</option>
                         <option value="BTC">BTC - Bitcoin</option>
                         <option value="ETH">ETH - Ethereum</option>
-                        <!-- dodaj inne w razie potrzeby -->
+                        <option value="BNB">BNB - Binance Coin</option>
+                        <option value="XRP">XRP - Ripple</option>
+                        <option value="DOGE">DOGE - Dogecoin</option>
+                        <option value="USDT">USDT - Tether</option>
+                        <option value="SOL">SOL - Solana</option>
+                        <option value="ADA">ADA - Cardano</option>
+                        <option value="TRX">TRX - TRON</option>
                     </select>
                 </div>
             </div>
@@ -118,7 +131,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                         </select>
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label fw-semibold">Limit kategorii (PLN):</label>
+                        <label class="form-label fw-semibold">Limit kategorii:</label>
                         <input type="number" step="0.01" name="categories[0][limit_amount]"
                             class="form-control bg-dark text-light border-secondary" placeholder="np. 500.00" required>
                     </div>
@@ -158,7 +171,7 @@ ${document.querySelector('select[name="categories[0][category_id]"]').innerHTML}
                 </select>
             </div>
             <div class="col-md-6">
-                <label class="form-label fw-semibold">Limit kategorii (PLN):</label>
+                <label class="form-label fw-semibold">Limit kategorii:</label>
 <input type="number" step="0.01" name="categories[${counter}][limit_amount]" class="form-control bg-dark text-light border-secondary" placeholder="np. 500.00" required>
             </div>`;
             container.appendChild(newRow);

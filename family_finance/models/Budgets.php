@@ -109,6 +109,8 @@ class Budgets
             b.end_date,
             b.period_type,
             b.currency,
+            b.total_limit,
+            c.id AS category_id,  -- DODANE: category_id
             c.name AS category_name,
             bi.limit_amount,
             COALESCE(SUM(ti.amount * ti.quantity), 0) AS spent_amount,
@@ -126,15 +128,93 @@ class Budgets
             ON ti.transaction_id = t.id
             AND ti.category_id = bi.category_id
         WHERE b.id = :budget_id
-          AND (b.family_id = :family_id OR b.user_id = :user_id)
-        GROUP BY bi.category_id
+        AND (b.family_id = :family_id OR b.user_id = :user_id)
+        GROUP BY b.id, c.id, bi.limit_amount  -- ZMIENIONE: dodano grupowanie po category_id
         ORDER BY used_percent DESC
-    ";
+        ";
 
         return $this->db->select($sql, [
             ':budget_id' => $budget_id,
             ':family_id' => $family_id,
             ':user_id' => $user_id
         ]);
+    }
+
+    public function updateBudget($budget_id, $family_id, $user_id, $name, $period_type, $start_date, $end_date, $items, $total_limit)
+    {
+        try {
+            $this->db->execute("START TRANSACTION");
+
+            $sqlUpdate = "
+            UPDATE budgets
+            SET name = :name,
+                period_type = :period_type,
+                start_date = :start_date,
+                end_date = :end_date,
+                total_limit = :total_limit
+            WHERE id = :budget_id
+              AND (family_id = :family_id OR user_id = :user_id)
+        ";
+
+            $this->db->execute($sqlUpdate, [
+                ':name' => $name,
+                ':period_type' => $period_type,
+                ':start_date' => $start_date,
+                ':end_date' => $end_date,
+                ':total_limit' => $total_limit,
+                ':budget_id' => $budget_id,
+                ':family_id' => $family_id,
+                ':user_id' => $user_id
+            ]);
+
+            $this->db->execute("DELETE FROM budget_items WHERE budget_id = :budget_id", [':budget_id' => $budget_id]);
+
+            foreach ($items as $item) {
+                $sqlItem = "INSERT INTO budget_items (budget_id, category_id, limit_amount)
+                        VALUES (:budget_id, :category_id, :limit_amount)";
+                $this->db->execute($sqlItem, [
+                    ':budget_id' => $budget_id,
+                    ':category_id' => $item['category_id'],
+                    ':limit_amount' => $item['limit_amount']
+                ]);
+            }
+
+            $this->db->execute("COMMIT");
+            return true;
+        } catch (Exception $e) {
+            $this->db->execute("ROLLBACK");
+            error_log("Błąd aktualizacji budżetu: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function deleteBudget($budget_id, $family_id, $user_id)
+    {
+        try {
+            $this->db->execute("START TRANSACTION");
+
+            // Usuń elementy budżetu
+            $this->db->execute("DELETE FROM budget_items WHERE budget_id = :budget_id", [
+                ':budget_id' => $budget_id
+            ]);
+
+            // Usuń sam budżet
+            $this->db->execute("
+            DELETE FROM budgets
+            WHERE id = :budget_id
+              AND (family_id = :family_id OR user_id = :user_id)
+        ", [
+                ':budget_id' => $budget_id,
+                ':family_id' => $family_id,
+                ':user_id' => $user_id
+            ]);
+
+            $this->db->execute("COMMIT");
+            return true;
+        } catch (Exception $e) {
+            $this->db->execute("ROLLBACK");
+            error_log("Błąd usuwania budżetu: " . $e->getMessage());
+            return false;
+        }
     }
 }

@@ -2,6 +2,13 @@
 
 <h2 class="mb-4 text-light-emphasis">Twoje budżety</h2>
 
+{if isset($error)}
+    <div class="alert alert-danger" role="alert">{$error}</div>
+{/if}
+{if isset($success)}
+    <div class="alert alert-success" role="alert">{$success nofilter}</div>
+{/if}
+
 <div class="d-flex justify-content-end mb-3">
     <a href="index.php?action=addBudget" class="btn btn-success">
         <i class="bi bi-plus-circle"></i> Dodaj nowy budżet
@@ -51,6 +58,15 @@
                             <a href="index.php?action=viewBudget&id={$budget.id}" class="btn btn-sm btn-primary">
                                 <i class="bi bi-eye"></i> Szczegóły
                             </a>
+
+                            <a href="index.php?action=editBudget&id={$budget.id}" class="btn btn-sm btn-warning">
+                                <i class="bi bi-pencil-square"></i> Edytuj
+                            </a>
+                            <a href="index.php?action=deleteBudget&id={$budget.id}" class="btn btn-danger"
+                                onclick="return confirm('Czy na pewno chcesz usunąć ten budżet?');">
+                                <i class="bi bi-trash me-2"></i>Usuń budżet
+                            </a>
+
 
                         </td>
                     </tr>

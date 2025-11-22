@@ -46,13 +46,27 @@
                 </div>
                 <div class="col-md-4 mb-3">
                     <label for="currency" class="form-label fw-semibold">Waluta:</label>
-                    <select name="currency" id="currency" class="form-select bg-dark text-light border-secondary"
-                        required>
-                        <option value="PLN" selected>PLN - Złoty</option>
+                    <select class="form-select bg-dark text-light" id="currency" name="currency" required>
+                        <option value="">Wybierz walutę...</option>
+                        <option value="PLN">PLN - Złoty</option>
                         <option value="USD">USD - Dolar amerykański</option>
                         <option value="EUR">EUR - Euro</option>
+                        <option value="GBP">GBP - Funt brytyjski</option>
+                        <option value="CHF">CHF - Frank szwajcarski</option>
+                        <option value="CAD">CAD - Dolar kanadyjski</option>
+                        <option value="AUD">AUD - Dolar australijski</option>
+                        <option value="JPY">JPY - Jen japoński</option>
+                        <option value="CZK">CZK - Korona czeska</option>
+                        <option value="NOK">NOK - Korona norweska</option>
                         <option value="BTC">BTC - Bitcoin</option>
                         <option value="ETH">ETH - Ethereum</option>
+                        <option value="BNB">BNB - Binance Coin</option>
+                        <option value="XRP">XRP - Ripple</option>
+                        <option value="DOGE">DOGE - Dogecoin</option>
+                        <option value="USDT">USDT - Tether</option>
+                        <option value="SOL">SOL - Solana</option>
+                        <option value="ADA">ADA - Cardano</option>
+                        <option value="TRX">TRX - TRON</option>
                     </select>
                 </div>
             </div>
@@ -79,7 +93,7 @@
                         </select>
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label fw-semibold">Limit kategorii (PLN):</label>
+                        <label class="form-label fw-semibold">Limit kategorii:</label>
                         <input type="number" step="0.01" name="categories[0][limit_amount]"
                             class="form-control bg-dark text-light border-secondary" placeholder="np. 500.00" required>
                     </div>
@@ -118,7 +132,7 @@ ${document.querySelector('select[name="categories[0][category_id]"]').innerHTML}
                 </select>
             </div>
             <div class="col-md-6">
-                <label class="form-label fw-semibold">Limit kategorii (PLN):</label>
+                <label class="form-label fw-semibold">Limit kategorii:</label>
 <input type="number" step="0.01" name="categories[${counter}][limit_amount]" class="form-control bg-dark text-light border-secondary" placeholder="np. 500.00" required>
             </div>`;
             container.appendChild(newRow);

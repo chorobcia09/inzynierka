@@ -152,6 +152,12 @@ switch ($action) {
         $controller = new BudgetController($smarty);
         $controller->view();
         break;
+    case 'editBudget':
+        (new BudgetController($smarty))->edit();
+        break;
+    case 'deleteBudget':
+        (new BudgetController($smarty))->delete();
+        break;
 
     // ------------------------------ ANALYSIS CONTROLLER ------------------------------
     case 'analysisDashboard':
