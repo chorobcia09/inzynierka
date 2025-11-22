@@ -75,4 +75,34 @@ class UserController
         ]);
         $this->smarty->display('change_password.tpl');
     }
+
+    public function upgradeToPremium()
+    {
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] === 'admin') {
+            header('Location: index.php?action=login');
+            exit;
+        }
+
+        $success = null;
+        $error = null;
+
+        try {
+            $this->userModel->upgradeToPremium($_SESSION['user_id']);
+            $_SESSION['account_type'] = 'premium';
+
+            $success = 'Twoje konto zostało zaktualizowane do wersji Premium!';
+        } catch (Exception $e) {
+            $error = 'Wystąpił błąd podczas aktualizacji konta: ' . $e->getMessage();
+        }
+
+        $user = $this->userModel->getInfoAboutFamiliesWithUserByUserId($_SESSION['user_id']);
+
+        $this->smarty->assign([
+            'user' => $user[0],
+            'success' => $success,
+            'error' => $error,
+            'session' => $_SESSION
+        ]);
+        $this->smarty->display('panel.tpl');
+    }
 }

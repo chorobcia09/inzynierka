@@ -20,6 +20,7 @@ class AnalysisController
             exit;
         }
 
+
         $user_id = $_SESSION['user_id'];
         $family_id = $_SESSION['family_id'] ?? null;
 
@@ -30,7 +31,6 @@ class AnalysisController
         if ($date_from && $date_to) {
             $period = 'custom';
         }
-
         // ------ WALUTY ------
         $currencies = $this->analysis->getActiveCurrencies($user_id, $family_id, $period, $date_from, $date_to);
         $currency = $_GET['currency'] ?? ($currencies[0]['currency'] ?? 'PLN');
@@ -75,6 +75,17 @@ class AnalysisController
         $concentrationStats = $this->analysis->getConcentrationStats($user_id, $family_id, $currency, $period, $date_from, $date_to);
         $trendAnalysis = $this->analysis->getTrendAnalysis($user_id, $family_id, $currency, $period, $date_from, $date_to);
 
+        $isPremium = ($_SESSION['account_type'] ?? 'standard') === 'premium';
+        $regionalComparison = [];
+        $trendAnalysis = [];
+
+        if ($isPremium) {
+            $regionalComparison = $this->analysis->getRegionalComparison($currency, $period, $date_from, $date_to);
+            $trendAnalysis = $this->analysis->getTrendAnalysis($user_id, $family_id, $currency, $period, $date_from, $date_to);
+        }
+
+
+
         $this->smarty->assign([
             'summary' => $summary,
             'categories' => $byCategory,
@@ -101,6 +112,9 @@ class AnalysisController
             'descriptiveStats' => $descriptiveStats,
             'concentrationStats' => $concentrationStats,
             'trendAnalysis' => $trendAnalysis,
+            'isPremium' => $isPremium,
+            'regionalComparison' => $regionalComparison,
+            'trendAnalysis' => $trendAnalysis
 
         ]);
 

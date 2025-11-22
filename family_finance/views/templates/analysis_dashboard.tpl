@@ -411,26 +411,36 @@
         </div>
     </div>
 
-    <div class="tab-pane fade" id="regional" role="tabpanel">
-        <div class="row g-4">
-            <div class="col-md-12">
-                <div class="card shadow-lg">
-                    <div class="card-body">
-                        <h5 class="card-title text-secondary"><i class="bi bi-map-fill me-2"></i>Porównanie regionalne
-                            wydatków ({$currency})</h5>
-                        {if $regionalComparison && count($regionalComparison) > 0}
-                            <canvas id="regionalChart" height="100"></canvas>
-                        {else}
-                            <div class="text-center py-5">
-                                <i class="bi bi-map display-1 text-muted"></i>
-                                <p class="fs-5 text-muted mt-3">Brak danych do porównania regionalnego</p>
-                            </div>
-                        {/if}
+    {if $isPremium}
+        <div class="tab-pane fade" id="regional" role="tabpanel">
+            <div class="row g-4">
+                <div class="col-md-12">
+                    <div class="card shadow-lg">
+                        <div class="card-body">
+                            <h5 class="card-title text-secondary"><i class="bi bi-map-fill me-2"></i>Porównanie regionalne
+                                wydatków ({$currency})</h5>
+                            {if $regionalComparison && count($regionalComparison) > 0}
+                                <canvas id="regionalChart" height="100"></canvas>
+                            {else}
+                                <div class="text-center py-5">
+                                    <i class="bi bi-map display-1 text-muted"></i>
+                                    <p class="fs-5 text-muted mt-3">Brak danych do porównania regionalnego</p>
+                                </div>
+                            {/if}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    {else}
+        <div class="tab-pane fade" id="regional" role="tabpanel">
+            <div class="text-center py-5">
+                <i class="bi bi-lock-fill display-1 text-muted"></i>
+                <p class="fs-5 text-muted mt-3">Sekcja dostępna tylko dla kont premium</p>
+            </div>
+        </div>
+    {/if}
+
 
     <!-- Analiza Ekonometryczna -->
     <div class="tab-pane fade" id="econometrics" role="tabpanel">
@@ -529,35 +539,45 @@
             </div>
 
             <!-- Analiza trendu -->
-            <div class="col-md-6">
-                <div class="card shadow-lg">
-                    <div class="card-body">
-                        <h5 class="card-title text-warning">
-                            <i class="bi bi-trending-up me-2"></i>Analiza trendu czasowego
-                        </h5>
-                        <canvas id="trendAnalysisChart" height="200"></canvas>
-                        <div class="mt-3">
-                            <table class="table table-sm">
-                                <tr>
-                                    <td><strong>Współczynnik determinacji R²</strong></td>
-                                    <td class="text-end">{$trendAnalysis.r_squared|number_format:3}</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Przeciętne tempo zmian</strong></td>
-                                    <td
-                                        class="text-end {if $trendAnalysis.growth_rate > 0}text-danger{else}text-success{/if}">
-                                        {$trendAnalysis.growth_rate|number_format:2}%
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Statystyka t</strong></td>
-                                    <td class="text-end">{$trendAnalysis.t_statistic|number_format:3}</td>
-                                </tr>
-                            </table>
+            {if $isPremium}
+                <div class="col-md-6">
+                    <div class="card shadow-lg">
+                        <div class="card-body">
+                            <h5 class="card-title text-warning">
+                                <i class="bi bi-trending-up me-2"></i>Analiza trendu czasowego
+                            </h5>
+                            <canvas id="trendAnalysisChart" height="200"></canvas>
+                            <div class="mt-3">
+                                <table class="table table-sm">
+                                    <tr>
+                                        <td><strong>Współczynnik determinacji R²</strong></td>
+                                        <td class="text-end">{$trendAnalysis.r_squared|number_format:3}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Przeciętne tempo zmian</strong></td>
+                                        <td
+                                            class="text-end {if $trendAnalysis.growth_rate > 0}text-danger{else}text-success{/if}">
+                                            {$trendAnalysis.growth_rate|number_format:2}%
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Statystyka t</strong></td>
+                                        <td class="text-end">{$trendAnalysis.t_statistic|number_format:3}</td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            {else}
+                <div class="col-md-6">
+                    <div class="card shadow-lg text-center py-5">
+                        <i class="bi bi-lock-fill display-1 text-muted"></i>
+                        <p class="fs-5 text-muted mt-3">Analiza trendu dostępna tylko dla kont premium</p>
+                    </div>
+                </div>
+            {/if}
+
 
 
 
@@ -680,7 +700,7 @@
                 <div class="card shadow-lg">
                     <div class="card-header bg-light">
                         <h5 class="card-title mb-0" style="color: #0d6efd;">
-                            <i class="bi bi-question-circle me-2" ></i>Co oznaczają te liczby? - Proste wyjaśnienie
+                            <i class="bi bi-question-circle me-2"></i>Co oznaczają te liczby? - Proste wyjaśnienie
                         </h5>
                     </div>
                     <div class="card-body">

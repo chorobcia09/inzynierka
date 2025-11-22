@@ -87,6 +87,9 @@ switch ($action) {
     case 'changePassword':
         (new UserController($smarty))->changePassword();
         break;
+    case 'upgradeToPremium':
+        (new UserController($smarty))->upgradeToPremium();
+        break;
 
 
     // ------------------------------DASHBOARDCONTROLLER------------------------------

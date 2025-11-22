@@ -1,4 +1,11 @@
 {include file='header.tpl'}
+{if $success}
+    <div class="alert alert-success text-center">{$success}</div>
+{/if}
+
+{if $error}
+    <div class="alert alert-danger text-center">{$error}</div>
+{/if}
 
 <div class="user-panel-container mx-auto shadow-lg p-4 rounded-4 bg-dark-subtle text-light" style="max-width:600px;">
     <h2 class="text-center mb-4 fw-bold text-light-emphasis">Panel użytkownika</h2>
@@ -40,6 +47,17 @@
         </li>
 
     </ul>
+
+    {if $user.account_type != 'premium'}
+        <div class="text-center mt-3">
+            <form method="post" action="index.php?action=upgradeToPremium">
+                <button type="submit" class="btn btn-warning fw-semibold">
+                    Przejdź na konto Premium
+                </button>
+            </form>
+        </div>
+    {/if}
+
 
     <div class="text-center mt-4">
         <a href="index.php?action=dashboard" class="btn btn-light text-dark fw-semibold me-2">Dashboard</a>

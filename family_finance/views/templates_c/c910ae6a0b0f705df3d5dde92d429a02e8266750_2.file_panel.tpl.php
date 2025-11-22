@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-11-10 18:26:58
+/* Smarty version 5.6.0, created on 2025-11-22 15:25:14
   from 'file:panel.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_6912206210c030_01221691',
+  'unifunc' => 'content_6921c7cadb83a9_76417441',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'c910ae6a0b0f705df3d5dde92d429a02e8266750' => 
     array (
       0 => 'panel.tpl',
-      1 => 1762795616,
+      1 => 1763821478,
       2 => 'file',
     ),
   ),
@@ -22,10 +22,18 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_6912206210c030_01221691 (\Smarty\Template $_smarty_tpl) {
+function content_6921c7cadb83a9_76417441 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
-?>
+if ($_smarty_tpl->getValue('success')) {?>
+    <div class="alert alert-success text-center"><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('success')), ENT_QUOTES, 'UTF-8');?>
+</div>
+<?php }?>
+
+<?php if ($_smarty_tpl->getValue('error')) {?>
+    <div class="alert alert-danger text-center"><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('error')), ENT_QUOTES, 'UTF-8');?>
+</div>
+<?php }?>
 
 <div class="user-panel-container mx-auto shadow-lg p-4 rounded-4 bg-dark-subtle text-light" style="max-width:600px;">
     <h2 class="text-center mb-4 fw-bold text-light-emphasis">Panel użytkownika</h2>
@@ -71,6 +79,17 @@ $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_sma
         </li>
 
     </ul>
+
+    <?php if ($_smarty_tpl->getValue('user')['account_type'] != 'premium') {?>
+        <div class="text-center mt-3">
+            <form method="post" action="index.php?action=upgradeToPremium">
+                <button type="submit" class="btn btn-warning fw-semibold">
+                    Przejdź na konto Premium
+                </button>
+            </form>
+        </div>
+    <?php }?>
+
 
     <div class="text-center mt-4">
         <a href="index.php?action=dashboard" class="btn btn-light text-dark fw-semibold me-2">Dashboard</a>

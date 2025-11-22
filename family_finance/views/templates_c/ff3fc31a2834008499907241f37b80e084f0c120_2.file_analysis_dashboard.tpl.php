@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-11-22 14:53:25
+/* Smarty version 5.6.0, created on 2025-11-22 15:21:08
   from 'file:analysis_dashboard.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_6921c055f0ea52_97905554',
+  'unifunc' => 'content_6921c6d487ec94_86898251',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'ff3fc31a2834008499907241f37b80e084f0c120' => 
     array (
       0 => 'analysis_dashboard.tpl',
-      1 => 1763819605,
+      1 => 1763821263,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_6921c055f0ea52_97905554 (\Smarty\Template $_smarty_tpl) {
+function content_6921c6d487ec94_86898251 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -495,27 +495,37 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         </div>
     </div>
 
-    <div class="tab-pane fade" id="regional" role="tabpanel">
-        <div class="row g-4">
-            <div class="col-md-12">
-                <div class="card shadow-lg">
-                    <div class="card-body">
-                        <h5 class="card-title text-secondary"><i class="bi bi-map-fill me-2"></i>Porównanie regionalne
-                            wydatków (<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
+    <?php if ($_smarty_tpl->getValue('isPremium')) {?>
+        <div class="tab-pane fade" id="regional" role="tabpanel">
+            <div class="row g-4">
+                <div class="col-md-12">
+                    <div class="card shadow-lg">
+                        <div class="card-body">
+                            <h5 class="card-title text-secondary"><i class="bi bi-map-fill me-2"></i>Porównanie regionalne
+                                wydatków (<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
 )</h5>
-                        <?php if ($_smarty_tpl->getValue('regionalComparison') && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('regionalComparison')) > 0) {?>
-                            <canvas id="regionalChart" height="100"></canvas>
-                        <?php } else { ?>
-                            <div class="text-center py-5">
-                                <i class="bi bi-map display-1 text-muted"></i>
-                                <p class="fs-5 text-muted mt-3">Brak danych do porównania regionalnego</p>
-                            </div>
-                        <?php }?>
+                            <?php if ($_smarty_tpl->getValue('regionalComparison') && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('regionalComparison')) > 0) {?>
+                                <canvas id="regionalChart" height="100"></canvas>
+                            <?php } else { ?>
+                                <div class="text-center py-5">
+                                    <i class="bi bi-map display-1 text-muted"></i>
+                                    <p class="fs-5 text-muted mt-3">Brak danych do porównania regionalnego</p>
+                                </div>
+                            <?php }?>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    <?php } else { ?>
+        <div class="tab-pane fade" id="regional" role="tabpanel">
+            <div class="text-center py-5">
+                <i class="bi bi-lock-fill display-1 text-muted"></i>
+                <p class="fs-5 text-muted mt-3">Sekcja dostępna tylko dla kont premium</p>
+            </div>
+        </div>
+    <?php }?>
+
 
     <!-- Analiza Ekonometryczna -->
     <div class="tab-pane fade" id="econometrics" role="tabpanel">
@@ -629,38 +639,48 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
             </div>
 
             <!-- Analiza trendu -->
-            <div class="col-md-6">
-                <div class="card shadow-lg">
-                    <div class="card-body">
-                        <h5 class="card-title text-warning">
-                            <i class="bi bi-trending-up me-2"></i>Analiza trendu czasowego
-                        </h5>
-                        <canvas id="trendAnalysisChart" height="200"></canvas>
-                        <div class="mt-3">
-                            <table class="table table-sm">
-                                <tr>
-                                    <td><strong>Współczynnik determinacji R²</strong></td>
-                                    <td class="text-end"><?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('trendAnalysis')['r_squared'],3)), ENT_QUOTES, 'UTF-8');?>
+            <?php if ($_smarty_tpl->getValue('isPremium')) {?>
+                <div class="col-md-6">
+                    <div class="card shadow-lg">
+                        <div class="card-body">
+                            <h5 class="card-title text-warning">
+                                <i class="bi bi-trending-up me-2"></i>Analiza trendu czasowego
+                            </h5>
+                            <canvas id="trendAnalysisChart" height="200"></canvas>
+                            <div class="mt-3">
+                                <table class="table table-sm">
+                                    <tr>
+                                        <td><strong>Współczynnik determinacji R²</strong></td>
+                                        <td class="text-end"><?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('trendAnalysis')['r_squared'],3)), ENT_QUOTES, 'UTF-8');?>
 </td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Przeciętne tempo zmian</strong></td>
-                                    <td
-                                        class="text-end <?php if ($_smarty_tpl->getValue('trendAnalysis')['growth_rate'] > 0) {?>text-danger<?php } else { ?>text-success<?php }?>">
-                                        <?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('trendAnalysis')['growth_rate'],2)), ENT_QUOTES, 'UTF-8');?>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Przeciętne tempo zmian</strong></td>
+                                        <td
+                                            class="text-end <?php if ($_smarty_tpl->getValue('trendAnalysis')['growth_rate'] > 0) {?>text-danger<?php } else { ?>text-success<?php }?>">
+                                            <?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('trendAnalysis')['growth_rate'],2)), ENT_QUOTES, 'UTF-8');?>
 %
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Statystyka t</strong></td>
-                                    <td class="text-end"><?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('trendAnalysis')['t_statistic'],3)), ENT_QUOTES, 'UTF-8');?>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Statystyka t</strong></td>
+                                        <td class="text-end"><?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('trendAnalysis')['t_statistic'],3)), ENT_QUOTES, 'UTF-8');?>
 </td>
-                                </tr>
-                            </table>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            <?php } else { ?>
+                <div class="col-md-6">
+                    <div class="card shadow-lg text-center py-5">
+                        <i class="bi bi-lock-fill display-1 text-muted"></i>
+                        <p class="fs-5 text-muted mt-3">Analiza trendu dostępna tylko dla kont premium</p>
+                    </div>
+                </div>
+            <?php }?>
+
 
 
 
@@ -673,7 +693,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                 <div class="card shadow-lg">
                     <div class="card-header bg-light">
                         <h5 class="card-title mb-0" style="color: #0d6efd;">
-                            <i class="bi bi-question-circle me-2" ></i>Co oznaczają te liczby? - Proste wyjaśnienie
+                            <i class="bi bi-question-circle me-2"></i>Co oznaczają te liczby? - Proste wyjaśnienie
                         </h5>
                     </div>
                     <div class="card-body">

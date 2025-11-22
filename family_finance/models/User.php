@@ -245,4 +245,10 @@ class User
             ':id' => $id
         ]);
     }
+
+    public function upgradeToPremium(int $userId)
+    {
+        $sql = "UPDATE users SET account_type = 'premium' WHERE id = :id";
+        return $this->db->execute($sql, [':id' => $userId]);
+    }
 }
