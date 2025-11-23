@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-11-22 15:21:08
+/* Smarty version 5.6.0, created on 2025-11-23 12:28:59
   from 'file:analysis_dashboard.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_6921c6d487ec94_86898251',
+  'unifunc' => 'content_6922effb751933_28307224',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'ff3fc31a2834008499907241f37b80e084f0c120' => 
     array (
       0 => 'analysis_dashboard.tpl',
-      1 => 1763821263,
+      1 => 1763897337,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_6921c6d487ec94_86898251 (\Smarty\Template $_smarty_tpl) {
+function content_6922effb751933_28307224 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -135,25 +135,33 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                         <h4 class="card-title text-primary"><i class="bi bi-cash-stack me-2"></i>Podsumowanie Finansów
                         </h4>
                         <hr>
+                        <?php $_smarty_tpl->assign('precision', 2, false, NULL);?>
+                        <?php if ($_smarty_tpl->getSmarty()->getModifierCallback('in_array')($_smarty_tpl->getValue('currency'),array('BTC','ETH','BNB','XRP','DOGE','USDT','SOL','ADA','TRX'))) {?>
+                            <?php $_smarty_tpl->assign('precision', 8, false, NULL);?>
+                        <?php }?>
+
                         <?php if ($_smarty_tpl->getValue('summary')['income'] > 0 || $_smarty_tpl->getValue('summary')['expense'] > 0) {?>
                             <p class="fs-5 mb-2">
                                 <span class="fw-bold text-success"><i
                                         class="bi bi-arrow-up-right-circle-fill me-2"></i>Przychody:</span>
-                                <span class="float-end"><?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('summary')['income'],2,","," ")), ENT_QUOTES, 'UTF-8');?>
- <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
+                                <span class="float-end"><?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('summary')['income'],$_smarty_tpl->getValue('precision'),","," ")), ENT_QUOTES, 'UTF-8');?>
+
+                                    <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
 </span>
                             </p>
                             <p class="fs-5 mb-2">
                                 <span class="fw-bold text-danger"><i
                                         class="bi bi-arrow-down-left-circle-fill me-2"></i>Wydatki:</span>
-                                <span class="float-end"><?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('summary')['expense'],2,","," ")), ENT_QUOTES, 'UTF-8');?>
- <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
+                                <span class="float-end"><?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('summary')['expense'],$_smarty_tpl->getValue('precision'),","," ")), ENT_QUOTES, 'UTF-8');?>
+
+                                    <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
 </span>
                             </p>
                             <p class="fs-4 fw-bold mt-4 pt-2 border-top 
-                               <?php if (($_smarty_tpl->getValue('summary')['income']-$_smarty_tpl->getValue('summary')['expense']) >= 0) {?>text-success<?php } else { ?>text-danger<?php }?>">
+       <?php if (($_smarty_tpl->getValue('summary')['income']-$_smarty_tpl->getValue('summary')['expense']) >= 0) {?>text-success<?php } else { ?>text-danger<?php }?>">
                                 <i class="bi bi-balance-fill me-2"></i>Bilans:
-                                <span class="float-end"><?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')(($_smarty_tpl->getValue('summary')['income']-$_smarty_tpl->getValue('summary')['expense']),2,","," ")), ENT_QUOTES, 'UTF-8');?>
+                                <span
+                                    class="float-end"><?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')(($_smarty_tpl->getValue('summary')['income']-$_smarty_tpl->getValue('summary')['expense']),$_smarty_tpl->getValue('precision'),","," ")), ENT_QUOTES, 'UTF-8');?>
 
                                     <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
 </span>
@@ -164,6 +172,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                                 <p class="fs-5 text-muted mt-3">Brak danych finansowych w wybranym okresie</p>
                             </div>
                         <?php }?>
+
                     </div>
                 </div>
             </div>
@@ -174,6 +183,11 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                         <h4 class="card-title text-danger"><i class="bi bi-bag-x-fill me-2"></i>Top 10 Największych
                             Wydatków</h4>
                         <hr>
+                                                <?php $_smarty_tpl->assign('precision', 2, false, NULL);?>
+                        <?php if ($_smarty_tpl->getSmarty()->getModifierCallback('in_array')($_smarty_tpl->getValue('currency'),array('BTC','ETH','BNB','XRP','DOGE','USDT','SOL','ADA','TRX'))) {?>
+                            <?php $_smarty_tpl->assign('precision', 8, false, NULL);?>
+                        <?php }?>
+
                         <?php if ($_smarty_tpl->getValue('topExpenses')) {?>
                             <div class="list-group list-group-flush">
                                 <?php
@@ -209,10 +223,11 @@ $foreach1DoElse = false;
                                             </div>
                                         </div>
                                         <div class="text-end">
-                                            <div class="fw-bold text-danger fs-5"><?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('e')['amount'],2,","," ")), ENT_QUOTES, 'UTF-8');?>
+                                            <div class="fw-bold text-danger fs-5">
+                                                <?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('e')['amount'],$_smarty_tpl->getValue('precision'),","," ")), ENT_QUOTES, 'UTF-8');?>
+ <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
 
-                                                <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
-</div>
+                                            </div>
                                             <div class="small text-muted">
                                                 <?php if ($_smarty_tpl->getValue('e')['payment_method'] == 'cash') {?>
                                                     <i class="bi bi-cash-coin"></i> Gotówka
@@ -237,6 +252,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                                 <p class="fs-5 text-muted mt-3">Brak wydatków w wybranym okresie</p>
                             </div>
                         <?php }?>
+
                     </div>
                 </div>
             </div>

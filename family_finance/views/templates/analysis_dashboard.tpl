@@ -97,21 +97,29 @@
                         <h4 class="card-title text-primary"><i class="bi bi-cash-stack me-2"></i>Podsumowanie Finansów
                         </h4>
                         <hr>
+                        {assign var=precision value=2}
+                        {if in_array($currency, ['BTC','ETH','BNB','XRP','DOGE','USDT','SOL','ADA','TRX'])}
+                            {assign var=precision value=8}
+                        {/if}
+
                         {if $summary.income > 0 or $summary.expense > 0}
                             <p class="fs-5 mb-2">
                                 <span class="fw-bold text-success"><i
                                         class="bi bi-arrow-up-right-circle-fill me-2"></i>Przychody:</span>
-                                <span class="float-end">{$summary.income|number_format:2:",":" "} {$currency}</span>
+                                <span class="float-end">{$summary.income|number_format:$precision:",":" "}
+                                    {$currency}</span>
                             </p>
                             <p class="fs-5 mb-2">
                                 <span class="fw-bold text-danger"><i
                                         class="bi bi-arrow-down-left-circle-fill me-2"></i>Wydatki:</span>
-                                <span class="float-end">{$summary.expense|number_format:2:",":" "} {$currency}</span>
+                                <span class="float-end">{$summary.expense|number_format:$precision:",":" "}
+                                    {$currency}</span>
                             </p>
                             <p class="fs-4 fw-bold mt-4 pt-2 border-top 
-                               {if ($summary.income - $summary.expense) >= 0}text-success{else}text-danger{/if}">
+       {if ($summary.income - $summary.expense) >= 0}text-success{else}text-danger{/if}">
                                 <i class="bi bi-balance-fill me-2"></i>Bilans:
-                                <span class="float-end">{($summary.income - $summary.expense)|number_format:2:",":" "}
+                                <span
+                                    class="float-end">{($summary.income - $summary.expense)|number_format:$precision:",":" "}
                                     {$currency}</span>
                             </p>
                         {else}
@@ -120,6 +128,7 @@
                                 <p class="fs-5 text-muted mt-3">Brak danych finansowych w wybranym okresie</p>
                             </div>
                         {/if}
+
                     </div>
                 </div>
             </div>
@@ -130,6 +139,12 @@
                         <h4 class="card-title text-danger"><i class="bi bi-bag-x-fill me-2"></i>Top 10 Największych
                             Wydatków</h4>
                         <hr>
+                        {* Ustal precyzję w zależności od waluty *}
+                        {assign var=precision value=2}
+                        {if in_array($currency, ['BTC','ETH','BNB','XRP','DOGE','USDT','SOL','ADA','TRX'])}
+                            {assign var=precision value=8}
+                        {/if}
+
                         {if $topExpenses}
                             <div class="list-group list-group-flush">
                                 {foreach $topExpenses as $index => $e}
@@ -156,8 +171,9 @@
                                             </div>
                                         </div>
                                         <div class="text-end">
-                                            <div class="fw-bold text-danger fs-5">{$e.amount|number_format:2:",":" "}
-                                                {$currency}</div>
+                                            <div class="fw-bold text-danger fs-5">
+                                                {$e.amount|number_format:$precision:",":" "} {$currency}
+                                            </div>
                                             <div class="small text-muted">
                                                 {if $e.payment_method == 'cash'}
                                                     <i class="bi bi-cash-coin"></i> Gotówka
@@ -179,6 +195,7 @@
                                 <p class="fs-5 text-muted mt-3">Brak wydatków w wybranym okresie</p>
                             </div>
                         {/if}
+
                     </div>
                 </div>
             </div>
