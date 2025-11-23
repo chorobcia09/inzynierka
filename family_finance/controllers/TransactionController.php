@@ -50,7 +50,6 @@ class TransactionController
     }
 
     /** Dodaje nową transakcję */
-    /** Dodaje nową transakcję */
     public function addTransaction()
     {
         if (!isset($_SESSION['user_id']) || $_SESSION['role'] === 'admin') {
@@ -61,7 +60,6 @@ class TransactionController
         $family_id = $_SESSION['family_id'] ?? null;
         $user_id = $_SESSION['user_id'];
 
-        // Początkowo puste kategorie i podkategorie
         $categories = [];
         $subCategories = [];
 
@@ -75,13 +73,17 @@ class TransactionController
             $transaction_date = $_POST['transaction_date'] ?? date('Y-m-d H:i:s');
             $is_recurring = isset($_POST['is_recurring']) ? 1 : 0;
 
+            $receipt_blob = null;
+            if (isset($_FILES['receipt']) && $_FILES['receipt']['error'] === UPLOAD_ERR_OK) {
+                $receipt_blob = file_get_contents($_FILES['receipt']['tmp_name']);
+            }
+
             $errors = [];
 
             if (!$type || !in_array($type, ['expense', 'income'])) $errors[] = 'Nieprawidłowy typ';
             if (!$amount || !is_numeric($amount) || $amount <= 0) $errors[] = 'Nieprawidłowa kwota';
             if (!$category_id) $errors[] = 'Wybierz kategorię';
 
-            // Pobierz kategorie na podstawie typu
             if ($type) {
                 $categories = $this->categoriesModel->getCategoriesByType($type);
             }
@@ -112,7 +114,8 @@ class TransactionController
                 $payment_method,
                 $description,
                 $transaction_date,
-                $is_recurring
+                $is_recurring,
+                $receipt_blob
             );
 
             $itemsAdded = false;
@@ -164,7 +167,6 @@ class TransactionController
             $this->smarty->display('add_transaction.tpl');
             return;
         } else {
-            // GET - początkowo puste
             $this->smarty->assign([
                 'session' => $_SESSION,
                 'categories' => $categories,
@@ -174,6 +176,7 @@ class TransactionController
             return;
         }
     }
+
 
     /** Usuwa transakcję */
     public function deleteTransaction($transaction_id)
@@ -224,6 +227,59 @@ class TransactionController
         $this->smarty->display('transaction_details.tpl');
         return;
     }
+
+    public function showReceipt(int $transaction_id)
+    {
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] === 'admin') {
+            header('Location: index.php?action=login');
+            exit;
+        }
+
+        $receiptBlob = $this->transactionModel->getTransactionReceipt($transaction_id);
+
+        if ($receiptBlob) {
+            $receiptBase64 = base64_encode($receiptBlob);
+
+            $this->smarty->assign([
+                'receiptBase64' => $receiptBase64
+            ]);
+
+            $this->smarty->display('transaction_receipt.tpl');
+        } else {
+            echo "Brak paragonu dla tej transakcji.";
+        }
+    }
+
+    public function getTransactionReceiptAjax(int $transaction_id)
+    {
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] === 'admin') {
+            http_response_code(403);
+            echo json_encode(['error' => 'Brak autoryzacji']);
+            exit;
+        }
+        $transaction_id = $_GET['id'] ?? null;
+        if (!$transaction_id) {
+            echo json_encode(['error' => 'Brak ID transakcji']);
+            exit;
+        }
+        $transaction_id = (int)$transaction_id;
+
+        $receiptBlob = $this->transactionModel->getTransactionReceipt($transaction_id);
+        if (!$receiptBlob) {
+            error_log("Brak BLOB dla transakcji: " . $transaction_id);
+        }
+
+
+        if ($receiptBlob) {
+            $receiptBase64 = base64_encode($receiptBlob);
+            echo json_encode(['receiptBase64' => $receiptBase64]);
+        } else {
+            echo json_encode(['error' => 'Brak paragonu dla tej transakcji']);
+        }
+        exit;
+    }
+
+
 
     /** Zwraca kategorie wg typu (AJAX) */
     public function getCategoriesByType()

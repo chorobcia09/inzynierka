@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-26 15:09:50
+/* Smarty version 5.6.0, created on 2025-11-23 13:04:06
   from 'file:transaction_details.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68fe2bae9519b4_91658416',
+  'unifunc' => 'content_6922f836b1a036_61812980',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '903c8b20f1f2dad0a963cff668ec0788db27c024' => 
     array (
       0 => 'transaction_details.tpl',
-      1 => 1761473505,
+      1 => 1763899445,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_68fe2bae9519b4_91658416 (\Smarty\Template $_smarty_tpl) {
+function content_6922f836b1a036_61812980 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -78,7 +78,34 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                     </tr>
                 </tbody>
             </table>
+
+            <div class="mt-3 text-end">
+                <button type="button" class="btn btn-info" id="showReceiptBtn"
+                    data-transaction-id="<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')[0]['transaction_id']), ENT_QUOTES, 'UTF-8');?>
+">
+                    <i class="bi bi-receipt"></i> Pokaż paragon
+                </button>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="receiptModal" tabindex="-1" aria-labelledby="receiptModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content bg-dark text-light">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="receiptModalLabel">Paragon</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body text-center">
+                            <img id="receiptImage" src="" class="img-fluid" alt="Paragon">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
+
+
 
         <div class="text-end mt-3">
             <a href="index.php?action=manageTransactions" class="btn btn-secondary">
@@ -86,10 +113,45 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
             </a>
         </div>
 
+
+
+
+
     <?php } else { ?>
         <div class="alert alert-info text-center mt-3">Brak szczegółów transakcji.</div>
     <?php }?>
 </div>
+
+<?php echo '<script'; ?>
+>
+    $(document).ready(function() {
+        $('#showReceiptBtn').click(function() {
+            const transactionId = $(this).data('transaction-id');
+
+            $.ajax({
+                url: 'index.php?action=getTransactionReceiptAjax&id=' + transactionId,
+                method: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    if (response.receiptBase64) {
+                        $('#receiptImage').attr('src', 'data:image/*;base64,' + response
+                            .receiptBase64);
+                        const receiptModal = new bootstrap.Modal(document.getElementById(
+                            'receiptModal'));
+                        receiptModal.show();
+                    } else {
+                        alert(response.error || 'Brak paragonu.');
+                    }
+                },
+                error: function() {
+                    alert('Błąd pobierania paragonu!');
+                }
+            });
+        });
+    });
+<?php echo '</script'; ?>
+>
+
 
 <?php $_smarty_tpl->renderSubTemplate("file:footer.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 }

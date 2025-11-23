@@ -29,7 +29,7 @@
 
 {* ------------------------ FORMULARZ ------------------------ *}
 <form action="index.php?action=addTransaction" method="POST" class="p-4 bg-dark-subtle text-light rounded-4 shadow-lg"
-    id="transactionForm">
+    id="transactionForm" enctype="multipart/form-data">
 
     <h4 class="mb-4 fw-bold text-light-emphasis">Dodaj nową transakcję</h4>
 
@@ -100,6 +100,11 @@
         <input type="text" class="form-control bg-dark text-light" id="description" name="description" maxlength="255"
             placeholder="np. Zakupy w Lidlu">
     </div>
+    
+    <div class="mb-3">
+        <label for="receipt" class="form-label fw-semibold">Zdjęcie paragonu (opcjonalnie):</label>
+        <input type="file" class="form-control bg-dark text-light" id="receipt" name="receipt" accept="image/*">
+    </div>
 
     <div class="mb-3">
         <label for="transaction_date" class="form-label fw-semibold">Data transakcji:</label>
@@ -120,8 +125,8 @@
     <div class="row mb-3 align-items-end">
         <div class="col-md-3">
             <label for="amount" class="form-label fw-semibold">Kwota całkowita:</label>
-            <input type="number" step="0.00000001" min="0" class="form-control bg-dark text-light" id="amount" name="amount"
-                readonly>
+            <input type="number" step="0.00000001" min="0" class="form-control bg-dark text-light" id="amount"
+                name="amount" readonly>
         </div>
 
         <div class="col-md-3">
@@ -240,7 +245,7 @@
                 success: function(data) {
                     const $categorySelect = $('#category_id');
                     $categorySelect.empty().append(
-                    '<option value="">Wybierz kategorię...</option>');
+                        '<option value="">Wybierz kategorię...</option>');
 
                     if (data.length > 0) {
                         data.forEach(function(category) {

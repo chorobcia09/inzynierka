@@ -119,6 +119,13 @@ switch ($action) {
     case 'editTransaction':
         (new TransactionController($smarty))->editTransaction();
         break;
+    case 'getTransactionReceiptAjax':
+        (new TransactionController($smarty))->getTransactionReceiptAjax($_GET['id'] ?? null);
+        break;
+
+    case 'showReceipt':
+        (new TransactionController($smarty))->showReceipt($_GET['id'] ?? null);
+        break;
 
 
     // ------------------------------CATEGORYSCONTROLLER------------------------------

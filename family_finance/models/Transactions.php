@@ -25,17 +25,18 @@ class Transactions
         string $payment_method,
         string $description,
         string $transaction_date,
-        int $is_recurring = 0
+        int $is_recurring = 0,
+        $receipt_blob = null
     ) {
         $sql = "
         INSERT INTO transactions (
             family_id, user_id, category_id, local_category_id,
             type, amount, currency, payment_method,
-            description, transaction_date, is_recurring
+            description, transaction_date, is_recurring, receipt_blob
         ) VALUES (
             :family_id, :user_id, :category_id, :local_category_id,
             :type, :amount, :currency, :payment_method,
-            :description, :transaction_date, :is_recurring
+            :description, :transaction_date, :is_recurring, :receipt_blob
         )
     ";
 
@@ -52,6 +53,7 @@ class Transactions
                 ':description' => $description,
                 ':transaction_date' => $transaction_date,
                 ':is_recurring' => $is_recurring,
+                ':receipt_blob' => $receipt_blob
             ]);
 
             return $this->db->lastInsertId();
@@ -199,6 +201,26 @@ class Transactions
             ":transaction_id" => $transaction_id
         ]);
     }
+
+    /**
+     * Pobranie paragonu (blob) dla danej transakcji
+     */
+    public function getTransactionReceipt(int $transaction_id)
+    {
+        $sql = "
+        SELECT receipt_blob
+        FROM transactions
+        WHERE id = :transaction_id
+        LIMIT 1
+    ";
+
+        $result = $this->db->select($sql, [
+            ':transaction_id' => $transaction_id
+        ]);
+        
+        return $result[0]['receipt_blob'] ?? null;
+    }
+
 
     /**
      * Pobranie szczegółów transakcji do edycji

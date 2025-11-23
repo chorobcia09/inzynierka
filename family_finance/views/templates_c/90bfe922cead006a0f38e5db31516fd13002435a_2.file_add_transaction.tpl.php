@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-11-23 12:02:39
+/* Smarty version 5.6.0, created on 2025-11-23 12:49:54
   from 'file:add_transaction.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_6922e9cf3bf295_64183842',
+  'unifunc' => 'content_6922f4e2a3a604_08474399',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '90bfe922cead006a0f38e5db31516fd13002435a' => 
     array (
       0 => 'add_transaction.tpl',
-      1 => 1763895744,
+      1 => 1763898592,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_6922e9cf3bf295_64183842 (\Smarty\Template $_smarty_tpl) {
+function content_6922f4e2a3a604_08474399 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -63,7 +63,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 <br>
 
 <form action="index.php?action=addTransaction" method="POST" class="p-4 bg-dark-subtle text-light rounded-4 shadow-lg"
-    id="transactionForm">
+    id="transactionForm" enctype="multipart/form-data">
 
     <h4 class="mb-4 fw-bold text-light-emphasis">Dodaj nową transakcję</h4>
 
@@ -139,6 +139,11 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         <input type="text" class="form-control bg-dark text-light" id="description" name="description" maxlength="255"
             placeholder="np. Zakupy w Lidlu">
     </div>
+    
+    <div class="mb-3">
+        <label for="receipt" class="form-label fw-semibold">Zdjęcie paragonu (opcjonalnie):</label>
+        <input type="file" class="form-control bg-dark text-light" id="receipt" name="receipt" accept="image/*">
+    </div>
 
     <div class="mb-3">
         <label for="transaction_date" class="form-label fw-semibold">Data transakcji:</label>
@@ -159,8 +164,8 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
     <div class="row mb-3 align-items-end">
         <div class="col-md-3">
             <label for="amount" class="form-label fw-semibold">Kwota całkowita:</label>
-            <input type="number" step="0.00000001" min="0" class="form-control bg-dark text-light" id="amount" name="amount"
-                readonly>
+            <input type="number" step="0.00000001" min="0" class="form-control bg-dark text-light" id="amount"
+                name="amount" readonly>
         </div>
 
         <div class="col-md-3">
@@ -279,7 +284,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                 success: function(data) {
                     const $categorySelect = $('#category_id');
                     $categorySelect.empty().append(
-                    '<option value="">Wybierz kategorię...</option>');
+                        '<option value="">Wybierz kategorię...</option>');
 
                     if (data.length > 0) {
                         data.forEach(function(category) {
