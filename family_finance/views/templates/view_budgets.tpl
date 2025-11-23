@@ -62,7 +62,7 @@
                             <a href="index.php?action=editBudget&id={$budget.id}" class="btn btn-sm btn-warning">
                                 <i class="bi bi-pencil-square"></i> Edytuj
                             </a>
-                            <a href="index.php?action=deleteBudget&id={$budget.id}" class="btn btn-danger"
+                            <a href="index.php?action=deleteBudget&id={$budget.id}" class="btn btn-sm btn-danger"
                                 onclick="return confirm('Czy na pewno chcesz usunąć ten budżet?');">
                                 <i class="bi bi-trash me-2"></i>Usuń budżet
                             </a>

@@ -69,16 +69,18 @@ class Budgets
             FROM budget_items bi
             WHERE bi.budget_id = b.id) AS total_limit,
             COALESCE((
-                SELECT SUM(ti.amount * ti.quantity)
-                FROM transactions t
-                JOIN transaction_items ti ON ti.transaction_id = t.id
-                WHERE 
-                    (t.family_id = b.family_id OR t.user_id = b.user_id)
-                    AND t.transaction_date BETWEEN b.start_date AND b.end_date
-                    AND ti.category_id IN (
-                        SELECT bi.category_id FROM budget_items bi WHERE bi.budget_id = b.id
-                    )
-            ), 0) AS total_spent
+            SELECT SUM(ti.amount * ti.quantity)
+            FROM transactions t
+            JOIN transaction_items ti ON ti.transaction_id = t.id
+            WHERE 
+                (t.family_id = b.family_id OR t.user_id = b.user_id)
+                AND t.transaction_date BETWEEN b.start_date AND b.end_date
+                AND t.currency = b.currency
+                AND ti.category_id IN (
+                    SELECT bi.category_id FROM budget_items bi WHERE bi.budget_id = b.id
+                )
+        ), 0) AS total_spent
+
         FROM budgets b
         WHERE (b.family_id = :family_id OR b.user_id = :user_id)
         ORDER BY b.start_date DESC
@@ -124,6 +126,7 @@ class Budgets
         LEFT JOIN transactions t 
             ON (t.family_id = b.family_id OR t.user_id = b.user_id)
             AND t.transaction_date BETWEEN b.start_date AND b.end_date
+            AND t.currency = b.currency
         LEFT JOIN transaction_items ti 
             ON ti.transaction_id = t.id
             AND ti.category_id = bi.category_id
