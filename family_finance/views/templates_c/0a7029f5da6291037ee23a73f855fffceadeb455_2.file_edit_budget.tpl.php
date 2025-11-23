@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-11-22 19:05:23
+/* Smarty version 5.6.0, created on 2025-11-23 12:07:27
   from 'file:edit_budget.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_6921fb63f37364_47335772',
+  'unifunc' => 'content_6922eaef912018_97284337',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '0a7029f5da6291037ee23a73f855fffceadeb455' => 
     array (
       0 => 'edit_budget.tpl',
-      1 => 1763834722,
+      1 => 1763896046,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_6921fb63f37364_47335772 (\Smarty\Template $_smarty_tpl) {
+function content_6922eaef912018_97284337 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -135,7 +135,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">Limit kategorii:</label>
-                            <input type="number" step="0.01" name="categories[<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('i')), ENT_QUOTES, 'UTF-8');?>
+                            <input type="number" step="0.00000001" name="categories[<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('i')), ENT_QUOTES, 'UTF-8');?>
 ][limit_amount]"
                                 class="form-control bg-dark text-light border-secondary" 
                                 value="<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('item')['limit_amount']), ENT_QUOTES, 'UTF-8');?>
@@ -178,7 +178,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
             </div>
             <div class="col-md-6">
                 <label class="form-label fw-semibold">Limit kategorii:</label>
-                <input type="number" step="0.01" name="categories[${counter}][limit_amount]" 
+                <input type="number" step="0.00000001" name="categories[${counter}][limit_amount]" 
                     class="form-control bg-dark text-light border-secondary" placeholder="np. 500.00" required>
             </div>
         `;

@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-11-22 19:30:18
+/* Smarty version 5.6.0, created on 2025-11-23 12:11:24
   from 'file:edit_transaction.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_6922013ae7f992_17504458',
+  'unifunc' => 'content_6922ebdcf024c6_29708020',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'a3f59f0d7daf9beec5f6ea6f187fa61007ebbec1' => 
     array (
       0 => 'edit_transaction.tpl',
-      1 => 1763836216,
+      1 => 1763896282,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_6922013ae7f992_17504458 (\Smarty\Template $_smarty_tpl) {
+function content_6922ebdcf024c6_29708020 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -152,7 +152,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 " min="1">
                         </td>
                         <td>
-                            <input type="number" step="0.01" name="items[<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('index')), ENT_QUOTES, 'UTF-8');?>
+                            <input type="number" step="0.00000001" name="items[<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('index')), ENT_QUOTES, 'UTF-8');?>
 ][amount]" class="form-control itemAmount"
                                 value="<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('item')['amount']), ENT_QUOTES, 'UTF-8');?>
 " required>
@@ -173,7 +173,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                         </td>
                         <td><input type="number" name="items[0][quantity]" class="form-control itemQuantity" value="1"
                                 min="1"></td>
-                        <td><input type="number" step="0.01" name="items[0][amount]" class="form-control itemAmount"
+                        <td><input type="number" step="0.00000001" name="items[0][amount]" class="form-control itemAmount"
                                 required></td>
                         <td><button type="button" class="btn btn-danger btn-sm removeRow">X</button></td>
                     </tr>
@@ -211,7 +211,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
     <div class="row mb-3 align-items-end">
         <div class="col-md-3">
             <label for="amount" class="form-label fw-semibold">Kwota całkowita:</label>
-            <input type="number" step="0.0001" min="0" class="form-control bg-dark text-light" id="amount" name="amount"
+            <input type="number" step="0.00000001" min="0" class="form-control bg-dark text-light" id="amount" name="amount"
                 value="<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('transaction')['amount']), ENT_QUOTES, 'UTF-8');?>
 " readonly>
         </div>
@@ -375,7 +375,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
             newRow += '</select></td>' +
                 '<td><input type="number" name="items[' + rowIndex +
                 '][quantity]" class="form-control itemQuantity" value="1" min="1"></td>' +
-                '<td><input type="number" step="0.01" name="items[' + rowIndex +
+                '<td><input type="number" step="0.00000001" name="items[' + rowIndex +
                 '][amount]" class="form-control itemAmount" required></td>' +
                 '<td><button type="button" class="btn btn-danger btn-sm removeRow">X</button></td>' +
                 '</tr>';

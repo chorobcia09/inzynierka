@@ -86,7 +86,7 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">Limit kategorii:</label>
-                            <input type="number" step="0.01" name="categories[{$i}][limit_amount]"
+                            <input type="number" step="0.00000001" name="categories[{$i}][limit_amount]"
                                 class="form-control bg-dark text-light border-secondary" 
                                 value="{$item.limit_amount}" required>
                         </div>
@@ -127,7 +127,7 @@
             </div>
             <div class="col-md-6">
                 <label class="form-label fw-semibold">Limit kategorii:</label>
-                <input type="number" step="0.01" name="categories[${counter}][limit_amount]" 
+                <input type="number" step="0.00000001" name="categories[${counter}][limit_amount]" 
                     class="form-control bg-dark text-light border-secondary" placeholder="np. 500.00" required>
             </div>
         `;

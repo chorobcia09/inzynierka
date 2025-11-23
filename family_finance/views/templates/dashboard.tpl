@@ -148,9 +148,6 @@
         color: #fd7e14;
     }
 
-    .btn {
-        border-radius: 0.75rem;
-    }
 </style>
 
 {include file='footer.tpl'}

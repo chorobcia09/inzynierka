@@ -85,7 +85,7 @@
                     </td>
                     <td><input type="number" name="items[0][quantity]" class="form-control itemQuantity" value="1"
                             min="1"></td>
-                    <td><input type="number" step="0.01" name="items[0][amount]" class="form-control itemAmount"
+                    <td><input type="number" step="0.00000001" name="items[0][amount]" class="form-control itemAmount"
                             required></td>
                     <td><button type="button" class="btn btn-danger btn-sm removeRow">X</button></td>
                 </tr>
@@ -120,7 +120,7 @@
     <div class="row mb-3 align-items-end">
         <div class="col-md-3">
             <label for="amount" class="form-label fw-semibold">Kwota całkowita:</label>
-            <input type="number" step="0.0001" min="0" class="form-control bg-dark text-light" id="amount" name="amount"
+            <input type="number" step="0.00000001" min="0" class="form-control bg-dark text-light" id="amount" name="amount"
                 readonly>
         </div>
 
@@ -178,8 +178,8 @@
             let amount = parseFloat($(this).find('.itemAmount').val()) || 0;
             total += qty * amount;
         });
-        $('#totalAmount').text(total.toFixed(2));
-        $('#amount').val(total.toFixed(2)); // Uzupełnia pole kwoty całkowitej
+        $('#totalAmount').text(total.toFixed(8));
+        $('#amount').val(total.toFixed(8)); // Uzupełnia pole kwoty całkowitej
         updateConversion(); // Przeliczanie wartości w PLN
     }
 
@@ -329,7 +329,7 @@
             newRow += '</select></td>' +
                 '<td><input type="number" name="items[' + rowIndex +
                 '][quantity]" class="form-control itemQuantity" value="1" min="1"></td>' +
-                '<td><input type="number" step="0.01" name="items[' + rowIndex +
+                '<td><input type="number" step="0.00000001" name="items[' + rowIndex +
                 '][amount]" class="form-control itemAmount" required></td>' +
                 '<td><button type="button" class="btn btn-danger btn-sm removeRow">X</button></td>' +
                 '</tr>';
@@ -477,10 +477,10 @@
             const rate = exchangeRates[currency] || 0;
 
             if (currency === 'PLN') {
-                convertedValue.value = amount.toFixed(2) + " PLN";
+                convertedValue.value = amount.toFixed(8) + " PLN";
             } else if (rate > 0) {
                 const converted = amount * rate;
-                convertedValue.value = converted.toFixed(2) + " PLN";
+                convertedValue.value = converted.toFixed(8) + " PLN";
             } else {
                 convertedValue.value = "Brak kursu";
             }

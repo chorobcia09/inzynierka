@@ -16,11 +16,18 @@
         <div class="list-group-item bg-dark-subtle text-light rounded-3 mb-2 p-3 shadow-sm">
             <div class="d-flex justify-content-between">
                 <span class="fw-semibold">{$cat.category_name}</span>
+                {* Ustal precyzję w zależności od waluty *}
+                {assign var=precision value=2}
+                {if in_array($budget.currency, ['BTC','ETH','BNB','XRP','DOGE','SOL','ADA','TRX','USDT'])}
+                    {assign var=precision value=8}
+                {/if}
+
                 <span>
-                    {$cat.spent_amount|number_format:2} {$budget.currency|default:"PLN"} /
-                    {$cat.limit_amount|number_format:2} {$budget.currency|default:"PLN"}
-                    ({$cat.used_percent}%)
+                    {$cat.spent_amount|number_format:$precision:",":" "} {$budget.currency} /
+                    {$cat.limit_amount|number_format:$precision:",":" "} {$budget.currency}
+                    ({$cat.used_percent|number_format:0} %)
                 </span>
+
             </div>
 
             <div class="progress mt-2" style="height: 10px;">

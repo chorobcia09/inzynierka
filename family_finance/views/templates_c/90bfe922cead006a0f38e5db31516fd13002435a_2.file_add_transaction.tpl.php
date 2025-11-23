@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-11-22 20:18:45
+/* Smarty version 5.6.0, created on 2025-11-23 12:02:39
   from 'file:add_transaction.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_69220c95ce3df0_46808948',
+  'unifunc' => 'content_6922e9cf3bf295_64183842',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '90bfe922cead006a0f38e5db31516fd13002435a' => 
     array (
       0 => 'add_transaction.tpl',
-      1 => 1763839116,
+      1 => 1763895744,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_69220c95ce3df0_46808948 (\Smarty\Template $_smarty_tpl) {
+function content_6922e9cf3bf295_64183842 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -125,7 +125,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                     </td>
                     <td><input type="number" name="items[0][quantity]" class="form-control itemQuantity" value="1"
                             min="1"></td>
-                    <td><input type="number" step="0.01" name="items[0][amount]" class="form-control itemAmount"
+                    <td><input type="number" step="0.00000001" name="items[0][amount]" class="form-control itemAmount"
                             required></td>
                     <td><button type="button" class="btn btn-danger btn-sm removeRow">X</button></td>
                 </tr>
@@ -159,7 +159,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
     <div class="row mb-3 align-items-end">
         <div class="col-md-3">
             <label for="amount" class="form-label fw-semibold">Kwota całkowita:</label>
-            <input type="number" step="0.0001" min="0" class="form-control bg-dark text-light" id="amount" name="amount"
+            <input type="number" step="0.00000001" min="0" class="form-control bg-dark text-light" id="amount" name="amount"
                 readonly>
         </div>
 
@@ -217,8 +217,8 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
             let amount = parseFloat($(this).find('.itemAmount').val()) || 0;
             total += qty * amount;
         });
-        $('#totalAmount').text(total.toFixed(2));
-        $('#amount').val(total.toFixed(2)); // Uzupełnia pole kwoty całkowitej
+        $('#totalAmount').text(total.toFixed(8));
+        $('#amount').val(total.toFixed(8)); // Uzupełnia pole kwoty całkowitej
         updateConversion(); // Przeliczanie wartości w PLN
     }
 
@@ -368,7 +368,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
             newRow += '</select></td>' +
                 '<td><input type="number" name="items[' + rowIndex +
                 '][quantity]" class="form-control itemQuantity" value="1" min="1"></td>' +
-                '<td><input type="number" step="0.01" name="items[' + rowIndex +
+                '<td><input type="number" step="0.00000001" name="items[' + rowIndex +
                 '][amount]" class="form-control itemAmount" required></td>' +
                 '<td><button type="button" class="btn btn-danger btn-sm removeRow">X</button></td>' +
                 '</tr>';
@@ -518,10 +518,10 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
             const rate = exchangeRates[currency] || 0;
 
             if (currency === 'PLN') {
-                convertedValue.value = amount.toFixed(2) + " PLN";
+                convertedValue.value = amount.toFixed(8) + " PLN";
             } else if (rate > 0) {
                 const converted = amount * rate;
-                convertedValue.value = converted.toFixed(2) + " PLN";
+                convertedValue.value = converted.toFixed(8) + " PLN";
             } else {
                 convertedValue.value = "Brak kursu";
             }

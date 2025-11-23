@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-11-22 18:18:01
+/* Smarty version 5.6.0, created on 2025-11-23 11:56:30
   from 'file:add_budget.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_6921f0499dd6f8_10651584',
+  'unifunc' => 'content_6922e85e8127e2_78095282',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'ee1837b410515a4daa213bbaae414cdf8b22b950' => 
     array (
       0 => 'add_budget.tpl',
-      1 => 1763831152,
+      1 => 1763895343,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_6921f0499dd6f8_10651584 (\Smarty\Template $_smarty_tpl) {
+function content_6922e85e8127e2_78095282 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -132,7 +132,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">Limit kategorii:</label>
-                        <input type="number" step="0.01" name="categories[0][limit_amount]"
+                        <input type="number" step="0.00000001" name="categories[0][limit_amount]"
                             class="form-control bg-dark text-light border-secondary" placeholder="np. 500.00" required>
                     </div>
                 </div>
@@ -172,7 +172,7 @@ ${document.querySelector('select[name="categories[0][category_id]"]').innerHTML}
             </div>
             <div class="col-md-6">
                 <label class="form-label fw-semibold">Limit kategorii:</label>
-<input type="number" step="0.01" name="categories[${counter}][limit_amount]" class="form-control bg-dark text-light border-secondary" placeholder="np. 500.00" required>
+<input type="number" step="0.00000001" name="categories[${counter}][limit_amount]" class="form-control bg-dark text-light border-secondary" placeholder="np. 500.00" required>
             </div>`;
             container.appendChild(newRow);
             newRow.scrollIntoView({ behavior: "smooth", block: "center" });
