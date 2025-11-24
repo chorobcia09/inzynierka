@@ -99,72 +99,59 @@ class AuthController
      */
     public function register(array $postData)
     {
-        // Trim wszystkich danych wejściowych
         $username = trim($postData['username'] ?? '');
         $email = trim($postData['email'] ?? '');
         $password = $postData['password'] ?? '';
         $passwordConfirm = $postData['password_confirm'] ?? '';
 
-        // Sprawdzenie, czy wszystkie pola są wypełnione
         if (empty($username) || empty($email) || empty($password) || empty($passwordConfirm)) {
             $this->showRegisterForm("Wypełnij wszystkie pola.");
             return;
         }
 
-        // Walidacja emaila
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $this->showRegisterForm("Nieprawidłowy adres email.");
             return;
         }
 
-        // Sprawdzenie zgodności haseł
         if ($password !== $passwordConfirm) {
             $this->showRegisterForm("Hasła nie są zgodne.");
             return;
         }
 
-        // --- WALIDACJA HASŁA --- //
-        // Brak spacji
         if (preg_match('/\s/', $password)) {
             $this->showRegisterForm("Hasło nie może zawierać spacji ani na początku, ani w środku ani na końcu.");
             return;
         }
 
-        // Minimalna długość
         if (strlen($password) < 8) {
             $this->showRegisterForm("Hasło musi mieć minimum 8 znaków.");
             return;
         }
 
-        // Co najmniej jedna cyfra
         if (!preg_match('/[0-9]/', $password)) {
             $this->showRegisterForm("Hasło musi zawierać co najmniej jedną cyfrę.");
             return;
         }
 
-        // Co najmniej jedna duża litera
         if (!preg_match('/[A-Z]/', $password)) {
             $this->showRegisterForm("Hasło musi zawierać co najmniej jedną dużą literę.");
             return;
         }
 
-        // Co najmniej jedna mała litera
         if (!preg_match('/[a-z]/', $password)) {
             $this->showRegisterForm("Hasło musi zawierać co najmniej jedną małą literę.");
             return;
         }
 
-        // Co najmniej jeden znak specjalny
         if (!preg_match('/[\!\@\#\$\%\^\&\*\(\)\-\_\=\+]/', $password)) {
             $this->showRegisterForm("Hasło musi zawierać co najmniej jeden znak specjalny (!@#$%^&*()-_=+).");
             return;
         }
 
-        // Próba rejestracji użytkownika
         try {
             $result = $this->authModel->register($username, $email, $password);
             if ($result) {
-                // Automatyczne logowanie po rejestracji
                 $user = $this->authModel->login($email, $password);
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['user_name'] = $user['username'];

@@ -30,23 +30,18 @@ class AnalysisController
         if ($date_from && $date_to) {
             $period = 'custom';
         }
-        // ------ WALUTY ------
         $currencies = $this->analysis->getActiveCurrencies($user_id, $family_id, $period, $date_from, $date_to);
         $currency = $_GET['currency'] ?? ($currencies[0]['currency'] ?? 'PLN');
 
-        // ------ WYDATKI ------
         $summary = $this->analysis->getSummary($user_id, $family_id, $currency, $period, $date_from, $date_to);
         $byCategory = $this->analysis->getCategoryBreakdown($user_id, $family_id, $currency, $period, 'expense', $date_from, $date_to);
         $trend = $this->analysis->getTrend($user_id, $family_id, $currency, $period, 'expense', $date_from, $date_to);
         $topExpenses = $this->analysis->getTopExpenses($user_id, $family_id, $currency, $period, $date_from, $date_to);
         $subCategoryExpenses = $this->analysis->getSubCategoryExpenses($user_id, $family_id, $currency, $period, $date_from, $date_to);
-
-        // ------ PRZYCHODY ------
         $incomeCategories = $this->analysis->getCategoryBreakdown($user_id, $family_id, $currency, $period, 'income', $date_from, $date_to);
         $trendIncome = $this->analysis->getTrend($user_id, $family_id, $currency, $period, 'income', $date_from, $date_to);
         $subCategoryIncome = $this->analysis->getSubCategoryIncome($user_id, $family_id, $currency, $period, $date_from, $date_to);
 
-        // ------ CZŁONKOWIE RODZINY ------
         $familySpending = [];
         $familyCategorySpending = [];
         $familyTotalSpending = 0;
@@ -57,7 +52,6 @@ class AnalysisController
             $familySpending = $this->analysis->getFamilySpending($family_id, $currency, $period, $date_from, $date_to);
             $familyCategorySpending = $this->analysis->getFamilyCategorySpending($family_id, $currency, $period, $date_from, $date_to);
 
-            // Oblicz sumy
             foreach ($familySpending as $member) {
                 $familyTotalSpending += $member['total_spent'];
                 $familyTotalTransactions += $member['transactions'];
@@ -66,14 +60,13 @@ class AnalysisController
             $familyAverageSpending = count($familySpending) > 0 ? $familyTotalSpending / count($familySpending) : 0;
         }
 
-        // ------ INNE ------
         $regionalComparison   = $this->analysis->getRegionalComparison($currency, $period, $date_from, $date_to);
         $paymentMethodBreakdown = $this->analysis->getPaymentMethodBreakdown($user_id, $family_id, $currency, $period, $date_from, $date_to);
         $categoryPercentages  = $this->analysis->getCategoryPercentages($user_id, $family_id, $currency, $period, $date_from, $date_to);
         $descriptiveStats = $this->analysis->getDescriptiveStats($user_id, $family_id, $currency, $period, $date_from, $date_to);
         $concentrationStats = $this->analysis->getConcentrationStats($user_id, $family_id, $currency, $period, $date_from, $date_to);
         $trendAnalysis = $this->analysis->getTrendAnalysis($user_id, $family_id, $currency, $period, $date_from, $date_to);
-        // dump($concentrationStats);
+
         $profitLossTrend = $this->analysis->getProfitLossTrend($user_id, $family_id, $currency, $period, $date_from, $date_to);
         $isPremium = ($_SESSION['account_type'] ?? 'standard') === 'premium';
         $regionalComparison = [];
@@ -209,7 +202,6 @@ class AnalysisController
         $pdf->Output("raport_$period.pdf", "D");
     }
 
-    /* ========================= RAPORTY ========================= */
     public function reports()
     {
         if (!isset($_SESSION['user_id'])) {
@@ -228,7 +220,6 @@ class AnalysisController
             $period = 'custom';
         }
 
-        // WALUTA DO FILTRÓW
         $currencies = $this->analysis->getActiveCurrencies($user_id, $family_id, $period, $date_from, $date_to);
         $currency = $_GET['currency'] ?? ($currencies[0]['currency'] ?? 'PLN');
 

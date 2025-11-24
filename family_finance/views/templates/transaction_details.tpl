@@ -69,11 +69,6 @@
                 <i class="bi bi-arrow-90deg-left"></i> Wróć
             </a>
         </div>
-
-
-
-
-
     {else}
         <div class="alert alert-info text-center mt-3">Brak szczegółów transakcji.</div>
     {/if}

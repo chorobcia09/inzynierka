@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-11-23 12:49:54
+/* Smarty version 5.6.0, created on 2025-11-24 20:27:15
   from 'file:add_transaction.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_6922f4e2a3a604_08474399',
+  'unifunc' => 'content_6924b1930598b9_51282988',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '90bfe922cead006a0f38e5db31516fd13002435a' => 
     array (
       0 => 'add_transaction.tpl',
-      1 => 1763898592,
+      1 => 1764012231,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_6922f4e2a3a604_08474399 (\Smarty\Template $_smarty_tpl) {
+function content_6924b1930598b9_51282988 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -139,7 +139,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         <input type="text" class="form-control bg-dark text-light" id="description" name="description" maxlength="255"
             placeholder="np. Zakupy w Lidlu">
     </div>
-    
+
     <div class="mb-3">
         <label for="receipt" class="form-label fw-semibold">Zdjęcie paragonu (opcjonalnie):</label>
         <input type="file" class="form-control bg-dark text-light" id="receipt" name="receipt" accept="image/*">

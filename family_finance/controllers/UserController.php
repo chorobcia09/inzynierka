@@ -45,13 +45,11 @@ class UserController
             $newPassword = $_POST['new_password'] ?? '';
             $confirmPassword = $_POST['confirm_password'] ?? '';
 
-            // Sprawdzenie czy pola nie są puste
             if (empty($currentPassword) || empty($newPassword) || empty($confirmPassword)) {
                 $errors[] = 'Wszystkie pola są wymagane.';
             } elseif ($newPassword !== $confirmPassword) {
                 $errors[] = 'Nowe hasła nie są identyczne.';
             } else {
-                // --- WALIDACJA NOWEGO HASŁA --- //
                 if (preg_match('/\s/', $newPassword)) {
                     $errors[] = 'Nowe hasło nie może zawierać spacji.';
                 }
@@ -72,14 +70,11 @@ class UserController
                 }
             }
 
-            // Jeżeli nie ma błędów walidacji
             if (empty($errors)) {
-                // Pobranie aktualnego hasła z bazy
                 $user = $this->userModel->getUserById($_SESSION['user_id']);
                 if (!$user || !password_verify($currentPassword, $user['password'])) {
                     $errors[] = 'Nieprawidłowe aktualne hasło.';
                 } else {
-                    // Hashowanie i aktualizacja nowego hasła
                     $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
                     $this->userModel->updatePassword($_SESSION['user_id'], $hashedPassword);
                     $success = 'Hasło zostało pomyślnie zmienione.';
