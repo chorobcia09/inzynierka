@@ -74,7 +74,8 @@ class AnalysisController
         $descriptiveStats = $this->analysis->getDescriptiveStats($user_id, $family_id, $currency, $period, $date_from, $date_to);
         $concentrationStats = $this->analysis->getConcentrationStats($user_id, $family_id, $currency, $period, $date_from, $date_to);
         $trendAnalysis = $this->analysis->getTrendAnalysis($user_id, $family_id, $currency, $period, $date_from, $date_to);
-
+        // dump($concentrationStats);
+        $profitLossTrend = $this->analysis->getProfitLossTrend($user_id, $family_id, $currency, $period, $date_from, $date_to);
         $isPremium = ($_SESSION['account_type'] ?? 'standard') === 'premium';
         $regionalComparison = [];
         $trendAnalysis = [];
@@ -114,7 +115,9 @@ class AnalysisController
             'trendAnalysis' => $trendAnalysis,
             'isPremium' => $isPremium,
             'regionalComparison' => $regionalComparison,
-            'trendAnalysis' => $trendAnalysis
+            'trendAnalysis' => $trendAnalysis,
+            'profitLossTrend' => $profitLossTrend,
+            'profitLossDataJson' => json_encode($profitLossTrend)
 
         ]);
 

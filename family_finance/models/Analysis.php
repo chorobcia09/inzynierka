@@ -197,9 +197,9 @@ class Analysis
         SELECT DATE(transaction_date) AS date, SUM(amount) AS total
         FROM transactions
         WHERE ($cond) 
-          AND type = :type 
-          AND (family_id = :family_id OR user_id = :user_id)
-          AND currency = :currency
+        AND type = :type 
+        AND (family_id = :family_id OR user_id = :user_id)
+        AND currency = :currency
         GROUP BY DATE(transaction_date)
         ORDER BY date ASC
         ";
@@ -216,7 +216,77 @@ class Analysis
             $params[':date_to'] = $date_to;
         }
 
-        return $this->db->select($sql, $params);
+        $raw_data = $this->db->select($sql, $params);
+
+        $totals = array_column($raw_data, 'total');
+        $scaled_data = $this->scaleValuesForChart($totals, $currency);
+
+        $result = [];
+        foreach ($raw_data as $index => $row) {
+            $result[] = [
+                'date' => $row['date'],
+                'total' => $row['total'],
+                'scaled_total' => $scaled_data['values'][$index] ?? $row['total'],
+                'scale_factor' => $scaled_data['scale_factor'] ?? 1,
+                'scale_unit' => $scaled_data['unit'] ?? ''
+            ];
+        }
+
+        return $result;
+    }
+
+    /**
+     * Pobiera różnicę między przychodami a wydatkami w czasie
+     */
+    public function getProfitLossTrend($user_id, $family_id, $currency, $period = 'monthly', $date_from = null, $date_to = null)
+    {
+        $cond = $this->getPeriodCondition($period, $date_from, $date_to);
+
+        $sql = "
+        SELECT 
+            DATE(transaction_date) AS date,
+            SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END) AS income,
+            SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END) AS expense,
+            SUM(CASE WHEN type = 'income' THEN amount ELSE -amount END) AS profit_loss
+        FROM transactions
+        WHERE ($cond) 
+        AND (family_id = :family_id OR user_id = :user_id)
+        AND currency = :currency
+        GROUP BY DATE(transaction_date)
+        ORDER BY date ASC
+        ";
+
+        $params = [
+            ':family_id' => $family_id,
+            ':user_id' => $user_id,
+            ':currency' => $currency
+        ];
+
+        if ($period === 'custom') {
+            $params[':date_from'] = $date_from;
+            $params[':date_to'] = $date_to;
+        }
+
+        $raw_data = $this->db->select($sql, $params);
+
+        // Skalowanie dla kryptowalut
+        $profit_loss_values = array_column($raw_data, 'profit_loss');
+        $scaled_data = $this->scaleValuesForChart($profit_loss_values, $currency);
+
+        $result = [];
+        foreach ($raw_data as $index => $row) {
+            $result[] = [
+                'date' => $row['date'],
+                'income' => $row['income'],
+                'expense' => $row['expense'],
+                'profit_loss' => $row['profit_loss'],
+                'scaled_profit_loss' => $scaled_data['values'][$index] ?? $row['profit_loss'],
+                'scale_factor' => $scaled_data['scale_factor'] ?? 1,
+                'scale_unit' => $scaled_data['unit'] ?? ''
+            ];
+        }
+
+        return $result;
     }
 
     /**
@@ -261,23 +331,23 @@ class Analysis
         $cond = $this->getPeriodCondition($period, $date_from, $date_to);
 
         $sql = "
-    SELECT 
-        t.description, 
-        t.amount, 
-        t.transaction_date,
-        c.name as category_name,
-        u.username,
-        t.payment_method
-    FROM transactions t
-    LEFT JOIN categories c ON c.id = t.category_id
-    LEFT JOIN users u ON u.id = t.user_id
-    WHERE ($cond)
-      AND t.type='expense'
-      AND (t.family_id = :family_id OR t.user_id = :user_id)
-      AND t.currency = :currency
-    ORDER BY t.amount DESC
-    LIMIT 10
-    ";
+        SELECT 
+            t.description, 
+            t.amount, 
+            t.transaction_date,
+            c.name as category_name,
+            u.username,
+            t.payment_method
+        FROM transactions t
+        LEFT JOIN categories c ON c.id = t.category_id
+        LEFT JOIN users u ON u.id = t.user_id
+        WHERE ($cond)
+        AND t.type='expense'
+        AND (t.family_id = :family_id OR t.user_id = :user_id)
+        AND t.currency = :currency
+        ORDER BY t.amount DESC
+        LIMIT 10
+        ";
 
         $params = [
             ':family_id' => $family_id,
@@ -341,21 +411,21 @@ class Analysis
         $cond = $this->getPeriodCondition($period, $date_from, $date_to);
 
         $sql = "
-    SELECT 
-        u.id as user_id,
-        u.username,
-        SUM(t.amount) AS total_spent,
-        COUNT(t.id) AS transactions,
-        AVG(t.amount) AS avg_spent
-    FROM transactions t
-    JOIN users u ON u.id = t.user_id
-    WHERE t.family_id = :family_id 
-      AND t.type='expense'
-      AND t.currency = :currency
-      AND ($cond)
-    GROUP BY u.id, u.username
-    ORDER BY total_spent DESC
-    ";
+        SELECT 
+            u.id as user_id,
+            u.username,
+            SUM(t.amount) AS total_spent,
+            COUNT(t.id) AS transactions,
+            AVG(t.amount) AS avg_spent
+        FROM transactions t
+        JOIN users u ON u.id = t.user_id
+        WHERE t.family_id = :family_id 
+        AND t.type='expense'
+        AND t.currency = :currency
+        AND ($cond)
+        GROUP BY u.id, u.username
+        ORDER BY total_spent DESC
+        ";
 
         $params = [
             ':family_id' => $family_id,
@@ -378,20 +448,20 @@ class Analysis
         $cond = $this->getPeriodCondition($period, $date_from, $date_to);
 
         $sql = "
-    SELECT 
-        u.username,
-        c.name as category_name,
-        SUM(t.amount) AS total_spent
-    FROM transactions t
-    JOIN users u ON u.id = t.user_id
-    JOIN categories c ON c.id = t.category_id
-    WHERE t.family_id = :family_id 
-      AND t.type='expense'
-      AND t.currency = :currency
-      AND ($cond)
-    GROUP BY u.id, u.username, c.id, c.name
-    ORDER BY u.username, total_spent DESC
-    ";
+        SELECT 
+            u.username,
+            c.name as category_name,
+            SUM(t.amount) AS total_spent
+        FROM transactions t
+        JOIN users u ON u.id = t.user_id
+        JOIN categories c ON c.id = t.category_id
+        WHERE t.family_id = :family_id 
+        AND t.type='expense'
+        AND t.currency = :currency
+        AND ($cond)
+        GROUP BY u.id, u.username, c.id, c.name
+        ORDER BY u.username, total_spent DESC
+        ";
 
         $params = [
             ':family_id' => $family_id,
@@ -414,21 +484,21 @@ class Analysis
         $cond = $this->getPeriodCondition($period, $date_from, $date_to);
 
         $sql = "
-    SELECT 
-        u.username,
-        c.name as category_name,
-        SUM(t.amount) as total_spent,
-        ROUND(SUM(t.amount) / (SELECT SUM(amount) FROM transactions WHERE family_id = :family_id AND type='expense' AND currency = :currency AND ($cond)) * 100, 1) as percentage
-    FROM transactions t
-    JOIN users u ON u.id = t.user_id
-    JOIN categories c ON c.id = t.category_id
-    WHERE t.family_id = :family_id 
-      AND t.type='expense'
-      AND t.currency = :currency
-      AND ($cond)
-    GROUP BY u.id, u.username, c.id, c.name
-    ORDER BY u.username, total_spent DESC
-    ";
+        SELECT 
+            u.username,
+            c.name as category_name,
+            SUM(t.amount) as total_spent,
+            ROUND(SUM(t.amount) / (SELECT SUM(amount) FROM transactions WHERE family_id = :family_id AND type='expense' AND currency = :currency AND ($cond)) * 100, 1) as percentage
+        FROM transactions t
+        JOIN users u ON u.id = t.user_id
+        JOIN categories c ON c.id = t.category_id
+        WHERE t.family_id = :family_id 
+        AND t.type='expense'
+        AND t.currency = :currency
+        AND ($cond)
+        GROUP BY u.id, u.username, c.id, c.name
+        ORDER BY u.username, total_spent DESC
+        ";
 
         $params = [
             ':family_id' => $family_id,
@@ -550,17 +620,17 @@ class Analysis
         $cond = $this->getPeriodCondition($period, $date_from, $date_to);
 
         $sql = "
-    SELECT sc.name AS sub_category, SUM(ti.amount * ti.quantity) AS total
-    FROM transaction_items ti
-    JOIN transactions t ON t.id = ti.transaction_id
-    JOIN sub_categories sc ON sc.id = ti.sub_category_id
-    WHERE ($cond)
-      AND t.type = 'income'
-      AND t.currency = :currency
-      AND (t.family_id = :family_id OR t.user_id = :user_id)
-    GROUP BY sc.id
-    ORDER BY total DESC
-    ";
+        SELECT sc.name AS sub_category, SUM(ti.amount * ti.quantity) AS total
+        FROM transaction_items ti
+        JOIN transactions t ON t.id = ti.transaction_id
+        JOIN sub_categories sc ON sc.id = ti.sub_category_id
+        WHERE ($cond)
+        AND t.type = 'income'
+        AND t.currency = :currency
+        AND (t.family_id = :family_id OR t.user_id = :user_id)
+        GROUP BY sc.id
+        ORDER BY total DESC
+        ";
 
         $params = [
             ':family_id' => $family_id,
@@ -652,23 +722,251 @@ class Analysis
     }
 
     /**
-     * Oblicza podstawowe statystyki opisowe dla wydatków
+     * Oblicza przedział ufności dla średniej
      */
-    /** STATYSTYKI OPISOWE Z PHP-ML - POPRAWIONA WERSJA */
+    private function calculateConfidenceInterval($mean, $std_dev, $n, $confidence_level = 0.95)
+    {
+        if ($n < 2 || $std_dev <= 0) {
+            return [
+                'lower' => $mean,
+                'upper' => $mean,
+                'margin_of_error' => 0
+            ];
+        }
+
+        $sample_std_dev = $std_dev;
+        if ($n > 1) {
+            $sample_std_dev = $std_dev * sqrt($n / ($n - 1));
+        }
+
+        $min_value = 0.00000001;
+        if ($mean < $min_value && $mean > 0) {
+            $mean = max($mean, $min_value);
+        }
+
+        if ($sample_std_dev < $min_value && $sample_std_dev > 0) {
+            $sample_std_dev = max($sample_std_dev, $min_value);
+        }
+
+        $t_values = [
+            0.90 => 1.645,
+            0.95 => 1.96,
+            0.99 => 2.576
+        ];
+
+        if ($n < 30) {
+            $t_values = [
+                0.90 => $this->getTValue(0.90, $n - 1),
+                0.95 => $this->getTValue(0.95, $n - 1),
+                0.99 => $this->getTValue(0.99, $n - 1)
+            ];
+        }
+
+        $t_value = $t_values[$confidence_level] ?? $t_values[0.95];
+
+        $standard_error = $sample_std_dev / sqrt($n);
+
+        if ($standard_error < $min_value && $standard_error > 0) {
+            $standard_error = max($standard_error, $min_value);
+        }
+
+        $margin_of_error = $t_value * $standard_error;
+
+        $lower_bound = $mean - $margin_of_error;
+        $upper_bound = $mean + $margin_of_error;
+
+        $lower_bound = max($min_value, $lower_bound);
+
+        $interval_width = $upper_bound - $lower_bound;
+        $min_relative_width = 0.001;
+
+        if ($mean > 0 && $interval_width < ($mean * $min_relative_width)) {
+            $extension = ($mean * $min_relative_width - $interval_width) / 2;
+            $lower_bound = max($min_value, $lower_bound - $extension);
+            $upper_bound = $upper_bound + $extension;
+            $margin_of_error = ($upper_bound - $lower_bound) / 2;
+        }
+
+        return [
+            'lower' => $lower_bound,
+            'upper' => $upper_bound,
+            'margin_of_error' => $margin_of_error,
+            'sample_std_dev' => $sample_std_dev,
+            'standard_error' => $standard_error
+        ];
+    }
+
+
+    /**
+     * Pobiera wartość t-Studenta dla danego poziomu ufności i stopni swobody
+     * z interpolacją dla brakujących wartości
+     */
+    private function getTValue($confidence_level, $degrees_of_freedom)
+    {
+        $t_table = [
+            0.90 => [
+                1 => 6.314,
+                2 => 2.920,
+                3 => 2.353,
+                4 => 2.132,
+                5 => 2.015,
+                6 => 1.943,
+                7 => 1.895,
+                8 => 1.860,
+                9 => 1.833,
+                10 => 1.812,
+                11 => 1.796,
+                12 => 1.782,
+                13 => 1.771,
+                14 => 1.761,
+                15 => 1.753,
+                16 => 1.746,
+                17 => 1.740,
+                18 => 1.734,
+                19 => 1.729,
+                20 => 1.725,
+                21 => 1.721,
+                22 => 1.717,
+                23 => 1.714,
+                24 => 1.711,
+                25 => 1.708,
+                26 => 1.706,
+                27 => 1.703,
+                28 => 1.701,
+                29 => 1.699,
+                30 => 1.697,
+                40 => 1.684,
+                60 => 1.671,
+                120 => 1.658,
+                1000 => 1.646
+            ],
+            0.95 => [
+                1 => 12.706,
+                2 => 4.303,
+                3 => 3.182,
+                4 => 2.776,
+                5 => 2.571,
+                6 => 2.447,
+                7 => 2.365,
+                8 => 2.306,
+                9 => 2.262,
+                10 => 2.228,
+                11 => 2.201,
+                12 => 2.179,
+                13 => 2.160,
+                14 => 2.145,
+                15 => 2.131,
+                16 => 2.120,
+                17 => 2.110,
+                18 => 2.101,
+                19 => 2.093,
+                20 => 2.086,
+                21 => 2.080,
+                22 => 2.074,
+                23 => 2.069,
+                24 => 2.064,
+                25 => 2.060,
+                26 => 2.056,
+                27 => 2.052,
+                28 => 2.048,
+                29 => 2.045,
+                30 => 2.042,
+                40 => 2.021,
+                60 => 2.000,
+                120 => 1.980,
+                1000 => 1.962
+            ],
+            0.99 => [
+                1 => 63.657,
+                2 => 9.925,
+                3 => 5.841,
+                4 => 4.604,
+                5 => 4.032,
+                6 => 3.707,
+                7 => 3.499,
+                8 => 3.355,
+                9 => 3.250,
+                10 => 3.169,
+                11 => 3.106,
+                12 => 3.055,
+                13 => 3.012,
+                14 => 2.977,
+                15 => 2.947,
+                16 => 2.921,
+                17 => 2.898,
+                18 => 2.878,
+                19 => 2.861,
+                20 => 2.845,
+                21 => 2.831,
+                22 => 2.819,
+                23 => 2.807,
+                24 => 2.797,
+                25 => 2.787,
+                26 => 2.779,
+                27 => 2.771,
+                28 => 2.763,
+                29 => 2.756,
+                30 => 2.750,
+                40 => 2.704,
+                60 => 2.660,
+                120 => 2.617,
+                1000 => 2.576
+            ]
+        ];
+
+        $level_table = $t_table[$confidence_level] ?? $t_table[0.95];
+
+        if (isset($level_table[$degrees_of_freedom])) {
+            return $level_table[$degrees_of_freedom];
+        }
+
+        $keys = array_keys($level_table);
+        sort($keys);
+
+        $lower = null;
+        $upper = null;
+
+        foreach ($keys as $key) {
+            if ($key <= $degrees_of_freedom) {
+                $lower = $key;
+            }
+            if ($key >= $degrees_of_freedom && $upper === null) {
+                $upper = $key;
+            }
+        }
+
+        if ($lower !== null && $upper !== null && $lower != $upper) {
+            $t_lower = $level_table[$lower];
+            $t_upper = $level_table[$upper];
+
+            $weight = ($degrees_of_freedom - $lower) / ($upper - $lower);
+            return $t_lower + ($t_upper - $t_lower) * $weight;
+        }
+
+        if ($degrees_of_freedom > 1000) {
+            $z_values = [0.90 => 1.645, 0.95 => 1.96, 0.99 => 2.576];
+            return $z_values[$confidence_level] ?? 1.96;
+        }
+
+        return end($level_table);
+    }
+
+    /**
+     * Rozszerzona wersja getDescriptiveStats z przedziałami ufności
+     */
     public function getDescriptiveStats($user_id, $family_id, $currency, $period = 'monthly', $date_from = null, $date_to = null)
     {
         $cond = $this->getPeriodCondition($period, $date_from, $date_to);
 
-        // Pobierz wszystkie wydatki
         $sql = "
-    SELECT amount 
-    FROM transactions 
-    WHERE ($cond)
-      AND type = 'expense'
-      AND currency = :currency
-      AND (family_id = :family_id OR user_id = :user_id)
-    ORDER BY amount
-    ";
+        SELECT amount 
+        FROM transactions 
+        WHERE ($cond)
+        AND type = 'expense'
+        AND currency = :currency
+        AND (family_id = :family_id OR user_id = :user_id)
+        ORDER BY amount
+        ";
 
         $params = [
             ':family_id' => $family_id,
@@ -696,29 +994,41 @@ class Analysis
                 'iqr' => 0,
                 'min' => 0,
                 'max' => 0,
-                'count' => 0
+                'count' => 0,
+                'confidence_interval_95' => [
+                    'lower' => 0,
+                    'upper' => 0,
+                    'margin_of_error' => 0
+                ],
+                'confidence_interval_99' => [
+                    'lower' => 0,
+                    'upper' => 0,
+                    'margin_of_error' => 0
+                ]
             ];
         }
 
         $amounts = array_column($results, 'amount');
         $n = count($amounts);
 
-        // Podstawowe statystyki
+        $precision = $this->getCurrencyPrecision($currency);
+
         $mean = Mean::arithmetic($amounts);
         $median = Mean::median($amounts);
         $min = min($amounts);
         $max = max($amounts);
 
-        // Odchylenie standardowe - tylko jeśli są co najmniej 2 elementy
         if ($n >= 2) {
             $std_dev = StandardDeviation::population($amounts);
+            if ($std_dev < 1e-10 && $mean > 0) {
+                $std_dev = $mean * 0.01;
+            }
             $variance = pow($std_dev, 2);
         } else {
             $std_dev = 0;
             $variance = 0;
         }
 
-        // Skosność i kurtoza - tylko jeśli są co najmniej 3 elementy
         if ($n >= 3 && $std_dev > 0) {
             $skewness = $this->calculateSkewness($amounts, $mean, $std_dev);
             $kurtosis = $this->calculateKurtosis($amounts, $mean, $std_dev);
@@ -727,27 +1037,103 @@ class Analysis
             $kurtosis = 0;
         }
 
-        // Współczynnik zmienności
         $coefficient_of_variation = ($mean > 0) ? ($std_dev / $mean) * 100 : 0;
 
-        // Dodatkowe miary - tylko jeśli są wystarczające dane
         $range = $max - $min;
         $iqr = ($n >= 4) ? $this->calculateIQR($amounts) : 0;
 
+        $confidence_95 = $this->calculateConfidenceInterval($mean, $std_dev, $n, 0.95);
+        $confidence_99 = $this->calculateConfidenceInterval($mean, $std_dev, $n, 0.99);
+
         return [
-            'mean' => $mean,
-            'median' => $median,
-            'std_dev' => $std_dev,
-            'variance' => $variance,
-            'kurtosis' => $kurtosis,
-            'skewness' => $skewness,
-            'coefficient_of_variation' => $coefficient_of_variation,
-            'range' => $range,
-            'iqr' => $iqr,
-            'min' => $min,
-            'max' => $max,
-            'count' => $n
+            'mean' => round($mean, $precision),
+            'median' => round($median, $precision),
+            'std_dev' => round($std_dev, $precision),
+            'variance' => round($variance, $precision),
+            'kurtosis' => round($kurtosis, 3),
+            'skewness' => round($skewness, 3),
+            'coefficient_of_variation' => round($coefficient_of_variation, 1),
+            'range' => round($range, $precision),
+            'iqr' => round($iqr, $precision),
+            'min' => round($min, $precision),
+            'max' => round($max, $precision),
+            'count' => $n,
+            'confidence_interval_95' => [
+                'lower' => round($confidence_95['lower'], $precision),
+                'upper' => round($confidence_95['upper'], $precision),
+                'margin_of_error' => round($confidence_95['margin_of_error'], $precision)
+            ],
+            'confidence_interval_99' => [
+                'lower' => round($confidence_99['lower'], $precision),
+                'upper' => round($confidence_99['upper'], $precision),
+                'margin_of_error' => round($confidence_99['margin_of_error'], $precision)
+            ]
         ];
+    }
+
+    /**
+     * Zwraca precyzję dla danej waluty
+     */
+    private function getCurrencyPrecision($currency)
+    {
+        $crypto_currencies = ['BTC', 'ETH', 'BNB', 'XRP', 'DOGE', 'USDT', 'SOL', 'ADA', 'TRX'];
+        return in_array($currency, $crypto_currencies) ? 8 : 2;
+    }
+
+    /**
+     * Dodatkowa metoda do uzyskania szczegółowych informacji o przedziałach ufności
+     */
+    public function getConfidenceIntervalInfo($user_id, $family_id, $currency, $period = 'monthly', $date_from = null, $date_to = null)
+    {
+        $stats = $this->getDescriptiveStats($user_id, $family_id, $currency, $period, $date_from, $date_to);
+
+        return [
+            'mean' => $stats['mean'],
+            'sample_size' => $stats['count'],
+            'standard_error' => $stats['std_dev'] / sqrt($stats['count']),
+            'confidence_intervals' => [
+                '90%' => $this->calculateConfidenceInterval($stats['mean'], $stats['std_dev'], $stats['count'], 0.90),
+                '95%' => $stats['confidence_interval_95'],
+                '99%' => $stats['confidence_interval_99']
+            ],
+            'interpretation' => $this->getConfidenceInterpretation($stats)
+        ];
+    }
+
+    /**
+     * Generuje interpretację przedziałów ufności
+     */
+    private function getConfidenceInterpretation($stats)
+    {
+        $n = $stats['count'];
+        $ci95 = $stats['confidence_interval_95'];
+
+        if ($n < 2) {
+            return "Za mało danych do obliczenia przedziału ufności";
+        }
+
+        $precision = 2;
+        $mean_formatted = number_format($stats['mean'], $precision);
+        $lower_formatted = number_format($ci95['lower'], $precision);
+        $upper_formatted = number_format($ci95['upper'], $precision);
+        $margin_formatted = number_format($ci95['margin_of_error'], $precision);
+
+        $interpretations = [
+            "Z 95% pewnością średni wydatek mieści się w przedziale {$lower_formatted} - {$upper_formatted} {$GLOBALS['currency']}",
+            "Średni wydatek wynosi {$mean_formatted} {$GLOBALS['currency']} z marginesem błędu ±{$margin_formatted} {$GLOBALS['currency']}",
+            "Próbka zawiera {$n} transakcji, co zapewnia wiarygodność estymacji"
+        ];
+
+        $width = $ci95['upper'] - $ci95['lower'];
+        $relative_width = ($width / $stats['mean']) * 100;
+
+        if ($relative_width < 10) {
+            $interpretations[] = "Wąski przedział ufności wskazuje na wysoką precyzję estymacji";
+        } elseif ($relative_width > 50) {
+            $interpretations[] = "Szeroki przedział ufności sugeruje potrzebę większej próbki dla lepszej precyzji";
+        }
+
+        return $interpretations;
     }
 
 
@@ -758,34 +1144,46 @@ class Analysis
     public function getConcentrationStats($user_id, $family_id, $currency, $period = 'monthly', $date_from = null, $date_to = null)
     {
         $categories = $this->getCategoryBreakdown($user_id, $family_id, $currency, $period, 'expense', $date_from, $date_to);
-
-        if (empty($categories)) {
+        if (empty($categories) || count($categories) < 2) {
             return [
                 'gini' => 0,
                 'hhi' => 0,
                 'cr3' => 0,
                 'cr5' => 0,
-                'entropy' => 0
+                'entropy' => 0,
+                'categories_count' => count($categories),
+                'note' => 'Wymagane przynajmniej 2 kategorie do obliczenia koncentracji'
             ];
         }
 
         $totals = array_column($categories, 'total');
         $total_sum = array_sum($totals);
 
+        if ($total_sum < 0.00000001) {
+            return [
+                'gini' => 0,
+                'hhi' => 0,
+                'cr3' => 0,
+                'cr5' => 0,
+                'entropy' => 0,
+                'categories_count' => 0,
+                'note' => 'Suma zbyt mała do obliczenia koncentracji'
+            ];
+        }
+
         $gini = $this->calculateGini($totals);
         $hhi = $this->calculateHHI($totals, $total_sum);
-
         $cr3 = $this->calculateCR($totals, $total_sum, 3);
         $cr5 = $this->calculateCR($totals, $total_sum, 5);
-
         $entropy = $this->calculateEntropy($totals, $total_sum);
 
         return [
-            'gini' => $gini,
-            'hhi' => $hhi,
-            'cr3' => $cr3,
-            'cr5' => $cr5,
-            'entropy' => $entropy
+            'gini' => round($gini, 3),
+            'hhi' => round($hhi, 0),
+            'cr3' => round($cr3, 1),
+            'cr5' => round($cr5, 1),
+            'entropy' => round($entropy, 3),
+            'categories_count' => count($categories)
         ];
     }
 
@@ -796,61 +1194,101 @@ class Analysis
     {
         $trend_data = $this->getTrend($user_id, $family_id, $currency, $period, 'expense', $date_from, $date_to);
 
-        if (count($trend_data) < 2) {
+        if (count($trend_data) < 3) {
             return [
                 'r_squared' => 0,
                 'growth_rate' => 0,
                 't_statistic' => 0,
                 'slope' => 0,
-                'intercept' => 0
+                'intercept' => 0,
+                'note' => 'Wymagane przynajmniej 3 punkty danych dla analizy trendu'
             ];
         }
 
         try {
             $y = array_column($trend_data, 'total');
             $n = count($y);
+
+            $scale_factor = $this->getScaleFactor($currency, $y);
+            $y_scaled = array_map(function ($value) use ($scale_factor) {
+                return $value * $scale_factor;
+            }, $y);
+
             $x = range(1, $n);
 
-            // Regresja liniowa z PHP-ML
             $samples = array_map(function ($val) {
                 return [$val];
             }, $x);
-            $regression = new LeastSquares();
-            $regression->train($samples, $y);
 
-            // Prognozy i R²
-            $predictions = array_map(function ($sample) use ($regression) {
+            $regression = new LeastSquares();
+            $regression->train($samples, $y_scaled);
+
+            $predictions_scaled = array_map(function ($sample) use ($regression) {
                 return $regression->predict($sample);
             }, $samples);
 
+            $predictions = array_map(function ($value) use ($scale_factor) {
+                return $value / $scale_factor;
+            }, $predictions_scaled);
+
             $r_squared = $this->calculateRSquared($y, $predictions);
 
-            // Parametry modelu
-            $slope = $regression->getCoefficients()[0];
-            $intercept = $regression->getIntercept();
+            $slope = $regression->getCoefficients()[0] / $scale_factor;
+            $intercept = $regression->getIntercept() / $scale_factor;
 
-            // Tempo zmian
             $growth_rate = $this->calculateGrowthRate($y);
 
-            // Statystyka t
             $t_statistic = $this->calculateTStatistic($y, $predictions, $slope);
 
             return [
-                'r_squared' => $r_squared,
-                'growth_rate' => $growth_rate,
-                't_statistic' => $t_statistic,
-                'slope' => $slope,
-                'intercept' => $intercept
+                'r_squared' => round($r_squared, 4),
+                'growth_rate' => round($growth_rate, 2),
+                't_statistic' => round($t_statistic, 4),
+                'slope' => $this->roundForCurrency($slope, $currency),
+                'intercept' => $this->roundForCurrency($intercept, $currency),
+                'data_points' => $n
             ];
         } catch (Exception $e) {
+            error_log("Błąd analizy trendu: " . $e->getMessage());
             return [
                 'r_squared' => 0,
                 'growth_rate' => 0,
                 't_statistic' => 0,
                 'slope' => 0,
-                'intercept' => 0
+                'intercept' => 0,
+                'error' => 'Błąd obliczeń'
             ];
         }
+    }
+
+    /**
+     * Określa współczynnik skalowania dla uniknięcia problemów numerycznych
+     */
+    private function getScaleFactor($currency, $values)
+    {
+        $max_value = max($values);
+        $min_value = min($values);
+
+        if (in_array($currency, ['BTC', 'ETH', 'BNB', 'XRP', 'DOGE', 'USDT', 'SOL', 'ADA', 'TRX'])) {
+            if ($max_value < 0.01) {
+                return 1000000;
+            }
+        }
+
+        if ($max_value < 1.0) {
+            return 1000;
+        }
+
+        return 1;
+    }
+
+    /**
+     * Zaokrągla wartości odpowiednio dla waluty
+     */
+    private function roundForCurrency($value, $currency)
+    {
+        $precision = $this->getCurrencyPrecision($currency);
+        return round($value, $precision);
     }
 
     /**
@@ -904,11 +1342,9 @@ class Analysis
         sort($values);
         $mid = floor($n / 2);
 
-        // Dolny kwartyl
         $lower_half = array_slice($values, 0, $mid);
         $q1 = Mean::median($lower_half);
 
-        // Górny kwartyl  
         $upper_half = array_slice($values, $n % 2 ? $mid + 1 : $mid);
         $q3 = Mean::median($upper_half);
 
@@ -1008,10 +1444,132 @@ class Analysis
      */
     private function calculateTStatistic(array $actual, array $predicted, $slope)
     {
+        $n = count($actual);
+        if ($n < 3) return 0;
+
         $residuals = array_map(function ($a, $p) {
             return $a - $p;
         }, $actual, $predicted);
-        $se = StandardDeviation::population($residuals) / sqrt(count($actual));
-        return ($se > 0) ? abs($slope) / $se : 0;
+
+        $residuals_sum_sq = 0;
+        foreach ($residuals as $residual) {
+            $residuals_sum_sq += $residual * $residual;
+        }
+
+        $degrees_of_freedom = $n - 2;
+
+        if ($degrees_of_freedom <= 0 || $residuals_sum_sq < 1e-16) {
+            return 0;
+        }
+
+        $mse = $residuals_sum_sq / $degrees_of_freedom;
+        $se_slope = sqrt($mse / $this->calculateVarianceX($actual));
+
+        return ($se_slope > 1e-10) ? abs($slope) / $se_slope : 0;
+    }
+
+    /**
+     * Oblicza wariancję dla zmiennej X (czas/indeks)
+     */
+    private function calculateVarianceX(array $y_values)
+    {
+        $n = count($y_values);
+        $x_values = range(1, $n);
+        $mean_x = array_sum($x_values) / $n;
+
+        $variance = 0;
+        foreach ($x_values as $x) {
+            $variance += pow($x - $mean_x, 2);
+        }
+
+        return $variance > 0 ? $variance : 1;
+    }
+
+    /**
+     * Skaluje wartości dla lepszej czytelności na wykresach
+     */
+    private function scaleValuesForChart($values, $currency)
+    {
+        $crypto_currencies = ['BTC', 'ETH', 'BNB', 'XRP', 'DOGE', 'USDT', 'SOL', 'ADA', 'TRX'];
+
+        if (!in_array($currency, $crypto_currencies)) {
+            return [
+                'values' => $values,
+                'scale_factor' => 1,
+                'unit' => ''
+            ];
+        }
+
+        if (empty($values)) {
+            return [
+                'values' => [],
+                'scale_factor' => 1,
+                'unit' => ''
+            ];
+        }
+
+        $numeric_values = array_filter($values, function ($value) {
+            return is_numeric($value) && $value !== null;
+        });
+
+        if (empty($numeric_values)) {
+            return [
+                'values' => $values,
+                'scale_factor' => 1,
+                'unit' => ''
+            ];
+        }
+
+        $max_value = max($numeric_values);
+
+        if ($max_value == 0) {
+            return [
+                'values' => $values,
+                'scale_factor' => 1,
+                'unit' => ''
+            ];
+        }
+
+        if ($max_value < 0.001) {
+            $scale_factor = 1000000;
+        } elseif ($max_value < 0.01) {
+            $scale_factor = 100000;
+        } elseif ($max_value < 0.1) {
+            $scale_factor = 10000;
+        } elseif ($max_value < 1) {
+            $scale_factor = 1000;
+        } else {
+            $scale_factor = 1;
+        }
+
+        $scaled_values = [];
+        foreach ($values as $value) {
+            $scaled_values[] = $value * $scale_factor;
+        }
+
+        return [
+            'values' => $scaled_values,
+            'scale_factor' => $scale_factor,
+            'unit' => $this->getScaleUnit($scale_factor)
+        ];
+    }
+
+    /**
+     * Zwraca jednostkę dla skalowania
+     */
+    private function getScaleUnit($scale_factor)
+    {
+        switch ($scale_factor) {
+            case 1000000:
+                return 'milionów';
+            case 100000:
+                return 'setek tysięcy';
+            case 10000:
+                return 'dziesiątek tysięcy';
+            case 1000:
+                return 'tysięcy';
+            default:
+                return '';
+        }
     }
 }

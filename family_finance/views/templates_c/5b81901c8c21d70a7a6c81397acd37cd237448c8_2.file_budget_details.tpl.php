@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-11-23 12:05:48
+/* Smarty version 5.6.0, created on 2025-11-23 17:51:13
   from 'file:budget_details.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_6922ea8c5b9ed9_03311144',
+  'unifunc' => 'content_69233b81e9dad9_15783809',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '5b81901c8c21d70a7a6c81397acd37cd237448c8' => 
     array (
       0 => 'budget_details.tpl',
-      1 => 1763895946,
+      1 => 1763897192,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_6922ea8c5b9ed9_03311144 (\Smarty\Template $_smarty_tpl) {
+function content_69233b81e9dad9_15783809 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -53,7 +53,7 @@ $foreach0DoElse = false;
             <div class="d-flex justify-content-between">
                 <span class="fw-semibold"><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('cat')['category_name']), ENT_QUOTES, 'UTF-8');?>
 </span>
-                                <?php $_smarty_tpl->assign('precision', 2, false, NULL);?>
+                <?php $_smarty_tpl->assign('precision', 2, false, NULL);?>
                 <?php if ($_smarty_tpl->getSmarty()->getModifierCallback('in_array')($_smarty_tpl->getValue('budget')['currency'],array('BTC','ETH','BNB','XRP','DOGE','SOL','ADA','TRX','USDT'))) {?>
                     <?php $_smarty_tpl->assign('precision', 8, false, NULL);?>
                 <?php }?>

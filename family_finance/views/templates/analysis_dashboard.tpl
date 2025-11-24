@@ -44,6 +44,12 @@
     </div>
 </form>
 
+{* Ustal precyzję globalnie *}
+{assign var=precision value=2}
+{if in_array($currency, ['BTC','ETH','BNB','XRP','DOGE','USDT','SOL','ADA','TRX'])}
+    {assign var=precision value=8}
+{/if}
+
 <ul class="nav nav-tabs nav-tabs-modern mb-4 shadow-sm" id="analysisTabs" role="tablist">
     <li class="nav-item" role="presentation">
         <button class="nav-link active" id="summary-tab" data-bs-toggle="tab" data-bs-target="#summary" type="button"
@@ -52,6 +58,10 @@
     <li class="nav-item" role="presentation">
         <button class="nav-link" id="trend-tab" data-bs-toggle="tab" data-bs-target="#trend" type="button" role="tab"><i
                 class="bi bi-graph-up me-2"></i>Trendy</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="profit-loss-tab" data-bs-toggle="tab" data-bs-target="#profit-loss" type="button"
+            role="tab"><i class="bi bi-arrow-left-right me-2"></i>Bilans</button>
     </li>
     <li class="nav-item" role="presentation">
         <button class="nav-link" id="categories-tab" data-bs-toggle="tab" data-bs-target="#categories" type="button"
@@ -97,11 +107,6 @@
                         <h4 class="card-title text-primary"><i class="bi bi-cash-stack me-2"></i>Podsumowanie Finansów
                         </h4>
                         <hr>
-                        {assign var=precision value=2}
-                        {if in_array($currency, ['BTC','ETH','BNB','XRP','DOGE','USDT','SOL','ADA','TRX'])}
-                            {assign var=precision value=8}
-                        {/if}
-
                         {if $summary.income > 0 or $summary.expense > 0}
                             <p class="fs-5 mb-2">
                                 <span class="fw-bold text-success"><i
@@ -139,12 +144,6 @@
                         <h4 class="card-title text-danger"><i class="bi bi-bag-x-fill me-2"></i>Top 10 Największych
                             Wydatków</h4>
                         <hr>
-                        {* Ustal precyzję w zależności od waluty *}
-                        {assign var=precision value=2}
-                        {if in_array($currency, ['BTC','ETH','BNB','XRP','DOGE','USDT','SOL','ADA','TRX'])}
-                            {assign var=precision value=8}
-                        {/if}
-
                         {if $topExpenses}
                             <div class="list-group list-group-flush">
                                 {foreach $topExpenses as $index => $e}
@@ -204,34 +203,31 @@
 
     <div class="tab-pane fade" id="trend" role="tabpanel">
         <div class="row g-4">
-            <div class="col-md-12 col-lg-6">
-                <div class="card shadow-lg">
-                    <div class="card-body">
-                        <h5 class="card-title text-danger"><i class="bi bi-graph-down me-2"></i>Trend wydatków
-                            ({$currency})</h5>
-                        {if $trend && count($trend) > 0}
-                            <canvas id="trendExpensesChart" height="150"></canvas>
-                        {else}
-                            <div class="text-center py-5">
-                                <i class="bi bi-graph-down display-1 text-muted"></i>
-                                <p class="fs-5 text-muted mt-3">Brak danych o trendzie wydatków</p>
-                            </div>
-                        {/if}
+            <div class="col-12">
+                <div class="card shadow-lg border-0">
+                    <div class="card-header bg-dark border-bottom-0 pb-2">
+                        <h5 class="card-title text-primary mb-0">
+                            <i class="bi bi-bar-chart-steps me-2"></i>Trend przychodów i wydatków
+                            {if $trend.0.scale_unit}(w {$trend.0.scale_unit} {$currency}){else}({$currency}){/if}
+                        </h5>
                     </div>
-                </div>
-            </div>
-
-            <div class="col-md-12 col-lg-6">
-                <div class="card shadow-lg">
-                    <div class="card-body">
-                        <h5 class="card-title text-success"><i class="bi bi-graph-up me-2"></i>Trend przychodów
-                            ({$currency})</h5>
-                        {if $trendIncome && count($trendIncome) > 0}
-                            <canvas id="trendIncomeChart" height="150"></canvas>
+                    <div class="card-body pt-0 mt-5">
+                        {if ($trend && count($trend) > 0) || ($trendIncome && count($trendIncome) > 0)}
+                            <div class="chart-container" style="position: relative; height: 400px; width: 100%">
+                                <canvas id="combinedTrendChart"></canvas>
+                            </div>
+                            {if $trend.0.scale_unit}
+                                <div class="alert alert-info mt-3 mb-0 py-2">
+                                    <small>
+                                        <i class="bi bi-info-circle me-1"></i>
+                                        Wartości zostały przeskalowane dla lepszej czytelności.
+                                    </small>
+                                </div>
+                            {/if}
                         {else}
-                            <div class="text-center py-5">
-                                <i class="bi bi-graph-up display-1 text-muted"></i>
-                                <p class="fs-5 text-muted mt-3">Brak danych o trendzie przychodów</p>
+                            <div class="text-center py-4">
+                                <i class="bi bi-graph-up display-4 text-muted opacity-50"></i>
+                                <p class="text-muted mt-2">Brak danych o trendach finansowych</p>
                             </div>
                         {/if}
                     </div>
@@ -240,12 +236,92 @@
         </div>
     </div>
 
+    <div class="tab-pane fade" id="profit-loss" role="tabpanel">
+        <div class="row g-4">
+            <div class="col-12">
+                <div class="card shadow-lg border-0">
+                    <div class="card-header bg-dark border-bottom-0 pb-2">
+                        <h5 class="card-title text-primary mb-0">
+                            <i class="bi bi-arrow-left-right me-2"></i>Bilans finansowy - Różnica między przychodami a
+                            wydatkami
+                            {if $profitLossTrend.0.scale_unit}(w {$profitLossTrend.0.scale_unit}
+                            {$currency}){else}({$currency})
+                            {/if}
+                        </h5>
+                    </div>
+                    <div class="card-body pt-0 mt-5">
+                        {if $profitLossTrend && count($profitLossTrend) > 0}
+                            <div class="chart-container" style="position: relative; height: 400px; width: 100%">
+                                <canvas id="profitLossChart"></canvas>
+                            </div>
+
+                            <!-- Statystyki bilansu -->
+                            <div class="row mt-4">
+                                <div class="col-md-4">
+                                    <div class="card bg-dark">
+                                        <div class="card-body text-center">
+                                            <h6 class="card-title text-success">
+                                                <i class="bi bi-arrow-up-circle me-1"></i>Dni z zyskiem
+                                            </h6>
+                                            <h4 class="text-success" id="profitDays">0</h4>
+                                            <small class="text-muted">Dni z dodatnim bilansem</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card bg-dark">
+                                        <div class="card-body text-center">
+                                            <h6 class="card-title text-danger">
+                                                <i class="bi bi-arrow-down-circle me-1"></i>Dni ze stratą
+                                            </h6>
+                                            <h4 class="text-danger" id="lossDays">0</h4>
+                                            <small class="text-muted">Dni z ujemnym bilansem</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card bg-dark">
+                                        <div class="card-body text-center">
+                                            <h6 class="card-title text-info">
+                                                <i class="bi bi-graph-up me-1"></i>Średni bilans
+                                            </h6>
+                                            <h4 class="text-info" id="averageBalance">0</h4>
+                                            <small class="text-muted">Średnia dzienna różnica</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {if $profitLossTrend.0.scale_unit}
+                                <div class="alert alert-info mt-3 mb-0 py-2">
+                                    <small>
+                                        <i class="bi bi-info-circle me-1"></i>
+                                        Wartości zostały przeskalowane dla lepszej czytelności.
+                                    </small>
+                                </div>
+                            {/if}
+                        {else}
+                            <div class="text-center py-4">
+                                <i class="bi bi-calculator display-4 text-muted opacity-50"></i>
+                                <p class="text-muted mt-2">Brak danych do analizy bilansu</p>
+                            </div>
+                        {/if}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ukryty div z danymi w formacie JSON -->
+    <div id="profitLossData" data-profitloss='{$profitLossDataJson|escape:'html'}' style="display: none;"></div>
+
     <div class="tab-pane fade" id="categories" role="tabpanel">
         <div class="row g-4">
             <div class="col-md-6 col-lg-4">
                 <div class="card h-100 shadow-lg">
                     <div class="card-body">
-                        <h5 class="card-title text-danger"><i class="bi bi-pie-chart-fill me-2"></i>Struktura wydatków
+                        <h5 class="card-title text-danger text-center"><i
+                                class="bi bi-pie-chart-fill me-2"></i>Struktura wydatków
                             ({$currency})</h5>
                         {if $categories && count($categories) > 0}
                             <canvas id="categoryExpensesChart"></canvas>
@@ -262,7 +338,8 @@
             <div class="col-md-6 col-lg-4">
                 <div class="card h-100 shadow-lg">
                     <div class="card-body">
-                        <h5 class="card-title text-success"><i class="bi bi-pie-chart-fill me-2"></i>Struktura
+                        <h5 class="card-title text-success text-center "><i
+                                class="bi bi-pie-chart-fill me-2"></i>Struktura
                             przychodów ({$currency})</h5>
                         {if $incomeCategories && count($incomeCategories) > 0}
                             <canvas id="categoryIncomeChart"></canvas>
@@ -279,7 +356,8 @@
             <div class="col-md-12 col-lg-4">
                 <div class="card h-100 shadow-lg">
                     <div class="card-body">
-                        <h5 class="card-title text-info"><i class="bi bi-percent me-2"></i>Procentowy udział wydatków
+                        <h5 class="card-title text-info text-center"><i class="bi bi-percent me-2"></i>Procentowy udział
+                            wydatków
                         </h5>
                         {if $categoryPercentages && count($categoryPercentages) > 0}
                             <canvas id="categoryPercentChart"></canvas>
@@ -343,7 +421,8 @@
             <div class="col-md-12 col-lg-6">
                 <div class="card shadow-lg">
                     <div class="card-body">
-                        <h5 class="card-title text-primary"><i class="bi bi-wallet-fill me-2"></i>Wydatki wg rodzaju
+                        <h5 class="card-title text-primary text-center"><i class="bi bi-wallet-fill me-2"></i>Wydatki wg
+                            rodzaju
                             płatności ({$currency})</h5>
                         {if $paymentMethodBreakdown && count($paymentMethodBreakdown) > 0}
                             <canvas id="paymentChart"></canvas>
@@ -390,10 +469,12 @@
                                                         <span class="badge bg-primary ms-1">Ty</span>
                                                     {/if}
                                                 </td>
-                                                <td class="text-end fw-bold">{$member.total_spent|number_format:2:",":" "}
+                                                <td class="text-end fw-bold">
+                                                    {$member.total_spent|number_format:$precision:",":" "}
                                                     {$currency}</td>
                                                 <td class="text-end">{$member.transactions}</td>
-                                                <td class="text-end">{$member.avg_spent|number_format:2:",":" "} {$currency}
+                                                <td class="text-end">{$member.avg_spent|number_format:$precision:",":" "}
+                                                    {$currency}
                                                 </td>
                                                 <td class="text-end">
                                                     {assign var="percentage" value=($member.total_spent / $familyTotalSpending * 100)}
@@ -405,11 +486,15 @@
                                     <tfoot>
                                         <tr class="table-dark">
                                             <td><strong>Razem</strong></td>
-                                            <td class="text-end"><strong>{$familyTotalSpending|number_format:2:",":" "}
-                                                    {$currency}</strong></td>
+                                            <td class="text-end">
+                                                <strong>{$familyTotalSpending|number_format:$precision:",":" "}
+                                                    {$currency}</strong>
+                                            </td>
                                             <td class="text-end"><strong>{$familyTotalTransactions}</strong></td>
-                                            <td class="text-end"><strong>{$familyAverageSpending|number_format:2:",":" "}
-                                                    {$currency}</strong></td>
+                                            <td class="text-end">
+                                                <strong>{$familyAverageSpending|number_format:$precision:",":" "}
+                                                    {$currency}</strong>
+                                            </td>
                                             <td class="text-end"><strong>100%</strong></td>
                                         </tr>
                                     </tfoot>
@@ -475,22 +560,24 @@
                                     {if $descriptiveStats.count >= 2}
                                         <tr>
                                             <td><strong>Średnia</strong></td>
-                                            <td class="text-end">{$descriptiveStats.mean|number_format:2:",":" "}
+                                            <td class="text-end">{$descriptiveStats.mean|number_format:$precision:",":" "}
                                                 {$currency}</td>
                                         </tr>
                                         <tr>
                                             <td><strong>Mediana</strong></td>
-                                            <td class="text-end">{$descriptiveStats.median|number_format:2:",":" "}
+                                            <td class="text-end">{$descriptiveStats.median|number_format:$precision:",":" "}
                                                 {$currency}</td>
                                         </tr>
                                         <tr>
                                             <td><strong>Odchylenie standardowe</strong></td>
-                                            <td class="text-end">{$descriptiveStats.std_dev|number_format:2:",":" "}
+                                            <td class="text-end">
+                                                {$descriptiveStats.std_dev|number_format:$precision:",":" "}
                                                 {$currency}</td>
                                         </tr>
                                         <tr>
                                             <td><strong>Wariancja</strong></td>
-                                            <td class="text-end">{$descriptiveStats.variance|number_format:2:",":" "}</td>
+                                            <td class="text-end">
+                                                {$descriptiveStats.variance|number_format:$precision:",":" "}</td>
                                         </tr>
                                         <tr>
                                             <td><strong>Kurtoza</strong></td>
@@ -505,11 +592,66 @@
                                             <td class="text-end">
                                                 {$descriptiveStats.coefficient_of_variation|number_format:1}%</td>
                                         </tr>
+
+                                        <!-- Przedziały ufności -->
+                                        <tr class="table-primary">
+                                            <td colspan="2" class="fw-bold text-center">PRZEDZIAŁY UFNOŚCI DLA ŚREDNIEJ</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>95% przedział ufności</strong></td>
+                                            <td class="text-end">
+                                                <small>
+                                                    {$descriptiveStats.confidence_interval_95.lower|number_format:$precision:",":" "}
+                                                    -
+                                                    {$descriptiveStats.confidence_interval_95.upper|number_format:$precision:",":" "}
+                                                    {$currency}
+                                                </small>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Margines błędu (95%)</strong></td>
+                                            <td class="text-end">
+                                                <small>±{$descriptiveStats.confidence_interval_95.margin_of_error|number_format:$precision:",":" "}
+                                                    {$currency}</small>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>99% przedział ufności</strong></td>
+                                            <td class="text-end">
+                                                <small>
+                                                    {$descriptiveStats.confidence_interval_99.lower|number_format:$precision:",":" "}
+                                                    -
+                                                    {$descriptiveStats.confidence_interval_99.upper|number_format:$precision:",":" "}
+                                                    {$currency}
+                                                </small>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Liczba obserwacji</strong></td>
+                                            <td class="text-end">{$descriptiveStats.count}</td>
+                                        </tr>
+
+                                        <!-- Interpretacja -->
+                                        <tr class="table-info">
+                                            <td colspan="2" class="small">
+                                                <i class="bi bi-info-circle me-1"></i>
+                                                <strong>Interpretacja:</strong> Z 95% pewnością średni wydatek mieści się
+                                                między
+                                                <strong>{$descriptiveStats.confidence_interval_95.lower|number_format:$precision:",":" "}</strong>
+                                                a
+                                                <strong>{$descriptiveStats.confidence_interval_95.upper|number_format:$precision:",":" "}
+                                                    {$currency}</strong>
+                                            </td>
+                                        </tr>
                                     {else}
-                                        <div class="alert alert-info">
-                                            <i class="bi bi-info-circle"></i>
-                                            Zbyt mało danych w wybranej walucie do obliczenia statystyk
-                                        </div>
+                                        <tr>
+                                            <td colspan="2">
+                                                <div class="alert alert-info">
+                                                    <i class="bi bi-info-circle"></i>
+                                                    Zbyt mało danych w wybranej walucie do obliczenia statystyk
+                                                </div>
+                                            </td>
+                                        </tr>
                                     {/if}
                                 </tbody>
                             </table>
@@ -528,26 +670,44 @@
                         <div class="table-responsive">
                             <table class="table table-sm">
                                 <tbody>
-                                    <tr>
-                                        <td><strong>Wskaźnik Giniego</strong></td>
-                                        <td class="text-end">{$concentrationStats.gini|number_format:3}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Wskaźnik Herfindahla-Hirschmana</strong></td>
-                                        <td class="text-end">{$concentrationStats.hhi|number_format:0}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Wskaźnik koncentracji CR(3)</strong></td>
-                                        <td class="text-end">{$concentrationStats.cr3|number_format:1}%</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Wskaźnik koncentracji CR(5)</strong></td>
-                                        <td class="text-end">{$concentrationStats.cr5|number_format:1}%</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Entropia Shannona</strong></td>
-                                        <td class="text-end">{$concentrationStats.entropy|number_format:3}</td>
-                                    </tr>
+
+                                    {* --- Za mało kategorii --- *}
+                                    {if ($concentrationStats.categories_count|default:0) < 2}
+                                        <tr>
+                                            <td colspan="2">
+                                                <div class="alert alert-info">
+                                                    <i class="bi bi-info-circle"></i>
+                                                    Wymagane przynajmniej 2 kategorie do obliczenia miar koncentracji
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        {* --- Wystarczająco kategorii — pokazujemy statystyki --- *}
+                                    {else}
+
+                                        <tr>
+                                            <td><strong>Wskaźnik Giniego</strong></td>
+                                            <td class="text-end">{$concentrationStats.gini|number_format:3}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Wskaźnik Herfindahla-Hirschmana</strong></td>
+                                            <td class="text-end">{$concentrationStats.hhi|number_format:0}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Wskaźnik koncentracji CR(3)</strong></td>
+                                            <td class="text-end">{$concentrationStats.cr3|number_format:1}%</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Wskaźnik koncentracji CR(5)</strong></td>
+                                            <td class="text-end">{$concentrationStats.cr5|number_format:1}%</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Entropia Shannona</strong></td>
+                                            <td class="text-end">{$concentrationStats.entropy|number_format:3}</td>
+                                        </tr>
+
+                                    {/if}
+
                                 </tbody>
                             </table>
                         </div>
@@ -557,13 +717,15 @@
 
             <!-- Analiza trendu -->
             {if $isPremium}
-                <div class="col-md-6">
+                <div class="col-12">
                     <div class="card shadow-lg">
                         <div class="card-body">
                             <h5 class="card-title text-warning">
                                 <i class="bi bi-trending-up me-2"></i>Analiza trendu czasowego
                             </h5>
-                            <canvas id="trendAnalysisChart" height="200"></canvas>
+                            <div class="chart-container w-100" style="position: relative; height: 250px;">
+                                <canvas id="trendAnalysisChart"></canvas>
+                            </div>
                             <div class="mt-3">
                                 <table class="table table-sm">
                                     <tr>
@@ -587,7 +749,7 @@
                     </div>
                 </div>
             {else}
-                <div class="col-md-6">
+                <div class="col-12">
                     <div class="card shadow-lg text-center py-5">
                         <i class="bi bi-lock-fill display-1 text-muted"></i>
                         <p class="fs-5 text-muted mt-3">Analiza trendu dostępna tylko dla kont premium</p>
@@ -595,122 +757,8 @@
                 </div>
             {/if}
 
-
-
-
         </div>
 
-        <!-- Sekcja z opisami wskaźników -->
-        {* <div class="row mt-4">
-            <div class="col-12">
-                <div class="card shadow-lg">
-                    <div class="card-header bg-light">
-                        <h5 class="card-title mb-0">
-                            <i class="bi bi-info-circle me-2"></i>Objaśnienie wskaźników statystycznych
-                        </h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <!-- Statystyki opisowe -->
-                            <div class="col-md-4 mb-3">
-                                <h6 class="text-primary border-bottom pb-2">
-                                    <i class="bi bi-graph-up me-2"></i>Statystyki Opisowe
-                                </h6>
-                                <div class="small">
-                                    <p><strong>Średnia</strong> - przeciętna wartość pojedynczego wydatku</p>
-                                    <p><strong>Mediana</strong> - wartość środkowa, 50% wydatków jest poniżej tej kwoty
-                                    </p>
-                                    <p><strong>Odchylenie standardowe</strong> - średnie odchylenie wydatków od średniej
-                                    </p>
-                                    <p><strong>Wariancja</strong> - średnia kwadratów odchyleń od średniej</p>
-                                    <p><strong>Skosność</strong> - asymetria rozkładu:<br>
-                                        <span class="text-success">> 0 = prawostronna</span><br>
-                                        <span class="text-danger">
-                                            < 0=lewostronna</span>
-                                    </p>
-                                    <p><strong>Kurtoza</strong> - "spiczastość" rozkładu:<br>
-                                        <span class="text-success">> 0 = ostry</span><br>
-                                        <span class="text-danger">
-                                            < 0=płaski</span>
-                                    </p>
-                                    <p><strong>Wsp. zmienności</strong> - względna zmienność wydatków (%)</p>
-                                </div>
-                            </div>
-
-                            <!-- Miary koncentracji -->
-                            <div class="col-md-4 mb-3">
-                                <h6 class="text-success border-bottom pb-2">
-                                    <i class="bi bi-pie-chart me-2"></i>Miary Koncentracji
-                                </h6>
-                                <div class="small">
-                                    <p><strong>Wskaźnik Giniego</strong> - nierówność rozkładu:<br>
-                                        <span class="text-success">0.0 = równomierny</span><br>
-                                        <span class="text-warning">0.3-0.4 = umiarkowany</span><br>
-                                        <span class="text-danger">> 0.5 = wysoki</span>
-                                    </p>
-                                    <p><strong>Wskaźnik HHI</strong> - koncentracja Herfindahla:<br>
-                                        <span class="text-success">
-                                            < 1500=niska</span><br>
-                                                <span class="text-warning">1500-2500 = średnia</span><br>
-                                                <span class="text-danger">> 2500 = wysoka</span>
-                                    </p>
-                                    <p><strong>CR3</strong> - udział 3 największych kategorii</p>
-                                    <p><strong>CR5</strong> - udział 5 największych kategorii</p>
-                                    <p><strong>Entropia</strong> - różnorodność wydatków:<br>
-                                        <span class="text-danger">0 = mała</span><br>
-                                        <span class="text-success">> 1 = duża</span>
-                                    </p>
-                                </div>
-                            </div>
-
-                            <!-- Analiza trendu -->
-                            <div class="col-md-4 mb-3">
-                                <h6 class="text-warning border-bottom pb-2">
-                                    <i class="bi bi-trending-up me-2"></i>Analiza Trendu
-                                </h6>
-                                <div class="small">
-                                    <p><strong>Współczynnik R²</strong> - dopasowanie trendu:<br>
-                                        <span class="text-danger">0.0-0.3 = słabe</span><br>
-                                        <span class="text-warning">0.3-0.7 dobre</span><br>
-                                        <span class="text-success">> 0.7 = doskonałe</span>
-                                    </p>
-                                    <p><strong>Tempo zmian</strong> - dynamika wydatków:<br>
-                                        <span class="text-success">
-                                            < 0%=spadek</span><br>
-                                                <span class="text-danger">> 0% = wzrost</span>
-                                    </p>
-                                    <p><strong>Statystyka t</strong> - istotność trendu:<br>
-                                        <span class="text-danger">
-                                            < 2=nieistotny</span><br>
-                                                <span class="text-success">> 2 = istotny</span>
-                                    </p>
-                                    <p><strong>Wykres</strong> - pokazuje rzeczywiste wydatki oraz linię trendu</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Praktyczne wskazówki -->
-                        <div class="row mt-3">
-                            <div class="col-12">
-                                <div class="alert alert-info">
-                                    <h6 class="alert-heading">
-                                        <i class="bi bi-lightbulb me-2"></i>Jak interpretować wyniki?
-                                    </h6>
-                                    <ul class="mb-0 small">
-                                        <li><strong>Wysokie odchylenie</strong> = wydatki bardzo zróżnicowane</li>
-                                        <li><strong>Wysoki wskaźnik Giniego</strong> = kilka kategorii dominuje w
-                                            budżecie</li>
-                                        <li><strong>Wysoki R²</strong> = trend dobrze opisuje Twoje wydatki</li>
-                                        <li><strong>Dodatnie tempo zmian</strong> = wydatki rosną w czasie</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> *}
-        {* LUB *}
         <!-- Proste objaśnienie dla laika -->
         <div class="row mt-4">
             <div class="col-12">
@@ -882,7 +930,39 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    // Ustalenie stałej, nowoczesnej palety kolorów
+    function getProfitLossData() {
+        const profitLossDataElement = document.getElementById('profitLossData');
+        if (profitLossDataElement) {
+            const profitLossDataJson = profitLossDataElement.getAttribute('data-profitloss');
+            try {
+                const data = JSON.parse(profitLossDataJson);
+                return data.map(item => ({
+                    date: item.date,
+                    income: parseFloat(item.income) || 0,
+                    expense: parseFloat(item.expense) || 0,
+                    profit_loss: parseFloat(item.profit_loss) || 0,
+                    scaled_profit_loss: parseFloat(item.scaled_profit_loss) || 0,
+                    scale_factor: item.scale_factor || 1,
+                    scale_unit: item.scale_unit || ''
+                }));
+
+            } catch (e) {
+                console.error('Błąd parsowania danych profit/loss:', e);
+                return [];
+            }
+        }
+        return [];
+    }
+
+    function formatCurrencyForChart(value, scaleFactor = 1) {
+        if (scaleFactor > 1) {
+            const precision = scaleFactor >= 1000 ? 2 : 4;
+            return value.toFixed(precision) + ' ' + currentCurrency;
+        } else {
+            return formatCurrency(value);
+        }
+    }
+
     const colors = {
         primary: 'rgba(13, 110, 253, 0.8)',
         success: 'rgba(25, 135, 84, 0.8)',
@@ -904,84 +984,403 @@
         return baseColor.replace(/, 0\.8\)/, ', 0.2)');
     }
 
-    // Trend wydatków - tylko jeśli są dane
-    {if $trend && count($trend) > 0}
-        new Chart(document.getElementById('trendExpensesChart'), {
+    // Przekazanie precyzji z PHP do JavaScript
+    const currencyPrecision = {$precision};
+    const currentCurrency = '{$currency}';
+
+    // Funkcja do formatowania kwot z odpowiednią precyzją
+    function formatCurrency(value) {
+        return value.toFixed(currencyPrecision) + ' ' + currentCurrency;
+    }
+
+    // Połączony trend przychodów i wydatków - tylko jeśli są dane
+    {if ($trend && count($trend) > 0) || ($trendIncome && count($trendIncome) > 0)}
+        // Funkcja do formatowania z uwzględnieniem skalowania
+        function formatCurrencyForChart(value, scaleFactor = 1) {
+            if (scaleFactor > 1) {
+                // Dla przeskalowanych wartości pokazujemy mniej miejsc po przecinku
+                const precision = scaleFactor >= 1000 ? 2 : 4;
+                return value.toFixed(precision) + ' ' + currentCurrency;
+            } else {
+                return formatCurrency(value);
+            }
+        }
+
+        // Przygotuj dane z uwzględnieniem skalowania
+        const trendScaleFactor = {$trend.0.scale_factor|default:1};
+        const incomeScaleFactor = {$trendIncome.0.scale_factor|default:1};
+
+        new Chart(document.getElementById('combinedTrendChart'), {
             type: 'line',
             data: {
-                labels: [{foreach $trend as $t}'{$t.date}'
-                    {if !$t@last},
-                    {/if}
-                {/foreach}],
-                datasets: [{
-                    label: 'Wydatki ({$currency})',
-                    data: [{foreach $trend as $t}{$t.total}
+                labels: [
+                    {foreach $trend as $t}'{$t.date}'
                         {if !$t@last},
                         {/if}
-                    {/foreach}],
-                    borderColor: colors.danger.replace(/, 0\.8\)/, ', 1)'),
-                    backgroundColor: getBackgroundColors(colors.danger),
-                    fill: true,
-                    tension: 0.3
-                }]
+                    {/foreach}
+                ],
+                datasets: [
+                    {if $trendIncome && count($trendIncome) > 0}
+                        {
+                            label: 'Przychody' + (incomeScaleFactor > 1 ? ' (przeskalowane)' : ''),
+                            data: [
+                                {foreach $trendIncome as $t}
+                                    {if $t.scaled_total}{$t.scaled_total}{else}{$t.total}{/if}
+                                    {if !$t@last},
+                                    {/if}
+                                {/foreach}
+                            ],
+                            borderColor: '#28a745',
+                            backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.4,
+                            pointBackgroundColor: '#28a745',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 1,
+                            pointRadius: 3,
+                            pointHoverRadius: 5
+                        },
+                    {/if}
+                    {if $trend && count($trend) > 0}
+                        {
+                            label: 'Wydatki' + (trendScaleFactor > 1 ? ' (przeskalowane)' : ''),
+                            data: [
+                                {foreach $trend as $t}
+                                    {if $t.scaled_total}{$t.scaled_total}{else}{$t.total}{/if}
+                                    {if !$t@last},
+                                    {/if}
+                                {/foreach}
+                            ],
+                            borderColor: '#dc3545',
+                            backgroundColor: 'rgba(220, 53, 69, 0.1)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.4,
+                            pointBackgroundColor: '#dc3545',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 1,
+                            pointRadius: 3,
+                            pointHoverRadius: 5
+                        }
+                    {/if}
+                ]
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: false,
                 plugins: {
-                    legend: { position: 'top' },
-                    title: { display: false }
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 10,
+                            font: {
+                                size: 14
+                            }
+                        }
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        padding: 8,
+                        cornerRadius: 6,
+                        titleFont: {
+                            size: 11
+                        },
+                        bodyFont: {
+                            size: 11
+                        },
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+
+                                // Określ współczynnik skalowania dla danego datasetu
+                                const scaleFactor = context.datasetIndex === 0 ? incomeScaleFactor :
+                                    trendScaleFactor;
+
+                                // Jeśli wartości są przeskalowane, pokazujemy oryginalną wartość w tooltipie
+                                if (scaleFactor > 1) {
+                                    const originalValue = context.parsed.y / scaleFactor;
+                                    label += formatCurrency(originalValue) + ' (przeskalowane: ' +
+                                        formatCurrencyForChart(context.parsed.y, scaleFactor) + ')';
+                                } else {
+                                    label += formatCurrency(context.parsed.y);
+                                }
+                                return label;
+                            }
+                        }
+                    }
                 },
                 scales: {
                     y: {
                         beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.03)'
+                        },
                         title: {
                             display: true,
-                            text: 'Kwota ({$currency})'
+                            text: {if $trend.0.scale_unit}'Kwota (w {$trend.0.scale_unit} {$currency})'{else}'Kwota ({$currency})'{/if},
+                            font: {
+                                size: 14
+                            }
+                        },
+                        ticks: {
+                            font: {
+                                size: 13
+                            },
+                            callback: function(value) {
+                                const scaleFactor = Math.max(trendScaleFactor, incomeScaleFactor);
+                                return formatCurrencyForChart(value, scaleFactor);
+                            }
                         }
+                    },
+                    x: {
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.03)'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Data',
+                            font: {
+                                size: 14
+                            }
+                        },
+                        ticks: {
+                            font: {
+                                size: 13
+                            },
+                            maxTicksLimit: 8
+                        }
+                    }
+                },
+                interaction: {
+                    intersect: false,
+                    mode: 'nearest'
+                },
+                elements: {
+                    line: {
+                        tension: 0.4
                     }
                 }
             }
         });
     {/if}
 
-    // Trend przychodów - tylko jeśli są dane
-    {if $trendIncome && count($trendIncome) > 0}
-        new Chart(document.getElementById('trendIncomeChart'), {
-            type: 'line',
-            data: {
-                labels: [{foreach $trendIncome as $t}'{$t.date}'
-                    {if !$t@last},
-                    {/if}
-                {/foreach}],
-                datasets: [{
-                    label: 'Przychody ({$currency})',
-                    data: [{foreach $trendIncome as $t}{$t.total}
-                        {if !$t@last},
-                        {/if}
-                    {/foreach}],
-                    borderColor: colors.success.replace(/, 0\.8\)/, ', 1)'),
-                    backgroundColor: getBackgroundColors(colors.success),
-                    fill: true,
-                    tension: 0.3
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: { position: 'top' },
-                    title: { display: false }
+    // Wykres bilansu (różnica przychody-wydatki)
+    // Wykres bilansu (różnica przychody-wydatki)
+    {if $profitLossTrend && count($profitLossTrend) > 0}
+        let profitLossChartInstance = null;
+
+        // Inicjalizacja wykresu po załadowaniu zakładki
+        document.getElementById('profit-loss-tab').addEventListener('shown.bs.tab', function() {
+            if (!profitLossChartInstance) {
+                createProfitLossChart();
+            }
+        });
+
+        function createProfitLossChart() {
+            const ctx = document.getElementById('profitLossChart').getContext('2d');
+            const scaleFactor = {$profitLossTrend.0.scale_factor|default:1};
+
+            // Pobierz dane z ukrytego diva (już przekonwertowane na numbers)
+            const profitLossData = getProfitLossData();
+
+            console.log('Dane profit/loss po konwersji:', profitLossData); // DEBUG
+
+            // Zabezpieczenie przed pustymi danymi
+            if (!profitLossData || profitLossData.length === 0) {
+                console.error('Brak danych do utworzenia wykresu bilansu');
+                const canvas = document.getElementById('profitLossChart');
+                if (canvas) {
+                    canvas.innerHTML = '<div class="text-center py-4 text-muted">Brak danych do wyświetlenia</div>';
+                }
+                return;
+            }
+
+            const dates = profitLossData.map(item => item.date);
+            const profitLossValues = profitLossData.map(item =>
+                scaleFactor > 1 ? item.scaled_profit_loss : item.profit_loss
+            );
+
+            // Oblicz statystyki - teraz dane są już liczbami
+            let profitDays = 0;
+            let lossDays = 0;
+            let totalBalance = 0;
+
+            profitLossData.forEach(item => {
+                const profitLoss = item.profit_loss;
+                if (profitLoss > 0) profitDays++;
+                if (profitLoss < 0) lossDays++;
+                totalBalance += profitLoss;
+            });
+
+            const averageBalance = profitLossData.length > 0 ? totalBalance / profitLossData.length : 0;
+
+            console.log('Statystyki - profitDays:', profitDays, 'lossDays:', lossDays, 'averageBalance:',
+            averageBalance); // DEBUG
+
+            // Aktualizuj statystyki w UI
+            document.getElementById('profitDays').textContent = profitDays;
+            document.getElementById('lossDays').textContent = lossDays;
+            document.getElementById('averageBalance').textContent = formatCurrency(averageBalance);
+
+            // Przygotuj kolory dla punktów
+            const backgroundColors = profitLossData.map(item =>
+                item.profit_loss >= 0 ? 'rgba(40, 167, 69, 0.3)' : 'rgba(220, 53, 69, 0.3)'
+            );
+
+            const borderColors = profitLossData.map(item =>
+                item.profit_loss >= 0 ? 'rgba(40, 167, 69, 0.8)' : 'rgba(220, 53, 69, 0.8)'
+            );
+
+            profitLossChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: dates,
+                    datasets: [{
+                        label: scaleFactor > 1 ? 'Bilans (przeskalowany)' : 'Bilans finansowy',
+                        data: profitLossValues,
+                        backgroundColor: backgroundColors,
+                        borderColor: borderColors,
+                        borderWidth: 1,
+                        borderRadius: 4,
+                        borderSkipped: false,
+                    }]
                 },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Kwota ({$currency})'
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                usePointStyle: true,
+                                padding: 10,
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: true,
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            padding: 8,
+                            cornerRadius: 6,
+                            titleFont: {
+                                size: 11
+                            },
+                            bodyFont: {
+                                size: 11
+                            },
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+
+                                    // Pobierz oryginalne dane dla tego punktu
+                                    const dataIndex = context.dataIndex;
+                                    const originalValue = profitLossData[dataIndex].profit_loss;
+
+                                    if (scaleFactor > 1) {
+                                        label += formatCurrency(originalValue) + ' (przeskalowane: ' +
+                                            formatCurrencyForChart(context.parsed.y, scaleFactor) + ')';
+                                    } else {
+                                        label += formatCurrency(originalValue);
+                                    }
+
+                                    return label;
+                                },
+                                afterLabel: function(context) {
+                                    const dataIndex = context.dataIndex;
+                                    const originalValue = profitLossData[dataIndex].profit_loss;
+                                    const income = profitLossData[dataIndex].income;
+                                    const expense = profitLossData[dataIndex].expense;
+
+                                    let additionalInfo = [];
+                                    additionalInfo.push('Przychody: ' + formatCurrency(income));
+                                    additionalInfo.push('Wydatki: ' + formatCurrency(expense));
+
+                                    if (originalValue > 0) {
+                                        additionalInfo.push('✅ Dodatni bilans');
+                                    } else if (originalValue < 0) {
+                                        additionalInfo.push('❌ Ujemny bilans');
+                                    } else {
+                                        additionalInfo.push('⚖️ Bilans zerowy');
+                                    }
+
+                                    return additionalInfo;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.03)'
+                            },
+                            title: {
+                                display: true,
+                                text: scaleFactor > 1 ?
+                                    'Kwota (w {$profitLossTrend.0.scale_unit} {$currency})' : 
+                                    'Kwota ({$currency})',
+                                    font : {
+                                        size: 14
+                                    }
+                            },
+                            ticks: {
+                                font: {
+                                    size: 13
+                                },
+                                callback: function(value) {
+                                    return formatCurrencyForChart(value, scaleFactor);
+                                }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.03)'
+                            },
+                            title: {
+                                display: true,
+                                text: 'Data',
+                                font: {
+                                    size: 14
+                                }
+                            },
+                            ticks: {
+                                font: {
+                                    size: 13
+                                },
+                                maxTicksLimit: 8
+                            }
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'nearest'
+                    },
+                    elements: {
+                        bar: {
+                            borderWidth: 1
                         }
                     }
                 }
-            }
-        });
+            });
+        }
+
+        // Inicjalizacja wykresu jeśli zakładka jest już aktywna
+        if (document.getElementById('profit-loss').classList.contains('active')) {
+            createProfitLossChart();
+        }
     {/if}
 
     // Kategorie wydatków - tylko jeśli są dane
@@ -1004,7 +1403,7 @@
             options: {
                 responsive: true,
                 plugins: {
-                    legend: { position: 'right' },
+                    legend: { position: 'bottom' },
                     tooltip: {
                         callbacks: {
                             label: function(context) {
@@ -1012,7 +1411,7 @@
                                 if (label) {
                                     label += ': ';
                                 }
-                                label += context.raw.toFixed(2) + ' {$currency}';
+                                label += formatCurrency(context.raw);
                                 return label;
                             }
                         }
@@ -1042,7 +1441,7 @@
             options: {
                 responsive: true,
                 plugins: {
-                    legend: { position: 'right' },
+                    legend: { position: 'bottom' },
                     tooltip: {
                         callbacks: {
                             label: function(context) {
@@ -1050,7 +1449,7 @@
                                 if (label) {
                                     label += ': ';
                                 }
-                                label += context.raw.toFixed(2) + ' {$currency}';
+                                label += formatCurrency(context.raw);
                                 return label;
                             }
                         }
@@ -1080,7 +1479,7 @@
             options: {
                 responsive: true,
                 plugins: {
-                    legend: { position: 'right' },
+                    legend: { position: 'bottom' },
                     tooltip: {
                         callbacks: {
                             label: function(context) {
@@ -1118,7 +1517,7 @@
             options: {
                 responsive: true,
                 plugins: {
-                    legend: { position: 'right' },
+                    legend: { position: 'bottom' },
                     tooltip: {
                         callbacks: {
                             label: function(context) {
@@ -1126,7 +1525,7 @@
                                 if (label) {
                                     label += ': ';
                                 }
-                                label += context.raw.toFixed(2) + ' {$currency}';
+                                label += formatCurrency(context.raw);
                                 return label;
                             }
                         }
@@ -1168,6 +1567,11 @@
                         title: {
                             display: true,
                             text: 'Kwota ({$currency})'
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return formatCurrency(value);
+                            }
                         }
                     }
                 }
@@ -1206,7 +1610,15 @@
                     options: {
                         responsive: true,
                         plugins: {
-                            legend: { position: 'top' }
+                            legend: { position: 'top' },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return context.dataset.label + ': ' + formatCurrency(context
+                                            .parsed.y);
+                                    }
+                                }
+                            }
                         },
                         scales: {
                             y: {
@@ -1214,6 +1626,11 @@
                                 title: {
                                     display: true,
                                     text: 'Kwota ({$currency})'
+                                },
+                                ticks: {
+                                    callback: function(value) {
+                                        return formatCurrency(value);
+                                    }
                                 }
                             }
                         }
@@ -1254,7 +1671,15 @@
                     options: {
                         responsive: true,
                         plugins: {
-                            legend: { position: 'top' }
+                            legend: { position: 'top' },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return context.dataset.label + ': ' + formatCurrency(context
+                                            .parsed.y);
+                                    }
+                                }
+                            }
                         },
                         scales: {
                             y: {
@@ -1262,6 +1687,11 @@
                                 title: {
                                     display: true,
                                     text: 'Kwota ({$currency})'
+                                },
+                                ticks: {
+                                    callback: function(value) {
+                                        return formatCurrency(value);
+                                    }
                                 }
                             }
                         }
@@ -1270,13 +1700,12 @@
             }
         });
     {/if}
+
     // Analiza trendu czasowego Z LINIĄ TRENDU
     {if $trend && count($trend) > 0 && $trendAnalysis}
         document.addEventListener('DOMContentLoaded', function() {
             const ctx = document.getElementById('trendAnalysisChart');
             if (!ctx) return;
-
-            ctx.style.height = '200px';
 
             const dates = [{foreach $trend as $t}'{$t.date}'
                 {if !$t@last},
@@ -1298,7 +1727,7 @@
                 // Fallback - prosta linia trendu
                 const firstValue = actualValues[0];
                 const lastValue = actualValues[n - 1];
-                const slope = (lastValue - firstValue) / (n - 1);
+                const slope = (n > 1) ? (lastValue - firstValue) / (n - 1) : 0;
                 for (let i = 0; i < n; i++) {
                     trendLine.push(firstValue + slope * i);
                 }
@@ -1315,7 +1744,12 @@
                             backgroundColor: 'rgba(220, 53, 69, 0.1)',
                             borderWidth: 2,
                             tension: 0.3,
-                            fill: true
+                            fill: true,
+                            pointBackgroundColor: '#dc3545',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 1,
+                            pointRadius: 3,
+                            pointHoverRadius: 5
                         },
                         {
                             label: 'Linia trendu',
@@ -1332,6 +1766,14 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    layout: {
+                        padding: {
+                            left: 0,
+                            right: 0,
+                            top: 0,
+                            bottom: 0
+                        }
+                    },
                     plugins: {
                         legend: {
                             position: 'top',
@@ -1345,7 +1787,8 @@
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
-                                    return context.dataset.label + ': ' + context.parsed.y.toFixed(2) + ' {$currency}';
+                                    return context.dataset.label + ': ' + formatCurrency(context.parsed
+                                        .y);
                                 }
                             }
                         }
@@ -1363,6 +1806,9 @@
                             ticks: {
                                 font: {
                                     size: 10
+                                },
+                                callback: function(value) {
+                                    return formatCurrency(value);
                                 }
                             }
                         }
