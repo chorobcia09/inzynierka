@@ -20,7 +20,6 @@ class AnalysisController
             exit;
         }
 
-
         $user_id = $_SESSION['user_id'];
         $family_id = $_SESSION['family_id'] ?? null;
 
@@ -84,8 +83,6 @@ class AnalysisController
             $regionalComparison = $this->analysis->getRegionalComparison($currency, $period, $date_from, $date_to);
             $trendAnalysis = $this->analysis->getTrendAnalysis($user_id, $family_id, $currency, $period, $date_from, $date_to);
         }
-
-
 
         $this->smarty->assign([
             'summary' => $summary,
@@ -155,7 +152,7 @@ class AnalysisController
         $pdf->SetTitle("Raport finansowy $period");
         $pdf->AddPage();
 
-        $html = "<h2 style='text-align:center;'>Raport finansowy ($period)</h2>";
+        $html = "<h2 style='text-align:center;'>Raport finansowy</h2>";
 
         switch ($type) {
             case 'categories':

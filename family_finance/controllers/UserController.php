@@ -50,17 +50,36 @@ class UserController
                 $errors[] = 'Wszystkie pola są wymagane.';
             } elseif ($newPassword !== $confirmPassword) {
                 $errors[] = 'Nowe hasła nie są identyczne.';
-            } elseif (strlen($newPassword) < 8) {
-                $errors[] = 'Nowe hasło musi mieć co najmniej 8 znaków.';
+            } else {
+                // --- WALIDACJA NOWEGO HASŁA --- //
+                if (preg_match('/\s/', $newPassword)) {
+                    $errors[] = 'Nowe hasło nie może zawierać spacji.';
+                }
+                if (strlen($newPassword) < 8) {
+                    $errors[] = 'Nowe hasło musi mieć minimum 8 znaków.';
+                }
+                if (!preg_match('/[0-9]/', $newPassword)) {
+                    $errors[] = 'Nowe hasło musi zawierać co najmniej jedną cyfrę.';
+                }
+                if (!preg_match('/[A-Z]/', $newPassword)) {
+                    $errors[] = 'Nowe hasło musi zawierać co najmniej jedną dużą literę.';
+                }
+                if (!preg_match('/[a-z]/', $newPassword)) {
+                    $errors[] = 'Nowe hasło musi zawierać co najmniej jedną małą literę.';
+                }
+                if (!preg_match('/[\!\@\#\$\%\^\&\*\(\)\-\_\=\+]/', $newPassword)) {
+                    $errors[] = 'Nowe hasło musi zawierać co najmniej jeden znak specjalny (!@#$%^&*()-_=+).';
+                }
             }
 
+            // Jeżeli nie ma błędów walidacji
             if (empty($errors)) {
                 // Pobranie aktualnego hasła z bazy
                 $user = $this->userModel->getUserById($_SESSION['user_id']);
                 if (!$user || !password_verify($currentPassword, $user['password'])) {
                     $errors[] = 'Nieprawidłowe aktualne hasło.';
                 } else {
-                    // Hashowanie i aktualizacja hasła
+                    // Hashowanie i aktualizacja nowego hasła
                     $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
                     $this->userModel->updatePassword($_SESSION['user_id'], $hashedPassword);
                     $success = 'Hasło zostało pomyślnie zmienione.';
@@ -75,6 +94,7 @@ class UserController
         ]);
         $this->smarty->display('change_password.tpl');
     }
+
 
     public function upgradeToPremium()
     {
