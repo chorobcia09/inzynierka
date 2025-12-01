@@ -1019,7 +1019,7 @@ class Analysis
         $max = max($amounts);
 
         if ($n >= 2) {
-            $std_dev = StandardDeviation::population($amounts);
+            $std_dev = $this->sampleStdDev($amounts);
             if ($std_dev < 1e-10 && $mean > 0) {
                 $std_dev = $mean * 0.01;
             }
@@ -1070,6 +1070,25 @@ class Analysis
             ]
         ];
     }
+
+    /**
+     * Oblicza odchylenie standardowe 
+     */
+    private function sampleStdDev(array $values)
+    {
+        $n = count($values);
+        if ($n < 2) return 0;
+
+        $mean = array_sum($values) / $n;
+
+        $sumSq = 0;
+        foreach ($values as $v) {
+            $sumSq += pow($v - $mean, 2);
+        }
+
+        return sqrt($sumSq / ($n - 1));
+    }
+
 
     /**
      * Zwraca precyzję dla danej waluty
@@ -1190,6 +1209,9 @@ class Analysis
     /**
      * Przeprowadza zaawansowaną analizę trendu z regresją liniową z PHP-ML
      */
+    /**
+     * Przeprowadza analizę trendu i zwraca gotową linię trendu
+     */
     public function getTrendAnalysis($user_id, $family_id, $currency, $period = 'monthly', $date_from = null, $date_to = null)
     {
         $trend_data = $this->getTrend($user_id, $family_id, $currency, $period, 'expense', $date_from, $date_to);
@@ -1201,12 +1223,16 @@ class Analysis
                 't_statistic' => 0,
                 'slope' => 0,
                 'intercept' => 0,
-                'note' => 'Wymagane przynajmniej 3 punkty danych dla analizy trendu'
+                'trend_line' => [],
+                'actual_values' => [],
+                'dates' => [],
+                'note' => 'Wymagane przynajmniej 3 punkty danych'
             ];
         }
 
         try {
             $y = array_column($trend_data, 'total');
+            $dates = array_column($trend_data, 'date');
             $n = count($y);
 
             $scale_factor = $this->getScaleFactor($currency, $y);
@@ -1215,7 +1241,6 @@ class Analysis
             }, $y);
 
             $x = range(1, $n);
-
             $samples = array_map(function ($val) {
                 return [$val];
             }, $x);
@@ -1223,21 +1248,27 @@ class Analysis
             $regression = new LeastSquares();
             $regression->train($samples, $y_scaled);
 
-            $predictions_scaled = array_map(function ($sample) use ($regression) {
-                return $regression->predict($sample);
-            }, $samples);
+            $predictions_scaled = [];
+            foreach ($samples as $sample) {
+                $predictions_scaled[] = $regression->predict($sample);
+            }
+
+            // Deskaluj wartości
+            $slope = $regression->getCoefficients()[0] / $scale_factor;
+            $intercept = $regression->getIntercept() / $scale_factor;
+
+            // Oblicz linię trendu
+            $trend_line = [];
+            for ($i = 1; $i <= $n; $i++) {
+                $trend_line[] = $intercept + $slope * $i;
+            }
 
             $predictions = array_map(function ($value) use ($scale_factor) {
                 return $value / $scale_factor;
             }, $predictions_scaled);
 
             $r_squared = $this->calculateRSquared($y, $predictions);
-
-            $slope = $regression->getCoefficients()[0] / $scale_factor;
-            $intercept = $regression->getIntercept() / $scale_factor;
-
             $growth_rate = $this->calculateGrowthRate($y);
-
             $t_statistic = $this->calculateTStatistic($y, $predictions, $slope);
 
             return [
@@ -1246,6 +1277,9 @@ class Analysis
                 't_statistic' => round($t_statistic, 4),
                 'slope' => $this->roundForCurrency($slope, $currency),
                 'intercept' => $this->roundForCurrency($intercept, $currency),
+                'trend_line' => $trend_line, // Gotowa linia trendu
+                'actual_values' => $y,      // Rzeczywiste wartości
+                'dates' => $dates,          // Daty
                 'data_points' => $n
             ];
         } catch (Exception $e) {
@@ -1256,6 +1290,9 @@ class Analysis
                 't_statistic' => 0,
                 'slope' => 0,
                 'intercept' => 0,
+                'trend_line' => [],
+                'actual_values' => [],
+                'dates' => [],
                 'error' => 'Błąd obliczeń'
             ];
         }

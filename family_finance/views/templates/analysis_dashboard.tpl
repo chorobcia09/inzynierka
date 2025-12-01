@@ -731,26 +731,148 @@
                                 <i class="bi bi-trending-up me-2"></i>Analiza trendu czasowego
                             </h5>
                             <div class="chart-container w-100" style="position: relative; height: 250px;">
-                                <canvas id="trendAnalysisChart"></canvas>
+                                {* 1. Sprawdź czy jest błąd *}
+                                {if $trendAnalysis.error|default:'' != ''}
+                                    <div class="alert alert-danger m-0 h-100 d-flex flex-column justify-content-center">
+                                        <div class="text-center">
+                                            <i class="bi bi-exclamation-triangle-fill fs-1 text-danger mb-3"></i>
+                                            <h6 class="text-danger fw-bold">Błąd obliczeń</h6>
+                                            <p class="text-danger mb-0">{$trendAnalysis.error}</p>
+                                        </div>
+                                    </div>
+
+                                    {* 2. Sprawdź czy jest za mało danych *}
+                                {elseif $trendAnalysis.data_points|default:0 < 3}
+                                    <div class="alert alert-info m-0 h-100 d-flex flex-column justify-content-center">
+                                        <div class="text-center">
+                                            <i class="bi bi-info-circle-fill fs-1 text-info mb-3"></i>
+                                            <h6 class="text-info fw-bold">
+                                                {if $trendAnalysis.data_points|default:0 == 0}
+                                                    Brak danych
+                                                {elseif $trendAnalysis.data_points|default:0 == 1}
+                                                    Tylko 1 punkt danych
+                                                {else}
+                                                    Tylko {$trendAnalysis.data_points|default:0} punkty danych
+                                                {/if}
+                                            </h6>
+                                            <p class="text-info mb-0">
+                                                Wymagane przynajmniej 3 punkty danych do analizy trendu.
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    {* 3. Sprawdź czy mamy linię trendu *}
+                                {elseif $trendAnalysis.trend_line && $trendAnalysis.trend_line|count > 0}
+                                    <canvas id="trendAnalysisChart"></canvas>
+
+                                    {* 4. Domyślny komunikat *}
+                                {else}
+                                    <div class="text-center py-4 h-100 d-flex flex-column justify-content-center">
+                                        <i class="bi bi-graph-up display-4 text-muted opacity-50 mb-3"></i>
+                                        <h6 class="text-muted">Brak danych do analizy trendu</h6>
+                                        <p class="text-muted small mt-2">
+                                            Nie udało się obliczyć linii trendu.<br>
+                                            Spróbuj zmienić okres lub walutę.
+                                        </p>
+                                    </div>
+                                {/if}
                             </div>
+
+                            {* Tabela statystyk trendu *}
                             <div class="mt-3">
-                                <table class="table table-sm">
-                                    <tr>
-                                        <td><strong>Współczynnik determinacji R²</strong></td>
-                                        <td class="text-end">{$trendAnalysis.r_squared|number_format:3}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Przeciętne tempo zmian</strong></td>
-                                        <td
-                                            class="text-end {if $trendAnalysis.growth_rate > 0}text-danger{else}text-success{/if}">
-                                            {$trendAnalysis.growth_rate|number_format:2}%
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Statystyka t</strong></td>
-                                        <td class="text-end">{$trendAnalysis.t_statistic|number_format:3}</td>
-                                    </tr>
-                                </table>
+                                {if $trendAnalysis.error|default:'' != '' || $trendAnalysis.data_points|default:0 < 3}
+                                    {* Nie pokazuj tabeli jeśli jest błąd lub za mało danych *}
+                                    <div class="alert alert-light border text-center py-2">
+                                        <small class="text-muted">
+                                            <i class="bi bi-info-circle me-1"></i>
+                                            Statystyki trendu dostępne po spełnieniu warunków analizy
+                                        </small>
+                                    </div>
+                                {elseif $trendAnalysis.trend_line && $trendAnalysis.trend_line|count > 0}
+                                    <table class="table table-sm">
+                                        <tr>
+                                            <td><strong>Współczynnik determinacji R²</strong></td>
+                                            <td class="text-end">
+                                                <span class="fw-bold">{$trendAnalysis.r_squared|number_format:3}</span>
+                                                {if $trendAnalysis.r_squared >= 0.7}
+                                                    <span class="badge bg-success ms-1"><i
+                                                            class="bi bi-check-circle me-1"></i>Dobry</span>
+                                                {elseif $trendAnalysis.r_squared >= 0.4}
+                                                    <span class="badge bg-warning ms-1"><i
+                                                            class="bi bi-dash-circle me-1"></i>Średni</span>
+                                                {elseif $trendAnalysis.r_squared > 0}
+                                                    <span class="badge bg-danger ms-1"><i
+                                                            class="bi bi-x-circle me-1"></i>Słaby</span>
+                                                {else}
+                                                    <span class="badge bg-secondary ms-1"><i
+                                                            class="bi bi-question-circle me-1"></i>Nieokreślony</span>
+                                                {/if}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Przeciętne tempo zmian</strong></td>
+                                            <td class="text-end">
+                                                <span
+                                                    class="fw-bold {if $trendAnalysis.growth_rate > 0}text-danger{elseif $trendAnalysis.growth_rate < 0}text-success{else}text-muted{/if}">
+                                                    {$trendAnalysis.growth_rate|number_format:2}%
+                                                </span>
+                                                {if $trendAnalysis.growth_rate > 5}
+                                                    <span class="badge bg-danger ms-1"><i
+                                                            class="bi bi-arrow-up-right me-1"></i>Gwałtowny wzrost</span>
+                                                {elseif $trendAnalysis.growth_rate > 0}
+                                                    <span class="badge bg-warning ms-1"><i
+                                                            class="bi bi-arrow-up me-1"></i>Wzrost</span>
+                                                {elseif $trendAnalysis.growth_rate < -5}
+                                                    <span class="badge bg-success ms-1"><i
+                                                            class="bi bi-arrow-down-right me-1"></i>Gwałtowny spadek</span>
+                                                {elseif $trendAnalysis.growth_rate < 0}
+                                                    <span class="badge bg-info ms-1"><i
+                                                            class="bi bi-arrow-down me-1"></i>Spadek</span>
+                                                {else}
+                                                    <span class="badge bg-secondary ms-1"><i
+                                                            class="bi bi-dash me-1"></i>Stabilnie</span>
+                                                {/if}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Statystyka t</strong></td>
+                                            <td class="text-end">
+                                                <span class="fw-bold">{$trendAnalysis.t_statistic|number_format:3}</span>
+                                                {if $trendAnalysis.t_statistic > 2.0}
+                                                    <span class="badge bg-success ms-1"><i
+                                                            class="bi bi-check-circle me-1"></i>Istotny</span>
+                                                {elseif $trendAnalysis.t_statistic > 1.65}
+                                                    <span class="badge bg-warning ms-1"><i
+                                                            class="bi bi-exclamation-circle me-1"></i>Na granicy</span>
+                                                {else}
+                                                    <span class="badge bg-secondary ms-1"><i
+                                                            class="bi bi-dash-circle me-1"></i>Nieistotny</span>
+                                                {/if}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Liczba punktów danych</strong></td>
+                                            <td class="text-end">
+                                                <span class="fw-bold">{$trendAnalysis.data_points}</span>
+                                                <span class="badge bg-dark ms-1">
+                                                    <i class="bi bi-calendar-event me-1"></i>
+                                                    {if $trendAnalysis.data_points == 1}dzień
+                                                    {elseif $trendAnalysis.data_points < 5}dni
+                                                    {else}dni
+                                                    {/if}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        {if $trendAnalysis.note|default:'' != ''}
+                                            <tr class="table-warning">
+                                                <td colspan="2" class="small py-2">
+                                                    <i class="bi bi-info-circle me-1"></i>
+                                                    <strong>Uwaga:</strong> {$trendAnalysis.note}
+                                                </td>
+                                            </tr>
+                                        {/if}
+                                    </table>
+                                {/if}
                             </div>
                         </div>
                     </div>
@@ -759,7 +881,11 @@
                 <div class="col-12">
                     <div class="card shadow-lg text-center py-5">
                         <i class="bi bi-lock-fill display-1 text-muted"></i>
-                        <p class="fs-5 text-muted mt-3">Analiza trendu dostępna tylko dla kont premium</p>
+                        <h5 class="text-muted mt-3">Analiza trendu - funkcja premium</h5>
+                        <p class="text-muted mb-0">
+                            Zaawansowana analiza trendu z regresją liniową<br>
+                            dostępna wyłącznie dla użytkowników konta premium
+                        </p>
                     </div>
                 </div>
             {/if}
@@ -1099,27 +1225,8 @@
                         bodyFont: {
                             size: 11
                         },
-                        callbacks: {
-                            label: function(context) {
-                                let label = context.dataset.label || '';
-                                if (label) {
-                                    label += ': ';
-                                }
-
-                                // Określ współczynnik skalowania dla danego datasetu
-                                const scaleFactor = context.datasetIndex === 0 ? incomeScaleFactor :
-                                    trendScaleFactor;
-
-                                // Jeśli wartości są przeskalowane, pokazujemy oryginalną wartość w tooltipie
-                                if (scaleFactor > 1) {
-                                    const originalValue = context.parsed.y / scaleFactor;
-                                    label += formatCurrency(originalValue) + ' (przeskalowane: ' +
-                                        formatCurrencyForChart(context.parsed.y, scaleFactor) + ')';
-                                } else {
-                                    label += formatCurrency(context.parsed.y);
-                                }
-                                return label;
-                            }
+                        callback: function(context) {
+                            return context.dataset.label + ': ' + formatCurrency(context.parsed.y);
                         }
                     }
                 },
@@ -1708,130 +1815,93 @@
         });
     {/if}
 
-    // Analiza trendu czasowego Z LINIĄ TRENDU
-    {if $trend && count($trend) > 0 && $trendAnalysis}
-        document.addEventListener('DOMContentLoaded', function() {
-            const ctx = document.getElementById('trendAnalysisChart');
-            if (!ctx) return;
-
-            const dates = [{foreach $trend as $t}'{$t.date}'
-                {if !$t@last},
-                {/if}
-            {/foreach}];
-            const actualValues = [{foreach $trend as $t}{$t.total}
-                {if !$t@last},
-                {/if}
-            {/foreach}];
-
-            // Oblicz linię trendu
-            const trendLine = [];
-            const n = actualValues.length;
-            {if $trendAnalysis.slope && $trendAnalysis.intercept}
-                for (let i = 0; i < n; i++) {
-                    trendLine.push({$trendAnalysis.intercept} + {$trendAnalysis.slope} * (i + 1));
-                }
-            {else}
-                // Fallback - prosta linia trendu
-                const firstValue = actualValues[0];
-                const lastValue = actualValues[n - 1];
-                const slope = (n > 1) ? (lastValue - firstValue) / (n - 1) : 0;
-                for (let i = 0; i < n; i++) {
-                    trendLine.push(firstValue + slope * i);
-                }
-            {/if}
-
-            new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: dates,
-                    datasets: [{
-                            label: 'Rzeczywiste wydatki',
-                            data: actualValues,
-                            borderColor: '#dc3545',
-                            backgroundColor: 'rgba(220, 53, 69, 0.1)',
-                            borderWidth: 2,
-                            tension: 0.3,
-                            fill: true,
-                            pointBackgroundColor: '#dc3545',
-                            pointBorderColor: '#fff',
-                            pointBorderWidth: 1,
-                            pointRadius: 3,
-                            pointHoverRadius: 5
-                        },
-                        {
-                            label: 'Linia trendu',
-                            data: trendLine,
-                            borderColor: '#ffc107',
-                            backgroundColor: 'transparent',
-                            borderWidth: 3,
-                            borderDash: [5, 5],
-                            pointRadius: 3,
-                            pointBorderWidth: 1,
-                            pointBackgroundColor: '#ffc107',
-                            pointHoverRadius: 5,
-                            tension: 0
+    // Analiza trendu czasowego
+    {if $trendAnalysis.trend_line && $trendAnalysis.trend_line|count > 0}
+        new Chart(document.getElementById('trendAnalysisChart'), {
+            type: 'line',
+            data: {
+                labels: [
+                    {foreach $trendAnalysis.dates as $date}'{$date}'
+                        {if !$date@last},{/if}
+                    {/foreach}
+                ],
+                datasets: [{
+                        label: 'Rzeczywiste wydatki',
+                        data: [
+                            {foreach $trendAnalysis.actual_values as $value}{$value}
+                                {if !$value@last},{/if}
+                            {/foreach}
+                        ],
+                        borderColor: '#dc3545',
+                        backgroundColor: 'rgba(220, 53, 69, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        fill: true,
+                        pointRadius: 3
+                    },
+                    {
+                        label: 'Linia trendu',
+                        data: [
+                            {foreach $trendAnalysis.trend_line as $value}{$value}
+                                {if !$value@last},{/if}
+                            {/foreach}
+                        ],
+                        borderColor: '#ffc107',
+                        backgroundColor: 'transparent',
+                        borderWidth: 3,
+                        borderDash: [5, 5],
+                        pointRadius: 3,
+                        pointBackgroundColor: '#ffc107',
+                        tension: 0
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            boxWidth: 12,
+                            font: { size: 11 }
                         }
-                    ]
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + formatCurrency(context.parsed.y);
+                            }
+                        }
+                    }
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    layout: {
-                        padding: {
-                            left: 0,
-                            right: 0,
-                            top: 0,
-                            bottom: 0
-                        }
+                scales: {
+                    x: {
+                        ticks: { font: { size: 10 } }
                     },
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                            labels: {
-                                boxWidth: 12,
-                                font: {
-                                    size: 11
-                                }
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return context.dataset.label + ': ' + formatCurrency(context.parsed
-                                        .y);
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            ticks: {
-                                font: {
-                                    size: 10
-                                }
-                            }
-                        },
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                font: {
-                                    size: 10
-                                },
-                                callback: function(value) {
-                                    return formatCurrency(value);
-                                }
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            font: { size: 10 },
+                            callback: function(value) {
+                                return formatCurrency(value);
                             }
                         }
                     }
                 }
-            });
+            }
         });
     {else}
+        // Jeśli brak danych, pokaż komunikat
         document.addEventListener('DOMContentLoaded', function() {
             const container = document.getElementById('trendAnalysisChart');
             if (container) {
-                container.innerHTML =
-                    '<div class="text-center py-3 text-muted"><small>Brak danych do analizy trendu</small></div>';
+                container.innerHTML = `
+                <div class="text-center py-4 text-muted">
+                    <i class="bi bi-graph-up opacity-50" style="font-size: 2rem;"></i>
+<p class="mt-2"><small>{$trendAnalysis.note|default:'Brak danych do analizy trendu'}</small></p>
+                </div>
+            `;
             }
         });
     {/if}

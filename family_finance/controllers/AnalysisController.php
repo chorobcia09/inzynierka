@@ -76,6 +76,7 @@ class AnalysisController
         if ($isPremium) {
             $regionalComparison = $this->analysis->getRegionalComparison($currency, $period, $date_from, $date_to);
             $trendAnalysis = $this->analysis->getTrendAnalysis($user_id, $family_id, $currency, $period, $date_from, $date_to);
+            // dump($trendAnalysis);
         }
 
         $this->smarty->assign([

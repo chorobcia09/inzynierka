@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-12-01 15:53:56
+/* Smarty version 5.6.0, created on 2025-12-01 16:17:58
   from 'file:analysis_dashboard.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_692dac04d8a090_26512842',
+  'unifunc' => 'content_692db1a67e57f9_28212108',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'ff3fc31a2834008499907241f37b80e084f0c120' => 
     array (
       0 => 'analysis_dashboard.tpl',
-      1 => 1764600835,
+      1 => 1764602269,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_692dac04d8a090_26512842 (\Smarty\Template $_smarty_tpl) {
+function content_692db1a67e57f9_28212108 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -845,29 +845,149 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                                 <i class="bi bi-trending-up me-2"></i>Analiza trendu czasowego
                             </h5>
                             <div class="chart-container w-100" style="position: relative; height: 250px;">
-                                <canvas id="trendAnalysisChart"></canvas>
+                                                                <?php if ((($tmp = $_smarty_tpl->getValue('trendAnalysis')['error'] ?? null)===null||$tmp==='' ? '' ?? null : $tmp) != '') {?>
+                                    <div class="alert alert-danger m-0 h-100 d-flex flex-column justify-content-center">
+                                        <div class="text-center">
+                                            <i class="bi bi-exclamation-triangle-fill fs-1 text-danger mb-3"></i>
+                                            <h6 class="text-danger fw-bold">Błąd obliczeń</h6>
+                                            <p class="text-danger mb-0"><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('trendAnalysis')['error']), ENT_QUOTES, 'UTF-8');?>
+</p>
+                                        </div>
+                                    </div>
+
+                                                                    <?php } elseif ((($tmp = $_smarty_tpl->getValue('trendAnalysis')['data_points'] ?? null)===null||$tmp==='' ? 0 ?? null : $tmp) < 3) {?>
+                                    <div class="alert alert-info m-0 h-100 d-flex flex-column justify-content-center">
+                                        <div class="text-center">
+                                            <i class="bi bi-info-circle-fill fs-1 text-info mb-3"></i>
+                                            <h6 class="text-info fw-bold">
+                                                <?php if ((($tmp = $_smarty_tpl->getValue('trendAnalysis')['data_points'] ?? null)===null||$tmp==='' ? 0 ?? null : $tmp) == 0) {?>
+                                                    Brak danych
+                                                <?php } elseif ((($tmp = $_smarty_tpl->getValue('trendAnalysis')['data_points'] ?? null)===null||$tmp==='' ? 0 ?? null : $tmp) == 1) {?>
+                                                    Tylko 1 punkt danych
+                                                <?php } else { ?>
+                                                    Tylko <?php echo htmlspecialchars((string) ((($tmp = $_smarty_tpl->getValue('trendAnalysis')['data_points'] ?? null)===null||$tmp==='' ? 0 ?? null : $tmp)), ENT_QUOTES, 'UTF-8');?>
+ punkty danych
+                                                <?php }?>
+                                            </h6>
+                                            <p class="text-info mb-0">
+                                                Wymagane przynajmniej 3 punkty danych do analizy trendu.
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                                                    <?php } elseif ($_smarty_tpl->getValue('trendAnalysis')['trend_line'] && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('trendAnalysis')['trend_line']) > 0) {?>
+                                    <canvas id="trendAnalysisChart"></canvas>
+
+                                                                    <?php } else { ?>
+                                    <div class="text-center py-4 h-100 d-flex flex-column justify-content-center">
+                                        <i class="bi bi-graph-up display-4 text-muted opacity-50 mb-3"></i>
+                                        <h6 class="text-muted">Brak danych do analizy trendu</h6>
+                                        <p class="text-muted small mt-2">
+                                            Nie udało się obliczyć linii trendu.<br>
+                                            Spróbuj zmienić okres lub walutę.
+                                        </p>
+                                    </div>
+                                <?php }?>
                             </div>
-                            <div class="mt-3">
-                                <table class="table table-sm">
-                                    <tr>
-                                        <td><strong>Współczynnik determinacji R²</strong></td>
-                                        <td class="text-end"><?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('trendAnalysis')['r_squared'],3)), ENT_QUOTES, 'UTF-8');?>
-</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Przeciętne tempo zmian</strong></td>
-                                        <td
-                                            class="text-end <?php if ($_smarty_tpl->getValue('trendAnalysis')['growth_rate'] > 0) {?>text-danger<?php } else { ?>text-success<?php }?>">
-                                            <?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('trendAnalysis')['growth_rate'],2)), ENT_QUOTES, 'UTF-8');?>
+
+                                                        <div class="mt-3">
+                                <?php if ((($tmp = $_smarty_tpl->getValue('trendAnalysis')['error'] ?? null)===null||$tmp==='' ? '' ?? null : $tmp) != '' || (($tmp = $_smarty_tpl->getValue('trendAnalysis')['data_points'] ?? null)===null||$tmp==='' ? 0 ?? null : $tmp) < 3) {?>
+                                                                        <div class="alert alert-light border text-center py-2">
+                                        <small class="text-muted">
+                                            <i class="bi bi-info-circle me-1"></i>
+                                            Statystyki trendu dostępne po spełnieniu warunków analizy
+                                        </small>
+                                    </div>
+                                <?php } elseif ($_smarty_tpl->getValue('trendAnalysis')['trend_line'] && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('trendAnalysis')['trend_line']) > 0) {?>
+                                    <table class="table table-sm">
+                                        <tr>
+                                            <td><strong>Współczynnik determinacji R²</strong></td>
+                                            <td class="text-end">
+                                                <span class="fw-bold"><?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('trendAnalysis')['r_squared'],3)), ENT_QUOTES, 'UTF-8');?>
+</span>
+                                                <?php if ($_smarty_tpl->getValue('trendAnalysis')['r_squared'] >= 0.7) {?>
+                                                    <span class="badge bg-success ms-1"><i
+                                                            class="bi bi-check-circle me-1"></i>Dobry</span>
+                                                <?php } elseif ($_smarty_tpl->getValue('trendAnalysis')['r_squared'] >= 0.4) {?>
+                                                    <span class="badge bg-warning ms-1"><i
+                                                            class="bi bi-dash-circle me-1"></i>Średni</span>
+                                                <?php } elseif ($_smarty_tpl->getValue('trendAnalysis')['r_squared'] > 0) {?>
+                                                    <span class="badge bg-danger ms-1"><i
+                                                            class="bi bi-x-circle me-1"></i>Słaby</span>
+                                                <?php } else { ?>
+                                                    <span class="badge bg-secondary ms-1"><i
+                                                            class="bi bi-question-circle me-1"></i>Nieokreślony</span>
+                                                <?php }?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Przeciętne tempo zmian</strong></td>
+                                            <td class="text-end">
+                                                <span
+                                                    class="fw-bold <?php if ($_smarty_tpl->getValue('trendAnalysis')['growth_rate'] > 0) {?>text-danger<?php } elseif ($_smarty_tpl->getValue('trendAnalysis')['growth_rate'] < 0) {?>text-success<?php } else { ?>text-muted<?php }?>">
+                                                    <?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('trendAnalysis')['growth_rate'],2)), ENT_QUOTES, 'UTF-8');?>
 %
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Statystyka t</strong></td>
-                                        <td class="text-end"><?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('trendAnalysis')['t_statistic'],3)), ENT_QUOTES, 'UTF-8');?>
-</td>
-                                    </tr>
-                                </table>
+                                                </span>
+                                                <?php if ($_smarty_tpl->getValue('trendAnalysis')['growth_rate'] > 5) {?>
+                                                    <span class="badge bg-danger ms-1"><i
+                                                            class="bi bi-arrow-up-right me-1"></i>Gwałtowny wzrost</span>
+                                                <?php } elseif ($_smarty_tpl->getValue('trendAnalysis')['growth_rate'] > 0) {?>
+                                                    <span class="badge bg-warning ms-1"><i
+                                                            class="bi bi-arrow-up me-1"></i>Wzrost</span>
+                                                <?php } elseif ($_smarty_tpl->getValue('trendAnalysis')['growth_rate'] < -5) {?>
+                                                    <span class="badge bg-success ms-1"><i
+                                                            class="bi bi-arrow-down-right me-1"></i>Gwałtowny spadek</span>
+                                                <?php } elseif ($_smarty_tpl->getValue('trendAnalysis')['growth_rate'] < 0) {?>
+                                                    <span class="badge bg-info ms-1"><i
+                                                            class="bi bi-arrow-down me-1"></i>Spadek</span>
+                                                <?php } else { ?>
+                                                    <span class="badge bg-secondary ms-1"><i
+                                                            class="bi bi-dash me-1"></i>Stabilnie</span>
+                                                <?php }?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Statystyka t</strong></td>
+                                            <td class="text-end">
+                                                <span class="fw-bold"><?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('trendAnalysis')['t_statistic'],3)), ENT_QUOTES, 'UTF-8');?>
+</span>
+                                                <?php if ($_smarty_tpl->getValue('trendAnalysis')['t_statistic'] > 2.0) {?>
+                                                    <span class="badge bg-success ms-1"><i
+                                                            class="bi bi-check-circle me-1"></i>Istotny</span>
+                                                <?php } elseif ($_smarty_tpl->getValue('trendAnalysis')['t_statistic'] > 1.65) {?>
+                                                    <span class="badge bg-warning ms-1"><i
+                                                            class="bi bi-exclamation-circle me-1"></i>Na granicy</span>
+                                                <?php } else { ?>
+                                                    <span class="badge bg-secondary ms-1"><i
+                                                            class="bi bi-dash-circle me-1"></i>Nieistotny</span>
+                                                <?php }?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Liczba punktów danych</strong></td>
+                                            <td class="text-end">
+                                                <span class="fw-bold"><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('trendAnalysis')['data_points']), ENT_QUOTES, 'UTF-8');?>
+</span>
+                                                <span class="badge bg-dark ms-1">
+                                                    <i class="bi bi-calendar-event me-1"></i>
+                                                    <?php if ($_smarty_tpl->getValue('trendAnalysis')['data_points'] == 1) {?>dzień
+                                                    <?php } elseif ($_smarty_tpl->getValue('trendAnalysis')['data_points'] < 5) {?>dni
+                                                    <?php } else { ?>dni
+                                                    <?php }?>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <?php if ((($tmp = $_smarty_tpl->getValue('trendAnalysis')['note'] ?? null)===null||$tmp==='' ? '' ?? null : $tmp) != '') {?>
+                                            <tr class="table-warning">
+                                                <td colspan="2" class="small py-2">
+                                                    <i class="bi bi-info-circle me-1"></i>
+                                                    <strong>Uwaga:</strong> <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('trendAnalysis')['note']), ENT_QUOTES, 'UTF-8');?>
+
+                                                </td>
+                                            </tr>
+                                        <?php }?>
+                                    </table>
+                                <?php }?>
                             </div>
                         </div>
                     </div>
@@ -876,7 +996,11 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                 <div class="col-12">
                     <div class="card shadow-lg text-center py-5">
                         <i class="bi bi-lock-fill display-1 text-muted"></i>
-                        <p class="fs-5 text-muted mt-3">Analiza trendu dostępna tylko dla kont premium</p>
+                        <h5 class="text-muted mt-3">Analiza trendu - funkcja premium</h5>
+                        <p class="text-muted mb-0">
+                            Zaawansowana analiza trendu z regresją liniową<br>
+                            dostępna wyłącznie dla użytkowników konta premium
+                        </p>
                     </div>
                 </div>
             <?php }?>
@@ -1268,27 +1392,8 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                         bodyFont: {
                             size: 11
                         },
-                        callbacks: {
-                            label: function(context) {
-                                let label = context.dataset.label || '';
-                                if (label) {
-                                    label += ': ';
-                                }
-
-                                // Określ współczynnik skalowania dla danego datasetu
-                                const scaleFactor = context.datasetIndex === 0 ? incomeScaleFactor :
-                                    trendScaleFactor;
-
-                                // Jeśli wartości są przeskalowane, pokazujemy oryginalną wartość w tooltipie
-                                if (scaleFactor > 1) {
-                                    const originalValue = context.parsed.y / scaleFactor;
-                                    label += formatCurrency(originalValue) + ' (przeskalowane: ' +
-                                        formatCurrencyForChart(context.parsed.y, scaleFactor) + ')';
-                                } else {
-                                    label += formatCurrency(context.parsed.y);
-                                }
-                                return label;
-                            }
+                        callback: function(context) {
+                            return context.dataset.label + ': ' + formatCurrency(context.parsed.y);
                         }
                     }
                 },
@@ -2080,158 +2185,133 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         });
     <?php }?>
 
-    // Analiza trendu czasowego Z LINIĄ TRENDU
-    <?php if ($_smarty_tpl->getValue('trend') && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('trend')) > 0 && $_smarty_tpl->getValue('trendAnalysis')) {?>
-        document.addEventListener('DOMContentLoaded', function() {
-            const ctx = document.getElementById('trendAnalysisChart');
-            if (!ctx) return;
-
-            const dates = [<?php
-$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('trend'), 't', true);
-$_smarty_tpl->getVariable('t')->iteration = 0;
+    // Analiza trendu czasowego
+    <?php if ($_smarty_tpl->getValue('trendAnalysis')['trend_line'] && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('trendAnalysis')['trend_line']) > 0) {?>
+        new Chart(document.getElementById('trendAnalysisChart'), {
+            type: 'line',
+            data: {
+                labels: [
+                    <?php
+$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('trendAnalysis')['dates'], 'date', true);
+$_smarty_tpl->getVariable('date')->iteration = 0;
 $foreach20DoElse = true;
-foreach ($_from ?? [] as $_smarty_tpl->getVariable('t')->value) {
+foreach ($_from ?? [] as $_smarty_tpl->getVariable('date')->value) {
 $foreach20DoElse = false;
-$_smarty_tpl->getVariable('t')->iteration++;
-$_smarty_tpl->getVariable('t')->last = $_smarty_tpl->getVariable('t')->iteration === $_smarty_tpl->getVariable('t')->total;
-$foreach20Backup = clone $_smarty_tpl->getVariable('t');
-?>'<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('t')['date']), ENT_QUOTES, 'UTF-8');?>
+$_smarty_tpl->getVariable('date')->iteration++;
+$_smarty_tpl->getVariable('date')->last = $_smarty_tpl->getVariable('date')->iteration === $_smarty_tpl->getVariable('date')->total;
+$foreach20Backup = clone $_smarty_tpl->getVariable('date');
+?>'<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('date')), ENT_QUOTES, 'UTF-8');?>
 '
-                <?php if (!$_smarty_tpl->getVariable('t')->last) {?>,
-                <?php }?>
-            <?php
-$_smarty_tpl->setVariable('t', $foreach20Backup);
+                        <?php if (!$_smarty_tpl->getVariable('date')->last) {?>,<?php }?>
+                    <?php
+$_smarty_tpl->setVariable('date', $foreach20Backup);
 }
-$_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>];
-            const actualValues = [<?php
-$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('trend'), 't', true);
-$_smarty_tpl->getVariable('t')->iteration = 0;
+$_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
+                ],
+                datasets: [{
+                        label: 'Rzeczywiste wydatki',
+                        data: [
+                            <?php
+$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('trendAnalysis')['actual_values'], 'value', true);
+$_smarty_tpl->getVariable('value')->iteration = 0;
 $foreach21DoElse = true;
-foreach ($_from ?? [] as $_smarty_tpl->getVariable('t')->value) {
+foreach ($_from ?? [] as $_smarty_tpl->getVariable('value')->value) {
 $foreach21DoElse = false;
-$_smarty_tpl->getVariable('t')->iteration++;
-$_smarty_tpl->getVariable('t')->last = $_smarty_tpl->getVariable('t')->iteration === $_smarty_tpl->getVariable('t')->total;
-$foreach21Backup = clone $_smarty_tpl->getVariable('t');
-echo htmlspecialchars((string) ($_smarty_tpl->getValue('t')['total']), ENT_QUOTES, 'UTF-8');?>
+$_smarty_tpl->getVariable('value')->iteration++;
+$_smarty_tpl->getVariable('value')->last = $_smarty_tpl->getVariable('value')->iteration === $_smarty_tpl->getVariable('value')->total;
+$foreach21Backup = clone $_smarty_tpl->getVariable('value');
+echo htmlspecialchars((string) ($_smarty_tpl->getValue('value')), ENT_QUOTES, 'UTF-8');?>
 
-                <?php if (!$_smarty_tpl->getVariable('t')->last) {?>,
-                <?php }?>
-            <?php
-$_smarty_tpl->setVariable('t', $foreach21Backup);
+                                <?php if (!$_smarty_tpl->getVariable('value')->last) {?>,<?php }?>
+                            <?php
+$_smarty_tpl->setVariable('value', $foreach21Backup);
 }
-$_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>];
+$_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
+                        ],
+                        borderColor: '#dc3545',
+                        backgroundColor: 'rgba(220, 53, 69, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        fill: true,
+                        pointRadius: 3
+                    },
+                    {
+                        label: 'Linia trendu',
+                        data: [
+                            <?php
+$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('trendAnalysis')['trend_line'], 'value', true);
+$_smarty_tpl->getVariable('value')->iteration = 0;
+$foreach22DoElse = true;
+foreach ($_from ?? [] as $_smarty_tpl->getVariable('value')->value) {
+$foreach22DoElse = false;
+$_smarty_tpl->getVariable('value')->iteration++;
+$_smarty_tpl->getVariable('value')->last = $_smarty_tpl->getVariable('value')->iteration === $_smarty_tpl->getVariable('value')->total;
+$foreach22Backup = clone $_smarty_tpl->getVariable('value');
+echo htmlspecialchars((string) ($_smarty_tpl->getValue('value')), ENT_QUOTES, 'UTF-8');?>
 
-            // Oblicz linię trendu
-            const trendLine = [];
-            const n = actualValues.length;
-            <?php if ($_smarty_tpl->getValue('trendAnalysis')['slope'] && $_smarty_tpl->getValue('trendAnalysis')['intercept']) {?>
-                for (let i = 0; i < n; i++) {
-                    trendLine.push(<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('trendAnalysis')['intercept']), ENT_QUOTES, 'UTF-8');?>
- + <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('trendAnalysis')['slope']), ENT_QUOTES, 'UTF-8');?>
- * (i + 1));
-                }
-            <?php } else { ?>
-                // Fallback - prosta linia trendu
-                const firstValue = actualValues[0];
-                const lastValue = actualValues[n - 1];
-                const slope = (n > 1) ? (lastValue - firstValue) / (n - 1) : 0;
-                for (let i = 0; i < n; i++) {
-                    trendLine.push(firstValue + slope * i);
-                }
-            <?php }?>
-
-            new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: dates,
-                    datasets: [{
-                            label: 'Rzeczywiste wydatki',
-                            data: actualValues,
-                            borderColor: '#dc3545',
-                            backgroundColor: 'rgba(220, 53, 69, 0.1)',
-                            borderWidth: 2,
-                            tension: 0.3,
-                            fill: true,
-                            pointBackgroundColor: '#dc3545',
-                            pointBorderColor: '#fff',
-                            pointBorderWidth: 1,
-                            pointRadius: 3,
-                            pointHoverRadius: 5
-                        },
-                        {
-                            label: 'Linia trendu',
-                            data: trendLine,
-                            borderColor: '#ffc107',
-                            backgroundColor: 'transparent',
-                            borderWidth: 3,
-                            borderDash: [5, 5],
-                            pointRadius: 3,
-                            pointBorderWidth: 1,
-                            pointBackgroundColor: '#ffc107',
-                            pointHoverRadius: 5,
-                            tension: 0
+                                <?php if (!$_smarty_tpl->getVariable('value')->last) {?>,<?php }?>
+                            <?php
+$_smarty_tpl->setVariable('value', $foreach22Backup);
+}
+$_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
+                        ],
+                        borderColor: '#ffc107',
+                        backgroundColor: 'transparent',
+                        borderWidth: 3,
+                        borderDash: [5, 5],
+                        pointRadius: 3,
+                        pointBackgroundColor: '#ffc107',
+                        tension: 0
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            boxWidth: 12,
+                            font: { size: 11 }
                         }
-                    ]
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + formatCurrency(context.parsed.y);
+                            }
+                        }
+                    }
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    layout: {
-                        padding: {
-                            left: 0,
-                            right: 0,
-                            top: 0,
-                            bottom: 0
-                        }
+                scales: {
+                    x: {
+                        ticks: { font: { size: 10 } }
                     },
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                            labels: {
-                                boxWidth: 12,
-                                font: {
-                                    size: 11
-                                }
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return context.dataset.label + ': ' + formatCurrency(context.parsed
-                                        .y);
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            ticks: {
-                                font: {
-                                    size: 10
-                                }
-                            }
-                        },
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                font: {
-                                    size: 10
-                                },
-                                callback: function(value) {
-                                    return formatCurrency(value);
-                                }
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            font: { size: 10 },
+                            callback: function(value) {
+                                return formatCurrency(value);
                             }
                         }
                     }
                 }
-            });
+            }
         });
     <?php } else { ?>
+        // Jeśli brak danych, pokaż komunikat
         document.addEventListener('DOMContentLoaded', function() {
             const container = document.getElementById('trendAnalysisChart');
             if (container) {
-                container.innerHTML =
-                    '<div class="text-center py-3 text-muted"><small>Brak danych do analizy trendu</small></div>';
+                container.innerHTML = `
+                <div class="text-center py-4 text-muted">
+                    <i class="bi bi-graph-up opacity-50" style="font-size: 2rem;"></i>
+<p class="mt-2"><small><?php echo htmlspecialchars((string) ((($tmp = $_smarty_tpl->getValue('trendAnalysis')['note'] ?? null)===null||$tmp==='' ? 'Brak danych do analizy trendu' ?? null : $tmp)), ENT_QUOTES, 'UTF-8');?>
+</small></p>
+                </div>
+            `;
             }
         });
     <?php }
