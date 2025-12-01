@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-11-24 21:26:50
+/* Smarty version 5.6.0, created on 2025-12-01 19:55:48
   from 'file:add_transaction.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_6924bf8a33fb99_57592387',
+  'unifunc' => 'content_692de4b410a4e1_03691454',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '90bfe922cead006a0f38e5db31516fd13002435a' => 
     array (
       0 => 'add_transaction.tpl',
-      1 => 1764015269,
+      1 => 1764615338,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_6924bf8a33fb99_57592387 (\Smarty\Template $_smarty_tpl) {
+function content_692de4b410a4e1_03691454 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -139,10 +139,13 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         <input type="text" class="form-control bg-dark text-light" id="description" name="description" maxlength="255"
             placeholder="np. Zakupy w Lidlu">
     </div>
-    
+
     <div class="mb-3">
         <label for="receipt" class="form-label fw-semibold">Zdjęcie paragonu (opcjonalnie):</label>
-        <input type="file" class="form-control bg-dark text-light" id="receipt" name="receipt" accept="image/*">
+        <input type="file" class="form-control bg-dark text-light" id="receipt" name="receipt"
+            accept="image/jpeg,image/jpg,image/png,image/gif,image/webp,application/pdf" data-max-size="5242880">
+        <!-- 5MB w bajtach -->
+        <div class="form-text">Maksymalny rozmiar pliku: 5MB. Dozwolone formaty: JPG, PNG, GIF, WebP, PDF</div>
     </div>
 
     <div class="mb-3">
@@ -395,6 +398,75 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         });
 
         updateTotal();
+
+        // --- WALIDACJA PLIKU ---
+        const form = $('#transactionForm');
+        const fileInput = $('#receipt');
+        const maxSize = fileInput.data('max-size') || 5242880;
+
+        form.on('submit', function(e) {
+            if (fileInput[0].files.length > 0) {
+                const file = fileInput[0].files[0];
+
+                if (file.size > maxSize) {
+                    e.preventDefault();
+                    alert('Plik jest za duży. Maksymalny rozmiar to 5MB.');
+                    fileInput.val('');
+                    return false;
+                }
+
+                const allowedTypes = [
+                    'image/jpeg',
+                    'image/jpg',
+                    'image/png',
+                    'image/gif',
+                    'image/webp',
+                    'application/pdf'
+                ];
+
+                if (!allowedTypes.includes(file.type)) {
+                    e.preventDefault();
+                    alert('Nieprawidłowy format pliku. Dozwolone formaty: JPG, PNG, GIF, WebP, PDF');
+                    fileInput.val('');
+                    return false;
+                }
+            }
+
+            if (!$('input[name="type"]:checked').val()) {
+                e.preventDefault();
+                alert('Wybierz typ transakcji (Przychód lub Wydatek)');
+                return false;
+            }
+
+            if (!$('#category_id').val()) {
+                e.preventDefault();
+                alert('Wybierz kategorię główną');
+                return false;
+            }
+
+            if (!$('#amount').val() || parseFloat($('#amount').val()) <= 0) {
+                e.preventDefault();
+                alert('Wprowadź poprawną kwotę');
+                return false;
+            }
+        });
+
+        fileInput.on('change', function() {
+            $('#file-info').remove();
+
+            if (this.files.length > 0) {
+                const file = this.files[0];
+                const fileSize = (file.size / 1024 / 1024).toFixed(2);
+
+                $(this).parent().append(
+                    '<div id="file-info" class="mt-2 text-info small">' +
+                    '<i class="bi bi-file-earmark me-1"></i>' +
+                    '<strong>' + file.name + '</strong> (' + fileSize + ' MB)' +
+                    '</div>'
+                );
+            }
+        });
+
     });
 <?php echo '</script'; ?>
 >
@@ -563,6 +635,8 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         fetchFiatRates(); // Ładuj domyślnie kursy fiat
     <?php echo '</script'; ?>
 >
+
+
 
 
 <style>

@@ -100,10 +100,13 @@
         <input type="text" class="form-control bg-dark text-light" id="description" name="description" maxlength="255"
             placeholder="np. Zakupy w Lidlu">
     </div>
-    
+
     <div class="mb-3">
         <label for="receipt" class="form-label fw-semibold">Zdjęcie paragonu (opcjonalnie):</label>
-        <input type="file" class="form-control bg-dark text-light" id="receipt" name="receipt" accept="image/*">
+        <input type="file" class="form-control bg-dark text-light" id="receipt" name="receipt"
+            accept="image/jpeg,image/jpg,image/png,image/gif,image/webp,application/pdf" data-max-size="5242880">
+        <!-- 5MB w bajtach -->
+        <div class="form-text">Maksymalny rozmiar pliku: 5MB. Dozwolone formaty: JPG, PNG, GIF, WebP, PDF</div>
     </div>
 
     <div class="mb-3">
@@ -172,7 +175,6 @@
     </div>
 </form>
 
-{* ------------------------ SKRYPTY JS ------------------------ *}
 <script>
     let rowIndex = 1;
 
@@ -356,6 +358,75 @@
         });
 
         updateTotal();
+
+        // --- WALIDACJA PLIKU ---
+        const form = $('#transactionForm');
+        const fileInput = $('#receipt');
+        const maxSize = fileInput.data('max-size') || 5242880;
+
+        form.on('submit', function(e) {
+            if (fileInput[0].files.length > 0) {
+                const file = fileInput[0].files[0];
+
+                if (file.size > maxSize) {
+                    e.preventDefault();
+                    alert('Plik jest za duży. Maksymalny rozmiar to 5MB.');
+                    fileInput.val('');
+                    return false;
+                }
+
+                const allowedTypes = [
+                    'image/jpeg',
+                    'image/jpg',
+                    'image/png',
+                    'image/gif',
+                    'image/webp',
+                    'application/pdf'
+                ];
+
+                if (!allowedTypes.includes(file.type)) {
+                    e.preventDefault();
+                    alert('Nieprawidłowy format pliku. Dozwolone formaty: JPG, PNG, GIF, WebP, PDF');
+                    fileInput.val('');
+                    return false;
+                }
+            }
+
+            if (!$('input[name="type"]:checked').val()) {
+                e.preventDefault();
+                alert('Wybierz typ transakcji (Przychód lub Wydatek)');
+                return false;
+            }
+
+            if (!$('#category_id').val()) {
+                e.preventDefault();
+                alert('Wybierz kategorię główną');
+                return false;
+            }
+
+            if (!$('#amount').val() || parseFloat($('#amount').val()) <= 0) {
+                e.preventDefault();
+                alert('Wprowadź poprawną kwotę');
+                return false;
+            }
+        });
+
+        fileInput.on('change', function() {
+            $('#file-info').remove();
+
+            if (this.files.length > 0) {
+                const file = this.files[0];
+                const fileSize = (file.size / 1024 / 1024).toFixed(2);
+
+                $(this).parent().append(
+                    '<div id="file-info" class="mt-2 text-info small">' +
+                    '<i class="bi bi-file-earmark me-1"></i>' +
+                    '<strong>' + file.name + '</strong> (' + fileSize + ' MB)' +
+                    '</div>'
+                );
+            }
+        });
+
     });
 </script>
 
@@ -521,6 +592,8 @@
         updateCurrencyOptions();
         fetchFiatRates(); // Ładuj domyślnie kursy fiat
     </script>
+
+
 {/literal}
 
 <style>

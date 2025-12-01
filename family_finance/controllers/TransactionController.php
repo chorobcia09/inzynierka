@@ -74,17 +74,61 @@ class TransactionController
             $is_recurring = isset($_POST['is_recurring']) ? 1 : 0;
 
             $receipt_blob = null;
-            if (isset($_FILES['receipt']) && $_FILES['receipt']['error'] === UPLOAD_ERR_OK) {
-                $receipt_blob = file_get_contents($_FILES['receipt']['tmp_name']);
-            }
-
             $errors = [];
 
-            if (!$type || !in_array($type, ['expense', 'income'])) $errors[] = 'Nieprawidłowy typ';
-            if (!$amount || !is_numeric($amount) || $amount <= 0) $errors[] = 'Nieprawidłowa kwota';
-            if (!$category_id) $errors[] = 'Wybierz kategorię';
+            // Walidacja pliku
+            if (isset($_FILES['receipt']) && $_FILES['receipt']['error'] !== UPLOAD_ERR_NO_FILE) {
+                if ($_FILES['receipt']['error'] === UPLOAD_ERR_OK) {
+                    $maxFileSize = 5 * 1024 * 1024;
+                    if ($_FILES['receipt']['size'] > $maxFileSize) {
+                        $errors[] = 'Rozmiar pliku przekracza 5MB';
+                    } else {
+                        $allowedTypes = [
+                            'image/jpeg',
+                            'image/jpg',
+                            'image/png',
+                            'image/gif',
+                            'image/webp',
+                            'application/pdf'
+                        ];
 
-            if ($type) {
+                        $fileInfo = finfo_open(FILEINFO_MIME_TYPE);
+                        $mimeType = finfo_file($fileInfo, $_FILES['receipt']['tmp_name']);
+                        finfo_close($fileInfo);
+
+                        if (!in_array($mimeType, $allowedTypes)) {
+                            $errors[] = 'Dozwolone formaty: JPG, PNG, GIF, WebP, PDF';
+                        } else {
+                            $receipt_blob = file_get_contents($_FILES['receipt']['tmp_name']);
+                        }
+                    }
+                } elseif ($_FILES['receipt']['error'] !== UPLOAD_ERR_NO_FILE) {
+                    $errors[] = 'Błąd podczas wgrywania pliku: ' . $this->getUploadError($_FILES['receipt']['error']);
+                }
+            }
+
+            if (!$type || !in_array($type, ['expense', 'income'])) {
+                $errors[] = 'Nieprawidłowy typ transakcji';
+            }
+
+            if (!$amount || !is_numeric($amount) || $amount <= 0) {
+                $errors[] = 'Nieprawidłowa kwota';
+            }
+
+            if (!$category_id) {
+                $errors[] = 'Wybierz kategorię';
+            }
+
+            if (empty($transaction_date)) {
+                $errors[] = 'Data transakcji jest wymagana';
+            } else {
+                $dateTime = DateTime::createFromFormat('Y-m-d\TH:i', $transaction_date);
+                if (!$dateTime) {
+                    $errors[] = 'Nieprawidłowy format daty';
+                }
+            }
+
+            if ($type && empty($errors)) {
                 $categories = $this->categoriesModel->getCategoriesByType($type);
             }
 
@@ -118,8 +162,22 @@ class TransactionController
                 $receipt_blob
             );
 
+            if (!$transaction_id) {
+                $this->smarty->assign('errors', ['Nie udało się dodać transakcji do bazy danych.']);
+                $this->smarty->assign('old', $_POST);
+                $this->smarty->assign('session', $_SESSION);
+                $categories = $this->categoriesModel->getCategoriesByType($type);
+                if ($category_id) {
+                    $subCategories = $this->subCategoriesModel->getAllSubCategories($category_id, $user_id, $family_id);
+                }
+                $this->smarty->assign('categories', $categories);
+                $this->smarty->assign('subCategories', $subCategories);
+                $this->smarty->display('add_transaction.tpl');
+                return;
+            }
+
             $itemsAdded = false;
-            if ($transaction_id && !empty($_POST['items'])) {
+            if (!empty($_POST['items'])) {
                 foreach ($_POST['items'] as $item) {
                     if (!empty($item['subcategory_id']) && !empty($item['amount'])) {
                         $itemAdded = $this->transactionModel->addTransactionItem(
@@ -136,33 +194,19 @@ class TransactionController
                 }
             }
 
-            if ($transaction_id) {
-                if ($itemsAdded || empty($_POST['items'])) {
-                    $this->smarty->assign('success', 'Transakcja dodana pomyślnie!');
-                    $this->smarty->assign('old', []);
-                    $categories = [];
-                    $subCategories = [];
-                } else {
-                    $this->smarty->assign('errors', ['Transakcja została dodana, ale nie udało się dodać pozycji.']);
-                    $this->smarty->assign('old', $_POST);
-                    $categories = $this->categoriesModel->getCategoriesByType($type);
-                    $subCategories = $this->subCategoriesModel->getAllSubCategories($category_id, $user_id, $family_id);
-                }
+            if ($itemsAdded || empty($_POST['items'])) {
+                $this->smarty->assign('success', 'Transakcja dodana pomyślnie!');
+                $categories = [];
+                $subCategories = [];
             } else {
-                $this->smarty->assign('errors', ['Nie udało się dodać transakcji.']);
-                $this->smarty->assign('old', $_POST);
-                if ($type) {
-                    $categories = $this->categoriesModel->getCategoriesByType($type);
-                }
-                if ($category_id) {
-                    $subCategories = $this->subCategoriesModel->getAllSubCategories($category_id, $user_id, $family_id);
-                }
+                $this->smarty->assign('warning', 'Transakcja została dodana, ale nie udało się dodać pozycji.');
             }
 
             $this->smarty->assign([
                 'session' => $_SESSION,
                 'categories' => $categories,
-                'subCategories' => $subCategories
+                'subCategories' => $subCategories,
+                'old' => []
             ]);
             $this->smarty->display('add_transaction.tpl');
             return;
@@ -170,10 +214,33 @@ class TransactionController
             $this->smarty->assign([
                 'session' => $_SESSION,
                 'categories' => $categories,
-                'subCategories' => $subCategories
+                'subCategories' => $subCategories,
+                'old' => []
             ]);
             $this->smarty->display('add_transaction.tpl');
             return;
+        }
+    }
+
+    /** Metoda pomocnicza do tłumaczenia błędów uploadu */
+    private function getUploadError($errorCode)
+    {
+        switch ($errorCode) {
+            case UPLOAD_ERR_INI_SIZE:
+            case UPLOAD_ERR_FORM_SIZE:
+                return 'Plik jest za duży';
+            case UPLOAD_ERR_PARTIAL:
+                return 'Plik został tylko częściowo wgrany';
+            case UPLOAD_ERR_NO_FILE:
+                return 'Nie wybrano pliku';
+            case UPLOAD_ERR_NO_TMP_DIR:
+                return 'Brak katalogu tymczasowego';
+            case UPLOAD_ERR_CANT_WRITE:
+                return 'Nie można zapisać pliku na dysk';
+            case UPLOAD_ERR_EXTENSION:
+                return 'Rozszerzenie PHP zatrzymało wgrywanie pliku';
+            default:
+                return 'Nieznany błąd';
         }
     }
 

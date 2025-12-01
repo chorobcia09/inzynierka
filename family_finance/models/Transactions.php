@@ -217,7 +217,7 @@ class Transactions
         $result = $this->db->select($sql, [
             ':transaction_id' => $transaction_id
         ]);
-        
+
         return $result[0]['receipt_blob'] ?? null;
     }
 
