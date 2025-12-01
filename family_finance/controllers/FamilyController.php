@@ -55,8 +55,8 @@ class FamilyController
             'session' => $_SESSION
         ]);
 
-        // dump($_SESSION);
-        
+
+
         $this->smarty->display('users_family.tpl');
     }
 
@@ -103,7 +103,7 @@ class FamilyController
 
     public function delete()
     {
-        if (!isset($_SESSION['user_id']) || $_SESSION['family_role'] !== 'family_admin') {
+        if (!isset($_SESSION['user_id']) || ($_SESSION['family_role'] ?? '') !== 'family_admin') {
             header('Location: index.php?action=login');
             exit;
         }
@@ -111,20 +111,23 @@ class FamilyController
         $familyId = $_SESSION['family_id'] ?? null;
 
         if (!$familyId) {
-            $this->smarty->assign('error', 'Nie znaleziono przypisanej rodziny.');
-            $this->smarty->display('error.tpl');
-            return;
+            header('Location: index.php?action=dashboard');
+            exit;
         }
 
+        try {
+            $this->familyModel->deleteFamily($familyId);
 
-        $this->familyModel->deleteFamily($familyId);
-        unset($_SESSION['family_id'], $_SESSION['family_role']);
-        
-        header('Location: index.php?action=dashboard');
-        exit;
-
-        $this->smarty->assign('session', $_SESSION);
-
+            $_SESSION['family_id'] = null;
+            $_SESSION['family_role'] = null;
+            unset($_SESSION['family_name']);
+            header('Location: index.php?action=dashboard');
+            exit;
+        } catch (Exception $e) {
+            $_SESSION['error'] = 'Wystąpił błąd: ' . $e->getMessage();
+            header('Location: index.php?action=dashboard');
+            exit;
+        }
     }
 
 
@@ -190,10 +193,5 @@ class FamilyController
         $this->familyModel->deleteUserFromFamily($id);
         header('Location: index.php?action=usersFamily');
         exit;
-
-
-        $this->smarty->assign([
-            'session' => $_SESSION
-        ]);
     }
 }

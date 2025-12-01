@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-11-23 12:18:19
+/* Smarty version 5.6.0, created on 2025-12-01 19:24:37
   from 'file:header.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_6922ed7bac12f7_85515093',
+  'unifunc' => 'content_692ddd659e7381_15774564',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '70761fd558b824e86e638862bb79aeef78d05c3b' => 
     array (
       0 => 'header.tpl',
-      1 => 1763896698,
+      1 => 1764613475,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6922ed7bac12f7_85515093 (\Smarty\Template $_smarty_tpl) {
+function content_692ddd659e7381_15774564 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 ?><!DOCTYPE html>
 <html lang="pl">
@@ -141,7 +141,7 @@ $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\vi
                                 </li>
 
                                 <!-- Rodzina -->
-                                <?php if ((true && (true && null !== ($_smarty_tpl->getValue('session')['family_id'] ?? null)))) {?>
+                                <?php if ((true && (true && null !== ($_smarty_tpl->getValue('session')['family_id'] ?? null))) && $_smarty_tpl->getValue('session')['family_id'] != '' && $_smarty_tpl->getValue('session')['family_id'] != null) {?>
                                     <li class="nav-item dropdown me-2">
                                         <button class="btn btn-outline-info btn-sm dropdown-toggle" id="familyDropdown"
                                             data-bs-toggle="dropdown" aria-expanded="false">
@@ -150,9 +150,15 @@ $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\vi
                                         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="familyDropdown">
                                             <li><a class="dropdown-item" href="index.php?action=usersFamily">
                                                     <i class="bi bi-people"></i> Członkowie rodziny</a></li>
-                                            <?php if ($_smarty_tpl->getValue('session')['family_role'] == 'family_admin') {?>
+                                            <?php if ((true && (true && null !== ($_smarty_tpl->getValue('session')['family_role'] ?? null))) && $_smarty_tpl->getValue('session')['family_role'] == 'family_admin') {?>
                                                 <li><a class="dropdown-item" href="index.php?action=addUserToFamily">
                                                         <i class="bi bi-person-plus"></i> Dodaj członka</a></li>
+                                                <li>
+                                                    <hr class="dropdown-divider">
+                                                </li>
+                                                <li><a class="dropdown-item" href="index.php?action=deleteFamily"
+                                                        onclick="return confirm('Czy na pewno chcesz usunąć rodzinę? Tej operacji nie można cofnąć!')">
+                                                        <i class="bi bi-trash text-danger"></i> Usuń rodzinę</a></li>
                                             <?php }?>
                                         </ul>
                                     </li>

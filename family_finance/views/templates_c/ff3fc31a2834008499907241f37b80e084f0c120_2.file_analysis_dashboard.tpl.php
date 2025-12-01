@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-12-01 19:04:07
+/* Smarty version 5.6.0, created on 2025-12-01 19:13:42
   from 'file:analysis_dashboard.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_692dd8975127c1_69197610',
+  'unifunc' => 'content_692ddad6e10f42_32322412',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'ff3fc31a2834008499907241f37b80e084f0c120' => 
     array (
       0 => 'analysis_dashboard.tpl',
-      1 => 1764612246,
+      1 => 1764612668,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_692dd8975127c1_69197610 (\Smarty\Template $_smarty_tpl) {
+function content_692ddad6e10f42_32322412 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -845,7 +845,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                                 <i class="bi bi-trending-up me-2"></i>Analiza trendu czasowego
                             </h5>
                             <div class="chart-container w-100" style="position: relative; height: 250px;">
-                                                                <?php if ((($tmp = $_smarty_tpl->getValue('trendAnalysis')['error'] ?? null)===null||$tmp==='' ? '' ?? null : $tmp) != '') {?>
+                                <?php if ((($tmp = $_smarty_tpl->getValue('trendAnalysis')['error'] ?? null)===null||$tmp==='' ? '' ?? null : $tmp) != '') {?>
                                     <div class="alert alert-danger m-0 h-100 d-flex flex-column justify-content-center">
                                         <div class="text-center">
                                             <i class="bi bi-exclamation-triangle-fill fs-1 text-danger mb-3"></i>
@@ -855,7 +855,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                                         </div>
                                     </div>
 
-                                                                    <?php } elseif ((($tmp = $_smarty_tpl->getValue('trendAnalysis')['data_points'] ?? null)===null||$tmp==='' ? 0 ?? null : $tmp) < 3) {?>
+                                <?php } elseif ((($tmp = $_smarty_tpl->getValue('trendAnalysis')['data_points'] ?? null)===null||$tmp==='' ? 0 ?? null : $tmp) < 3) {?>
                                     <div class="alert alert-info m-0 h-100 d-flex flex-column justify-content-center">
                                         <div class="text-center">
                                             <i class="bi bi-info-circle-fill fs-1 text-info mb-3"></i>
@@ -875,10 +875,10 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                                         </div>
                                     </div>
 
-                                                                    <?php } elseif ($_smarty_tpl->getValue('trendAnalysis')['trend_line'] && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('trendAnalysis')['trend_line']) > 0) {?>
+                                <?php } elseif ($_smarty_tpl->getValue('trendAnalysis')['trend_line'] && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('trendAnalysis')['trend_line']) > 0) {?>
                                     <canvas id="trendAnalysisChart"></canvas>
 
-                                                                    <?php } else { ?>
+                                <?php } else { ?>
                                     <div class="text-center py-4 h-100 d-flex flex-column justify-content-center">
                                         <i class="bi bi-graph-up display-4 text-muted opacity-50 mb-3"></i>
                                         <h6 class="text-muted">Brak danych do analizy trendu</h6>
@@ -892,7 +892,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 
                                                         <div class="mt-3">
                                 <?php if ((($tmp = $_smarty_tpl->getValue('trendAnalysis')['error'] ?? null)===null||$tmp==='' ? '' ?? null : $tmp) != '' || (($tmp = $_smarty_tpl->getValue('trendAnalysis')['data_points'] ?? null)===null||$tmp==='' ? 0 ?? null : $tmp) < 3) {?>
-                                                                        <div class="alert alert-light border text-center py-2">
+                                    <div class="alert alert-light border text-center py-2">
                                         <small class="text-muted">
                                             <i class="bi bi-info-circle me-1"></i>
                                             Statystyki trendu dostępne po spełnieniu warunków analizy
@@ -1084,7 +1084,6 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                             </div>
                         </div>
 
-                        <!-- Najważniejsze wnioski -->
                         <div class="row">
                             <div class="col-12">
                                 <div class="alert alert-warning">
@@ -1167,7 +1166,6 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         height: 250px !important;
     }
 
-    /* Responsywność dla mniejszych ekranów */
     @media (max-width: 768px) {
         #trendAnalysisChart {
             max-height: 200px !important;
@@ -1230,28 +1228,22 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         colors.secondary
     ];
 
-    // Funkcja do generowania tła z przeźroczystością
     function getBackgroundColors(baseColor) {
         return baseColor.replace(/, 0\.8\)/, ', 0.2)');
     }
 
-    // Przekazanie precyzji z PHP do JavaScript
     const currencyPrecision = <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('precision')), ENT_QUOTES, 'UTF-8');?>
 ;
     const currentCurrency = '<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
 ';
 
-    // Funkcja do formatowania kwot z odpowiednią precyzją
     function formatCurrency(value) {
         return value.toFixed(currencyPrecision) + ' ' + currentCurrency;
     }
 
-    // Połączony trend przychodów i wydatków - tylko jeśli są dane
     <?php if (($_smarty_tpl->getValue('trend') && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('trend')) > 0) || ($_smarty_tpl->getValue('trendIncome') && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('trendIncome')) > 0)) {?>
-        // Funkcja do formatowania z uwzględnieniem skalowania
         function formatCurrencyForChart(value, scaleFactor = 1) {
             if (scaleFactor > 1) {
-                // Dla przeskalowanych wartości pokazujemy mniej miejsc po przecinku
                 const precision = scaleFactor >= 1000 ? 2 : 4;
                 return value.toFixed(precision) + ' ' + currentCurrency;
             } else {
@@ -1259,7 +1251,6 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
             }
         }
 
-        // Przygotuj dane z uwzględnieniem skalowania
         const trendScaleFactor = <?php echo htmlspecialchars((string) ((($tmp = $_smarty_tpl->getValue('trend')[0]['scale_factor'] ?? null)===null||$tmp==='' ? 1 ?? null : $tmp)), ENT_QUOTES, 'UTF-8');?>
 ;
         const incomeScaleFactor = <?php echo htmlspecialchars((string) ((($tmp = $_smarty_tpl->getValue('trendIncome')[0]['scale_factor'] ?? null)===null||$tmp==='' ? 1 ?? null : $tmp)), ENT_QUOTES, 'UTF-8');?>
@@ -1456,11 +1447,9 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
     <?php }?>
 
     // Wykres bilansu (różnica przychody-wydatki)
-    // Wykres bilansu (różnica przychody-wydatki)
     <?php if ($_smarty_tpl->getValue('profitLossTrend') && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('profitLossTrend')) > 0) {?>
         let profitLossChartInstance = null;
 
-        // Inicjalizacja wykresu po załadowaniu zakładki
         document.getElementById('profit-loss-tab').addEventListener('shown.bs.tab', function() {
             if (!profitLossChartInstance) {
                 createProfitLossChart();
@@ -1471,13 +1460,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
             const ctx = document.getElementById('profitLossChart').getContext('2d');
             const scaleFactor = <?php echo htmlspecialchars((string) ((($tmp = $_smarty_tpl->getValue('profitLossTrend')[0]['scale_factor'] ?? null)===null||$tmp==='' ? 1 ?? null : $tmp)), ENT_QUOTES, 'UTF-8');?>
 ;
-
-            // Pobierz dane z ukrytego diva (już przekonwertowane na numbers)
             const profitLossData = getProfitLossData();
-
-            console.log('Dane profit/loss po konwersji:', profitLossData); // DEBUG
-
-            // Zabezpieczenie przed pustymi danymi
             if (!profitLossData || profitLossData.length === 0) {
                 console.error('Brak danych do utworzenia wykresu bilansu');
                 const canvas = document.getElementById('profitLossChart');
@@ -1492,7 +1475,6 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                 scaleFactor > 1 ? item.scaled_profit_loss : item.profit_loss
             );
 
-            // Oblicz statystyki - teraz dane są już liczbami
             let profitDays = 0;
             let lossDays = 0;
             let totalBalance = 0;
@@ -1506,15 +1488,10 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 
             const averageBalance = profitLossData.length > 0 ? totalBalance / profitLossData.length : 0;
 
-            console.log('Statystyki - profitDays:', profitDays, 'lossDays:', lossDays, 'averageBalance:',
-                averageBalance); // DEBUG
-
-            // Aktualizuj statystyki w UI
             document.getElementById('profitDays').textContent = profitDays;
             document.getElementById('lossDays').textContent = lossDays;
             document.getElementById('averageBalance').textContent = formatCurrency(averageBalance);
 
-            // Przygotuj kolory dla punktów
             const backgroundColors = profitLossData.map(item =>
                 item.profit_loss >= 0 ? 'rgba(40, 167, 69, 0.3)' : 'rgba(220, 53, 69, 0.3)'
             );
@@ -2301,7 +2278,6 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
             }
         });
     <?php } else { ?>
-        // Jeśli brak danych, pokaż komunikat
         document.addEventListener('DOMContentLoaded', function() {
             const container = document.getElementById('trendAnalysisChart');
             if (container) {

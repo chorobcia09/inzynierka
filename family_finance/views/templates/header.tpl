@@ -112,7 +112,7 @@
                                 </li>
 
                                 <!-- Rodzina -->
-                                {if isset($session.family_id)}
+                                {if isset($session.family_id) && $session.family_id != '' && $session.family_id != null}
                                     <li class="nav-item dropdown me-2">
                                         <button class="btn btn-outline-info btn-sm dropdown-toggle" id="familyDropdown"
                                             data-bs-toggle="dropdown" aria-expanded="false">
@@ -121,9 +121,15 @@
                                         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="familyDropdown">
                                             <li><a class="dropdown-item" href="index.php?action=usersFamily">
                                                     <i class="bi bi-people"></i> Członkowie rodziny</a></li>
-                                            {if $session.family_role == 'family_admin'}
+                                            {if isset($session.family_role) && $session.family_role == 'family_admin'}
                                                 <li><a class="dropdown-item" href="index.php?action=addUserToFamily">
                                                         <i class="bi bi-person-plus"></i> Dodaj członka</a></li>
+                                                <li>
+                                                    <hr class="dropdown-divider">
+                                                </li>
+                                                <li><a class="dropdown-item" href="index.php?action=deleteFamily"
+                                                        onclick="return confirm('Czy na pewno chcesz usunąć rodzinę? Tej operacji nie można cofnąć!')">
+                                                        <i class="bi bi-trash text-danger"></i> Usuń rodzinę</a></li>
                                             {/if}
                                         </ul>
                                     </li>
