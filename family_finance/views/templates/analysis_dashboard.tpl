@@ -731,7 +731,6 @@
                                 <i class="bi bi-trending-up me-2"></i>Analiza trendu czasowego
                             </h5>
                             <div class="chart-container w-100" style="position: relative; height: 250px;">
-                                {* 1. Sprawdź czy jest błąd *}
                                 {if $trendAnalysis.error|default:'' != ''}
                                     <div class="alert alert-danger m-0 h-100 d-flex flex-column justify-content-center">
                                         <div class="text-center">
@@ -741,7 +740,6 @@
                                         </div>
                                     </div>
 
-                                    {* 2. Sprawdź czy jest za mało danych *}
                                 {elseif $trendAnalysis.data_points|default:0 < 3}
                                     <div class="alert alert-info m-0 h-100 d-flex flex-column justify-content-center">
                                         <div class="text-center">
@@ -761,11 +759,9 @@
                                         </div>
                                     </div>
 
-                                    {* 3. Sprawdź czy mamy linię trendu *}
                                 {elseif $trendAnalysis.trend_line && $trendAnalysis.trend_line|count > 0}
                                     <canvas id="trendAnalysisChart"></canvas>
 
-                                    {* 4. Domyślny komunikat *}
                                 {else}
                                     <div class="text-center py-4 h-100 d-flex flex-column justify-content-center">
                                         <i class="bi bi-graph-up display-4 text-muted opacity-50 mb-3"></i>
@@ -781,7 +777,6 @@
                             {* Tabela statystyk trendu *}
                             <div class="mt-3">
                                 {if $trendAnalysis.error|default:'' != '' || $trendAnalysis.data_points|default:0 < 3}
-                                    {* Nie pokazuj tabeli jeśli jest błąd lub za mało danych *}
                                     <div class="alert alert-light border text-center py-2">
                                         <small class="text-muted">
                                             <i class="bi bi-info-circle me-1"></i>
@@ -969,7 +964,6 @@
                             </div>
                         </div>
 
-                        <!-- Najważniejsze wnioski -->
                         <div class="row">
                             <div class="col-12">
                                 <div class="alert alert-warning">
@@ -1052,7 +1046,6 @@
         height: 250px !important;
     }
 
-    /* Responsywność dla mniejszych ekranów */
     @media (max-width: 768px) {
         #trendAnalysisChart {
             max-height: 200px !important;
@@ -1112,26 +1105,20 @@
         colors.secondary
     ];
 
-    // Funkcja do generowania tła z przeźroczystością
     function getBackgroundColors(baseColor) {
         return baseColor.replace(/, 0\.8\)/, ', 0.2)');
     }
 
-    // Przekazanie precyzji z PHP do JavaScript
     const currencyPrecision = {$precision};
     const currentCurrency = '{$currency}';
 
-    // Funkcja do formatowania kwot z odpowiednią precyzją
     function formatCurrency(value) {
         return value.toFixed(currencyPrecision) + ' ' + currentCurrency;
     }
 
-    // Połączony trend przychodów i wydatków - tylko jeśli są dane
     {if ($trend && count($trend) > 0) || ($trendIncome && count($trendIncome) > 0)}
-        // Funkcja do formatowania z uwzględnieniem skalowania
         function formatCurrencyForChart(value, scaleFactor = 1) {
             if (scaleFactor > 1) {
-                // Dla przeskalowanych wartości pokazujemy mniej miejsc po przecinku
                 const precision = scaleFactor >= 1000 ? 2 : 4;
                 return value.toFixed(precision) + ' ' + currentCurrency;
             } else {
@@ -1139,7 +1126,6 @@
             }
         }
 
-        // Przygotuj dane z uwzględnieniem skalowania
         const trendScaleFactor = {$trend.0.scale_factor|default:1};
         const incomeScaleFactor = {$trendIncome.0.scale_factor|default:1};
 
@@ -1286,11 +1272,9 @@
     {/if}
 
     // Wykres bilansu (różnica przychody-wydatki)
-    // Wykres bilansu (różnica przychody-wydatki)
     {if $profitLossTrend && count($profitLossTrend) > 0}
         let profitLossChartInstance = null;
 
-        // Inicjalizacja wykresu po załadowaniu zakładki
         document.getElementById('profit-loss-tab').addEventListener('shown.bs.tab', function() {
             if (!profitLossChartInstance) {
                 createProfitLossChart();
@@ -1300,13 +1284,7 @@
         function createProfitLossChart() {
             const ctx = document.getElementById('profitLossChart').getContext('2d');
             const scaleFactor = {$profitLossTrend.0.scale_factor|default:1};
-
-            // Pobierz dane z ukrytego diva (już przekonwertowane na numbers)
             const profitLossData = getProfitLossData();
-
-            console.log('Dane profit/loss po konwersji:', profitLossData); // DEBUG
-
-            // Zabezpieczenie przed pustymi danymi
             if (!profitLossData || profitLossData.length === 0) {
                 console.error('Brak danych do utworzenia wykresu bilansu');
                 const canvas = document.getElementById('profitLossChart');
@@ -1321,7 +1299,6 @@
                 scaleFactor > 1 ? item.scaled_profit_loss : item.profit_loss
             );
 
-            // Oblicz statystyki - teraz dane są już liczbami
             let profitDays = 0;
             let lossDays = 0;
             let totalBalance = 0;
@@ -1335,15 +1312,10 @@
 
             const averageBalance = profitLossData.length > 0 ? totalBalance / profitLossData.length : 0;
 
-            console.log('Statystyki - profitDays:', profitDays, 'lossDays:', lossDays, 'averageBalance:',
-                averageBalance); // DEBUG
-
-            // Aktualizuj statystyki w UI
             document.getElementById('profitDays').textContent = profitDays;
             document.getElementById('lossDays').textContent = lossDays;
             document.getElementById('averageBalance').textContent = formatCurrency(averageBalance);
 
-            // Przygotuj kolory dla punktów
             const backgroundColors = profitLossData.map(item =>
                 item.profit_loss >= 0 ? 'rgba(40, 167, 69, 0.3)' : 'rgba(220, 53, 69, 0.3)'
             );
@@ -1892,7 +1864,6 @@
             }
         });
     {else}
-        // Jeśli brak danych, pokaż komunikat
         document.addEventListener('DOMContentLoaded', function() {
             const container = document.getElementById('trendAnalysisChart');
             if (container) {
