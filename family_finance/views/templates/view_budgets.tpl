@@ -58,7 +58,7 @@
                             <a href="index.php?action=viewBudget&id={$budget.id}" class="btn btn-sm btn-primary">
                                 <i class="bi bi-eye"></i> Szczegóły
                             </a>
-
+                            {if $session['family_role'] == 'family_admin' || $session['family_role'] == null}
                             <a href="index.php?action=editBudget&id={$budget.id}" class="btn btn-sm btn-warning">
                                 <i class="bi bi-pencil-square"></i> Edytuj
                             </a>
@@ -66,6 +66,7 @@
                                 onclick="return confirm('Czy na pewno chcesz usunąć ten budżet?');">
                                 <i class="bi bi-trash me-2"></i>Usuń budżet
                             </a>
+                            {/if}
 
 
                         </td>

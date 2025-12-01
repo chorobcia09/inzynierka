@@ -181,7 +181,7 @@ class TransactionController
     /** Usuwa transakcję */
     public function deleteTransaction($transaction_id)
     {
-        if (!isset($_SESSION['user_id']) || $_SESSION['role'] === 'admin') {
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] === 'admin' || $_SESSION['family_role'] === 'family_member') {
             header('Location: index.php?action=login');
             exit;
         }
@@ -344,7 +344,7 @@ class TransactionController
     /** Edytuje istniejącą transakcję */
     public function editTransaction()
     {
-        if (!isset($_SESSION['user_id']) || $_SESSION['role'] === 'admin') {
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] === 'admin' || $_SESSION['family_role'] === 'family_member') {
             header('Location: index.php?action=login');
             exit;
         }

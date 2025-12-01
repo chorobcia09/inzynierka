@@ -4,8 +4,8 @@
 
 <div class="card bg-dark text-light mb-4 shadow-lg border-0">
     <div class="card-body">
-        <p><strong>Okres:</strong> {$budget.start_date} → {$budget.end_date}</p>
-        <p><strong>Typ:</strong> {$budget.period_type|capitalize}</p>
+        <p><strong>Okres:</strong> {$budget.start_date} <i class="bi bi-arrow-right"></i> {$budget.end_date}</p>
+        {* <p><strong>Typ:</strong> {$budget.period_type|capitalize}</p> *}
     </div>
 </div>
 

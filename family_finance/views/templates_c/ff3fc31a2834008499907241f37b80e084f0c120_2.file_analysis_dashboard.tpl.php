@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-11-24 19:28:36
+/* Smarty version 5.6.0, created on 2025-12-01 15:53:56
   from 'file:analysis_dashboard.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_6924a3d4bdbf83_25702067',
+  'unifunc' => 'content_692dac04d8a090_26512842',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'ff3fc31a2834008499907241f37b80e084f0c120' => 
     array (
       0 => 'analysis_dashboard.tpl',
-      1 => 1764008915,
+      1 => 1764600835,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_6924a3d4bdbf83_25702067 (\Smarty\Template $_smarty_tpl) {
+function content_692dac04d8a090_26512842 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -265,10 +265,14 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                     <div class="card-header bg-dark border-bottom-0 pb-2">
                         <h5 class="card-title text-primary mb-0">
                             <i class="bi bi-bar-chart-steps me-2"></i>Trend przychodów i wydatków
-                            <?php if ($_smarty_tpl->getValue('trend')[0]['scale_unit']) {?>(w <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('trend')[0]['scale_unit']), ENT_QUOTES, 'UTF-8');?>
+                            <?php if ((true && (true && null !== ($_smarty_tpl->getValue('trend')[0]['scale_unit'] ?? null)))) {?>
+                                (w <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('trend')[0]['scale_unit']), ENT_QUOTES, 'UTF-8');?>
  <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
-)<?php } else { ?>(<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
-)<?php }?>
+)
+                            <?php } else { ?>
+                                (<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
+)
+                            <?php }?>
                         </h5>
                     </div>
                     <div class="card-body pt-0 mt-5">
@@ -304,12 +308,15 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                         <h5 class="card-title text-primary mb-0">
                             <i class="bi bi-arrow-left-right me-2"></i>Bilans finansowy - Różnica między przychodami a
                             wydatkami
-                            <?php if ($_smarty_tpl->getValue('profitLossTrend')[0]['scale_unit']) {?>(w <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('profitLossTrend')[0]['scale_unit']), ENT_QUOTES, 'UTF-8');?>
-
-                            <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
-)<?php } else { ?>(<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
+                            <?php if ((true && (true && null !== ($_smarty_tpl->getValue('profitLossTrend')[0]['scale_unit'] ?? null)))) {?>
+                                (w <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('profitLossTrend')[0]['scale_unit']), ENT_QUOTES, 'UTF-8');?>
+ <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
+)
+                            <?php } else { ?>
+                                (<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
 )
                             <?php }?>
+
                         </h5>
                     </div>
                     <div class="card-body pt-0 mt-5">
@@ -1395,7 +1402,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
             const averageBalance = profitLossData.length > 0 ? totalBalance / profitLossData.length : 0;
 
             console.log('Statystyki - profitDays:', profitDays, 'lossDays:', lossDays, 'averageBalance:',
-            averageBalance); // DEBUG
+                averageBalance); // DEBUG
 
             // Aktualizuj statystyki w UI
             document.getElementById('profitDays').textContent = profitDays;
@@ -1482,11 +1489,11 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                                     additionalInfo.push('Wydatki: ' + formatCurrency(expense));
 
                                     if (originalValue > 0) {
-                                        additionalInfo.push('✅ Dodatni bilans');
+                                        additionalInfo.push('✔ Dodatni bilans');
                                     } else if (originalValue < 0) {
-                                        additionalInfo.push('❌ Ujemny bilans');
+                                        additionalInfo.push('✖ Ujemny bilans');
                                     } else {
-                                        additionalInfo.push('⚖️ Bilans zerowy');
+                                        additionalInfo.push('⇆ Bilans zerowy');
                                     }
 
                                     return additionalInfo;
@@ -2158,7 +2165,10 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>];
                             backgroundColor: 'transparent',
                             borderWidth: 3,
                             borderDash: [5, 5],
-                            pointRadius: 0,
+                            pointRadius: 3,
+                            pointBorderWidth: 1,
+                            pointBackgroundColor: '#ffc107',
+                            pointHoverRadius: 5,
                             tension: 0
                         }
                     ]

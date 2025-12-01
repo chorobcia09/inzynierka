@@ -38,11 +38,28 @@ class BudgetController
             // dump($_POST);
             $currency = $_POST['currency'];
 
-            // Walidacja
+            $error = null;
             if (empty($name) || empty($start_date) || empty($end_date)) {
                 $error = 'Uzupełnij wszystkie wymagane pola.';
+            }
+
+            if (!$error) {
+                if (!strtotime($start_date) || !strtotime($end_date)) {
+                    $error = 'Nieprawidłowy format daty.';
+                } elseif ($end_date < $start_date) {
+                    $error = 'Data końcowa nie może być wcześniejsza niż data początkowa.';
+                }
+            }
+            if ($error) {
+                $this->smarty->assign([
+                    'session' => $_SESSION,
+                    'categories' => $categories,
+                    'success' => $success,
+                    'error' => $error
+                ]);
+                $this->smarty->display('add_budget.tpl');
+                return;
             } else {
-                // Pobranie kategorii i limitów
                 $items = [];
                 $total_limit = 0;
 
@@ -131,7 +148,7 @@ class BudgetController
             header('Location: index.php?action=viewBudgets');
             exit;
         }
-
+        // dump($_SESSION);
         $family_id = $_SESSION['family_id'] ?? null;
         $user_id = $_SESSION['user_id'];
 
@@ -156,7 +173,7 @@ class BudgetController
 
     public function edit()
     {
-        if (!isset($_SESSION['user_id']) || $_SESSION['role'] === 'admin') {
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] === 'admin' || $_SESSION['family_role'] === 'family_member') {
             header('Location: index.php?action=login');
             exit;
         }
@@ -202,6 +219,28 @@ class BudgetController
 
             if (empty($name) || empty($start_date) || empty($end_date)) {
                 $error = 'Uzupełnij wszystkie wymagane pola.';
+            }
+
+            if (!$error) {
+                if (!strtotime($start_date) || !strtotime($end_date)) {
+                    $error = 'Nieprawidłowy format daty.';
+                } elseif ($end_date < $start_date) {
+                    $error = 'Data końcowa nie może być wcześniejsza niż data początkowa.';
+                }
+            }
+
+            if ($error) {
+                $this->smarty->assign([
+                    'session' => $_SESSION,
+                    'budget_id' => $budget_id,
+                    'budget' => $budgetInfo,
+                    'budgetItems' => $budgetItems,
+                    'categories' => $categories,
+                    'success' => $success,
+                    'error' => $error
+                ]);
+                $this->smarty->display('edit_budget.tpl');
+                return;
             } else {
                 $items = [];
                 $total_limit = 0;
@@ -271,7 +310,7 @@ class BudgetController
 
     public function delete()
     {
-        if (!isset($_SESSION['user_id']) || $_SESSION['role'] === 'admin') {
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] === 'admin' || $_SESSION['family_role'] === 'family_member') {
             header('Location: index.php?action=login');
             exit;
         }

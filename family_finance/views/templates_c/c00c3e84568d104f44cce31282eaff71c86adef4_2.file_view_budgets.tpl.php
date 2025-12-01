@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-11-23 10:30:12
+/* Smarty version 5.6.0, created on 2025-11-29 11:48:28
   from 'file:view_budgets.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_6922d4241341a8_76390207',
+  'unifunc' => 'content_692acf7c603743_04938951',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'c00c3e84568d104f44cce31282eaff71c86adef4' => 
     array (
       0 => 'view_budgets.tpl',
-      1 => 1763890210,
+      1 => 1764413307,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_6922d4241341a8_76390207 (\Smarty\Template $_smarty_tpl) {
+function content_692acf7c603743_04938951 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -103,7 +103,7 @@ $foreach0DoElse = false;
 " class="btn btn-sm btn-primary">
                                 <i class="bi bi-eye"></i> Szczegóły
                             </a>
-
+                            <?php if ($_smarty_tpl->getValue('session')['family_role'] == 'family_admin' || $_smarty_tpl->getValue('session')['family_role'] == null) {?>
                             <a href="index.php?action=editBudget&id=<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('budget')['id']), ENT_QUOTES, 'UTF-8');?>
 " class="btn btn-sm btn-warning">
                                 <i class="bi bi-pencil-square"></i> Edytuj
@@ -113,6 +113,7 @@ $foreach0DoElse = false;
                                 onclick="return confirm('Czy na pewno chcesz usunąć ten budżet?');">
                                 <i class="bi bi-trash me-2"></i>Usuń budżet
                             </a>
+                            <?php }?>
 
 
                         </td>

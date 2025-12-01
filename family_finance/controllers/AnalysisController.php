@@ -60,14 +60,15 @@ class AnalysisController
             $familyAverageSpending = count($familySpending) > 0 ? $familyTotalSpending / count($familySpending) : 0;
         }
 
-        $regionalComparison   = $this->analysis->getRegionalComparison($currency, $period, $date_from, $date_to);
+        // $regionalComparison   = $this->analysis->getRegionalComparison($currency, $period, $date_from, $date_to);
         $paymentMethodBreakdown = $this->analysis->getPaymentMethodBreakdown($user_id, $family_id, $currency, $period, $date_from, $date_to);
         $categoryPercentages  = $this->analysis->getCategoryPercentages($user_id, $family_id, $currency, $period, $date_from, $date_to);
         $descriptiveStats = $this->analysis->getDescriptiveStats($user_id, $family_id, $currency, $period, $date_from, $date_to);
         $concentrationStats = $this->analysis->getConcentrationStats($user_id, $family_id, $currency, $period, $date_from, $date_to);
-        $trendAnalysis = $this->analysis->getTrendAnalysis($user_id, $family_id, $currency, $period, $date_from, $date_to);
+        // $trendAnalysis = $this->analysis->getTrendAnalysis($user_id, $family_id, $currency, $period, $date_from, $date_to);
 
         $profitLossTrend = $this->analysis->getProfitLossTrend($user_id, $family_id, $currency, $period, $date_from, $date_to);
+        // dump($profitLossTrend);
         $isPremium = ($_SESSION['account_type'] ?? 'standard') === 'premium';
         $regionalComparison = [];
         $trendAnalysis = [];

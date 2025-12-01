@@ -208,7 +208,11 @@
                     <div class="card-header bg-dark border-bottom-0 pb-2">
                         <h5 class="card-title text-primary mb-0">
                             <i class="bi bi-bar-chart-steps me-2"></i>Trend przychodów i wydatków
-                            {if $trend.0.scale_unit}(w {$trend.0.scale_unit} {$currency}){else}({$currency}){/if}
+                            {if isset($trend.0.scale_unit)}
+                                (w {$trend.0.scale_unit} {$currency})
+                            {else}
+                                ({$currency})
+                            {/if}
                         </h5>
                     </div>
                     <div class="card-body pt-0 mt-5">
@@ -244,9 +248,12 @@
                         <h5 class="card-title text-primary mb-0">
                             <i class="bi bi-arrow-left-right me-2"></i>Bilans finansowy - Różnica między przychodami a
                             wydatkami
-                            {if $profitLossTrend.0.scale_unit}(w {$profitLossTrend.0.scale_unit}
-                            {$currency}){else}({$currency})
+                            {if isset($profitLossTrend.0.scale_unit)}
+                                (w {$profitLossTrend.0.scale_unit} {$currency})
+                            {else}
+                                ({$currency})
                             {/if}
+
                         </h5>
                     </div>
                     <div class="card-body pt-0 mt-5">
@@ -1222,7 +1229,7 @@
             const averageBalance = profitLossData.length > 0 ? totalBalance / profitLossData.length : 0;
 
             console.log('Statystyki - profitDays:', profitDays, 'lossDays:', lossDays, 'averageBalance:',
-            averageBalance); // DEBUG
+                averageBalance); // DEBUG
 
             // Aktualizuj statystyki w UI
             document.getElementById('profitDays').textContent = profitDays;
@@ -1309,11 +1316,11 @@
                                     additionalInfo.push('Wydatki: ' + formatCurrency(expense));
 
                                     if (originalValue > 0) {
-                                        additionalInfo.push('✅ Dodatni bilans');
+                                        additionalInfo.push('✔ Dodatni bilans');
                                     } else if (originalValue < 0) {
-                                        additionalInfo.push('❌ Ujemny bilans');
+                                        additionalInfo.push('✖ Ujemny bilans');
                                     } else {
-                                        additionalInfo.push('⚖️ Bilans zerowy');
+                                        additionalInfo.push('⇆ Bilans zerowy');
                                     }
 
                                     return additionalInfo;
@@ -1758,7 +1765,10 @@
                             backgroundColor: 'transparent',
                             borderWidth: 3,
                             borderDash: [5, 5],
-                            pointRadius: 0,
+                            pointRadius: 3,
+                            pointBorderWidth: 1,
+                            pointBackgroundColor: '#ffc107',
+                            pointHoverRadius: 5,
                             tension: 0
                         }
                     ]

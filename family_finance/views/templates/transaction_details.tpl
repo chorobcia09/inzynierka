@@ -19,11 +19,15 @@
                     {foreach from=$transaction item=trans}
                         {assign var="line_total" value=$trans.amount * $trans.quantity}
                         {assign var="total" value=$total + $line_total}
+                        {assign var=precision value=2}
+                        {if in_array($trans.transaction_currency, ['BTC','ETH','BNB','XRP','DOGE','SOL','ADA','TRX','USDT'])}
+                            {assign var=precision value=8}
+                        {/if}
                         <tr>
                             <td>{$trans.sub_category_name}</td>
-                            <td>{$trans.amount} {$trans.transaction_currency}</td>
+                            <td>{$trans.amount|number_format:$precision:",":" "} {$trans.transaction_currency}</td>
                             <td>{$trans.quantity}</td>
-                            <td>{$line_total} {$trans.transaction_currency}</td>
+                            <td>{$line_total|number_format:$precision:",":" "} {$trans.transaction_currency}</td>
                         </tr>
                     {/foreach}
                 </tbody>
@@ -32,7 +36,7 @@
             <table class="table table-dark table-bordered mt-2 mb-0">
                 <tbody class="table-secondary text-dark">
                     <tr>
-                        <td><strong>Suma:</strong> {$total} {$transaction[0].transaction_currency}</td>
+                        <td><strong>Suma:</strong> {$total|number_format:$precision:",":" "} {$transaction[0].transaction_currency}</td>
                     </tr>
                 </tbody>
             </table>

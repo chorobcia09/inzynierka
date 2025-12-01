@@ -255,7 +255,7 @@ class Analysis
         GROUP BY DATE(transaction_date)
         ORDER BY date ASC
         ";
-
+        // dump($sql);
         $params = [
             ':family_id' => $family_id,
             ':user_id' => $user_id,

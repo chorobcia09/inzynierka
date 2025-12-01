@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-11-23 17:51:13
+/* Smarty version 5.6.0, created on 2025-11-29 11:50:14
   from 'file:budget_details.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_69233b81e9dad9_15783809',
+  'unifunc' => 'content_692acfe69bc1a8_25821420',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '5b81901c8c21d70a7a6c81397acd37cd237448c8' => 
     array (
       0 => 'budget_details.tpl',
-      1 => 1763897192,
+      1 => 1764413124,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_69233b81e9dad9_15783809 (\Smarty\Template $_smarty_tpl) {
+function content_692acfe69bc1a8_25821420 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -33,11 +33,9 @@ $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_sma
 <div class="card bg-dark text-light mb-4 shadow-lg border-0">
     <div class="card-body">
         <p><strong>Okres:</strong> <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('budget')['start_date']), ENT_QUOTES, 'UTF-8');?>
- → <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('budget')['end_date']), ENT_QUOTES, 'UTF-8');?>
+ <i class="bi bi-arrow-right"></i> <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('budget')['end_date']), ENT_QUOTES, 'UTF-8');?>
 </p>
-        <p><strong>Typ:</strong> <?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('capitalize')($_smarty_tpl->getValue('budget')['period_type'])), ENT_QUOTES, 'UTF-8');?>
-</p>
-    </div>
+            </div>
 </div>
 
 <h4 class="mb-3 text-light-emphasis">Podział według kategorii</h4>
