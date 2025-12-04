@@ -66,8 +66,8 @@
         <p data-aos="fade-up" data-aos-delay="200">
             Intuicyjny system do kontroli wydatków, wspólnego budżetu i raportów rodzinnych.
         </p>
-        <div class="mt-4" data-aos="zoom-in" data-aos-delay="400">
-            <a href="index.php?action=register" class="btn btn-gradient btn-lg rounded-pill px-4 me-2">
+        <div class="mt-4 d-flex flex-column flex-md-row justify-content-center" data-aos="zoom-in" data-aos-delay="400">
+            <a href="index.php?action=register" class="btn btn-gradient btn-lg rounded-pill px-4 me-md-2 mb-3 mb-md-0">
                 <i class="bi bi-person-plus"></i> Zarejestruj się
             </a>
             <a href="index.php?action=login" class="btn btn-outline-light btn-lg rounded-pill px-4">

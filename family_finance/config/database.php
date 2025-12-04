@@ -26,7 +26,7 @@ class Database
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             PDO::ATTR_EMULATE_PREPARES   => false,
         ];
-        
+
         try {
             $this->pdo = new PDO($dsn, $this->user, $this->pass, $options);
         } catch (PDOException $e) {
@@ -59,5 +59,29 @@ class Database
     public function lastInsertId()
     {
         return $this->pdo->lastInsertId();
+    }
+
+    /**
+     * Rozpoczyna transakcję
+     */
+    public function beginTransaction()
+    {
+        return $this->pdo->beginTransaction();
+    }
+
+    /**
+     * Zatwierdza transakcję
+     */
+    public function commit()
+    {
+        return $this->pdo->commit();
+    }
+
+    /**
+     * Wycofuje transakcję (rollback)
+     */
+    public function rollBack()
+    {
+        return $this->pdo->rollBack();
     }
 }

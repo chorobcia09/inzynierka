@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-12-01 19:24:37
+/* Smarty version 5.6.0, created on 2025-12-04 19:45:14
   from 'file:header.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_692ddd659e7381_15774564',
+  'unifunc' => 'content_6931d6ba429821_52375518',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '70761fd558b824e86e638862bb79aeef78d05c3b' => 
     array (
       0 => 'header.tpl',
-      1 => 1764613475,
+      1 => 1764873908,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_692ddd659e7381_15774564 (\Smarty\Template $_smarty_tpl) {
+function content_6931d6ba429821_52375518 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 ?><!DOCTYPE html>
 <html lang="pl">
@@ -71,36 +71,36 @@ $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\vi
                         <?php if ((true && (true && null !== ($_smarty_tpl->getValue('session')['user_id'] ?? null)))) {?>
 
                             <?php if ($_smarty_tpl->getValue('session')['role'] == 'admin') {?>
-                                <li class="nav-item me-2">
+                                <li class="nav-item mb-2 mb-lg-0 me-lg-2">
                                     <a href="index.php?action=adminPanel" class="btn btn-outline-danger btn-sm">
                                         <i class="bi bi-person-gear"></i> Użytkownicy
                                     </a>
                                 </li>
-                                <li class="nav-item me-2">
+                                <li class="nav-item mb-2 mb-lg-0 me-lg-2">
                                     <a href="index.php?action=feedbackPanel" class="btn btn-outline-danger btn-sm">
                                         <i class="bi bi-folder"></i> Zgłoszenia
                                     </a>
                                 </li>
-                                <li class="nav-item">
+                                <li class="nav-item mb-2 mb-lg-0 me-lg-2">
                                     <a href="index.php?action=logout" class="btn btn-light btn-sm text-dark fw-semibold">
                                         Wyloguj
                                     </a>
                                 </li>
                             <?php } else { ?>
-                                <li class="nav-item me-3 text-light">
+                                <li class="nav-item mb-2 mb-lg-0 me-lg-2 text-light">
                                     Witaj, <strong><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('session')['user_name']), ENT_QUOTES, 'UTF-8');?>
 </strong>
                                 </li>
 
                                 <?php if (!$_smarty_tpl->getValue('session')['family_id']) {?>
-                                    <li class="nav-item me-2">
+                                    <li class="nav-item mb-2 mb-lg-0 me-lg-2">
                                         <a href="index.php?action=createFamily" class="btn btn-outline-light btn-sm">
                                             Załóż rodzinę
                                         </a>
                                     </li>
                                 <?php }?>
                                 <!-- Budżety -->
-                                <li class="nav-item dropdown me-2">
+                                <li class="nav-item dropdown mb-2 mb-lg-0 me-lg-2">
                                     <button class="btn btn-outline-primary btn-sm dropdown-toggle" id="budgetDropdown"
                                         data-bs-toggle="dropdown" aria-expanded="false">
                                         <i class="bi bi-bar-chart-line-fill"></i> Budżety
@@ -115,7 +115,7 @@ $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\vi
 
 
                                 <!-- Transakcje -->
-                                <li class="nav-item dropdown me-2">
+                                <li class="nav-item dropdown mb-2 mb-lg-0 me-lg-2">
                                     <button class="btn btn-outline-success btn-sm dropdown-toggle" id="transactionsDropdown"
                                         data-bs-toggle="dropdown" aria-expanded="false">
                                         <i class="bi bi-cash-stack"></i> Transakcje
@@ -129,12 +129,12 @@ $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\vi
                                 </li>
 
                                 <!-- Kategorie -->
-                                <li class="nav-item dropdown me-2">
+                                <li class="nav-item dropdown mb-2 mb-lg-0 me-lg-2">
                                     <button class="btn btn-outline-warning btn-sm dropdown-toggle" id="categoryDropdown"
                                         data-bs-toggle="dropdown" aria-expanded="false">
                                         <i class="bi bi-tags-fill"></i> Kategorie
                                     </button>
-                                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="categoryDropdown">
+                                    <ul class="dropdown-menu dropdown-menu-dark " aria-labelledby="categoryDropdown">
                                         <li><a class="dropdown-item" href="index.php?action=categories">
                                                 <i class="bi bi-list-ul"></i> Przeglądaj kategorie</a></li>
                                     </ul>
@@ -142,7 +142,7 @@ $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\vi
 
                                 <!-- Rodzina -->
                                 <?php if ((true && (true && null !== ($_smarty_tpl->getValue('session')['family_id'] ?? null))) && $_smarty_tpl->getValue('session')['family_id'] != '' && $_smarty_tpl->getValue('session')['family_id'] != null) {?>
-                                    <li class="nav-item dropdown me-2">
+                                    <li class="nav-item dropdown mb-2 mb-lg-0 me-lg-2">
                                         <button class="btn btn-outline-info btn-sm dropdown-toggle" id="familyDropdown"
                                             data-bs-toggle="dropdown" aria-expanded="false">
                                             <i class="bi bi-people-fill"></i> Rodzina
@@ -165,7 +165,7 @@ $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\vi
                                 <?php }?>
 
                                 <!-- Analiza finansowa -->
-                                <li class="nav-item dropdown me-2">
+                                <li class="nav-item dropdown mb-2 mb-lg-0 me-lg-2">
                                     <button class="btn btn-outline-secondary btn-sm dropdown-toggle" id="analysisDropdown"
                                         data-bs-toggle="dropdown" aria-expanded="false">
                                         <i class="bi bi-graph-up-arrow"></i> Analiza
@@ -184,21 +184,21 @@ $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\vi
                                 </li>
 
 
-                                <li class="nav-item me-2">
+                                <li class="nav-item mb-2 mb-lg-0 me-lg-2">
                                     <a href="index.php?action=userPanel" class="btn btn-outline-light btn-sm">Panel
                                         użytkownika</a>
                                 </li>
-                                <li class="nav-item">
+                                <li class="nav-item mb-2 mb-lg-0 me-lg-2">
                                     <a href="index.php?action=logout"
                                         class="btn btn-light btn-sm text-dark fw-semibold">Wyloguj</a>
                                 </li>
 
                             <?php }?>
                         <?php } else { ?>
-                            <li class="nav-item me-2">
+                            <li class="nav-item mb-2 mb-lg-0 me-lg-2">
                                 <a href="index.php?action=login" class="btn btn-outline-light btn-sm ">Logowanie</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item mb-2 mb-lg-0 me-lg-2">
                                 <a href="index.php?action=register"
                                     class="btn btn-light btn-sm text-dark fw-semibold">Rejestracja</a>
                             </li>

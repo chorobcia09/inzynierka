@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-26 11:51:44
+/* Smarty version 5.6.0, created on 2025-12-04 19:19:10
   from 'file:landing.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68fdfd406e0069_43905952',
+  'unifunc' => 'content_6931d09e58ba35_72191517',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '4b5dfd0d0fe848c655d581edb6c7c223859ebbf9' => 
     array (
       0 => 'landing.tpl',
-      1 => 1761475902,
+      1 => 1764872345,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_68fdfd406e0069_43905952 (\Smarty\Template $_smarty_tpl) {
+function content_6931d09e58ba35_72191517 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -93,8 +93,8 @@ $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_sma
         <p data-aos="fade-up" data-aos-delay="200">
             Intuicyjny system do kontroli wydatków, wspólnego budżetu i raportów rodzinnych.
         </p>
-        <div class="mt-4" data-aos="zoom-in" data-aos-delay="400">
-            <a href="index.php?action=register" class="btn btn-gradient btn-lg rounded-pill px-4 me-2">
+        <div class="mt-4 d-flex flex-column flex-md-row justify-content-center" data-aos="zoom-in" data-aos-delay="400">
+            <a href="index.php?action=register" class="btn btn-gradient btn-lg rounded-pill px-4 me-md-2 mb-3 mb-md-0">
                 <i class="bi bi-person-plus"></i> Zarejestruj się
             </a>
             <a href="index.php?action=login" class="btn btn-outline-light btn-lg rounded-pill px-4">

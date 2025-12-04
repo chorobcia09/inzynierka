@@ -138,13 +138,35 @@ class User
      */
     public function deleteUser(int $id)
     {
-        // pierw usuwa transakcje
-        $sql = "DELETE FROM transactions WHERE user_id = :id";
-        $this->db->execute($sql, [':id' => $id]);
+        try {
+            // Rozpoczęcie transakcji
+            $this->db->beginTransaction();
 
-        // pozniej uzytkownika
-        $sql = "DELETE FROM users WHERE id = :id";
-        return $this->db->execute($sql, [':id' => $id]);
+            // 1. Usuń powiązane transakcje
+            $sql = "DELETE FROM transactions WHERE user_id = :id";
+            $this->db->execute($sql, [':id' => $id]);
+
+            // 2. Usuń powiązane opinie (feedback)
+            $sql = "DELETE FROM feedbacks WHERE user_id = :id";
+            $this->db->execute($sql, [':id' => $id]);
+
+            // 3. Usuń powiązane budżety
+            $sql = "DELETE FROM budgets WHERE user_id = :id";
+            $this->db->execute($sql, [':id' => $id]);
+
+            // 4. Usuń użytkownika
+            $sql = "DELETE FROM users WHERE id = :id";
+            $this->db->execute($sql, [':id' => $id]);
+
+            // Zatwierdzenie transakcji
+            $this->db->commit();
+            return true;
+        } catch (Exception $e) {
+            // Wycofanie zmian w przypadku błędu
+            $this->db->rollBack();
+            error_log("Błąd usuwania użytkownika: " . $e->getMessage());
+            return false;
+        }
     }
 
 
