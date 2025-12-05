@@ -27,7 +27,7 @@ class DashboardController
             header('Location: index.php?action=login');
             exit;
         }
-
+        // dump(session_id());
         header("Cache-Control: no-cache, no-store, must-revalidate");
         header("Pragma: no-cache");
         header("Expires: 0");

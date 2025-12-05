@@ -520,7 +520,7 @@
         </div>
     </div>
 
-    {if $isPremium}
+    {if $session['account_type'] == 'premium'}
         <div class="tab-pane fade" id="regional" role="tabpanel">
             <div class="row g-4">
                 <div class="col-md-12">
@@ -723,7 +723,7 @@
             </div>
 
             <!-- Analiza trendu -->
-            {if $isPremium}
+            {if $session['account_type'] == 'premium'}
                 <div class="col-12">
                     <div class="card shadow-lg">
                         <div class="card-body">
