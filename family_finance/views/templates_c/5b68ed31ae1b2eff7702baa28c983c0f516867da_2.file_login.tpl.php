@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-10-26 16:22:27
+/* Smarty version 5.6.0, created on 2025-12-06 15:52:58
   from 'file:login.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_68fe3cb33b2f73_29533837',
+  'unifunc' => 'content_6934434ac87972_55619650',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '5b68ed31ae1b2eff7702baa28c983c0f516867da' => 
     array (
       0 => 'login.tpl',
-      1 => 1761492146,
+      1 => 1765032776,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_68fe3cb33b2f73_29533837 (\Smarty\Template $_smarty_tpl) {
+function content_6934434ac87972_55619650 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -54,6 +54,8 @@ $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_sma
 
     <div class="text-center mt-3">
         <small>Nie masz konta? <a href="index.php?action=register" class="text-primary fw-bold">Zarejestruj się</a></small>
+        <br>
+        <small>Nie pamiętam hasła <a href="#" class="text-primary fw-bold">Przypomnij hasło</a></small>
     </div>
 </div>
 

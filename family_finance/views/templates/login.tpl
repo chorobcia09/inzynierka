@@ -26,6 +26,8 @@
 
     <div class="text-center mt-3">
         <small>Nie masz konta? <a href="index.php?action=register" class="text-primary fw-bold">Zarejestruj się</a></small>
+        <br>
+        <small>Nie pamiętam hasła <a href="#" class="text-primary fw-bold">Przypomnij hasło</a></small>
     </div>
 </div>
 
