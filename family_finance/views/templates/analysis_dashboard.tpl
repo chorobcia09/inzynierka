@@ -1,6 +1,6 @@
 {include file="header.tpl"}
 
-<h2 class="mb-4 text-primary fw-bold"><i class="bi bi-bar-chart"></i> Analiza Finansowa</h2>
+<h2 class="mb-4  fw-bold"><i class="bi bi-bar-chart"></i> Analiza Finansowa</h2>
 
 <!-- Formularz filtrowania z wyborem waluty -->
 <form method="get" action="index.php" class="mb-5 p-3 border rounded-3 bg-dark shadow-sm row g-3 align-items-end">

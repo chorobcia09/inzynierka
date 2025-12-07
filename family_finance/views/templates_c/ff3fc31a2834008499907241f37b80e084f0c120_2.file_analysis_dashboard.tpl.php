@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-12-05 21:26:08
+/* Smarty version 5.6.0, created on 2025-12-07 13:59:26
   from 'file:analysis_dashboard.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_69333fe0047125_47540329',
+  'unifunc' => 'content_69357a2e77e898_13319063',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'ff3fc31a2834008499907241f37b80e084f0c120' => 
     array (
       0 => 'analysis_dashboard.tpl',
-      1 => 1764966322,
+      1 => 1765112364,
       2 => 'file',
     ),
   ),
@@ -22,12 +22,12 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_69333fe0047125_47540329 (\Smarty\Template $_smarty_tpl) {
+function content_69357a2e77e898_13319063 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
 
-<h2 class="mb-4 text-primary fw-bold"><i class="bi bi-bar-chart"></i> Analiza Finansowa</h2>
+<h2 class="mb-4  fw-bold"><i class="bi bi-bar-chart"></i> Analiza Finansowa</h2>
 
 <!-- Formularz filtrowania z wyborem waluty -->
 <form method="get" action="index.php" class="mb-5 p-3 border rounded-3 bg-dark shadow-sm row g-3 align-items-end">
