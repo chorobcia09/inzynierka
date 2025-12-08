@@ -80,7 +80,7 @@ class AnalysisController
         // dump($profitLossTrend);
         // }
         $combinedTrend = $this->analysis->getCombinedTrend($user_id, $family_id, $currency, $period, $date_from, $date_to);
-        dump($combinedTrend);
+        // dump($combinedTrend);
         $this->smarty->assign([
             'summary' => $summary,
             'categories' => $byCategory,
