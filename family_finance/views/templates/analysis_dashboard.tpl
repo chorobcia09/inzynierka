@@ -247,17 +247,11 @@
                     <div class="card-header bg-dark border-bottom-0 pb-2">
                         <h5 class="card-title text-primary mb-0">
                             <i class="bi bi-arrow-left-right me-2"></i>Bilans finansowy - Różnica między przychodami a
-                            wydatkami
-                            {if isset($profitLossTrend.0.scale_unit)}
-                                (w {$profitLossTrend.0.scale_unit} {$currency})
-                            {else}
-                                ({$currency})
-                            {/if}
-
+                            wydatkami ({$currency})
                         </h5>
                     </div>
                     <div class="card-body pt-0 mt-5">
-                        {if $profitLossTrend && count($profitLossTrend) > 0}
+                        {if $profitLossTrend && count($profitLossTrend) > 1}
                             <div class="chart-container" style="position: relative; height: 400px; width: 100%">
                                 <canvas id="profitLossChart"></canvas>
                             </div>
@@ -298,15 +292,12 @@
                                     </div>
                                 </div>
                             </div>
-
-                            {if $profitLossTrend.0.scale_unit}
-                                <div class="alert alert-info mt-3 mb-0 py-2">
-                                    <small>
-                                        <i class="bi bi-info-circle me-1"></i>
-                                        Wartości zostały przeskalowane dla lepszej czytelności.
-                                    </small>
-                                </div>
-                            {/if}
+                        {elseif $profitLossTrend && count($profitLossTrend) == 1}
+                            <div class="text-center py-4">
+                                <i class="bi bi-calendar-plus display-4 text-muted opacity-50"></i>
+                                <p class="text-muted mt-2">Tylko 1 dzień z danymi</p>
+                                <p class="text-muted small">Wykres bilansu wymaga co najmniej 2 dni z danymi.</p>
+                            </div>
                         {else}
                             <div class="text-center py-4">
                                 <i class="bi bi-calculator display-4 text-muted opacity-50"></i>
@@ -1116,7 +1107,8 @@
         return value.toFixed(currencyPrecision) + ' ' + currentCurrency;
     }
 
-    {if ($trend && count($trend) > 0) || ($trendIncome && count($trendIncome) > 0)}
+    {if $combinedTrend && count($combinedTrend) > 0}
+
         function formatCurrencyForChart(value, scaleFactor = 1) {
             if (scaleFactor > 1) {
                 const precision = scaleFactor >= 1000 ? 2 : 4;
@@ -1126,63 +1118,55 @@
             }
         }
 
-        const trendScaleFactor = {$trend.0.scale_factor|default:1};
-        const incomeScaleFactor = {$trendIncome.0.scale_factor|default:1};
+        // pobranie skali (jeśli masz skalowanie po stronie backendu)
+        const trendScaleFactor = {$combinedTrend.0.scale_factor|default:1};
+        const incomeScaleFactor = {$combinedTrend.0.scale_factor|default:1};
 
         new Chart(document.getElementById('combinedTrendChart'), {
             type: 'line',
             data: {
                 labels: [
-                    {foreach $trend as $t}'{$t.date}'
-                        {if !$t@last},
-                        {/if}
+                    {foreach $combinedTrend as $t}
+                        '{$t.date}'{if !$t@last},{/if}
                     {/foreach}
                 ],
-                datasets: [
-                    {if $trendIncome && count($trendIncome) > 0}
-                        {
-                            label: 'Przychody' + (incomeScaleFactor > 1 ? ' (przeskalowane)' : ''),
-                            data: [
-                                {foreach $trendIncome as $t}
-                                    {if $t.scaled_total}{$t.scaled_total}{else}{$t.total}{/if}
-                                    {if !$t@last},
-                                    {/if}
-                                {/foreach}
-                            ],
-                            borderColor: '#28a745',
-                            backgroundColor: 'rgba(40, 167, 69, 0.1)',
-                            borderWidth: 2,
-                            fill: true,
-                            tension: 0.4,
-                            pointBackgroundColor: '#28a745',
-                            pointBorderColor: '#fff',
-                            pointBorderWidth: 1,
-                            pointRadius: 3,
-                            pointHoverRadius: 5
-                        },
-                    {/if}
-                    {if $trend && count($trend) > 0}
-                        {
-                            label: 'Wydatki' + (trendScaleFactor > 1 ? ' (przeskalowane)' : ''),
-                            data: [
-                                {foreach $trend as $t}
-                                    {if $t.scaled_total}{$t.scaled_total}{else}{$t.total}{/if}
-                                    {if !$t@last},
-                                    {/if}
-                                {/foreach}
-                            ],
-                            borderColor: '#dc3545',
-                            backgroundColor: 'rgba(220, 53, 69, 0.1)',
-                            borderWidth: 2,
-                            fill: true,
-                            tension: 0.4,
-                            pointBackgroundColor: '#dc3545',
-                            pointBorderColor: '#fff',
-                            pointBorderWidth: 1,
-                            pointRadius: 3,
-                            pointHoverRadius: 5
-                        }
-                    {/if}
+                datasets: [{
+                        label: 'Przychody',
+                        data: [
+                            {foreach $combinedTrend as $t}
+                                {$t.income_total}{if !$t@last},{/if}
+                            {/foreach}
+                        ],
+                        borderColor: '#28a745',
+                        // backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                        // borderWidth: 2,
+                        // fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#28a745',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 1,
+                        pointRadius: 3,
+                        pointHoverRadius: 5,
+                        spanGaps: true
+                    },
+                    {
+                        label: 'Wydatki',
+                        data: [
+                            {foreach $combinedTrend as $t}
+                                {$t.expense_total}{if !$t@last},{/if}
+                            {/foreach}
+                        ],
+                        borderColor: '#dc3545',
+                        backgroundColor: 'rgba(220, 53, 69, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#dc3545',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 1,
+                        pointRadius: 3,
+                        pointHoverRadius: 5
+                    }
                 ]
             },
             options: {
@@ -1205,14 +1189,12 @@
                         backgroundColor: 'rgba(0, 0, 0, 0.8)',
                         padding: 8,
                         cornerRadius: 6,
-                        titleFont: {
-                            size: 11
-                        },
-                        bodyFont: {
-                            size: 11
-                        },
-                        callback: function(context) {
-                            return context.dataset.label + ': ' + formatCurrency(context.parsed.y);
+                        titleFont: { size: 11 },
+                        bodyFont: { size: 11 },
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + formatCurrency(context.parsed.y);
+                            }
                         }
                     }
                 },
@@ -1224,15 +1206,13 @@
                         },
                         title: {
                             display: true,
-                            text: {if $trend.0.scale_unit}'Kwota (w {$trend.0.scale_unit} {$currency})'{else}'Kwota ({$currency})'{/if},
+                            text: 'Kwota ({$currency})',
                             font: {
                                 size: 14
                             }
                         },
                         ticks: {
-                            font: {
-                                size: 13
-                            },
+                            font: { size: 13 },
                             callback: function(value) {
                                 const scaleFactor = Math.max(trendScaleFactor, incomeScaleFactor);
                                 return formatCurrencyForChart(value, scaleFactor);
@@ -1246,14 +1226,10 @@
                         title: {
                             display: true,
                             text: 'Data',
-                            font: {
-                                size: 14
-                            }
+                            font: { size: 14 }
                         },
                         ticks: {
-                            font: {
-                                size: 13
-                            },
+                            font: { size: 13 },
                             maxTicksLimit: 8
                         }
                     }
@@ -1269,7 +1245,9 @@
                 }
             }
         });
+
     {/if}
+
 
     // Wykres bilansu (różnica przychody-wydatki)
     {if $profitLossTrend && count($profitLossTrend) > 0}

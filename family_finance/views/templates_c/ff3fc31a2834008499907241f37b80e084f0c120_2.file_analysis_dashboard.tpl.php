@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-12-07 13:59:26
+/* Smarty version 5.6.0, created on 2025-12-08 14:09:22
   from 'file:analysis_dashboard.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_69357a2e77e898_13319063',
+  'unifunc' => 'content_6936ce02261e97_73066153',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'ff3fc31a2834008499907241f37b80e084f0c120' => 
     array (
       0 => 'analysis_dashboard.tpl',
-      1 => 1765112364,
+      1 => 1765199360,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_69357a2e77e898_13319063 (\Smarty\Template $_smarty_tpl) {
+function content_6936ce02261e97_73066153 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -307,20 +307,12 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                     <div class="card-header bg-dark border-bottom-0 pb-2">
                         <h5 class="card-title text-primary mb-0">
                             <i class="bi bi-arrow-left-right me-2"></i>Bilans finansowy - Różnica między przychodami a
-                            wydatkami
-                            <?php if ((true && (true && null !== ($_smarty_tpl->getValue('profitLossTrend')[0]['scale_unit'] ?? null)))) {?>
-                                (w <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('profitLossTrend')[0]['scale_unit']), ENT_QUOTES, 'UTF-8');?>
- <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
+                            wydatkami (<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
 )
-                            <?php } else { ?>
-                                (<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
-)
-                            <?php }?>
-
                         </h5>
                     </div>
                     <div class="card-body pt-0 mt-5">
-                        <?php if ($_smarty_tpl->getValue('profitLossTrend') && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('profitLossTrend')) > 0) {?>
+                        <?php if ($_smarty_tpl->getValue('profitLossTrend') && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('profitLossTrend')) > 1) {?>
                             <div class="chart-container" style="position: relative; height: 400px; width: 100%">
                                 <canvas id="profitLossChart"></canvas>
                             </div>
@@ -361,15 +353,12 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                                     </div>
                                 </div>
                             </div>
-
-                            <?php if ($_smarty_tpl->getValue('profitLossTrend')[0]['scale_unit']) {?>
-                                <div class="alert alert-info mt-3 mb-0 py-2">
-                                    <small>
-                                        <i class="bi bi-info-circle me-1"></i>
-                                        Wartości zostały przeskalowane dla lepszej czytelności.
-                                    </small>
-                                </div>
-                            <?php }?>
+                        <?php } elseif ($_smarty_tpl->getValue('profitLossTrend') && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('profitLossTrend')) == 1) {?>
+                            <div class="text-center py-4">
+                                <i class="bi bi-calendar-plus display-4 text-muted opacity-50"></i>
+                                <p class="text-muted mt-2">Tylko 1 dzień z danymi</p>
+                                <p class="text-muted small">Wykres bilansu wymaga co najmniej 2 dni z danymi.</p>
+                            </div>
                         <?php } else { ?>
                             <div class="text-center py-4">
                                 <i class="bi bi-calculator display-4 text-muted opacity-50"></i>
@@ -1241,7 +1230,8 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         return value.toFixed(currencyPrecision) + ' ' + currentCurrency;
     }
 
-    <?php if (($_smarty_tpl->getValue('trend') && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('trend')) > 0) || ($_smarty_tpl->getValue('trendIncome') && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('trendIncome')) > 0)) {?>
+    <?php if ($_smarty_tpl->getValue('combinedTrend') && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('combinedTrend')) > 0) {?>
+
         function formatCurrencyForChart(value, scaleFactor = 1) {
             if (scaleFactor > 1) {
                 const precision = scaleFactor >= 1000 ? 2 : 4;
@@ -1251,9 +1241,10 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
             }
         }
 
-        const trendScaleFactor = <?php echo htmlspecialchars((string) ((($tmp = $_smarty_tpl->getValue('trend')[0]['scale_factor'] ?? null)===null||$tmp==='' ? 1 ?? null : $tmp)), ENT_QUOTES, 'UTF-8');?>
+        // pobranie skali (jeśli masz skalowanie po stronie backendu)
+        const trendScaleFactor = <?php echo htmlspecialchars((string) ((($tmp = $_smarty_tpl->getValue('combinedTrend')[0]['scale_factor'] ?? null)===null||$tmp==='' ? 1 ?? null : $tmp)), ENT_QUOTES, 'UTF-8');?>
 ;
-        const incomeScaleFactor = <?php echo htmlspecialchars((string) ((($tmp = $_smarty_tpl->getValue('trendIncome')[0]['scale_factor'] ?? null)===null||$tmp==='' ? 1 ?? null : $tmp)), ENT_QUOTES, 'UTF-8');?>
+        const incomeScaleFactor = <?php echo htmlspecialchars((string) ((($tmp = $_smarty_tpl->getValue('combinedTrend')[0]['scale_factor'] ?? null)===null||$tmp==='' ? 1 ?? null : $tmp)), ENT_QUOTES, 'UTF-8');?>
 ;
 
         new Chart(document.getElementById('combinedTrendChart'), {
@@ -1261,7 +1252,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
             data: {
                 labels: [
                     <?php
-$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('trend'), 't', true);
+$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('combinedTrend'), 't', true);
 $_smarty_tpl->getVariable('t')->iteration = 0;
 $foreach3DoElse = true;
 foreach ($_from ?? [] as $_smarty_tpl->getVariable('t')->value) {
@@ -1269,22 +1260,19 @@ $foreach3DoElse = false;
 $_smarty_tpl->getVariable('t')->iteration++;
 $_smarty_tpl->getVariable('t')->last = $_smarty_tpl->getVariable('t')->iteration === $_smarty_tpl->getVariable('t')->total;
 $foreach3Backup = clone $_smarty_tpl->getVariable('t');
-?>'<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('t')['date']), ENT_QUOTES, 'UTF-8');?>
-'
-                        <?php if (!$_smarty_tpl->getVariable('t')->last) {?>,
-                        <?php }?>
+?>
+                        '<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('t')['date']), ENT_QUOTES, 'UTF-8');?>
+'<?php if (!$_smarty_tpl->getVariable('t')->last) {?>,<?php }?>
                     <?php
 $_smarty_tpl->setVariable('t', $foreach3Backup);
 }
 $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                 ],
-                datasets: [
-                    <?php if ($_smarty_tpl->getValue('trendIncome') && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('trendIncome')) > 0) {?>
-                        {
-                            label: 'Przychody' + (incomeScaleFactor > 1 ? ' (przeskalowane)' : ''),
-                            data: [
-                                <?php
-$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('trendIncome'), 't', true);
+                datasets: [{
+                        label: 'Przychody',
+                        data: [
+                            <?php
+$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('combinedTrend'), 't', true);
 $_smarty_tpl->getVariable('t')->iteration = 0;
 $foreach4DoElse = true;
 foreach ($_from ?? [] as $_smarty_tpl->getVariable('t')->value) {
@@ -1293,36 +1281,30 @@ $_smarty_tpl->getVariable('t')->iteration++;
 $_smarty_tpl->getVariable('t')->last = $_smarty_tpl->getVariable('t')->iteration === $_smarty_tpl->getVariable('t')->total;
 $foreach4Backup = clone $_smarty_tpl->getVariable('t');
 ?>
-                                    <?php if ($_smarty_tpl->getValue('t')['scaled_total']) {
-echo htmlspecialchars((string) ($_smarty_tpl->getValue('t')['scaled_total']), ENT_QUOTES, 'UTF-8');
-} else {
-echo htmlspecialchars((string) ($_smarty_tpl->getValue('t')['total']), ENT_QUOTES, 'UTF-8');
-}?>
-                                    <?php if (!$_smarty_tpl->getVariable('t')->last) {?>,
-                                    <?php }?>
-                                <?php
+                                <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('t')['income_total']), ENT_QUOTES, 'UTF-8');
+if (!$_smarty_tpl->getVariable('t')->last) {?>,<?php }?>
+                            <?php
 $_smarty_tpl->setVariable('t', $foreach4Backup);
 }
 $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
-                            ],
-                            borderColor: '#28a745',
-                            backgroundColor: 'rgba(40, 167, 69, 0.1)',
-                            borderWidth: 2,
-                            fill: true,
-                            tension: 0.4,
-                            pointBackgroundColor: '#28a745',
-                            pointBorderColor: '#fff',
-                            pointBorderWidth: 1,
-                            pointRadius: 3,
-                            pointHoverRadius: 5
-                        },
-                    <?php }?>
-                    <?php if ($_smarty_tpl->getValue('trend') && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('trend')) > 0) {?>
-                        {
-                            label: 'Wydatki' + (trendScaleFactor > 1 ? ' (przeskalowane)' : ''),
-                            data: [
-                                <?php
-$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('trend'), 't', true);
+                        ],
+                        borderColor: '#28a745',
+                        // backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                        // borderWidth: 2,
+                        // fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#28a745',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 1,
+                        pointRadius: 3,
+                        pointHoverRadius: 5,
+                        spanGaps: true
+                    },
+                    {
+                        label: 'Wydatki',
+                        data: [
+                            <?php
+$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('combinedTrend'), 't', true);
 $_smarty_tpl->getVariable('t')->iteration = 0;
 $foreach5DoElse = true;
 foreach ($_from ?? [] as $_smarty_tpl->getVariable('t')->value) {
@@ -1331,30 +1313,24 @@ $_smarty_tpl->getVariable('t')->iteration++;
 $_smarty_tpl->getVariable('t')->last = $_smarty_tpl->getVariable('t')->iteration === $_smarty_tpl->getVariable('t')->total;
 $foreach5Backup = clone $_smarty_tpl->getVariable('t');
 ?>
-                                    <?php if ($_smarty_tpl->getValue('t')['scaled_total']) {
-echo htmlspecialchars((string) ($_smarty_tpl->getValue('t')['scaled_total']), ENT_QUOTES, 'UTF-8');
-} else {
-echo htmlspecialchars((string) ($_smarty_tpl->getValue('t')['total']), ENT_QUOTES, 'UTF-8');
-}?>
-                                    <?php if (!$_smarty_tpl->getVariable('t')->last) {?>,
-                                    <?php }?>
-                                <?php
+                                <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('t')['expense_total']), ENT_QUOTES, 'UTF-8');
+if (!$_smarty_tpl->getVariable('t')->last) {?>,<?php }?>
+                            <?php
 $_smarty_tpl->setVariable('t', $foreach5Backup);
 }
 $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
-                            ],
-                            borderColor: '#dc3545',
-                            backgroundColor: 'rgba(220, 53, 69, 0.1)',
-                            borderWidth: 2,
-                            fill: true,
-                            tension: 0.4,
-                            pointBackgroundColor: '#dc3545',
-                            pointBorderColor: '#fff',
-                            pointBorderWidth: 1,
-                            pointRadius: 3,
-                            pointHoverRadius: 5
-                        }
-                    <?php }?>
+                        ],
+                        borderColor: '#dc3545',
+                        backgroundColor: 'rgba(220, 53, 69, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#dc3545',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 1,
+                        pointRadius: 3,
+                        pointHoverRadius: 5
+                    }
                 ]
             },
             options: {
@@ -1377,14 +1353,12 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                         backgroundColor: 'rgba(0, 0, 0, 0.8)',
                         padding: 8,
                         cornerRadius: 6,
-                        titleFont: {
-                            size: 11
-                        },
-                        bodyFont: {
-                            size: 11
-                        },
-                        callback: function(context) {
-                            return context.dataset.label + ': ' + formatCurrency(context.parsed.y);
+                        titleFont: { size: 11 },
+                        bodyFont: { size: 11 },
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + formatCurrency(context.parsed.y);
+                            }
                         }
                     }
                 },
@@ -1396,18 +1370,14 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                         },
                         title: {
                             display: true,
-                            text: <?php if ($_smarty_tpl->getValue('trend')[0]['scale_unit']) {?>'Kwota (w <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('trend')[0]['scale_unit']), ENT_QUOTES, 'UTF-8');?>
- <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
-)'<?php } else { ?>'Kwota (<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
-)'<?php }?>,
+                            text: 'Kwota (<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
+)',
                             font: {
                                 size: 14
                             }
                         },
                         ticks: {
-                            font: {
-                                size: 13
-                            },
+                            font: { size: 13 },
                             callback: function(value) {
                                 const scaleFactor = Math.max(trendScaleFactor, incomeScaleFactor);
                                 return formatCurrencyForChart(value, scaleFactor);
@@ -1421,14 +1391,10 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                         title: {
                             display: true,
                             text: 'Data',
-                            font: {
-                                size: 14
-                            }
+                            font: { size: 14 }
                         },
                         ticks: {
-                            font: {
-                                size: 13
-                            },
+                            font: { size: 13 },
                             maxTicksLimit: 8
                         }
                     }
@@ -1444,7 +1410,9 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                 }
             }
         });
+
     <?php }?>
+
 
     // Wykres bilansu (różnica przychody-wydatki)
     <?php if ($_smarty_tpl->getValue('profitLossTrend') && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('profitLossTrend')) > 0) {?>

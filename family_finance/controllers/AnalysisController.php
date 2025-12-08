@@ -77,9 +77,10 @@ class AnalysisController
         // if ($isPremium) {
         $regionalComparison = $this->analysis->getRegionalComparison($currency, $period, $date_from, $date_to);
         $trendAnalysis = $this->analysis->getTrendAnalysis($user_id, $family_id, $currency, $period, $date_from, $date_to);
-        // dump($trendAnalysis);
+        // dump($profitLossTrend);
         // }
-
+        $combinedTrend = $this->analysis->getCombinedTrend($user_id, $family_id, $currency, $period, $date_from, $date_to);
+        dump($combinedTrend);
         $this->smarty->assign([
             'summary' => $summary,
             'categories' => $byCategory,
@@ -110,7 +111,8 @@ class AnalysisController
             'regionalComparison' => $regionalComparison,
             'trendAnalysis' => $trendAnalysis,
             'profitLossTrend' => $profitLossTrend,
-            'profitLossDataJson' => json_encode($profitLossTrend)
+            'profitLossDataJson' => json_encode($profitLossTrend),
+            'combinedTrend' => $combinedTrend
 
         ]);
         // dump($_SESSION);

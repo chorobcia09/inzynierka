@@ -235,6 +235,72 @@ class Analysis
         return $result;
     }
 
+    public function getCombinedTrend($user_id, $family_id, $currency, $period = 'monthly', $date_from = null, $date_to = null)
+    {
+        $params = [
+            ':family_id' => $family_id,
+            ':user_id'   => $user_id,
+            ':currency'  => $currency,
+            ':family_id_exp' => $family_id,
+            ':user_id_exp'   => $user_id,
+            ':currency_exp'  => $currency,
+            ':family_id_inc' => $family_id,
+            ':user_id_inc'   => $user_id,
+            ':currency_inc'  => $currency,
+        ];
+
+        $dateCondition_d = '';
+        $dateCondition_e = '';
+        $dateCondition_i = '';
+
+        if ($period === 'custom') {
+            $dateCondition_d = ' AND transaction_date BETWEEN :date_from_d AND :date_to_d ';
+            $dateCondition_e = ' AND transaction_date BETWEEN :date_from_e AND :date_to_e ';
+            $dateCondition_i = ' AND transaction_date BETWEEN :date_from_i AND :date_to_i ';
+
+            $params[':date_from_d'] = $date_from;
+            $params[':date_to_d']   = $date_to;
+            $params[':date_from_e'] = $date_from;
+            $params[':date_to_e']   = $date_to;
+            $params[':date_from_i'] = $date_from;
+            $params[':date_to_i']   = $date_to;
+        }
+
+        $sql = "
+        SELECT d.date,
+            e.total AS expense_total,
+            i.total AS income_total
+        FROM (
+            SELECT DATE(transaction_date) AS date
+            FROM transactions
+            WHERE (family_id = :family_id OR user_id = :user_id)
+            AND currency = :currency
+            $dateCondition_d
+            GROUP BY DATE(transaction_date)
+        ) d
+        LEFT JOIN (
+            SELECT DATE(transaction_date) AS date, SUM(amount) AS total
+            FROM transactions
+            WHERE type = 'expense'
+            AND (family_id = :family_id_exp OR user_id = :user_id_exp)
+            AND currency = :currency_exp
+            $dateCondition_e
+            GROUP BY DATE(transaction_date)
+        ) e ON d.date = e.date
+        LEFT JOIN (
+            SELECT DATE(transaction_date) AS date, SUM(amount) AS total
+            FROM transactions
+            WHERE type = 'income'
+            AND (family_id = :family_id_inc OR user_id = :user_id_inc)
+            AND currency = :currency_inc
+            $dateCondition_i
+            GROUP BY DATE(transaction_date)
+        ) i ON d.date = i.date
+        ORDER BY d.date ASC
+        ";
+
+        return $this->db->select($sql, $params);
+    }
     /**
      * Pobiera różnicę między przychodami a wydatkami w czasie
      */
