@@ -1,0 +1,11 @@
+# Zapobiega wczytywaniu w iframe z innych domen
+Header set X-Frame-Options "SAMEORIGIN"
+
+# Starsza ochrona XSS
+Header set X-XSS-Protection "0"
+
+# Blokowanie zgadywania MIME
+Header set X-Content-Type-Options "nosniff"
+
+# Kontrola funkcji przeglądarki
+Header set Permissions-Policy "camera=(), microphone=(), geolocation=(), fullscreen=()"

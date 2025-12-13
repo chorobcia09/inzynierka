@@ -9,12 +9,13 @@
     <div class="alert alert-success" role="alert">{$success nofilter}</div>
 {/if}
 
+{if $session['family_role'] == 'family_admin'}
 <div class="d-flex justify-content-end mb-3">
     <a href="index.php?action=addBudget" class="btn btn-success">
         <i class="bi bi-plus-circle"></i> Dodaj nowy budżet
     </a>
 </div>
-
+{/if}
 {if $budgets|@count > 0}
     <div class="table-responsive">
         <table class="table table-dark table-striped align-middle shadow-lg rounded-3 overflow-hidden">

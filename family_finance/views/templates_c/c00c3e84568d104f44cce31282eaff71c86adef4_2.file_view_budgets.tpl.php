@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-11-29 11:48:28
+/* Smarty version 5.6.0, created on 2025-12-13 11:16:12
   from 'file:view_budgets.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_692acf7c603743_04938951',
+  'unifunc' => 'content_693d3ceca5f193_02917858',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'c00c3e84568d104f44cce31282eaff71c86adef4' => 
     array (
       0 => 'view_budgets.tpl',
-      1 => 1764413307,
+      1 => 1765620971,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_692acf7c603743_04938951 (\Smarty\Template $_smarty_tpl) {
+function content_693d3ceca5f193_02917858 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -38,13 +38,14 @@ if ((true && ($_smarty_tpl->hasVariable('success') && null !== ($_smarty_tpl->ge
 </div>
 <?php }?>
 
+<?php if ($_smarty_tpl->getValue('session')['family_role'] == 'family_admin') {?>
 <div class="d-flex justify-content-end mb-3">
     <a href="index.php?action=addBudget" class="btn btn-success">
         <i class="bi bi-plus-circle"></i> Dodaj nowy budżet
     </a>
 </div>
-
-<?php if ($_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('budgets')) > 0) {?>
+<?php }
+if ($_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('budgets')) > 0) {?>
     <div class="table-responsive">
         <table class="table table-dark table-striped align-middle shadow-lg rounded-3 overflow-hidden">
             <thead class="table-success text-dark">
