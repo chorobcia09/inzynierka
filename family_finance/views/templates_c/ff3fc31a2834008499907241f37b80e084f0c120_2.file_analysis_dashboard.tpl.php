@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-12-08 14:09:22
+/* Smarty version 5.6.0, created on 2025-12-13 16:21:58
   from 'file:analysis_dashboard.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_6936ce02261e97_73066153',
+  'unifunc' => 'content_693d849646bc73_81574501',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'ff3fc31a2834008499907241f37b80e084f0c120' => 
     array (
       0 => 'analysis_dashboard.tpl',
-      1 => 1765199360,
+      1 => 1765639316,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_6936ce02261e97_73066153 (\Smarty\Template $_smarty_tpl) {
+function content_693d849646bc73_81574501 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -73,6 +73,15 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
             </select>
         </div>
     </div>
+
+    <?php if ((true && ($_smarty_tpl->hasVariable('date_error') && null !== ($_smarty_tpl->getValue('date_error') ?? null)))) {?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            <strong>Błąd:</strong> <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('date_error')), ENT_QUOTES, 'UTF-8');?>
+
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php }?>
 
     <div class="col-md-3 col-lg-6 d-flex justify-content-start align-items-end">
         <button type="submit" class="btn btn-primary me-2"><i class="bi bi-funnel-fill me-1"></i> Filtruj</button>

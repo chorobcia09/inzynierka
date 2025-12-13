@@ -36,6 +36,14 @@
         </div>
     </div>
 
+    {if isset($date_error)}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            <strong>Błąd:</strong> {$date_error}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {/if}
+
     <div class="col-md-3 col-lg-6 d-flex justify-content-start align-items-end">
         <button type="submit" class="btn btn-primary me-2"><i class="bi bi-funnel-fill me-1"></i> Filtruj</button>
         <a href="index.php?action=analysisDashboard" class="btn btn-outline-secondary">
