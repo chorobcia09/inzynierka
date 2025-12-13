@@ -60,7 +60,7 @@ class User
     /**
      * Metoda aktualizująca dane użytkownika poprzez panel administratora
      */
-    public function updateUser(int $id, string $username, string $email, string $role, $family_id = null, ?string $password = null)
+    public function updateUser(int $id, string $username, string $email, string $account_type, $family_id = null, ?string $password = null)
     {
         $currentUser = $this->getUserById($id);
         if (!$currentUser) {
@@ -84,7 +84,7 @@ class User
             SET username = :username,
                 email = :email,
                 password = :password,
-                role = :role,
+                account_type = :account_type,
                 family_id = :family_id
             WHERE id = :id
         ";
@@ -92,7 +92,7 @@ class User
                 ':username' => $username,
                 ':email' => $email,
                 ':password' => password_hash($password, PASSWORD_DEFAULT),
-                ':role' => $role,
+                ':account_type' => $account_type,
                 ':family_id' => $family_id,
                 ':id' => $id
             ];
@@ -101,14 +101,14 @@ class User
             UPDATE users
             SET username = :username,
                 email = :email,
-                role = :role,
+                account_type = :account_type,
                 family_id = :family_id
             WHERE id = :id
         ";
             $params = [
                 ':username' => $username,
                 ':email' => $email,
-                ':role' => $role,
+                ':account_type' => $account_type,
                 ':family_id' => $family_id,
                 ':id' => $id
             ];

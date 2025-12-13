@@ -17,28 +17,25 @@
 
         <div class="mb-3">
             <label for="email" class="form-label">Email</label>
-            <input type="email" name="email" class="form-control bg-secondary text-light border-0" value="{$user.email}"
-                required>
+            <input type="email" name="email" class="form-control bg-secondary text-light border-0"
+                value="{$user.email}" required>
         </div>
 
         <div class="mb-3">
             <label for="password" class="form-label">Nowe hasło (pozostaw puste aby nie zmieniać)</label>
             <input type="password" name="password" class="form-control bg-secondary text-light border-0">
-            <div class="form-text text-light">Wpisz nowe hasło tylko jeśli chcesz je zmienić.</div>
+            <div class="form-text text-light">
+                Wpisz nowe hasło tylko jeśli chcesz je zmienić.<br>
+                Hasło musi mieć min. 8 znaków, zawierać cyfrę, dużą i małą literę oraz znak specjalny (!@#$%^&*()-_=+).
+            </div>
         </div>
 
         <div class="mb-3">
-            <label for="role" class="form-label">Rola</label>
-            <select name="role" class="form-select bg-secondary text-light border-0">
-                <option value="member" {if $user.role == 'member'}selected{/if}>Użytkownik</option>
-                <option value="admin" {if $user.role == 'admin'}selected{/if}>Administrator</option>
+            <label for="account_type" class="form-label">Typ konta</label>
+            <select name="account_type" class="form-select bg-secondary text-light border-0">
+                <option value="standard" {if $user.account_type == 'standard'}selected{/if}>Standard</option>
+                <option value="premium" {if $user.account_type == 'premium'}selected{/if}>Premium</option>
             </select>
-        </div>
-
-        <div class="mb-3">
-            <label for="family_id" class="form-label">ID Rodziny (opcjonalnie)</label>
-            <input type="number" name="family_id" class="form-control bg-secondary text-light border-0"
-                value="{$user.family_id}">
         </div>
 
         <div class="d-flex gap-2">

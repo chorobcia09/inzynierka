@@ -115,15 +115,39 @@ class AdminController
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
-                $password = !empty($_POST['password']) ? $_POST['password'] : null;
+                if (!empty($_POST['password'])) {
+                    $password = $_POST['password'];
 
+                    if (strlen($password) < 8) {
+                        throw new Exception("Hasło musi mieć minimum 8 znaków.");
+                    }
+                    if (!preg_match('/[0-9]/', $password)) {
+                        throw new Exception("Hasło musi zawierać co najmniej jedną cyfrę.");
+                    }
+                    if (!preg_match('/[A-Z]/', $password)) {
+                        throw new Exception("Hasło musi zawierać co najmniej jedną dużą literę.");
+                    }
+                    if (!preg_match('/[a-z]/', $password)) {
+                        throw new Exception("Hasło musi zawierać co najmniej jedną małą literę.");
+                    }
+                    if (!preg_match('/[\!\@\#\$\%\^\&\*\(\)\-\_\=\+]/', $password)) {
+                        throw new Exception("Hasło musi zawierać co najmniej jeden znak specjalny (!@#$%^&*()-_=+).");
+                    }
+
+                    
+                } else {
+                    $password = null;
+                }
+
+                // dump($_POST);
                 $this->userModel->updateUser(
                     $id,
                     $_POST['username'],
                     $_POST['email'],
-                    $_POST['role'],
+                    $_POST['account_type'],
                     $_POST['family_id'] ?? null,
                     $password
+
                 );
 
                 header('Location: index.php?action=adminPanel');
