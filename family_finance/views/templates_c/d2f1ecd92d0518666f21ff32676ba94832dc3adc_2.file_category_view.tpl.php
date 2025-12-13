@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-11-17 15:23:14
+/* Smarty version 5.6.0, created on 2025-12-13 13:00:43
   from 'file:category_view.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_691b2fd2872627_11688101',
+  'unifunc' => 'content_693d556b6cf188_75637133',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'd2f1ecd92d0518666f21ff32676ba94832dc3adc' => 
     array (
       0 => 'category_view.tpl',
-      1 => 1762796316,
+      1 => 1765627240,
       2 => 'file',
     ),
   ),
@@ -22,12 +22,23 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_691b2fd2872627_11688101 (\Smarty\Template $_smarty_tpl) {
+function content_693d556b6cf188_75637133 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
 
 <h2 class="mb-4 text-light-emphasis">Podkategorie</h2>
+
+<?php if ($_smarty_tpl->getValue('error')) {?>
+    <div class="alert alert-danger text-center"><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('error')), ENT_QUOTES, 'UTF-8');?>
+</div>
+<?php }?>
+
+<?php if ($_smarty_tpl->getValue('success')) {?>
+    <div class="alert alert-success text-center"><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('success')), ENT_QUOTES, 'UTF-8');?>
+</div>
+<?php }?>
+
 
 <div class="alert alert-info d-flex align-items-center gap-2" role="alert">
     <i class="bi bi-info-circle-fill"></i>
@@ -48,6 +59,7 @@ $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_sma
                 <th>Nazwa</th>
                 <th>Data dodania</th>
                 <th>Data aktualizacji</th>
+                <th>Akcje</th>
             </tr>
         </thead>
         <tbody>
@@ -72,13 +84,35 @@ $foreach0DoElse = false;
                         <?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('date_format')($_smarty_tpl->getValue('sub')['updated_at'],"%d-%m-%Y")), ENT_QUOTES, 'UTF-8');?>
 
                     </td>
+                    <td>
+                        <?php if (($_smarty_tpl->getValue('session')['family_role'] == 'family_admin' && $_smarty_tpl->getValue('sub')['family_id'] == $_smarty_tpl->getValue('session')['family_id']) || ($_smarty_tpl->getValue('sub')['user_id'] == $_smarty_tpl->getValue('session')['user_id'])) {?>
+                            <?php if ((true && (true && null !== ($_smarty_tpl->getValue('sub')['transaction_count'] ?? null))) && $_smarty_tpl->getValue('sub')['transaction_count'] > 0) {?>
+                                <?php $_smarty_tpl->assign('confirmMessage', (("Uwaga! Podkategoria ma ").($_smarty_tpl->getValue('sub')['transaction_count'])).(" powiązane transakcje, które zostaną usunięte. Czy na pewno chcesz kontynuować?"), false, NULL);?>
+                            <?php } else { ?>
+                                <?php $_smarty_tpl->assign('confirmMessage', "Czy na pewno chcesz usunąć podkategorię?", false, NULL);?>
+                            <?php }?>
+
+                            <a href="index.php?action=deleteSubCategory&sub_category_id=<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('sub')['id']), ENT_QUOTES, 'UTF-8');?>
+&category_id=<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('category_id')), ENT_QUOTES, 'UTF-8');?>
+"
+                                class="btn btn-danger btn-sm" onclick="return confirm('<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('confirmMessage')), ENT_QUOTES, 'UTF-8');?>
+')">
+                                Usuń
+                            </a>
+                        <?php }?>
+
+
+
+
+
+                    </td>
                 </tr>
             <?php
 }
 if ($foreach0DoElse) {
 ?>
                 <tr>
-                    <td colspan="3" class="text-center text-muted">Brak podkategorii</td>
+                    <td colspan="4" class="text-center text-muted">Brak podkategorii</td>
                 </tr>
             <?php
 }

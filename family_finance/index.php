@@ -138,6 +138,9 @@ switch ($action) {
     case 'addSubCategory':
         (new CategoryController($smarty))->addSubCategory();
         break;
+    case 'deleteSubCategory':
+        (new CategoryController($smarty))->deleteSubCategory();
+        break;
 
     // ------------------------------FEEDBACKCONTROLLER------------------------------
     case 'addFeedback':

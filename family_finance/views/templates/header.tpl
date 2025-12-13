@@ -45,12 +45,12 @@
                             {if $session.role == 'admin'}
                                 <li class="nav-item mb-2 mb-lg-0 me-lg-2">
                                     <a href="index.php?action=adminPanel" class="btn btn-outline-danger btn-sm">
-                                        <i class="bi bi-person-gear"></i> Użytkownicy
+                                        <i class="bi bi-person-gear"></i> Zarządzanie użytkownikami
                                     </a>
                                 </li>
                                 <li class="nav-item mb-2 mb-lg-0 me-lg-2">
                                     <a href="index.php?action=feedbackPanel" class="btn btn-outline-danger btn-sm">
-                                        <i class="bi bi-folder"></i> Zgłoszenia
+                                        <i class="bi bi-folder"></i> Zarządzanie zgłoszeniami
                                     </a>
                                 </li>
                                 <li class="nav-item mb-2 mb-lg-0 me-lg-2">

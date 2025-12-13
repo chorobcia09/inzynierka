@@ -2,6 +2,15 @@
 
 <h2 class="mb-4 text-light-emphasis">Podkategorie</h2>
 
+{if $error}
+    <div class="alert alert-danger text-center">{$error}</div>
+{/if}
+
+{if $success}
+    <div class="alert alert-success text-center">{$success}</div>
+{/if}
+
+
 <div class="alert alert-info d-flex align-items-center gap-2" role="alert">
     <i class="bi bi-info-circle-fill"></i>
     Wyświetlono podkategorie dla kategorii: <strong>{$category_name}</strong>
@@ -19,6 +28,7 @@
                 <th>Nazwa</th>
                 <th>Data dodania</th>
                 <th>Data aktualizacji</th>
+                <th>Akcje</th>
             </tr>
         </thead>
         <tbody>
@@ -33,10 +43,29 @@
                     <td title="{$sub.updated_at|date_format:"%d-%m-%Y %H:%M"}">
                         {$sub.updated_at|date_format:"%d-%m-%Y"}
                     </td>
+                    <td>
+                        {if ($session.family_role == 'family_admin' && $sub.family_id == $session.family_id) || ($sub.user_id == $session.user_id)}
+                            {if isset($sub.transaction_count) && $sub.transaction_count > 0}
+                                {assign var="confirmMessage" value="Uwaga! Podkategoria ma "|cat:$sub.transaction_count|cat:" powiązane transakcje, które zostaną usunięte. Czy na pewno chcesz kontynuować?"}
+                            {else}
+                                {assign var="confirmMessage" value="Czy na pewno chcesz usunąć podkategorię?"}
+                            {/if}
+
+                            <a href="index.php?action=deleteSubCategory&sub_category_id={$sub.id}&category_id={$category_id}"
+                                class="btn btn-danger btn-sm" onclick="return confirm('{$confirmMessage}')">
+                                Usuń
+                            </a>
+                        {/if}
+
+
+
+
+
+                    </td>
                 </tr>
             {foreachelse}
                 <tr>
-                    <td colspan="3" class="text-center text-muted">Brak podkategorii</td>
+                    <td colspan="4" class="text-center text-muted">Brak podkategorii</td>
                 </tr>
             {/foreach}
         </tbody>

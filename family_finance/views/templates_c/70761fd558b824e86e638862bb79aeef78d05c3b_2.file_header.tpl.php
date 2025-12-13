@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-12-04 19:45:14
+/* Smarty version 5.6.0, created on 2025-12-13 14:50:08
   from 'file:header.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_6931d6ba429821_52375518',
+  'unifunc' => 'content_693d6f10c1dd96_98660278',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '70761fd558b824e86e638862bb79aeef78d05c3b' => 
     array (
       0 => 'header.tpl',
-      1 => 1764873908,
+      1 => 1765633804,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6931d6ba429821_52375518 (\Smarty\Template $_smarty_tpl) {
+function content_693d6f10c1dd96_98660278 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 ?><!DOCTYPE html>
 <html lang="pl">
@@ -73,12 +73,12 @@ $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\vi
                             <?php if ($_smarty_tpl->getValue('session')['role'] == 'admin') {?>
                                 <li class="nav-item mb-2 mb-lg-0 me-lg-2">
                                     <a href="index.php?action=adminPanel" class="btn btn-outline-danger btn-sm">
-                                        <i class="bi bi-person-gear"></i> Użytkownicy
+                                        <i class="bi bi-person-gear"></i> Zarządzanie użytkownikami
                                     </a>
                                 </li>
                                 <li class="nav-item mb-2 mb-lg-0 me-lg-2">
                                     <a href="index.php?action=feedbackPanel" class="btn btn-outline-danger btn-sm">
-                                        <i class="bi bi-folder"></i> Zgłoszenia
+                                        <i class="bi bi-folder"></i> Zarządzanie zgłoszeniami
                                     </a>
                                 </li>
                                 <li class="nav-item mb-2 mb-lg-0 me-lg-2">

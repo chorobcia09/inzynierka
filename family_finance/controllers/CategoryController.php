@@ -58,13 +58,23 @@ class CategoryController
 
 
         $subcategories = $this->subCategoriesModel->getAllSubCategories($id, $user_id, $family_id);
+        foreach ($subcategories as &$sub) {
+    $sub['transaction_count'] = (int)$this->subCategoriesModel->getTransactionCount($sub['id']) ?? 0;
+}
+unset($sub);
+
+        unset($sub);
+
         $this->smarty->assign([
             'category_id' => $id,
             'family_id' => $family_id,
-            'category_name' => $category_name[0]['name'],
+            'category_name' => $category_name[0]['name'] ?? '',
             'subcategories' => $subcategories,
-            'session' => $_SESSION
+            'session' => $_SESSION,
+            'success' => $success ?? '',
+            'error' => $error ?? ''
         ]);
+
         $this->smarty->display('category_view.tpl');
     }
 
@@ -79,6 +89,8 @@ class CategoryController
         $family_id = $_SESSION['family_id'] ?? null;
         $category_id = 0;
         $name = '';
+        $success = '';
+        $error = '';
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $category_id = (int)($_POST['category_id'] ?? 0);
@@ -86,9 +98,25 @@ class CategoryController
 
             if ($category_id > 0 && !empty($name)) {
                 $this->subCategoriesModel->addSubCategory($user_id, $family_id, $category_id, $name, 0);
+                $success = "Podkategoria została dodana pomyślnie.";
 
-                header('Location: index.php?action=viewCategory&id=' . $category_id);
+                // Pobranie danych do widoku
+                $category_name = $this->categoriesModel->getAllCategoriesById($category_id);
+                $subcategories = $this->subCategoriesModel->getAllSubCategories($category_id, $user_id, $family_id);
+
+                $this->smarty->assign([
+                    'category_id' => $category_id,
+                    'category_name' => $category_name[0]['name'] ?? '',
+                    'subcategories' => $subcategories,
+                    'session' => $_SESSION,
+                    'success' => $success,
+                    'error' => $error
+                ]);
+
+                $this->smarty->display('category_view.tpl');
                 exit;
+            } else {
+                $error = "Wprowadź nazwę podkategorii.";
             }
         } else {
             $category_id = (int)($_GET['category_id'] ?? $_GET['id'] ?? 0);
@@ -103,9 +131,58 @@ class CategoryController
 
         $this->smarty->assign([
             'category_id' => $category_id,
-            'category_name' => $category_name[0]['name'],
-            'session' => $_SESSION
+            'category_name' => $category_name[0]['name'] ?? '',
+            'session' => $_SESSION,
+            'success' => $success,
+            'error' => $error
         ]);
+
         $this->smarty->display('add_subcategory.tpl');
+    }
+
+
+    public function deleteSubCategory()
+    {
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: index.php?action=login');
+            exit;
+        }
+
+        $user_id = (int)$_SESSION['user_id'];
+        $family_id = $_SESSION['family_id'] ?? null;
+        $isFamilyAdmin = isset($_SESSION['family_role']) && $_SESSION['family_role'] === 'family_admin';
+
+        $sub_category_id = (int)($_GET['sub_category_id'] ?? 0);
+        $category_id = (int)($_GET['category_id'] ?? 0);
+
+        if ($sub_category_id > 0) {
+            $result = $this->subCategoriesModel->deleteSubCategory($sub_category_id, $user_id, $family_id, $isFamilyAdmin);
+
+            if ($result['success']) {
+                $success = $result['message'];
+                $error = '';
+            } else {
+                $error = $result['message'];
+                $success = '';
+            }
+        } else {
+            $error = "Nie wybrano podkategorii do usunięcia.";
+            $success = '';
+        }
+
+        // Wyświetlenie widoku kategorii
+        $category_name = $this->categoriesModel->getAllCategoriesById($category_id);
+        $subcategories = $this->subCategoriesModel->getAllSubCategories($category_id, $user_id, $family_id);
+
+        $this->smarty->assign([
+            'category_id' => $category_id,
+            'category_name' => $category_name[0]['name'] ?? '',
+            'subcategories' => $subcategories,
+            'session' => $_SESSION,
+            'error' => $error,
+            'success' => $success
+        ]);
+
+        $this->smarty->display('category_view.tpl');
     }
 }
