@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-12-13 14:50:08
+/* Smarty version 5.6.0, created on 2025-12-13 15:43:15
   from 'file:header.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_693d6f10c1dd96_98660278',
+  'unifunc' => 'content_693d7b837f7121_69614586',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '70761fd558b824e86e638862bb79aeef78d05c3b' => 
     array (
       0 => 'header.tpl',
-      1 => 1765633804,
+      1 => 1765636991,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_693d6f10c1dd96_98660278 (\Smarty\Template $_smarty_tpl) {
+function content_693d7b837f7121_69614586 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 ?><!DOCTYPE html>
 <html lang="pl">
@@ -173,13 +173,17 @@ $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\vi
                                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="analysisDropdown">
                                         <li><a class="dropdown-item" href="index.php?action=analysisDashboard">
                                                 <i class="bi bi-graph-up"></i> Dashboard analityczny</a></li>
+                                        <?php if ($_smarty_tpl->getValue('session')['family_role'] == 'family_admin' || !$_smarty_tpl->getValue('session')['family_id']) {?>
+                                            <li>
+                                                <hr class="dropdown-divider">
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="index.php?action=analysisReports">
+                                                    <i class="bi bi-file-earmark-bar-graph"></i> Raporty
+                                                </a>
+                                            </li>
+                                        <?php }?>
 
-                                        <li>
-                                            <hr class="dropdown-divider">
-                                        </li>
-
-                                        <li><a class="dropdown-item" href="index.php?action=analysisReports">
-                                                <i class="bi bi-file-earmark-bar-graph"></i> Raporty</a></li>
                                     </ul>
                                 </li>
 

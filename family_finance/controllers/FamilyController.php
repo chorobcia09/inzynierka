@@ -42,7 +42,7 @@ class FamilyController
     public function index()
     {
         // Blokada dla niezalogowanych użytkowników
-        if (!isset($_SESSION['user_id']) || $_SESSION['role'] === 'admin') {
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] === 'admin' || !isset($_SESSION['family_id'])) {
             header('Location: index.php?action=login');
             exit;
         }

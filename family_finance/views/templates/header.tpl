@@ -144,13 +144,17 @@
                                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="analysisDropdown">
                                         <li><a class="dropdown-item" href="index.php?action=analysisDashboard">
                                                 <i class="bi bi-graph-up"></i> Dashboard analityczny</a></li>
+                                        {if $session.family_role == 'family_admin' || !$session.family_id}
+                                            <li>
+                                                <hr class="dropdown-divider">
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="index.php?action=analysisReports">
+                                                    <i class="bi bi-file-earmark-bar-graph"></i> Raporty
+                                                </a>
+                                            </li>
+                                        {/if}
 
-                                        <li>
-                                            <hr class="dropdown-divider">
-                                        </li>
-
-                                        <li><a class="dropdown-item" href="index.php?action=analysisReports">
-                                                <i class="bi bi-file-earmark-bar-graph"></i> Raporty</a></li>
                                     </ul>
                                 </li>
 

@@ -5,6 +5,14 @@
         <i class="bi bi-file-earmark-pdf-fill me-2"></i>Raporty finansowe PDF
     </h2>
 
+    {if isset($date_error)}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            <strong>Błąd:</strong> {$date_error}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {/if}
+
     <div class="row g-4">
         <div class="col-lg-4">
             <div class="card bg-dark text-light p-3 shadow-lg border-0">
@@ -94,110 +102,91 @@
             <div class="row g-3">
                 {assign var="dateParams" value="&date_from=`$date_from`&date_to=`$date_to`&currency=`$currency`"}
 
-                <div class="col-md-6">
-                    <div class="card bg-dark text-light h-100 shadow-lg border-0 hover-shadow">
-                        <div class="card-body text-center">
-                            <div class="mb-3">
-                                <i class="bi bi-speedometer2 display-4 text-primary"></i>
+                {if $isValidDateRange}
+                    <!-- RAPORT PODSUMOWANIA -->
+                    <div class="col-md-6">
+                        <div class="card bg-dark text-light h-100 shadow-lg border-0 hover-shadow">
+                            <div class="card-body text-center">
+                                <div class="mb-3">
+                                    <i class="bi bi-speedometer2 display-4 text-primary"></i>
+                                </div>
+                                <h5 class="card-title">Raport podsumowania</h5>
+                                <p class="card-text small text-muted">
+                                    Podstawowe wskaźniki finansowe, bilans, wskaźnik oszczędności
+                                </p>
+                                <div class="mt-3">
+                                    <a href="index.php?action=analysisPdf&period={$period|default:'monthly'}&type=summary{$dateParams}"
+                                        class="btn btn-primary btn-sm">
+                                        <i class="bi bi-download me-1"></i> Pobierz PDF
+                                    </a>
+                                </div>
                             </div>
-                            <h5 class="card-title">Raport podsumowania</h5>
-                            <p class="card-text small text-muted">
-                                Podstawowe wskaźniki finansowe, bilans, wskaźnik oszczędności
-                            </p>
-                            <div class="mt-3">
-                                <a href="index.php?action=analysisPdf&period={$period|default:'monthly'}&type=summary{$dateParams}"
-                                    class="btn btn-primary btn-sm">
-                                    <i class="bi bi-download me-1"></i> Pobierz PDF
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card-footer bg-transparent border-top border-secondary text-center">
-                            <small>
-                                <i class="bi bi-clock-history me-1"></i>
-                                Generowanie: ~2-3 sekundy
-                            </small>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-md-6">
-                    <div class="card bg-dark text-light h-100 shadow-lg border-0 hover-shadow">
-                        <div class="card-body text-center">
-                            <div class="mb-3">
-                                <i class="bi bi-pie-chart-fill display-4 text-success"></i>
+                    <!-- RAPORT KATEGORII -->
+                    <div class="col-md-6">
+                        <div class="card bg-dark text-light h-100 shadow-lg border-0 hover-shadow">
+                            <div class="card-body text-center">
+                                <div class="mb-3">
+                                    <i class="bi bi-pie-chart-fill display-4 text-success"></i>
+                                </div>
+                                <h5 class="card-title">Raport kategorii</h5>
+                                <p class="card-text small text-muted">
+                                    Szczegółowa analiza wydatków i przychodów według kategorii
+                                </p>
+                                <div class="mt-3">
+                                    <a href="index.php?action=analysisPdf&period={$period|default:'monthly'}&type=categories{$dateParams}"
+                                        class="btn btn-success btn-sm">
+                                        <i class="bi bi-download me-1"></i> Pobierz PDF
+                                    </a>
+                                </div>
                             </div>
-                            <h5 class="card-title">Raport kategorii</h5>
-                            <p class="card-text small text-muted">
-                                Szczegółowa analiza wydatków i przychodów według kategorii
-                            </p>
-                            <div class="mt-3">
-                                <a href="index.php?action=analysisPdf&period={$period|default:'monthly'}&type=categories{$dateParams}"
-                                    class="btn btn-success btn-sm">
-                                    <i class="bi bi-download me-1"></i> Pobierz PDF
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card-footer bg-transparent border-top border-secondary text-center">
-                            <small>
-                                <i class="bi-clock-history me-1"></i>
-                                Generowanie: ~3-4 sekundy
-                            </small>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-md-6">
-                    <div class="card bg-dark text-light h-100 shadow-lg border-0 hover-shadow">
-                        <div class="card-body text-center">
-                            <div class="mb-3">
-                                <i class="bi bi-credit-card-2-front-fill display-4 text-info"></i>
+                    <!-- RAPORT PŁATNOŚCI -->
+                    <div class="col-md-6">
+                        <div class="card bg-dark text-light h-100 shadow-lg border-0 hover-shadow">
+                            <div class="card-body text-center">
+                                <div class="mb-3">
+                                    <i class="bi bi-credit-card-2-front-fill display-4 text-info"></i>
+                                </div>
+                                <h5 class="card-title">Raport płatności</h5>
+                                <p class="card-text small text-muted">
+                                    Analiza metod płatności, preferencji, udziałów procentowych
+                                </p>
+                                <div class="mt-3">
+                                    <a href="index.php?action=analysisPdf&period={$period|default:'monthly'}&type=payments{$dateParams}"
+                                        class="btn btn-info btn-sm">
+                                        <i class="bi bi-download me-1"></i> Pobierz PDF
+                                    </a>
+                                </div>
                             </div>
-                            <h5 class="card-title">Raport płatności</h5>
-                            <p class="card-text small text-muted">
-                                Analiza metod płatności, preferencji, udziałów procentowych
-                            </p>
-                            <div class="mt-3">
-                                <a href="index.php?action=analysisPdf&period={$period|default:'monthly'}&type=payments{$dateParams}"
-                                    class="btn btn-info btn-sm">
-                                    <i class="bi bi-download me-1"></i> Pobierz PDF
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card-footer bg-transparent border-top border-secondary text-center">
-                            <small>
-                                <i class="bi bi-clock-history me-1"></i>
-                                Generowanie: ~2-3 sekundy
-                            </small>
                         </div>
                     </div>
-                </div>
 
-
-                <div class="col-md-6">
-                    <div class="card bg-dark text-light h-100 shadow-lg border-0 hover-shadow">
-                        <div class="card-body text-center">
-                            <div class="mb-3">
-                                <i class="bi bi-file-earmark-text-fill display-4 text-purple"></i>
+                    <!-- RAPORT SZCZEGÓŁOWY -->
+                    <div class="col-md-6">
+                        <div class="card bg-dark text-light h-100 shadow-lg border-0 hover-shadow">
+                            <div class="card-body text-center">
+                                <div class="mb-3">
+                                    <i class="bi bi-file-earmark-text-fill display-4 text-purple"></i>
+                                </div>
+                                <h5 class="card-title">Raport szczegółowy</h5>
+                                <p class="card-text small text-muted">
+                                    Kompletny raport z wszystkimi danymi i rekomendacjami
+                                </p>
+                                <div class="mt-3">
+                                    <a href="index.php?action=analysisPdf&period={$period|default:'monthly'}&type=detailed{$dateParams}"
+                                        class="btn btn-purple btn-sm">
+                                        <i class="bi bi-download me-1"></i> Pobierz PDF
+                                    </a>
+                                </div>
                             </div>
-                            <h5 class="card-title">Raport szczegółowy</h5>
-                            <p class="card-text small text-muted">
-                                Kompletny raport z wszystkimi danymi i rekomendacjami
-                            </p>
-                            <div class="mt-3">
-                                <a href="index.php?action=analysisPdf&period={$period|default:'monthly'}&type=detailed{$dateParams}"
-                                    class="btn btn-purple btn-sm">
-                                    <i class="bi bi-download me-1"></i> Pobierz PDF
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card-footer bg-transparent border-top border-secondary text-center">
-                            <small>
-                                <i class="bi bi-clock-history me-1"></i>
-                                Generowanie: ~5-6 sekund
-                            </small>
                         </div>
                     </div>
-                </div>
+                {/if}
             </div>
 
             <div class="card bg-dark text-light mt-4 p-3 shadow border-0">
@@ -273,12 +262,10 @@
         document.getElementById('reportForm').submit();
     }
 
-    // Ustaw domyślnie ostatni miesiąc
     document.addEventListener('DOMContentLoaded', function() {
         if (!document.getElementById('date_from').value) {
             const today = new Date();
             const lastMonth = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
-
             document.getElementById('date_from').value = lastMonth.toISOString().split('T')[0];
             document.getElementById('date_to').value = today.toISOString().split('T')[0];
         }

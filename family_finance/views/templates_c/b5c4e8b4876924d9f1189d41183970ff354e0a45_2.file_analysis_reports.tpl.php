@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-12-05 21:46:58
+/* Smarty version 5.6.0, created on 2025-12-13 16:11:19
   from 'file:analysis_reports.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_693344c2197a45_37609891',
+  'unifunc' => 'content_693d82177154b5_63715315',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'b5c4e8b4876924d9f1189d41183970ff354e0a45' => 
     array (
       0 => 'analysis_reports.tpl',
-      1 => 1764967616,
+      1 => 1765638677,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_693344c2197a45_37609891 (\Smarty\Template $_smarty_tpl) {
+function content_693d82177154b5_63715315 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -31,6 +31,15 @@ $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_sma
     <h2 class="mb-4 text-light-emphasis">
         <i class="bi bi-file-earmark-pdf-fill me-2"></i>Raporty finansowe PDF
     </h2>
+
+    <?php if ((true && ($_smarty_tpl->hasVariable('date_error') && null !== ($_smarty_tpl->getValue('date_error') ?? null)))) {?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            <strong>Błąd:</strong> <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('date_error')), ENT_QUOTES, 'UTF-8');?>
+
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php }?>
 
     <div class="row g-4">
         <div class="col-lg-4">
@@ -137,118 +146,99 @@ echo htmlspecialchars((string) ($_smarty_tpl->getValue('date_to')), ENT_QUOTES, 
             <div class="row g-3">
                 <?php $_smarty_tpl->assign('dateParams', "&date_from=".((string)$_smarty_tpl->getValue('date_from'))."&date_to=".((string)$_smarty_tpl->getValue('date_to'))."&currency=".((string)$_smarty_tpl->getValue('currency')), false, NULL);?>
 
-                <div class="col-md-6">
-                    <div class="card bg-dark text-light h-100 shadow-lg border-0 hover-shadow">
-                        <div class="card-body text-center">
-                            <div class="mb-3">
-                                <i class="bi bi-speedometer2 display-4 text-primary"></i>
-                            </div>
-                            <h5 class="card-title">Raport podsumowania</h5>
-                            <p class="card-text small text-muted">
-                                Podstawowe wskaźniki finansowe, bilans, wskaźnik oszczędności
-                            </p>
-                            <div class="mt-3">
-                                <a href="index.php?action=analysisPdf&period=<?php echo htmlspecialchars((string) ((($tmp = $_smarty_tpl->getValue('period') ?? null)===null||$tmp==='' ? 'monthly' ?? null : $tmp)), ENT_QUOTES, 'UTF-8');?>
+                <?php if ($_smarty_tpl->getValue('isValidDateRange')) {?>
+                    <!-- RAPORT PODSUMOWANIA -->
+                    <div class="col-md-6">
+                        <div class="card bg-dark text-light h-100 shadow-lg border-0 hover-shadow">
+                            <div class="card-body text-center">
+                                <div class="mb-3">
+                                    <i class="bi bi-speedometer2 display-4 text-primary"></i>
+                                </div>
+                                <h5 class="card-title">Raport podsumowania</h5>
+                                <p class="card-text small text-muted">
+                                    Podstawowe wskaźniki finansowe, bilans, wskaźnik oszczędności
+                                </p>
+                                <div class="mt-3">
+                                    <a href="index.php?action=analysisPdf&period=<?php echo htmlspecialchars((string) ((($tmp = $_smarty_tpl->getValue('period') ?? null)===null||$tmp==='' ? 'monthly' ?? null : $tmp)), ENT_QUOTES, 'UTF-8');?>
 &type=summary<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('dateParams')), ENT_QUOTES, 'UTF-8');?>
 "
-                                    class="btn btn-primary btn-sm">
-                                    <i class="bi bi-download me-1"></i> Pobierz PDF
-                                </a>
+                                        class="btn btn-primary btn-sm">
+                                        <i class="bi bi-download me-1"></i> Pobierz PDF
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="card-footer bg-transparent border-top border-secondary text-center">
-                            <small>
-                                <i class="bi bi-clock-history me-1"></i>
-                                Generowanie: ~2-3 sekundy
-                            </small>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-md-6">
-                    <div class="card bg-dark text-light h-100 shadow-lg border-0 hover-shadow">
-                        <div class="card-body text-center">
-                            <div class="mb-3">
-                                <i class="bi bi-pie-chart-fill display-4 text-success"></i>
-                            </div>
-                            <h5 class="card-title">Raport kategorii</h5>
-                            <p class="card-text small text-muted">
-                                Szczegółowa analiza wydatków i przychodów według kategorii
-                            </p>
-                            <div class="mt-3">
-                                <a href="index.php?action=analysisPdf&period=<?php echo htmlspecialchars((string) ((($tmp = $_smarty_tpl->getValue('period') ?? null)===null||$tmp==='' ? 'monthly' ?? null : $tmp)), ENT_QUOTES, 'UTF-8');?>
+                    <!-- RAPORT KATEGORII -->
+                    <div class="col-md-6">
+                        <div class="card bg-dark text-light h-100 shadow-lg border-0 hover-shadow">
+                            <div class="card-body text-center">
+                                <div class="mb-3">
+                                    <i class="bi bi-pie-chart-fill display-4 text-success"></i>
+                                </div>
+                                <h5 class="card-title">Raport kategorii</h5>
+                                <p class="card-text small text-muted">
+                                    Szczegółowa analiza wydatków i przychodów według kategorii
+                                </p>
+                                <div class="mt-3">
+                                    <a href="index.php?action=analysisPdf&period=<?php echo htmlspecialchars((string) ((($tmp = $_smarty_tpl->getValue('period') ?? null)===null||$tmp==='' ? 'monthly' ?? null : $tmp)), ENT_QUOTES, 'UTF-8');?>
 &type=categories<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('dateParams')), ENT_QUOTES, 'UTF-8');?>
 "
-                                    class="btn btn-success btn-sm">
-                                    <i class="bi bi-download me-1"></i> Pobierz PDF
-                                </a>
+                                        class="btn btn-success btn-sm">
+                                        <i class="bi bi-download me-1"></i> Pobierz PDF
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="card-footer bg-transparent border-top border-secondary text-center">
-                            <small>
-                                <i class="bi-clock-history me-1"></i>
-                                Generowanie: ~3-4 sekundy
-                            </small>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-md-6">
-                    <div class="card bg-dark text-light h-100 shadow-lg border-0 hover-shadow">
-                        <div class="card-body text-center">
-                            <div class="mb-3">
-                                <i class="bi bi-credit-card-2-front-fill display-4 text-info"></i>
-                            </div>
-                            <h5 class="card-title">Raport płatności</h5>
-                            <p class="card-text small text-muted">
-                                Analiza metod płatności, preferencji, udziałów procentowych
-                            </p>
-                            <div class="mt-3">
-                                <a href="index.php?action=analysisPdf&period=<?php echo htmlspecialchars((string) ((($tmp = $_smarty_tpl->getValue('period') ?? null)===null||$tmp==='' ? 'monthly' ?? null : $tmp)), ENT_QUOTES, 'UTF-8');?>
+                    <!-- RAPORT PŁATNOŚCI -->
+                    <div class="col-md-6">
+                        <div class="card bg-dark text-light h-100 shadow-lg border-0 hover-shadow">
+                            <div class="card-body text-center">
+                                <div class="mb-3">
+                                    <i class="bi bi-credit-card-2-front-fill display-4 text-info"></i>
+                                </div>
+                                <h5 class="card-title">Raport płatności</h5>
+                                <p class="card-text small text-muted">
+                                    Analiza metod płatności, preferencji, udziałów procentowych
+                                </p>
+                                <div class="mt-3">
+                                    <a href="index.php?action=analysisPdf&period=<?php echo htmlspecialchars((string) ((($tmp = $_smarty_tpl->getValue('period') ?? null)===null||$tmp==='' ? 'monthly' ?? null : $tmp)), ENT_QUOTES, 'UTF-8');?>
 &type=payments<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('dateParams')), ENT_QUOTES, 'UTF-8');?>
 "
-                                    class="btn btn-info btn-sm">
-                                    <i class="bi bi-download me-1"></i> Pobierz PDF
-                                </a>
+                                        class="btn btn-info btn-sm">
+                                        <i class="bi bi-download me-1"></i> Pobierz PDF
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="card-footer bg-transparent border-top border-secondary text-center">
-                            <small>
-                                <i class="bi bi-clock-history me-1"></i>
-                                Generowanie: ~2-3 sekundy
-                            </small>
                         </div>
                     </div>
-                </div>
 
-
-                <div class="col-md-6">
-                    <div class="card bg-dark text-light h-100 shadow-lg border-0 hover-shadow">
-                        <div class="card-body text-center">
-                            <div class="mb-3">
-                                <i class="bi bi-file-earmark-text-fill display-4 text-purple"></i>
-                            </div>
-                            <h5 class="card-title">Raport szczegółowy</h5>
-                            <p class="card-text small text-muted">
-                                Kompletny raport z wszystkimi danymi i rekomendacjami
-                            </p>
-                            <div class="mt-3">
-                                <a href="index.php?action=analysisPdf&period=<?php echo htmlspecialchars((string) ((($tmp = $_smarty_tpl->getValue('period') ?? null)===null||$tmp==='' ? 'monthly' ?? null : $tmp)), ENT_QUOTES, 'UTF-8');?>
+                    <!-- RAPORT SZCZEGÓŁOWY -->
+                    <div class="col-md-6">
+                        <div class="card bg-dark text-light h-100 shadow-lg border-0 hover-shadow">
+                            <div class="card-body text-center">
+                                <div class="mb-3">
+                                    <i class="bi bi-file-earmark-text-fill display-4 text-purple"></i>
+                                </div>
+                                <h5 class="card-title">Raport szczegółowy</h5>
+                                <p class="card-text small text-muted">
+                                    Kompletny raport z wszystkimi danymi i rekomendacjami
+                                </p>
+                                <div class="mt-3">
+                                    <a href="index.php?action=analysisPdf&period=<?php echo htmlspecialchars((string) ((($tmp = $_smarty_tpl->getValue('period') ?? null)===null||$tmp==='' ? 'monthly' ?? null : $tmp)), ENT_QUOTES, 'UTF-8');?>
 &type=detailed<?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('dateParams')), ENT_QUOTES, 'UTF-8');?>
 "
-                                    class="btn btn-purple btn-sm">
-                                    <i class="bi bi-download me-1"></i> Pobierz PDF
-                                </a>
+                                        class="btn btn-purple btn-sm">
+                                        <i class="bi bi-download me-1"></i> Pobierz PDF
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                        <div class="card-footer bg-transparent border-top border-secondary text-center">
-                            <small>
-                                <i class="bi bi-clock-history me-1"></i>
-                                Generowanie: ~5-6 sekund
-                            </small>
-                        </div>
                     </div>
-                </div>
+                <?php }?>
             </div>
 
             <div class="card bg-dark text-light mt-4 p-3 shadow border-0">
@@ -325,12 +315,10 @@ echo htmlspecialchars((string) ($_smarty_tpl->getValue('date_to')), ENT_QUOTES, 
         document.getElementById('reportForm').submit();
     }
 
-    // Ustaw domyślnie ostatni miesiąc
     document.addEventListener('DOMContentLoaded', function() {
         if (!document.getElementById('date_from').value) {
             const today = new Date();
             const lastMonth = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
-
             document.getElementById('date_from').value = lastMonth.toISOString().split('T')[0];
             document.getElementById('date_to').value = today.toISOString().split('T')[0];
         }
