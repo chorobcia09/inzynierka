@@ -1358,97 +1358,156 @@ class Analysis
         return -$categories_count * ($equal_probability * log($equal_probability, 2));
     }
 
-    /**
-     * Przeprowadza zaawansowaną analizę trendu z regresją liniową z PHP-ML
-     */
-    /**
-     * Przeprowadza analizę trendu i zwraca gotową linię trendu
-     */
     public function getTrendAnalysis($user_id, $family_id, $currency, $period = 'monthly', $date_from = null, $date_to = null)
     {
         $trend_data = $this->getTrend($user_id, $family_id, $currency, $period, 'expense', $date_from, $date_to);
 
-        if (count($trend_data) < 3) {
+        $n = count($trend_data);
+        if ($n < 3) {
             return [
-                'r_squared' => 0,
-                'growth_rate' => 0,
-                't_statistic' => 0,
-                'slope' => 0,
-                'intercept' => 0,
-                'trend_line' => [],
-                'actual_values' => [],
-                'dates' => [],
-                'note' => 'Wymagane przynajmniej 3 punkty danych'
+                'note' => 'Wymagane przynajmniej 3 punkty danych',
+                'data_points' => $n
             ];
         }
 
         try {
             $y = array_column($trend_data, 'total');
             $dates = array_column($trend_data, 'date');
-            $n = count($y);
 
-            $scale_factor = $this->getScaleFactor($currency, $y);
-            $y_scaled = array_map(function ($value) use ($scale_factor) {
-                return $value * $scale_factor;
-            }, $y);
-
-            $x = range(1, $n);
-            $samples = array_map(function ($val) {
-                return [$val];
-            }, $x);
-
-            $regression = new LeastSquares();
-            $regression->train($samples, $y_scaled);
-
-            $predictions_scaled = [];
-            foreach ($samples as $sample) {
-                $predictions_scaled[] = $regression->predict($sample);
+            $x = [];
+            $t0 = strtotime($dates[0]);
+            foreach ($dates as $date) {
+                $x[] = (strtotime($date) - $t0) / 86400;
             }
 
-            // Deskaluj wartości
-            $slope = $regression->getCoefficients()[0] / $scale_factor;
-            $intercept = $regression->getIntercept() / $scale_factor;
+            $sx = array_sum($x);
+            $sy = array_sum($y);
+            $sxx = 0;
+            $sxy = 0;
 
-            // Oblicz linię trendu
+            for ($i = 0; $i < $n; $i++) {
+                $sxx += $x[$i] * $x[$i];
+                $sxy += $x[$i] * $y[$i];
+            }
+
+            $den = $n * $sxx - $sx * $sx;
+            if ($den == 0) {
+                throw new Exception('Nieprawidłowe dane X');
+            }
+
+            $slope = ($n * $sxy - $sx * $sy) / $den;
+            $intercept = ($sy - $slope * $sx) / $n;
+
+
             $trend_line = [];
-            for ($i = 1; $i <= $n; $i++) {
-                $trend_line[] = $intercept + $slope * $i;
+            $ss_res = 0;
+            $ss_tot = 0;
+            $mean_y = $sy / $n;
+
+            for ($i = 0; $i < $n; $i++) {
+                $y_hat = $intercept + $slope * $x[$i];
+                $trend_line[] = $this->roundForCurrency($y_hat, $currency);
+
+                $ss_res += pow($y[$i] - $y_hat, 2);
+                $ss_tot += pow($y[$i] - $mean_y, 2);
             }
 
-            $predictions = array_map(function ($value) use ($scale_factor) {
-                return $value / $scale_factor;
-            }, $predictions_scaled);
+            $r_squared = ($ss_tot > 0) ? 1 - ($ss_res / $ss_tot) : 0;
 
-            $r_squared = $this->calculateRSquared($y, $predictions);
-            $growth_rate = $this->calculateGrowthRate($y);
-            $t_statistic = $this->calculateTStatistic($y, $predictions, $slope);
+
+            $df = $n - 2;
+            $mean_x = $sx / $n;
+            $sxx_centered = 0;
+
+            foreach ($x as $xi) {
+                $sxx_centered += pow($xi - $mean_x, 2);
+            }
+
+            $mse = $ss_res / $df;
+            $se_slope = ($sxx_centered > 0) ? sqrt($mse / $sxx_centered) : 0;
+
+            $t_statistic = ($se_slope > 0) ? abs($slope) / $se_slope : 0;
+
+
+            $growth_rate = ($mean_y > 0) ? ($slope / $mean_y) * 100 : 0;
+
+
+            if ($t_statistic < 2) {
+                $trend_direction = 'flat';
+            } elseif ($slope > 0) {
+                $trend_direction = 'up';
+            } else {
+                $trend_direction = 'down';
+            }
+            // dump([
+            //     'INPUT' => [
+            //         'dates' => $dates,
+            //         'x_days_from_start' => $x,
+            //         'y_values' => $y,
+            //         'data_points' => $n
+            //     ],
+
+            //     'SUMS' => [
+            //         'sx' => $sx,
+            //         'sy' => $sy,
+            //         'sxx' => $sxx,
+            //         'sxy' => $sxy,
+            //         'denominator' => $den
+            //     ],
+
+            //     'REGRESSION' => [
+            //         'slope_per_day_raw' => $slope,
+            //         'intercept_raw' => $intercept,
+            //         'slope_per_day_rounded' => $this->roundForCurrency($slope, $currency),
+            //         'intercept_rounded' => $this->roundForCurrency($intercept, $currency),
+            //     ],
+
+            //     'TREND_LINE' => [
+            //         'predicted_values' => $trend_line,
+            //         'actual_values' => $y
+            //     ],
+
+            //     'FIT_QUALITY' => [
+            //         'mean_y' => $mean_y,
+            //         'ss_res' => $ss_res,
+            //         'ss_tot' => $ss_tot,
+            //         'r_squared' => $r_squared
+            //     ],
+
+            //     'SIGNIFICANCE' => [
+            //         'degrees_of_freedom' => $df,
+            //         'mse' => $mse,
+            //         'sxx_centered' => $sxx_centered,
+            //         'se_slope' => $se_slope,
+            //         't_statistic' => $t_statistic,
+            //     ],
+
+            //     'INTERPRETATION' => [
+            //         'growth_rate_percent' => $growth_rate,
+            //         'trend_direction' => $trend_direction
+            //     ]
+            // ]);
 
             return [
-                'r_squared' => round($r_squared, 4),
-                'growth_rate' => round($growth_rate, 2),
-                't_statistic' => round($t_statistic, 4),
-                'slope' => $this->roundForCurrency($slope, $currency),
+                'data_points' => $n,
+                'slope_per_day' => $this->roundForCurrency($slope, $currency),
                 'intercept' => $this->roundForCurrency($intercept, $currency),
-                'trend_line' => $trend_line, // Gotowa linia trendu
-                'actual_values' => $y,      // Rzeczywiste wartości
-                'dates' => $dates,          // Daty
-                'data_points' => $n
+                'r_squared' => round($r_squared, 4),
+                't_statistic' => round($t_statistic, 3),
+                'growth_rate' => round($growth_rate, 3),
+                'trend_direction' => $trend_direction,
+                'trend_line' => $trend_line,
+                'actual_values' => $y,
+                'dates' => $dates
             ];
         } catch (Exception $e) {
-            error_log("Błąd analizy trendu: " . $e->getMessage());
+            error_log('Trend error: ' . $e->getMessage());
             return [
-                'r_squared' => 0,
-                'growth_rate' => 0,
-                't_statistic' => 0,
-                'slope' => 0,
-                'intercept' => 0,
-                'trend_line' => [],
-                'actual_values' => [],
-                'dates' => [],
-                'error' => 'Błąd obliczeń'
+                'error' => 'Błąd analizy trendu'
             ];
         }
     }
+
 
     /**
      * Określa współczynnik skalowania dla uniknięcia problemów numerycznych
