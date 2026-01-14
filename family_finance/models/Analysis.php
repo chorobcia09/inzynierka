@@ -1224,11 +1224,12 @@ class Analysis
 
 
     /**
-     * Oblicza miary koncentracji (Gini, HHI, CR, entropia)
+     * Oblicza wszystkie wskaźniki koncentracji (zachowując oryginalną sygnaturę)
      */
     public function getConcentrationStats($user_id, $family_id, $currency, $period = 'monthly', $date_from = null, $date_to = null)
     {
         $categories = $this->getCategoryBreakdown($user_id, $family_id, $currency, $period, 'expense', $date_from, $date_to);
+
         if (empty($categories) || count($categories) < 2) {
             return [
                 'gini' => 0,
@@ -1241,10 +1242,10 @@ class Analysis
             ];
         }
 
-        $totals = array_column($categories, 'total');
-        $total_sum = array_sum($totals);
+        $values = array_column($categories, 'total');
+        $total_sum = array_sum($values);
 
-        if ($total_sum < 0.00000001) {
+        if ($total_sum <= 0) {
             return [
                 'gini' => 0,
                 'hhi' => 0,
@@ -1252,24 +1253,109 @@ class Analysis
                 'cr5' => 0,
                 'entropy' => 0,
                 'categories_count' => 0,
-                'note' => 'Suma zbyt mała do obliczenia koncentracji'
+                'note' => 'Suma wydatków musi być większa od zera'
             ];
         }
 
-        $gini = $this->calculateGini($totals);
-        $hhi = $this->calculateHHI($totals, $total_sum);
-        $cr3 = $this->calculateCR($totals, $total_sum, 3);
-        $cr5 = $this->calculateCR($totals, $total_sum, 5);
-        $entropy = $this->calculateEntropy($totals, $total_sum);
+        $gini = $this->calculateGiniCorrect($values);
+        $hhi = $this->calculateHHICorrect($values, $total_sum);
+        $cr3 = $this->calculateCRCorrect($values, $total_sum, 3);
+        $cr5 = $this->calculateCRCorrect($values, $total_sum, 5);
+        $entropy = $this->calculateEntropyCorrect($values, $total_sum);
+
+        $n = count($values);
+        $max_entropy = $this->calculateMaxEntropy($n);
+        $normalized_entropy = ($max_entropy > 0) ? ($entropy / $max_entropy) : 0;
 
         return [
             'gini' => round($gini, 3),
             'hhi' => round($hhi, 0),
+            'hhi_normalized' => round($hhi / 10000, 4),
             'cr3' => round($cr3, 1),
             'cr5' => round($cr5, 1),
             'entropy' => round($entropy, 3),
-            'categories_count' => count($categories)
+            'entropy_normalized' => round($normalized_entropy, 3),
+            'max_entropy' => round($max_entropy, 3),
+            'categories_count' => $n,
+            'total_sum' => $total_sum,
+            'mean' => $total_sum / $n
         ];
+    }
+
+    /**
+     * POPRAWNA metoda obliczania współczynnika Giniego
+     */
+    private function calculateGiniCorrect(array $values): float
+    {
+        sort($values);
+        $n = count($values);
+        $total_sum = array_sum($values);
+        $mean = ($n > 0) ? $total_sum / $n : 0;
+
+        if ($mean == 0 || $n == 0) {
+            return 0.0;
+        }
+        $numerator = 0;
+        for ($i = 0; $i < $n; $i++) {
+            $wzór_i = $i + 1;
+            $weight = (2 * $wzór_i - $n - 1);
+            $numerator += $weight * $values[$i];
+        }
+
+        $denominator = pow($n, 2) * $mean;
+
+        return $numerator / $denominator;
+    }
+
+    /**
+     * POPRAWNA metoda obliczania HHI
+     * Zwraca wartość w skali 0-10000 (bardziej standardowo)
+     */
+    private function calculateHHICorrect(array $values, float $total_sum): float
+    {
+        $hhi = 0;
+        foreach ($values as $value) {
+            $share_percent = ($value / $total_sum) * 100;
+            $hhi += pow($share_percent, 2);
+        }
+        return $hhi;
+    }
+
+    /**
+     * POPRAWNA metoda obliczania CR
+     */
+    private function calculateCRCorrect(array $values, float $total_sum, int $top_n): float
+    {
+        rsort($values);
+        $top_sum = array_sum(array_slice($values, 0, $top_n));
+        return ($top_sum / $total_sum) * 100;
+    }
+
+    /**
+     * POPRAWNA metoda obliczania entropii Shannona (log₂)
+     */
+    private function calculateEntropyCorrect(array $values, float $total_sum): float
+    {
+        $entropy = 0.0;
+        foreach ($values as $value) {
+            $p = $value / $total_sum;
+            if ($p > 0) {
+                $entropy -= $p * log($p, 2);
+            }
+        }
+        return $entropy;
+    }
+
+    /**
+     * Oblicza maksymalną możliwą entropię
+     */
+    private function calculateMaxEntropy(int $categories_count): float
+    {
+        if ($categories_count <= 1) {
+            return 0.0;
+        }
+        $equal_probability = 1 / $categories_count;
+        return -$categories_count * ($equal_probability * log($equal_probability, 2));
     }
 
     /**
@@ -1452,63 +1538,6 @@ class Analysis
         $q3 = Mean::median($upper_half);
 
         return $q3 - $q1;
-    }
-
-    /**
-     * Oblicza współczynnik Giniego (pomocnicza)
-     */
-    private function calculateGini(array $values)
-    {
-        sort($values);
-        $n = count($values);
-        $total_sum = array_sum($values);
-
-        if ($total_sum <= 0) return 0;
-
-        $gini_numerator = 0;
-        for ($i = 0; $i < $n; $i++) {
-            $gini_numerator += ($i + 1) * $values[$i];
-        }
-
-        return (2 * $gini_numerator) / ($n * $total_sum) - ($n + 1) / $n;
-    }
-
-    /**
-     * Oblicza wskaźnik Herfindahla-Hirschmana (pomocnicza)
-     */
-    private function calculateHHI(array $values, $total_sum)
-    {
-        $hhi = 0;
-        foreach ($values as $value) {
-            $share = $value / $total_sum;
-            $hhi += pow($share * 100, 2);
-        }
-        return $hhi;
-    }
-
-    /**
-     * Oblicza wskaźnik koncentracji CR (pomocnicza)
-     */
-    private function calculateCR(array $values, $total_sum, $top_n)
-    {
-        rsort($values);
-        $top_sum = array_sum(array_slice($values, 0, $top_n));
-        return ($top_sum / $total_sum) * 100;
-    }
-
-    /**
-     * Oblicza entropię rozkładu (pomocnicza)
-     */
-    private function calculateEntropy(array $values, $total_sum)
-    {
-        $entropy = 0;
-        foreach ($values as $value) {
-            $p = $value / $total_sum;
-            if ($p > 0) {
-                $entropy -= $p * log($p);
-            }
-        }
-        return $entropy;
     }
 
     /**
