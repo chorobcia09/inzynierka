@@ -1361,7 +1361,12 @@ class Analysis
     public function getTrendAnalysis($user_id, $family_id, $currency, $period = 'monthly', $date_from = null, $date_to = null)
     {
         $trend_data = $this->getTrend($user_id, $family_id, $currency, $period, 'expense', $date_from, $date_to);
-
+        $filtered_data = $this->removeBigExpenses($trend_data);
+        if (count($filtered_data) < 3) {
+            $filtered_data = $trend_data;
+        } else {
+            $trend_data = $filtered_data;
+        }
         $n = count($trend_data);
         if ($n < 3) {
             return [
@@ -1432,12 +1437,22 @@ class Analysis
             $growth_rate = ($mean_y > 0) ? ($slope / $mean_y) * 100 : 0;
 
 
-            if ($t_statistic < 2) {
+            if (abs($t_statistic) < 1.7) {
                 $trend_direction = 'flat';
+                $significance = 'statistically insignificant';
             } elseif ($slope > 0) {
                 $trend_direction = 'up';
+                $significance = 'statistically significant';
             } else {
                 $trend_direction = 'down';
+                $significance = 'statistically significant';
+            }
+            if ($r_squared < 0.1) {
+                $r2_interpretation = 'Typical for personal expenses (high variability)';
+            } elseif ($r_squared < 0.3) {
+                $r2_interpretation = 'Moderate predictability';
+            } else {
+                $r2_interpretation = 'Good predictability';
             }
             // dump([
             //     'INPUT' => [
@@ -1506,6 +1521,31 @@ class Analysis
                 'error' => 'Błąd analizy trendu'
             ];
         }
+    }
+
+    /**
+     * Proste usuwanie dużych wydatków (czynsz, raty)
+     */
+    private function removeBigExpenses($trend_data)
+    {
+        if (empty($trend_data)) return $trend_data;
+
+        $amounts = array_column($trend_data, 'total');
+        sort($amounts);
+
+        $q3_index = floor(count($amounts) * 0.75);
+        $q3 = $amounts[$q3_index];
+
+        $threshold = $q3 * 3;
+
+        $filtered = [];
+        foreach ($trend_data as $day) {
+            if ($day['total'] <= $threshold) {
+                $filtered[] = $day;
+            }
+        }
+
+        return $filtered;
     }
 
 

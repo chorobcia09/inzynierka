@@ -729,6 +729,7 @@
                             <h5 class="card-title text-warning">
                                 <i class="bi bi-trending-up me-2"></i>Analiza trendu czasowego
                             </h5>
+
                             <div class="chart-container w-100" style="position: relative; height: 250px;">
                                 {if $trendAnalysis.error|default:'' != ''}
                                     <div class="alert alert-danger m-0 h-100 d-flex flex-column justify-content-center">
@@ -759,6 +760,7 @@
                                     </div>
 
                                 {elseif $trendAnalysis.trend_line && $trendAnalysis.trend_line|count > 0}
+
                                     <canvas id="trendAnalysisChart"></canvas>
 
                                 {else}
@@ -783,24 +785,40 @@
                                         </small>
                                     </div>
                                 {elseif $trendAnalysis.trend_line && $trendAnalysis.trend_line|count > 0}
+                                    <div class="alert alert-info" role="alert">
+                                        <h6><i class="bi bi-info-circle me-2"></i>Uwaga dotycząca analizy trendu</h6>
+                                        <div class="small">
+                                            <p><strong>Co analizujemy?</strong> Codzienne, regularne wydatki (bez dużych zakupów
+                                                typu czynsz, raty, elektronika).</p>
+                                            <p><strong>W wybranym okresie :</strong>
+                                                {if $trendAnalysis.data_points|default:0 == count($trend|default:[])}
+                                                    <span class="text-success">Wszystkie wydatki mieszczą się w normalnym
+                                                        zakresie</span>
+                                                {else}
+                                                    Usunięto
+                                                    <strong>{count($trend|default:[]) - $trendAnalysis.data_points}</strong>
+                                                    nietypowych transakcji
+                                                {/if}
+                                            </p>
+                                        </div>
+                                    </div>
                                     <table class="table table-sm">
                                         <tr>
                                             <td><strong>Współczynnik determinacji R²</strong></td>
                                             <td class="text-end">
                                                 <span class="fw-bold">{$trendAnalysis.r_squared|number_format:3}</span>
-                                                {if $trendAnalysis.r_squared >= 0.7}
+                                                {if $trendAnalysis.r_squared >= 0.3}
                                                     <span class="badge bg-success ms-1"><i
                                                             class="bi bi-check-circle me-1"></i>Dobry</span>
-                                                {elseif $trendAnalysis.r_squared >= 0.4}
+                                                {elseif $trendAnalysis.r_squared >= 0.1}
                                                     <span class="badge bg-warning ms-1"><i
-                                                            class="bi bi-dash-circle me-1"></i>Średni</span>
-                                                {elseif $trendAnalysis.r_squared > 0}
-                                                    <span class="badge bg-danger ms-1"><i
-                                                            class="bi bi-x-circle me-1"></i>Słaby</span>
+                                                            class="bi bi-dash-circle me-1"></i>Typowy</span>
                                                 {else}
-                                                    <span class="badge bg-secondary ms-1"><i
-                                                            class="bi bi-question-circle me-1"></i>Nieokreślony</span>
+                                                    <span class="badge bg-info ms-1"><i
+                                                            class="bi bi-arrow-repeat me-1"></i>Zmienny</span>
                                                 {/if}
+                                                <br>
+                                                <small class="text-muted">{$trendAnalysis.r2_interpretation|default:''}</small>
                                             </td>
                                         </tr>
                                         <tr>
