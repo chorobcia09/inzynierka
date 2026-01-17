@@ -447,75 +447,119 @@
     <!-- Członkowie Rodziny -->
     <div class="tab-pane fade" id="members" role="tabpanel">
         <div class="row g-4">
-
-            <!-- Szczegółowa tabela -->
-            <div class="col-md-6">
+            <div class="col-12">
                 <div class="card shadow-lg">
-                    <div class="card-body">
-                        <h5 class="card-title text-info"><i class="bi bi-table me-2"></i>Statystyki członków</h5>
+                    <div class="card-body p-2 p-sm-3">
+                        <!-- mniejsze paddingi -->
+                        <h5 class="card-title text-info mb-2 fs-6 fs-sm-5"><i class="bi bi-table me-2"></i>Statystyki
+                            członków</h5>
                         {if $familySpending && count($familySpending) > 0}
-                            <div class="table-responsive">
-                                <table class="table table-hover">
+                            <div class="table-wrapper">
+                                <table class="table table-sm table-hover mb-1">
+                                    <!-- table-sm i mb-1 -->
                                     <thead>
-                                        <tr>
-                                            <th>Członek</th>
-                                            <th class="text-end">Wydatki</th>
-                                            <th class="text-end">Transakcje</th>
-                                            <th class="text-end">Średnia</th>
-                                            <th class="text-end">Udział</th>
+                                        <tr class="fs-7 fs-sm-6">
+                                            <!-- mniejsze czcionki w nagłówku -->
+                                            <th class="py-1 px-1">Członek</th>
+                                            <th class="py-1 px-1 text-end">Wyd.</th>
+                                            <th class="py-1 px-1 text-end">Trans.</th>
+                                            <th class="py-1 px-1 text-end">Śr.</th>
+                                            <th class="py-1 px-1 text-end">%</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody class="fs-7 fs-sm-6">
+                                        <!-- mniejsze czcionki w ciele -->
                                         {foreach $familySpending as $member}
                                             <tr>
-                                                <td>
-                                                    <i class="bi bi-person-circle me-2"></i>
-                                                    {$member.username}
-                                                    {if $member.user_id == $session.user_id}
-                                                        <span class="badge bg-primary ms-1">Ty</span>
-                                                    {/if}
+                                                <td class="py-1 px-1">
+                                                    <div class="d-flex align-items-center">
+                                                        <i class="bi bi-person-circle me-1"></i>
+                                                        <div class="text-truncate" style="max-width: 80px;">
+                                                            <!-- obcięcie długich nazw -->
+                                                            {$member.username}
+                                                        </div>
+                                                        {if $member.user_id == $session.user_id}
+                                                            <span class="badge bg-primary ms-1 fs-8">Ty</span>
+                                                            <!-- mniejszy badge -->
+                                                        {/if}
+                                                    </div>
                                                 </td>
-                                                <td class="text-end fw-bold">
+                                                <td class="py-1 px-1 text-end fw-bold">
                                                     {$member.total_spent|number_format:$precision:",":" "}
-                                                    {$currency}</td>
-                                                <td class="text-end">{$member.transactions}</td>
-                                                <td class="text-end">{$member.avg_spent|number_format:$precision:",":" "}
-                                                    {$currency}
+                                                    <small class="text-muted d-block fs-8">{$currency}</small>
+                                                    <!-- waluta mniejsza -->
                                                 </td>
-                                                <td class="text-end">
+                                                <td class="py-1 px-1 text-end">
+                                                    {$member.transactions}
+                                                </td>
+                                                <td class="py-1 px-1 text-end">
+                                                    {$member.avg_spent|number_format:$precision:",":" "}
+                                                    <small class="text-muted d-block fs-8">{$currency}</small>
+                                                </td>
+                                                <td class="py-1 px-1 text-end">
                                                     {assign var="percentage" value=($member.total_spent / $familyTotalSpending * 100)}
-                                                    <span class="badge bg-secondary">{$percentage|number_format:1}%</span>
+                                                    <span
+                                                        class="badge bg-secondary fs-8 py-0 px-1">{$percentage|number_format:0}%</span>
+                                                    <!-- mniejszy badge -->
                                                 </td>
                                             </tr>
                                         {/foreach}
                                     </tbody>
                                     <tfoot>
-                                        <tr class="table-dark">
-                                            <td><strong>Razem</strong></td>
-                                            <td class="text-end">
-                                                <strong>{$familyTotalSpending|number_format:$precision:",":" "}
-                                                    {$currency}</strong>
+                                        <tr class="table-dark fs-7 fs-sm-6">
+                                            <td class="py-1 px-1"><strong>Razem</strong></td>
+                                            <td class="py-1 px-1 text-end fw-bold">
+                                                {$familyTotalSpending|number_format:$precision:",":" "}
+                                                <small class="text-light d-block fs-8">{$currency}</small>
                                             </td>
-                                            <td class="text-end"><strong>{$familyTotalTransactions}</strong></td>
-                                            <td class="text-end">
+                                            <td class="py-1 px-1 text-end">
+                                                <strong>{$familyTotalTransactions}</strong>
+                                            </td>
+                                            <td class="py-1 px-1 text-end">
                                                 <strong>{$familyAverageSpending|number_format:$precision:",":" "}
-                                                    {$currency}</strong>
+                                                    <small class="text-light d-block fs-8">{$currency}</small></strong>
                                             </td>
-                                            <td class="text-end"><strong>100%</strong></td>
+                                            <td class="py-1 px-1 text-end">
+                                                <strong>100%</strong>
+                                            </td>
                                         </tr>
                                     </tfoot>
                                 </table>
                             </div>
+
+                            <style>
+                                .fs-7 {
+                                    font-size: 0.75rem !important;
+                                }
+
+                                /* 12px */
+                                .fs-8 {
+                                    font-size: 0.625rem !important;
+                                }
+
+                                /* 10px */
+                                @media (min-width: 576px) {
+                                    .fs-7 {
+                                        font-size: 0.875rem !important;
+                                    }
+
+                                    /* 14px */
+                                    .fs-8 {
+                                        font-size: 0.75rem !important;
+                                    }
+
+                                    /* 12px */
+                                }
+                            </style>
                         {else}
-                            <div class="text-center py-4">
-                                <i class="bi bi-table display-1 text-muted"></i>
-                                <p class="fs-5 text-muted mt-3">Brak danych do wyświetlenia</p>
+                            <div class="text-center py-3">
+                                <i class="bi bi-table fs-1 text-muted"></i>
+                                <p class="fs-6 text-muted mt-2">Brak danych do wyświetlenia</p>
                             </div>
                         {/if}
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 

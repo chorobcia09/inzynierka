@@ -1,5 +1,40 @@
 {include file="header.tpl"}
 
+<style>
+    /* Styl dla responsywności bez scrolla */
+    .custom-table-container {
+        overflow: hidden;
+    }
+
+    /* Ukrywanie tekstu "Usuń" na małych ekranach (poniżej 576px) */
+    @media (max-width: 576px) {
+        .btn-text {
+            display: none;
+        }
+
+        .table th,
+        .table td {
+            padding: 0.5rem 0.25rem !important;
+            font-size: 0.85rem;
+        }
+
+        /* Styl dla badge roli na małych ekranach */
+        .role-badge {
+            font-size: 0.75rem;
+            padding: 0.2rem 0.4rem;
+            white-space: nowrap;
+        }
+    }
+
+    /* Styl dla badge roli na większych ekranach */
+    @media (min-width: 577px) {
+        .role-badge {
+            font-size: 0.8rem;
+            padding: 0.25rem 0.5rem;
+        }
+    }
+</style>
+
 <div class="users-container bg-dark text-light p-4 rounded shadow bg-dark-subtle">
     <h2 class="mb-4 fw-bold text-primary text-light">Lista członków rodziny</h2>
 
@@ -9,7 +44,6 @@
         </div>
     {/if}
 
-
     {if $session.family_role == 'family_admin'}
         <a href="index.php?action=addUserToFamily" class="btn btn-success mb-3">
             <i class="bi bi-person-plus"></i> Dodaj członka rodziny
@@ -17,45 +51,52 @@
     {/if}
 
     {if $users|@count > 0}
-        <div class="table-responsive shadow rounded ">
-            <table class="table table-dark table-bordered mb-0 ">
-                <thead class="table-secondary text-dark ">
+        <div class="shadow rounded custom-table-container">
+            <table class="table table-dark table-bordered mb-0">
+                <thead class="table-secondary text-dark">
                     <tr>
-                        <th>Nazwa użytkownika</th>
-                        <th>Email</th>
-                        <th>Rodzina</th>
-                        <th>Rola w rodzinie</th>
+                        <th>Użytkownik</th>
+                        <th class="d-none d-md-table-cell">Rodzina</th>
+                        <th>Rola</th>
                         {if $session.family_role == 'family_admin'}
-                            <th>Akcje</th>
+                            <th style="width: 50px;">Akcja</th>
                         {/if}
                     </tr>
                 </thead>
                 <tbody>
                     {foreach from=$users item=user}
                         <tr>
-                            <td>{$user.username}</td>
-                            <td>{$user.email}</td>
-                            <td>{$user.family_name|default:'Brak przydzielonej rodziny'}</td>
+                            <td class="text-break fw-bold">{$user.username}</td>
+                            <td class="text-break d-none d-md-table-cell">{$user.family_name|default:'-'}</td>
                             <td>
                                 {if $user.family_role == 'family_admin'}
-                                    <span class="badge bg-success">Administrator rodziny</span>
-                                {elseif $user.family_role == 'family_member'}
-                                    <span class="badge bg-primary">Członek rodziny</span>
+                                    <span class="badge bg-success role-badge">Administrator rodziny</span>
                                 {else}
-                                    <span class="badge bg-secondary">Brak przypisania</span>
+                                    <span class="badge bg-primary role-badge">Członek rodziny</span>
                                 {/if}
                             </td>
                             {if $session.family_role == 'family_admin'}
-                                <td>
+                                <td class="text-center">
                                     <a href="index.php?action=deleteUserFromFamily&id={$user.id}"
                                         class="btn btn-sm btn-outline-danger"
-                                        onclick="return confirm('Czy na pewno chcesz usunąć tego użytkownika?');">
-                                        <i class="bi bi-trash"></i> Usuń członka rodziny
+                                        onclick="return confirm('Czy na pewno chcesz usunąć tego użytkownika?');"
+                                        title="Usuń członka rodziny">
+                                        <i class="bi bi-trash"></i><span class="btn-text ms-1">Usuń</span>
                                     </a>
                                 </td>
                             {/if}
                         </tr>
+
                     {/foreach}
+                <tfoot class="d-md-none">
+                    <tr>
+                        <td colspan="{if $session.family_role == 'family_admin'}5{else}4{/if}"
+                            class="text-center small text-muted pt-3">
+                            <i class="bi bi-info-circle me-1"></i>
+                            Rodzina: <strong>{$session.family_name|default:'Brak'}</strong>
+                        </td>
+                    </tr>
+                </tfoot>
                 </tbody>
             </table>
         </div>

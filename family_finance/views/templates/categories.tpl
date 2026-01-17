@@ -14,9 +14,7 @@
             <tr>
                 <th>Nazwa</th>
                 <th>Typ</th>
-                <th>Zasięg</th>
                 <th>Data dodania</th>
-                <th>Data aktualizacji</th>
             </tr>
         </thead>
         <tbody>
@@ -34,18 +32,8 @@
                             <span class="badge bg-success"><i class="bi bi-wallet2 me-1"></i>Przychód</span>
                         {/if}
                     </td>
-                    <td>
-                        {if $category.is_global == 1}
-                            <span class="badge bg-primary"><i class="bi bi-globe me-1"></i>Globalna</span>
-                        {else}
-                            <span class="badge bg-secondary"><i class="bi bi-person-fill me-1"></i>Lokalna</span>
-                        {/if}
-                    </td>
                     <td title="{$category.created_at|date_format:"%d-%m-%Y %H:%M"}">
-                        {$category.created_at|date_format:"%d-%m-%Y"}
-                    </td>
-                    <td title="{$category.updated_at|date_format:"%d-%m-%Y %H:%M"}">
-                        {$category.updated_at|date_format:"%d-%m-%Y"}
+                        {$category.created_at|date_format:"%d-%m-%y"}
                     </td>
                 </tr>
             {/foreach}

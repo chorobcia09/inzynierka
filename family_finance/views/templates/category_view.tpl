@@ -27,7 +27,6 @@
             <tr>
                 <th>Nazwa</th>
                 <th>Data dodania</th>
-                <th>Data aktualizacji</th>
                 <th>Akcje</th>
             </tr>
         </thead>
@@ -38,10 +37,7 @@
                         <i class="bi bi-folder-fill me-1 text-warning"></i> {$sub.name}
                     </td>
                     <td title="{$sub.created_at|date_format:"%d-%m-%Y %H:%M"}">
-                        {$sub.created_at|date_format:"%d-%m-%Y"}
-                    </td>
-                    <td title="{$sub.updated_at|date_format:"%d-%m-%Y %H:%M"}">
-                        {$sub.updated_at|date_format:"%d-%m-%Y"}
+                        {$sub.created_at|date_format:"%d-%m-%y"}
                     </td>
                     <td>
                         {if ($session.family_role == 'family_admin' && $sub.family_id == $session.family_id) || ($sub.user_id == $session.user_id)}
