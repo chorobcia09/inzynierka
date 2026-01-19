@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2025-12-04 19:19:10
+/* Smarty version 5.6.0, created on 2026-01-19 16:29:20
   from 'file:landing.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_6931d09e58ba35_72191517',
+  'unifunc' => 'content_696e4dd003ddf8_54535428',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '4b5dfd0d0fe848c655d581edb6c7c223859ebbf9' => 
     array (
       0 => 'landing.tpl',
-      1 => 1764872345,
+      1 => 1768654450,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_6931d09e58ba35_72191517 (\Smarty\Template $_smarty_tpl) {
+function content_696e4dd003ddf8_54535428 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate('file:header.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
