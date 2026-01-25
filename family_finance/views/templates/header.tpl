@@ -140,7 +140,7 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a href="index.php?action=userPanel" class="btn btn-outline-light btn-sm w-100">Panel</a>
+                                    <a href="index.php?action=userPanel" class="btn btn-outline-light btn-sm w-100">Panel użytkownika</a>
                                 </li>
                             {/if}
 

@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.6.0, created on 2026-01-17 14:51:57
+/* Smarty version 5.6.0, created on 2026-01-19 18:16:42
   from 'file:analysis_dashboard.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.6.0',
-  'unifunc' => 'content_696b93fdb19297_51396597',
+  'unifunc' => 'content_696e66fa647523_99189440',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'ff3fc31a2834008499907241f37b80e084f0c120' => 
     array (
       0 => 'analysis_dashboard.tpl',
-      1 => 1768657915,
+      1 => 1768657963,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footer.tpl' => 1,
   ),
 ))) {
-function content_696b93fdb19297_51396597 (\Smarty\Template $_smarty_tpl) {
+function content_696e66fa647523_99189440 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\Users\\user\\Desktop\\inzynierka\\family_finance\\views\\templates';
 $_smarty_tpl->renderSubTemplate("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
@@ -514,116 +514,141 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 
     <!-- Członkowie Rodziny -->
     <div class="tab-pane fade" id="members" role="tabpanel">
-    <div class="row g-4">
-        <div class="col-12">
-            <div class="card shadow-lg">
-                <div class="card-body p-2 p-sm-3"> <!-- mniejsze paddingi -->
-                    <h5 class="card-title text-info mb-2 fs-6 fs-sm-5"><i class="bi bi-table me-2"></i>Statystyki członków</h5>
-                    <?php if ($_smarty_tpl->getValue('familySpending') && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('familySpending')) > 0) {?>
-                        <div class="table-wrapper">
-                            <table class="table table-sm table-hover mb-1"> <!-- table-sm i mb-1 -->
-                                <thead>
-                                    <tr class="fs-7 fs-sm-6"> <!-- mniejsze czcionki w nagłówku -->
-                                        <th class="py-1 px-1">Członek</th>
-                                        <th class="py-1 px-1 text-end">Wyd.</th>
-                                        <th class="py-1 px-1 text-end">Trans.</th>
-                                        <th class="py-1 px-1 text-end">Śr.</th>
-                                        <th class="py-1 px-1 text-end">%</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="fs-7 fs-sm-6"> <!-- mniejsze czcionki w ciele -->
-                                    <?php
+        <div class="row g-4">
+            <div class="col-12">
+                <div class="card shadow-lg">
+                    <div class="card-body p-2 p-sm-3">
+                        <!-- mniejsze paddingi -->
+                        <h5 class="card-title text-info mb-2 fs-6 fs-sm-5"><i class="bi bi-table me-2"></i>Statystyki
+                            członków</h5>
+                        <?php if ($_smarty_tpl->getValue('familySpending') && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('familySpending')) > 0) {?>
+                            <div class="table-wrapper">
+                                <table class="table table-sm table-hover mb-1">
+                                    <!-- table-sm i mb-1 -->
+                                    <thead>
+                                        <tr class="fs-7 fs-sm-6">
+                                            <!-- mniejsze czcionki w nagłówku -->
+                                            <th class="py-1 px-1">Członek</th>
+                                            <th class="py-1 px-1 text-end">Wyd.</th>
+                                            <th class="py-1 px-1 text-end">Trans.</th>
+                                            <th class="py-1 px-1 text-end">Śr.</th>
+                                            <th class="py-1 px-1 text-end">%</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="fs-7 fs-sm-6">
+                                        <!-- mniejsze czcionki w ciele -->
+                                        <?php
 $_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('familySpending'), 'member');
 $foreach2DoElse = true;
 foreach ($_from ?? [] as $_smarty_tpl->getVariable('member')->value) {
 $foreach2DoElse = false;
 ?>
-                                        <tr>
-                                            <td class="py-1 px-1">
-                                                <div class="d-flex align-items-center">
-                                                    <i class="bi bi-person-circle me-1"></i>
-                                                    <div class="text-truncate" style="max-width: 80px;"> <!-- obcięcie długich nazw -->
-                                                        <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('member')['username']), ENT_QUOTES, 'UTF-8');?>
+                                            <tr>
+                                                <td class="py-1 px-1">
+                                                    <div class="d-flex align-items-center">
+                                                        <i class="bi bi-person-circle me-1"></i>
+                                                        <div class="text-truncate" style="max-width: 80px;">
+                                                            <!-- obcięcie długich nazw -->
+                                                            <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('member')['username']), ENT_QUOTES, 'UTF-8');?>
 
+                                                        </div>
+                                                        <?php if ($_smarty_tpl->getValue('member')['user_id'] == $_smarty_tpl->getValue('session')['user_id']) {?>
+                                                            <span class="badge bg-primary ms-1 fs-8">Ty</span>
+                                                            <!-- mniejszy badge -->
+                                                        <?php }?>
                                                     </div>
-                                                    <?php if ($_smarty_tpl->getValue('member')['user_id'] == $_smarty_tpl->getValue('session')['user_id']) {?>
-                                                        <span class="badge bg-primary ms-1 fs-8">Ty</span> <!-- mniejszy badge -->
-                                                    <?php }?>
-                                                </div>
-                                            </td>
-                                            <td class="py-1 px-1 text-end fw-bold">
-                                                <?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('member')['total_spent'],$_smarty_tpl->getValue('precision'),","," ")), ENT_QUOTES, 'UTF-8');?>
+                                                </td>
+                                                <td class="py-1 px-1 text-end fw-bold">
+                                                    <?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('member')['total_spent'],$_smarty_tpl->getValue('precision'),","," ")), ENT_QUOTES, 'UTF-8');?>
 
-                                                <small class="text-muted d-block fs-8"><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
-</small> <!-- waluta mniejsza -->
-                                            </td>
-                                            <td class="py-1 px-1 text-end">
-                                                <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('member')['transactions']), ENT_QUOTES, 'UTF-8');?>
-
-                                            </td>
-                                            <td class="py-1 px-1 text-end">
-                                                <?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('member')['avg_spent'],$_smarty_tpl->getValue('precision'),","," ")), ENT_QUOTES, 'UTF-8');?>
-
-                                                <small class="text-muted d-block fs-8"><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
+                                                    <small class="text-muted d-block fs-8"><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
 </small>
-                                            </td>
-                                            <td class="py-1 px-1 text-end">
-                                                <?php $_smarty_tpl->assign('percentage', ($_smarty_tpl->getValue('member')['total_spent']/$_smarty_tpl->getValue('familyTotalSpending')*100), false, NULL);?>
-                                                <span class="badge bg-secondary fs-8 py-0 px-1"><?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('percentage'),0)), ENT_QUOTES, 'UTF-8');?>
-%</span> <!-- mniejszy badge -->
-                                            </td>
-                                        </tr>
-                                    <?php
+                                                    <!-- waluta mniejsza -->
+                                                </td>
+                                                <td class="py-1 px-1 text-end">
+                                                    <?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('member')['transactions']), ENT_QUOTES, 'UTF-8');?>
+
+                                                </td>
+                                                <td class="py-1 px-1 text-end">
+                                                    <?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('member')['avg_spent'],$_smarty_tpl->getValue('precision'),","," ")), ENT_QUOTES, 'UTF-8');?>
+
+                                                    <small class="text-muted d-block fs-8"><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
+</small>
+                                                </td>
+                                                <td class="py-1 px-1 text-end">
+                                                    <?php $_smarty_tpl->assign('percentage', ($_smarty_tpl->getValue('member')['total_spent']/$_smarty_tpl->getValue('familyTotalSpending')*100), false, NULL);?>
+                                                    <span
+                                                        class="badge bg-secondary fs-8 py-0 px-1"><?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('percentage'),0)), ENT_QUOTES, 'UTF-8');?>
+%</span>
+                                                    <!-- mniejszy badge -->
+                                                </td>
+                                            </tr>
+                                        <?php
 }
 $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
-                                </tbody>
-                                <tfoot>
-                                    <tr class="table-dark fs-7 fs-sm-6">
-                                        <td class="py-1 px-1"><strong>Razem</strong></td>
-                                        <td class="py-1 px-1 text-end fw-bold">
-                                            <?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('familyTotalSpending'),$_smarty_tpl->getValue('precision'),","," ")), ENT_QUOTES, 'UTF-8');?>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr class="table-dark fs-7 fs-sm-6">
+                                            <td class="py-1 px-1"><strong>Razem</strong></td>
+                                            <td class="py-1 px-1 text-end fw-bold">
+                                                <?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('familyTotalSpending'),$_smarty_tpl->getValue('precision'),","," ")), ENT_QUOTES, 'UTF-8');?>
 
-                                            <small class="text-light d-block fs-8"><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
+                                                <small class="text-light d-block fs-8"><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
 </small>
-                                        </td>
-                                        <td class="py-1 px-1 text-end">
-                                            <strong><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('familyTotalTransactions')), ENT_QUOTES, 'UTF-8');?>
+                                            </td>
+                                            <td class="py-1 px-1 text-end">
+                                                <strong><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('familyTotalTransactions')), ENT_QUOTES, 'UTF-8');?>
 </strong>
-                                        </td>
-                                        <td class="py-1 px-1 text-end">
-                                            <strong><?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('familyAverageSpending'),$_smarty_tpl->getValue('precision'),","," ")), ENT_QUOTES, 'UTF-8');?>
+                                            </td>
+                                            <td class="py-1 px-1 text-end">
+                                                <strong><?php echo htmlspecialchars((string) ($_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('familyAverageSpending'),$_smarty_tpl->getValue('precision'),","," ")), ENT_QUOTES, 'UTF-8');?>
 
-                                            <small class="text-light d-block fs-8"><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
+                                                    <small class="text-light d-block fs-8"><?php echo htmlspecialchars((string) ($_smarty_tpl->getValue('currency')), ENT_QUOTES, 'UTF-8');?>
 </small></strong>
-                                        </td>
-                                        <td class="py-1 px-1 text-end">
-                                            <strong>100%</strong>
-                                        </td>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                        
-                        <!-- Dodaj styl CSS dla mniejszych czcionek -->
-                        <style>
-                            .fs-7 { font-size: 0.75rem !important; }  /* 12px */
-                            .fs-8 { font-size: 0.625rem !important; } /* 10px */
-                            @media (min-width: 576px) {
-                                .fs-7 { font-size: 0.875rem !important; }  /* 14px */
-                                .fs-8 { font-size: 0.75rem !important; }   /* 12px */
-                            }
-                        </style>
-                    <?php } else { ?>
-                        <div class="text-center py-3">
-                            <i class="bi bi-table fs-1 text-muted"></i>
-                            <p class="fs-6 text-muted mt-2">Brak danych do wyświetlenia</p>
-                        </div>
-                    <?php }?>
+                                            </td>
+                                            <td class="py-1 px-1 text-end">
+                                                <strong>100%</strong>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+
+                            <style>
+                                .fs-7 {
+                                    font-size: 0.75rem !important;
+                                }
+
+                                /* 12px */
+                                .fs-8 {
+                                    font-size: 0.625rem !important;
+                                }
+
+                                /* 10px */
+                                @media (min-width: 576px) {
+                                    .fs-7 {
+                                        font-size: 0.875rem !important;
+                                    }
+
+                                    /* 14px */
+                                    .fs-8 {
+                                        font-size: 0.75rem !important;
+                                    }
+
+                                    /* 12px */
+                                }
+                            </style>
+                        <?php } else { ?>
+                            <div class="text-center py-3">
+                                <i class="bi bi-table fs-1 text-muted"></i>
+                                <p class="fs-6 text-muted mt-2">Brak danych do wyświetlenia</p>
+                            </div>
+                        <?php }?>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
     <?php if ($_smarty_tpl->getValue('session')['account_type'] == 'premium') {?>
         <div class="tab-pane fade" id="regional" role="tabpanel">
